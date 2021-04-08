@@ -2,7 +2,9 @@
 
 ###  很多时候我们写代码的时候会遇到一下场景
 
-> $this->position 代码很臃肿不精简
+> $this->position  ==传输过来的int类型的数值
+>
+> 这样写代码很臃肿不精简
 
 ```php
         switch ($this->position) {
