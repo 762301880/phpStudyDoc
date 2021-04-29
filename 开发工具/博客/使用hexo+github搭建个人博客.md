@@ -205,7 +205,7 @@ hexo d   #  部署  只有你上一步配置了才能成功的上传github
 ```shell
 git branch hexo # 创建分支
 git checkout hexo # 切换分支
-git add .
+git add . # 提交全部
 git commit -m '提交分值hexo' 
 git push origin hexo #提交到远程分值hexo
 ```
