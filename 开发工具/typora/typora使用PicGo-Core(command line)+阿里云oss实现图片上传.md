@@ -1,16 +1,18 @@
+# 设置
 
+* 打开导航栏的 `文件-偏好设置-图像`
 
 ![image-20210429170919057](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210429170919057.png)
 
-> 
+* 打开配置文件设置
 
 ```shell
 {
     "picBed": {
     "uploader": "aliyun",
     "aliyun": {
-    "accessKeyId": "LTAI4FqTWQmMztMtGzTX44Pr",
-    "accessKeySecret": "j****************",
+    "accessKeyId": "******************",#您的阿里云accessKeyId
+    "accessKeySecret": "****************",#您的阿里云accessKeySecret
     "bucket": "yaoliuyang-blog-images", # 存储空间名
     "area": "oss-cn-beijing", # 存储区域代号
     "path": "blogImages/", # 自定义存储路径
