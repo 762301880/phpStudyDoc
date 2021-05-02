@@ -1,6 +1,7 @@
 # 设置
 
 * 打开导航栏的 `文件-偏好设置-图像`
+* `记得使用时候必须下载或更新PicGo-Core(command line)`
 
 ![image-20210429170919057](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210429170919057.png)
 
