@@ -8,13 +8,13 @@
 
 #  二:需要的工具安装
 
-## 1.Git
+## 2.1 Git
 
    ### [git安装](https://www.cnblogs.com/yaoliuyang/p/13359382.html)
 
 ### [git使用](https://www.cnblogs.com/yaoliuyang/p/13052292.html) 
 
-## 2.Node
+## 2.2 Node
 
 ### [node.js安装](https://www.cnblogs.com/yaoliuyang/p/12652005.html)
 
@@ -24,7 +24,7 @@
 
 # 三:安装与使用
 
-##  1.参考hexo的[官网文档](https://hexo.io/zh-cn/docs/)安装
+##  3.1 参考hexo的[官网文档](https://hexo.io/zh-cn/docs/)安装
 
 > 使用npm命令安装hexo
 
@@ -67,7 +67,7 @@ unicode: 13.0
 
 ```
 
-## 2.使用hexo命令建站
+## 3.2 使用hexo命令建站
 
 安装 Hexo 完成后，请执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件
 
@@ -95,7 +95,7 @@ INFO  Hexo is running at http://localhost:4000 . Press Ctrl+C to stop.
 
 ![image-20210428163203529](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210428163203529.png)
 
-## 3.修改hexo的[主题](https://hexo.io/themes/)
+## 3.3 修改hexo的[主题](https://hexo.io/themes/)
 
 > 以上操作完成的时候你会发现怎么界面这么丑，还好hexo为我们贴心的准备了很多扩展包主题
 
@@ -123,7 +123,7 @@ npm install --save hexo-renderer-pug
 
 
 
-## 4.编辑配置_config.yml
+## 3.4 编辑配置_config.yml
 
 > 以上只是拉取皮肤文件，想要主题显示我们还需要配置一下
 >
@@ -137,7 +137,7 @@ hexo clean && hexo s    # 启动hexo 启动之后再次打开域名 localhost:40
 
 # 四: github & pages配置
 
-## 1.新建仓库
+## 4.1 新建仓库
 
 > 1.仓库名称必须对应  `您的名称+.github.io`
 >
@@ -155,9 +155,9 @@ git remote add origin https://github.com/762301880/762301880.github.io.git
 git push -u origin master
 ```
 
-## 2.将项目上传git
+## 4.2 将项目上传git
 
-### 2.1  配置__config.yml
+### 4.2.1  配置__config.yml
 
 ```shell
 deploy:
@@ -182,7 +182,7 @@ hexo d   #  部署  只有你上一步配置了才能成功的上传github
 
 
 
-## 3. 点击settings
+## 4.3  点击settings
 
 ![image-20210428171402598](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210428171402598.png)
 

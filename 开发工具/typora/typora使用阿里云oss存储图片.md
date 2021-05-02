@@ -12,7 +12,7 @@
 
 # 使用
 
-##  1.参考资料
+##  参考资料
 
 | 第三方博客                                                |      |
 | --------------------------------------------------------- | ---- |
@@ -22,7 +22,7 @@
 
 
 
-## 2.PicGo安装与配置
+## PicGo安装与配置
 
 github下载[点我跳转](https://github.com/Molunerfinn/PicGo/releases) 或者直接下载[点我下载](https://github.com/Molunerfinn/PicGo/releases/download/v2.3.0-beta.6/PicGo-Setup-2.3.0-beta.6.exe)
 
@@ -52,7 +52,7 @@ github下载[点我跳转](https://github.com/Molunerfinn/PicGo/releases) 或者
 
 ![image-20210426155034764](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210426155034764.png)
 
-##  3.阿里云oss设置
+##  阿里云oss设置
 
 > 这里不详细解说，不懂的可以自行百度
 
@@ -62,7 +62,7 @@ github下载[点我跳转](https://github.com/Molunerfinn/PicGo/releases) 或者
 
 
 
-## 4. Typora设置
+## Typora设置
 
 在typora中点击文件=>偏好设置=>图像
 
