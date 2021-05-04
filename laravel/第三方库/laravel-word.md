@@ -7,6 +7,7 @@
 | packagist(项目地址)   | [链接](https://packagist.org/packages/phpoffice/phpword)     |
 | --------------------- | ------------------------------------------------------------ |
 | 官方手册(英文),(中文) | [链接](https://phpword.readthedocs.io/en/latest/)，[链接](https://phpword-zh.readthedocs.io/zh_CN/latest/) |
+| 文档中示例            | [链接](https://github.com/PHPOffice/PHPWord/tree/master/samples/) |
 
 # 安装
 
@@ -65,4 +66,55 @@ $objWriter->save('helloWorld.odt');
 $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
 $objWriter->save('helloWorld.html');
 ```
+
+#  修改已存在的word[模板](https://phpword-zh.readthedocs.io/zh_CN/latest/templates-processing.html#id2)
+
+> 简单来说就是对已经存在的模板进行变量的修改，保存为新的word文档
+>
+> 使用场景：假使我们需要做一个简历系统，需要对之前输入的信息进行导出简历，
+>
+> 这个时候可以对我们需要的模板进行变量修改，既可以得到需要的文档
+
+### 替换简历（word）文件中的[信息](https://phpword-zh.readthedocs.io/zh_CN/latest/templates-processing.html#id2)
+
+- 使用到的简历
+
+![image-20210504172644865](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210504172644865.png)
+
+> 例如我们需要修改word文档中的姓名与性别我们需要定义 变量 `${变量名称}`
+
+```php
+use PhpOffice\PhpWord\TemplateProcessor; # 引入需要使用的类
+
+$templateProcessor = new TemplateProcessor('Template.docx');# 打开已经存在的word模板文档
+$templateProcessor->setValue('name','姚留洋');# 将定义的变量赋值
+$templateProcessor->setValue('sex','男');
+$templateProcessor->saveAs('jianli.docx');# 保存为新的模板
+```
+
+### [循环插入行](https://phpword-zh.readthedocs.io/zh_CN/latest/templates-processing.html#clonerow) [参考](https://github.com/PHPOffice/PHPWord/blob/master/samples/Sample_07_TemplateCloneRow.php)
+
+- 图片例子
+
+![image-20210504193601092](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210504193601092.png)
+
+```php
+$templateProcessor=new TemplateProcessor(public_path('jianli_moban_742693.docx'));
+        $schoolInfo=array(
+            ['school'=>'杨集乡小','address'=>'杨集乡小学地址'],
+            ['school'=>'杨集一中','address'=>'杨集一中地址'],
+            ['school'=>'信阳市实验高中','address'=>'固始县秀水公园附近'],
+            ['school'=>'郑州财经学院','address'=>'郑州财经学院地址'],
+        );# 定义需要插入的值
+        $templateProcessor->cloneRow('school',count($schoolInfo));//复制行 参数2 需要复制的条数
+        foreach ($schoolInfo as $key=>$value){
+            $templateProcessor->setValue('school#'.($key+1),$value['school']);
+            $templateProcessor->setValue('address#'.($key+1),$value['address']);
+        }
+        $templateProcessor->saveAs('jianli.docx');
+```
+
+- 结果示例
+
+![image-20210504193847507](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210504193847507.png)
 
