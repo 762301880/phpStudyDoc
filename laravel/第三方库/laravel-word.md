@@ -6,7 +6,7 @@
 
 | packagist(项目地址)   | [链接](https://packagist.org/packages/phpoffice/phpword)     |
 | --------------------- | ------------------------------------------------------------ |
-| 第三方博客            | [链接](https://segmentfault.com/a/1190000019479817?utm_source=tag-newest) |
+| 第三方博客            | [链接](https://segmentfault.com/a/1190000019479817?utm_source=tag-newest)，[链接](https://www.jb51.net/article/162601.htm) |
 | 官方手册(英文),(中文) | [链接](https://phpword.readthedocs.io/en/latest/)，[链接](https://phpword-zh.readthedocs.io/zh_CN/latest/) |
 | 文档中示例            | [链接](https://github.com/PHPOffice/PHPWord/tree/master/samples/) |
 
