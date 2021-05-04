@@ -6,12 +6,11 @@
 
 ## 参考资料
 
-| 资料       | 地址                                                        |
-| ---------- | ----------------------------------------------------------- |
-| 第三方博客 | [链接](https://www.cnblogs.com/yaoliuyang/p/12781031.html)  |
-| 官方文档   | [链接](https://docs.laravel-excel.com/3.1/getting-started/) |
-
-
+| 资料                                            | 地址                                                         |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| 第三方博客                                      | [链接](https://www.cnblogs.com/yaoliuyang/p/12781031.html)   |
+| 官方文档                                        | [链接](https://docs.laravel-excel.com/3.1/getting-started/)  |
+| laravel学院博客（导出篇）larvel学院博客(导入篇) | [链接](https://learnku.com/articles/32391)，[链接](https://learnku.com/articles/32400) |
 
 # 安装
 
@@ -173,8 +172,6 @@ public function headings(): array
     }
 }  
 ```
-
-
 
 #  Excel[导入](https://docs.laravel-excel.com/3.1/imports/)
 
