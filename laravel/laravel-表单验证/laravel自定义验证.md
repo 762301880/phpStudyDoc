@@ -23,6 +23,7 @@ class UpgradeRoleValidator
    #自定义验证规则
     protected static function rules(): array
     {
+        #is_club_member 注意自定义验证规则名称不要用驼峰写法(如果使用的话则无法使用自定义释意)
         return [
             'id' => 'required|integer|is_club_member',//成员表主键
             'position' => 'required|integer',//职位
