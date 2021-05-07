@@ -16,7 +16,7 @@
 ## 使用`wget`安装
 
 ```shell
-wget https://pecl.php.net/get/swoole-4.2.0.tgz 
+wget https://pecl.php.net/get/swoole-4.6.6.tgz 
 ```
 
 ## 检查依赖
@@ -53,18 +53,26 @@ yum -y install gcc gcc-c++ autoconf pcre-devel make
 ```shell
 phpize
 ./configure 
-
+make
+make install
 ```
 
 
 
   ## 安装swoole
 
+- 解压安装包
+
+```shell
+tar -zxvf swoole-src-4.6.6
+```
+
+
+
 - 在gitHub上下载swoole压缩包并上传到服务器中
 
 ```shell
 cd swoole-src-4.6.6 # 进入已解压的swoole
-
 ```
 
 
