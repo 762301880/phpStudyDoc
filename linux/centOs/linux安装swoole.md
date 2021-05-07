@@ -13,6 +13,12 @@
 
 # 安装
 
+## 使用`wget`安装
+
+```shell
+wget https://pecl.php.net/get/swoole-4.2.0.tgz 
+```
+
 ## 检查依赖
 
 - 此段内容截取至[博客](https://www.cnblogs.com/gyfluck/p/11275114.html)
@@ -34,6 +40,20 @@
 　　rpm -qa make 检查是否安装make。
 　　rpm -qa autoconf 检查是否安装autoconf。
 　　rpm -qa pcre 检查是否安装pcre。
+```
+
+## 安装依赖
+
+```shell
+yum -y install gcc gcc-c++ autoconf pcre-devel make
+```
+
+## 编译 
+
+```shell
+phpize
+./configure 
+
 ```
 
 

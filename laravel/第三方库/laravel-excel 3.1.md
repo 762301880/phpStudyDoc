@@ -59,7 +59,7 @@ php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider" -
 ## 创建导出类
 
 - 使用composer创建
-- 此命令会在app/Imports下生成创建的UsersImport导入类
+- 此命令会在`app/Imports`下生成创建的UsersImport导入类
 
 ```shell
 php artisan make:export UsersExport --model=User   # --model=你需要导出的模型类
@@ -172,6 +172,23 @@ public function headings(): array
     }
 }  
 ```
+
+## 设置表[执行自动宽度计算](https://docs.laravel-excel.com/3.1/exports/column-formatting.html#auto-size)
+
+> 及导出表格的时候显示的宽度是自动的
+
+```php
+namespace App\Exports;
+
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+# 只需实现 ShouldAutoSize 方法 即可
+class InvoicesExport implements ShouldAutoSize
+{
+    ...
+}
+```
+
+
 
 #  Excel[导入](https://docs.laravel-excel.com/3.1/imports/)
 
