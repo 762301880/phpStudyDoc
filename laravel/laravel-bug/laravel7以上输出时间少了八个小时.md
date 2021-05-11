@@ -57,3 +57,17 @@ use Carbon\Carbon;
     }
 ```
 
+
+
+# 经过实验有一个最终的解决办法
+
+直接在模型中定义
+
+```php
+ # 只要这一条上述的全部删除 
+protected function serializeDate(DateTimeInterface $date)
+{
+        return $date->format(Carbon::parse($date)->toDateTimeString());
+}
+```
+
