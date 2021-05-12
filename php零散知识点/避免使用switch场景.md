@@ -43,3 +43,14 @@
         return $this->position <= count($position) -1 ?  $position[$this->position] :'游客';
 ```
 
+`优化方法三`
+
+> 直接匹配如果不存在的话直接返回默认值
+
+```php
+$jobStatusTitle=[1 => '就读', 2 => '实习找工作', 3 => "实习有工作", 4 => '毕业找工作', 5 => '毕业有工作','default'=>'暂无工作'];
+return $jobStatusTitle[$value]??$jobStatusTitle['default'];
+```
+
+
+
