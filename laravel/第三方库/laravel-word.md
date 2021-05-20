@@ -119,3 +119,89 @@ $templateProcessor=new TemplateProcessor(public_path('jianli_moban_742693.docx')
 
 ![image-20210504193847507](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210504193847507.png)
 
+# 项目实战
+
+> 遇到一个小程序端导出个人填写的`简历信息pdf`功能但是只是成功实现了导出word版本的功能
+>
+> 解决思路 
+>
+> * 如下图所示的个人简历word模板 将对应的展示名称修改为`${对应的变量名称}`格式
+> * 进行导出，导出结果就不展示了 
+
+![image-20210520093817849](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210520093817849.png)
+
+- 核心代码示例
+
+```php
+ public static function getTemplate($hrResume)#$hrResume 传递过来的用户简历的全部参数
+    {
+        $templateProcessor = new TemplateProcessor(public_path('word/导出简历模板.docx'));#(加载定义变量的word模板)
+        $templateProcessor->setValues(array(
+            'realname' => $hrResume['realname'],//姓名
+            'gender' => $hrResume['gender'],//性别
+            'phone' => $hrResume['phone'],//账号
+            'wechat' => $hrResume['wechat'],//微信号
+            'email' => $hrResume['email'],//邮箱
+            'birth' => $hrResume['birth'],//出生年月
+            'grade' => $hrResume['grade'],//年级
+            'native_place' => $hrResume['native_place'],//籍贯
+            'first_work_date' => $hrResume['first_work_date'],//首次参加工作时间
+            'role_text' => $hrResume['role_text'],//身份
+            'job_status' => $hrResume['job_status_title'],//求职状态
+            'job_city' => $hrResume['job_province'] . '、' . $hrResume['job_city'],//求职省份、求职城市
+            'job_industry' => $hrResume['job_industry'] . '、' . $hrResume['job_sub_industry'],//岗位意向:一级、二级
+            'job_salary' => $hrResume['job_salary'],//薪酬要求
+        ));# setValues统一添加单个变量
+     
+        # 多个变量统一操作 ?? ""是为了方式变量不存在设置为空要不然无法导出模板
+        //教育经历1
+        $templateProcessor->setValue('schoolName1', $hrResume['education_experience'][0]['school_name'] ?? "");
+        $templateProcessor->setValue('st1', $hrResume['education_experience'][0]['start_date'] ?? "");
+        $templateProcessor->setValue('end1', $hrResume['education_experience'][0]['end_date'] ?? "");
+        $templateProcessor->setValue('qualification1', $hrResume['education_experience'][0]['qualification'] ?? "");
+        $templateProcessor->setValue('major1', $hrResume['education_experience'][0]['major_name'] ?? "");
+        //教育经历2
+        $templateProcessor->setValue('schoolName2', $hrResume['education_experience'][1]['school_name'] ?? "");
+        $templateProcessor->setValue('st2', $hrResume['education_experience'][1]['start_date'] ?? "");
+        $templateProcessor->setValue('end2', $hrResume['education_experience'][1]['end_date'] ?? "");
+        $templateProcessor->setValue('qualification2', $hrResume['education_experience'][1]['qualification'] ?? "");
+        $templateProcessor->setValue('major2', $hrResume['education_experience'][1]['major_name'] ?? "");
+
+        //工作经历1
+        $templateProcessor->setValue('company1', $hrResume['work_experience'][0]['company'] ?? "");//公司名称
+        $templateProcessor->setValue('workst1', $hrResume['work_experience'][0]['start_date'] ?? "");//起始日期年月
+        $templateProcessor->setValue('workendt1', $hrResume['work_experience'][0]['end_date'] ?? "");//截止日期年月
+        $templateProcessor->setValue('industry1', $hrResume['work_experience'][0]['industry'] ?? "");//行业
+        $templateProcessor->setValue('position1', $hrResume['work_experience'][0]['position'] ?? "");//职位,职务
+        $templateProcessor->setValue('work_content1', $hrResume['work_experience'][0]['work_content'] ?? "");//详细内容
+        //工作经历2
+        $templateProcessor->setValue('company2', $hrResume['work_experience'][1]['company'] ?? "");//公司名称
+        $templateProcessor->setValue('workst2', $hrResume['work_experience'][1]['start_date'] ?? "");//起始日期年月
+        $templateProcessor->setValue('workendt2', $hrResume['work_experience'][1]['end_date'] ?? "");//截止日期年月
+        $templateProcessor->setValue('industry2', $hrResume['work_experience'][1]['industry'] ?? "");//行业
+        $templateProcessor->setValue('position2', $hrResume['work_experience'][1]['position'] ?? "");//职位,职务
+        $templateProcessor->setValue('work_content2', $hrResume['work_experience'][1]['work_content'] ?? "");//详细内容
+        //校园经历1
+        $templateProcessor->setValue('club_name', $hrResume['campus_experience'][0]['club_name'] ?? "");//社团名称
+        $templateProcessor->setValue('club_category', $hrResume['campus_experience'][0]['club_category'] ?? "");//社团分类
+        $templateProcessor->setValue('position', $hrResume['campus_experience'][0]['position'] ?? "");//职位,职务
+        $templateProcessor->setValue('club_content', $hrResume['campus_experience'][0]['club_content'] ?? "");//详细描述
+        //资格证书1
+        $templateProcessor->setValue('type1', $hrResume['qualification_certificate'][0]['type'] ?? "");//证书类型
+        $templateProcessor->setValue('title1', $hrResume['qualification_certificate'][0]['title'] ?? "");//证书名称
+        //资格证书2
+        $templateProcessor->setValue('type2', $hrResume['qualification_certificate'][1]['type'] ?? "");//证书类型
+        $templateProcessor->setValue('title2', $hrResume['qualification_certificate'][1]['title'] ?? "");//证书名称
+        //保存模板
+        $templateProcessor->saveAs("简历模板.docx");# 保存为新的模板(默认保存到public目录下)
+        $data = Carbon::now()->toDateTimeString();# 定义当前导出时间戳
+        return Response::download("简历模板.docx", "{$data}-简历模板.docx"); # 参数1:模板路径, 参数2:重命名为新的模板
+//        //将保存的word转化为pdf
+//        Settings::setPdfRendererPath('../vendor/phpoffice/phpword/src/PhpWord/Writer/PDF/DomPDF.php');
+//        Settings::setPdfRendererName('DomPDF');
+//        $phpWord = IOFactory::load(public_path('/简历模板.docx'));
+//        $pdf=IOFactory::createWriter($phpWord,'PDF');
+//        $pdf->save('简历模板.pdf');
+    }
+```
+
