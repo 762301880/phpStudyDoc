@@ -119,6 +119,19 @@ $templateProcessor=new TemplateProcessor(public_path('jianli_moban_742693.docx')
 
 ![image-20210504193847507](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210504193847507.png)
 
+### [替换图片](https://phpword-zh.readthedocs.io/zh_CN/latest/templates-processing.html#setimagevalue)
+
+```php
+$templateProcessor->setImageValue('CompanyLogo', 'path/to/company/logo.png');#直接替换图片 参数1:图片变量 参数2：需要替换的图片地址
+# 设置参数的
+$templateProcessor->setImageValue('UserLogo', array(
+    'path' => 'path/to/logo.png',#需要替换的图片地址
+    'width' => 100,#设置图片的宽度
+    'height' => 100,#设置图片的高度
+    'ratio' => false#比率,只使用用于false，-或f以关闭图像的方面的宽高比。默认情况下，模板图像大小用作“容器”大小。
+));
+```
+
 # 项目实战
 
 > 遇到一个小程序端导出个人填写的`简历信息pdf`功能但是只是成功实现了导出word版本的功能
