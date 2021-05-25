@@ -103,7 +103,7 @@ https://apis.map.qq.com/ws/location/v1/ip?ip=111.206.145.41&key=OB4BZ-D4W3U-B7VV
 
 ![image-20210525100633644](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210525100633644.png)
 
-### 代码中使用示例
+## 代码中使用示例
 
 - 创建路由
 
@@ -129,7 +129,7 @@ class LocationController extends Controller
     public function index()
     {
         $key = '你自己的key'; # 自己创建的key
-        $ip = '113.78.173.109';# 自己的地理位置
+        $ip = $request->getClientIp();# 自己的地理位置,$request->getClientIp() 获取设备kip地址(请不要在本地使用)
         $data=Http::get("https://apis.map.qq.com/ws/location/v1/ip?ip={$ip}&key={$key}")->json();# 使用http请求api
         dd($data);#打印输出结果
     }
