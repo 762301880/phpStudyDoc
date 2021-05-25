@@ -1,4 +1,4 @@
-# 说明
+# 使用腾讯地理位置获取地理位置
 
 > 突然心血来潮想使用php获取自己现在的地理位置，查询腾讯位置服务可以实现自己的需求，于是开始折腾
 
@@ -79,9 +79,7 @@ https://apis.map.qq.com/ws/location/v1/ip?ip=111.206.145.41&key=OB4BZ-D4W3U-B7VV
 }
 ```
 
-
-
-# 使用
+## 使用
 
 ## 添加开发者密匙
 
@@ -160,9 +158,38 @@ array:3 [▼
 ]
 ```
 
+# 使用`geoIp2`获取地理位置
+
+- 参考资料
+
+| name               | url                                                    |
+| ------------------ | ------------------------------------------------------ |
+| `packagist-geoIp2` | [链接](https://packagist.org/packages/geoip2/geoip2)   |
+| `maxmind-geoIP2`   | [链接](https://dev.maxmind.com/geoip/geoip2/geolite2/) |
+| `geoip官网`        | [链接](https://lyften.com/projects/laravel-geoip/doc/) |
+
+## 安装
+
+- 使用composer安装(在项目的根目录执行composer命令)
+
+```php
+composer require geoip2/geoip2:~2.0
+```
 
 
 
 
 
 
+
+
+
+# 更多api地址
+
+- [百度](http://lbsyun.baidu.com/)
+- [高德](https://lbs.amap.com/)
+- [QQ](https://lbs.qq.com/)
+- [淘宝](http://ip.taobao.com/)
+- [IP-API](https://ip-api.com/)
+- [IPFinder](https://ipfinder.io/)
+- [IPGeoLocation](https://ipgeolocation.io/)
