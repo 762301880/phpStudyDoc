@@ -9,9 +9,7 @@
 | 腾讯开放平台 | [链接](https://wiki.open.qq.com/wiki/%E4%BD%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1) |
 | 腾讯位置服务 | [链接](https://lbs.qq.com/service/webService/webServiceGuide/webServiceIp) |
 
-
-
-# api使用说明
+## api使用说明
 
 ## api说明
 
@@ -79,9 +77,9 @@ https://apis.map.qq.com/ws/location/v1/ip?ip=111.206.145.41&key=OB4BZ-D4W3U-B7VV
 }
 ```
 
-## 使用
+## 腾讯开放平台创建应用
 
-## 添加开发者密匙
+### 添加开发者密匙
 
 - [打开并登录腾讯位置服务中心](https://lbs.qq.com/)
 
@@ -236,7 +234,9 @@ array:7 [▼
 
 
 
-# 更多api地址
+# 更多api使用
+
+> 提供链接先这两种方案足够日常开发使用
 
 - [百度](http://lbsyun.baidu.com/)
 - [高德](https://lbs.amap.com/)
