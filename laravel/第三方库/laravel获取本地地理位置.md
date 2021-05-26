@@ -176,11 +176,63 @@ array:3 [▼
 composer require geoip2/geoip2:~2.0
 ```
 
+- [下载库](https://www.maxmind.com/en/accounts/557275/geoip/downloads)
+
+> getip2官网下载IP地址库
+
+![image-20210526083444740](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210526083444740.png)
+
+- 将下载的库文件，在项目中找一个目录存放
+
+![image-20210526083559707](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210526083559707.png)
 
 
 
+## 使用示例
 
+- 在控制器中使用
 
+```php
+use GeoIp2\Database\Reader; # 引用库文件
+ $reader = new Reader(public_path('/lib/GeoLite2-City.mmdb'));#加载存放的文件位置
+ dd($reader->city('113.78.173.109')->jsonSerialize());# '113.78.173.109'==ip   读取ip并序列化为json
+```
+
+- 结果演示
+
+```php
+array:7 [▼
+  "city" => array:2 [▼
+    "geoname_id" => 1809858
+    "names" => array:8 [▼
+      "de" => "Guangzhou"
+      "en" => "Guangzhou"
+      "es" => "Cantón"
+      "fr" => "Canton"
+      "ja" => "広州"
+      "pt-BR" => "Cantão"
+      "ru" => "Гуанчжоу"
+      "zh-CN" => "广州市"   #需要的城市
+    ]
+  ]
+  "continent" => array:3 [▶]
+  "country" => array:3 [▶]
+  "location" => array:4 [▶]
+  "registered_country" => array:3 [▶]
+  "subdivisions" => array:1 [▼
+    0 => array:3 [▼
+      "geoname_id" => 1809935
+      "iso_code" => "GD"
+      "names" => array:3 [▼
+        "en" => "Guangdong"
+        "fr" => "Province de Guangdong"
+        "zh-CN" => "广东" # x
+      ]
+    ]
+  ]
+  "traits" => array:2 [▶]
+]
+```
 
 
 
