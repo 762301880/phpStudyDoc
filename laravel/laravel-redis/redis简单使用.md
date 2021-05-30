@@ -13,7 +13,7 @@
 | 名称                       | 地址                                                         |
 | -------------------------- | ------------------------------------------------------------ |
 | laravel学院高性能redis实战 | [链接](https://laravelacademy.org/books/high-performance-redis) |
-|                            |                                                              |
+| 第三方博客                 | [链接](http://blog.ganyongmeng.com/?p=99)                    |
 
 # 二、使用
 
