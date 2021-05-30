@@ -40,24 +40,32 @@ $redis = Redis::connection();
 > $redis = new Client();
 
 ```php
-# 1.自增 increment
+# 自增 increment
 $redis->incr('likeMeCount');# 调用函数likeMeCount加1
-# 2.自减
+$redis->incrby('age',10); #制定自增的数值incrby,年龄每次自增10 
+# 自减
 $redis->decr('likeMeCount');#调用函数likeMeCount减1
-# 3.持久化保存值
+# 持久化保存值
 $redis->save();# 在链式调用之后使用,将需要保存的信息持久化保存在内存中
-# 4.删除值 
+# 删除值 
 $redis->del('likeMeCount');#例如删除likeMeCount对象
-# 5.字符串key-value
+# 字符串key-value
 $redis->set('name','姚留洋');#保存一个变量name,值为自己的姓名
-# 6.获取字符串
+# 在元素后面追加值
+$redis->append('name','666');#及结果为:姚留洋66
+# 判断Key(变量)是否存在
+$redis->exists('name');# 及获取Key(变量)name是否存在
+#获取key的类型
+$redis->type('name');#结果为string
+# 获取字符串
 $redis->get('name');#获取key为name的变量的值
-# 7.获取字符串的长度
+# 获取字符串的长度
 $redis->strlen('name');#结果(姚留洋)为9 因为string类型一个字符占用三个字节,所以结果为9
-# 8.插入list类型数据 
+# 插入list类型数据 
 $redis->lpush('names',['李四']);# 从左侧插入每次插入的值在数据的最顶层 ASC 正叙
 $redis->rpush('names',['凌华']);# 从右侧插入每次插入的值在数据的最底层  DESC 倒叙
-$redis->lrange('names',1,-1);# 获取list数据类型的全部值
+$redis->lrange('names',1,-1);# 获取list数据类型的全部值(获取列表元素)
+$redis->llen('names');#获取列表的长度 及列表有多少条记录
 ```
 
 
