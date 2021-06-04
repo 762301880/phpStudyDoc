@@ -47,7 +47,7 @@
 
 ## 用户表
 
-[withTimestamps]https://learnku.com/docs/laravel/8.x/eloquent-relationships/9407）
+
 
 ```php
 namespace App\Http\Models;
@@ -60,7 +60,8 @@ class User extends Model
     {
         return $this->belongsToMany(article::class, 'article_user', 'user_id', 'article_id');
     }
-     #点赞或取消方法
+     #点赞或取消方法 核心功能toggle
+     # toggle,请查看官网文档  https://learnku.com/docs/laravel/8.x/eloquent-relationships/9407 
     public function follwToggle($id)
     {
         return $this->article()->withTimestamps()->toggle($id)['attached'] == null ? 0 : 1;
