@@ -47,7 +47,7 @@
 
 ## 用户表
 
-
+[withTimestamps]https://learnku.com/docs/laravel/8.x/eloquent-relationships/9407）
 
 ```php
 namespace App\Http\Models;
@@ -79,7 +79,7 @@ class User extends Model
         }
         #调用用户表中的点赞方法传入需要点赞的用户id
         $is_like = $user->follwToggle($request->input('article_id'));
-        return $is_like?$this->success($is_like,'点赞成功'):$this->error($is_like,'点赞s');
+        return $is_like?$this->success($is_like,'点赞成功'):$this->error($is_like,'点赞失败');
     }
 ```
 
