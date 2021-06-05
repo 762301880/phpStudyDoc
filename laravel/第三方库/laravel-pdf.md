@@ -116,9 +116,15 @@ php artisan vendor:publish --provider="Barryvdh\Snappy\ServiceProvider"
 
 ```php
 use PDF;
-# 根据链接生成pdf并保存到public目录下
+# 根据链接生成pdf并保存到public目录下(save();方法保存服务器)
 PDF::loadFile('https://www.baidu.com.com/')->save('baidu.pdf');
-/******************分隔符***************************/
+# 直接下载到本地(download();方法直接下载文件到本地)
+return PDF::loadFile('https://www.baidu.com/')->download('bd.pdf');
+# 显示在浏览器中(stream();方法直接在浏览器中显示 目前已淘汰, 目前使用inline();方法)
+return PDF::loadFile('https://www.baidu.com/')->setOrientation('landscape')->stream('bd.pdf');
+# 给模板传递变量并下载($name变量是一个数组,用来给模板渲染,welcome是模板类似于laravel blade模板)
+$name=['name'=>'张三'];
+return PDF::loadView('welcome',$name)->download('test.pdf');
 ```
 
 
