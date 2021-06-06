@@ -16,7 +16,7 @@
 
 ## 1.2windows 使用`wkhtmltopdf`
 
-###  1.2.1 安装
+###  1.2.1 windows 安装wkhtmltopdf
 
 请在官网[下载](https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox-0.12.6-1.msvc2015-win64.exe)`wkhtmltopdf`
 
@@ -24,7 +24,7 @@
 
 
 
-### 1.2.2安装
+### 1.2.2 配置环境变量
 
 下载软件 [个人网盘分享](https://yaoliuyang.lanzoui.com/iA6wtptpqyj)
 
@@ -40,7 +40,7 @@
 
 ![image-20210605171938519](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210605171938519.png)
 
-### 1.2.3使用
+### 1.2.3 windows使用
 
 - 使用cmd命令窗口到处网址为pdf
 
@@ -52,6 +52,44 @@ wkhmltopdf https://www.baidu.com D:\baidu.pdf
 
 - 结果示例
 - ![image-20210605172520054](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210605172520054.png)
+
+## 1.3 linux安装`wkhtmltopdf`
+
+### 1.3.1 linux安装依赖
+
+注意力！请注意，您的系统上可能不存在某些依赖项（例如 libXrender），可能需要手动安装。
+
+```php
+apt-get install libXrender*
+apt-get install libfontconfig*
+```
+
+> 先将二进制文件下载到vendor中，然后再移动到系统目录中，修改权限
+
+```php
+32位:
+$ composer require h4cc / wkhtmltopdf-i386 0.12.x
+$ composer require h4cc / wkhtmltoimage-i386 0.12.x，
+64位:
+$ composer require h4cc/wkhtmltopdf-amd64 0.12.x
+$ composer require h4cc/wkhtmltoimage-amd64 0.12.x
+
+(uname -a 命令查看系统位数)
+
+cp vendor/h4cc/wkhtmltoimage-amd64/bin/wkhtmltoimage-amd64 /usr/local/bin/
+cp vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64 /usr/local/bin/
+并使其可执行：
+chmod +x /usr/local/bin/wkhtmltoimage-amd64 
+chmod +x /usr/local/bin/wkhtmltopdf-amd64
+```
+
+### 1.3.2 记得安装之配置依赖
+
+> 在config\snappy.php中配置
+
+```php
+'binary'  => '/usr/local/bin/wkhtmltopdf-amd64',
+```
 
 #  二、laravel 使用`wkhdmltopdf`导出`html`为`pdf`
 
@@ -92,7 +130,7 @@ https://github.com/barryvdh/laravel-snappy
 php artisan vendor:publish --provider="Barryvdh\Snappy\ServiceProvider"
 ```
 
-### 2.2.2 配置`config\snappy.php`依赖库
+### 2.2.2配置`config\snappy.php`依赖库
 
 - 此配置文件 (config/snappy.php) 的主要更改将是二进制文件的路径。例如，当加载 Composer 时，该行应如下所示：
 
