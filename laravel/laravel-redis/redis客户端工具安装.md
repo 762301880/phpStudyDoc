@@ -1,6 +1,6 @@
-# 资料
+# 一、资料
 
-## 地址
+## 1.1地址
 
 | 名称         | 地址                                                         |
 | ------------ | ------------------------------------------------------------ |
@@ -8,15 +8,15 @@
 | 软件下载地址 | [链接](https://github.com/qishibo/AnotherRedisDesktopManager/releases) |
 | gitee地址    | [链接](https://gitee.com/qishibo/AnotherRedisDesktopManager) |
 
-# 下载
+# 二、下载
 
-## 请打开github地址
+## 2.1请打开github地址
 
 ```bash
 https://github.com/qishibo/AnotherRedisDesktopManager/releases
 ```
 
-### 下载windows或则mac版本
+### 2.2 下载windows或则mac版本
 
 - 由于github下载比较慢我这里提供了网盘下载
 
@@ -27,5 +27,12 @@ https://github.com/qishibo/AnotherRedisDesktopManager/releases
 
 ![image-20210607095046001](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210607095046001.png)
 
-# 使用
+# 三、使用
 
+- 双击已经安装的`Another Redis Desktop Manager `
+
+## 3.1 基本设置
+
+- 修改语言
+
+  ![image-20210607134157860](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210607134157860.png)
