@@ -1,4 +1,4 @@
-# 简介
+# 一、简介
 
 > GatewayWorker是基于Workerman开发的	
 >
@@ -13,7 +13,7 @@
 | GatewayWorker2.x 3.x 手册 | [链接](http://doc2.workerman.net/)              |
 | 安装文档                  | [链接](https://github.com/walkor/GatewayClient) |
 
-## 安装
+## 1.1安装
 
 >安装内核
 >只安装GatewayWorker内核文件（不包含start_gateway.php start_businessworker.php等启动入口文件）
@@ -24,5 +24,12 @@
 composer require workerman/gatewayclient
 ```
 
-# 使用
+# 二、使用
 
+## 2.1要使用GatewayWorker首先需要下载GatewayWorker包
+
+[下载地址](https://www.workerman.net/download)
+
+![image-20210609141807052](C:\Users\yly\AppData\Roaming\Typora\typora-user-images\image-20210609141807052.png)
+
+## 2.2 解压到项目中

@@ -127,3 +127,38 @@ worker               listen                              processes status
 none                 websocket://0.0.0.0:9011            4         [ok]
 ```
 
+## 2.3 workerman简单实现进入事件的功能
+
+```php
+  // 创建一个Worker监听9011端口，使用websocket协议通讯
+        $websocket_worker  = new Worker("websocket://0.0.0.0:9011");
+        // 启动4个进程对外提供服务
+        $websocket_worker ->count = 4;
+        $uid=0;//默认定义用户id初始化为0
+        //用户连接时候触发
+        $websocket_worker->onConnect = function($connection)use ($uid,$websocket_worker)
+        {
+             $connection->uid=++$uid;
+            foreach ($websocket_worker->connections as $conn){
+                $conn->send("user_{$connection->uid} 进来了" );
+            }
+        };
+        // 接收到浏览器发送的数据时回复信息给浏览器
+        $websocket_worker ->onMessage = function ($connection, $data)use ($websocket_worker) {
+
+            foreach ($websocket_worker->connections as $conn){
+                $conn->send("user_{$connection->uid} 说了" . $data);
+            }
+
+        };
+        //用户关闭时候触发
+        $websocket_worker->onClose = function($connection)use ($websocket_worker)
+        {
+            foreach ($websocket_worker->connections as $conn){
+                $conn->send("user_{$connection->uid}走了");
+            }
+        };
+        // 运行worker
+        Worker::runAll();
+```
+
