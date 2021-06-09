@@ -85,6 +85,7 @@ class Workerman extends Command
     {
        // 创建一个Worker监听9011端口，使用websocket协议通讯
         $websocket_worker  = new Worker("websocket://0.0.0.0:9011");
+        $websocket_worker->name='workerman测试';
         // 启动4个进程对外提供服务
         $websocket_worker ->count = 4;
         //用户连接时候触发
@@ -132,6 +133,7 @@ none                 websocket://0.0.0.0:9011            4         [ok]
 ```php
   // 创建一个Worker监听9011端口，使用websocket协议通讯
         $websocket_worker  = new Worker("websocket://0.0.0.0:9011");
+        $websocket_worker->name='workerman测试';
         // 启动4个进程对外提供服务
         $websocket_worker ->count = 4;
         $uid=0;//默认定义用户id初始化为0
