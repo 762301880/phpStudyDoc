@@ -30,6 +30,116 @@ composer require workerman/gatewayclient
 
 [下载地址](https://www.workerman.net/download)
 
-![image-20210609141807052](C:\Users\yly\AppData\Roaming\Typora\typora-user-images\image-20210609141807052.png)
+![image-20210609141807052](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210609141807052.png)
 
 ## 2.2 解压到项目中
+
+- 可以放在任意位置中
+- windows请双击使用`start_for_win.bat`启用项目
+
+## 2.3重要的事情说三遍
+
+业务开发只需要关注 Applications/项目/Events.php一个文件即可。
+业务开发只需要关注 Applications/项目/Events.php一个文件即可。
+业务开发只需要关注 Applications/项目/Events.php一个文件即可。
+
+## 2.4 开发需要在框架的Events中改写代码以便结合框架使用
+
+- 此处请参考官方手册[与ThinkPHP等框架结合](http://doc2.workerman.net/work-with-other-frameworks.html)
+
+```php
+public static function onConnect($client_id)
+    {
+        Gateway::sendToClient($client_id, json_encode(array(
+        'type'      => 'init',
+        'client_id' => $client_id
+     )));
+    }
+```
+
+- 流程
+
+>  前端在此处连接websocket然后,后端会返回一条json数据前端，前端使用switch判断是否已经初始化，
+>
+> 如果返回数据有init则代表连接websocket成功，此时前端需要拿到传输过来的client_id与用户表中的用户
+>
+> 表中的id进行绑定，也就是与用户进行绑定，此时前段用返回的数据进行switch判断如果是init则请求后端的
+>
+> 绑定用户数据接口，前端需要把拿到的client_id传输过去,
+
+例子:
+
+- 路由
+
+```php
+Route::get('bindUid','BindUidController@bind');
+```
+
+- 控制器
+
+> 这里先绑定前端传输过来的client_id与数据库中的id,再将用户的数据传输给前端,
+>
+> $data里的type是用于前段判断是某种类型
+
+```php
+use GatewayClient\Gateway;
+use Illuminate\Http\Request;
+public function __construct()
+{
+        //设置Gatewayworker服务的register服务与ip和端口
+        Gateway::$registerAddress='127.0.0.1:8282';
+}
+public function bind(Request $request)
+{
+  $uid='用户id';//获取用户id赋值给变量
+  $client_id=$request->get('client_id');
+  Gateway::bindUid($client_id,$uid);//绑定用户id  参数1 前端传输过来的clientid 参数2 需要绑定的当前的用户id
+   $data = [
+            'type' => 'type',
+            'data' => [
+                '用户信息1' => '用户信息1',
+                '用户信息2' => '用户信息2',
+                '用户信息3' => '用户信息3'
+            ]
+        ];
+    //绑定完成之后再将用户的数据发送给前端  
+    Gateway::sendToAll(json_encode($data));  
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
