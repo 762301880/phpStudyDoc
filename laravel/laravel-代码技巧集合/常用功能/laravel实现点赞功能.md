@@ -58,6 +58,7 @@ class User extends Model
     #关联的动态表,多对多
     public function article()
     {
+        //参数1:关联表,参数2:多对多表,参数3:多对多表中的外键 ,参数4 多对多表中的外键
         return $this->belongsToMany(article::class, 'article_user', 'user_id', 'article_id');
     }
      #点赞或取消方法 核心功能toggle
