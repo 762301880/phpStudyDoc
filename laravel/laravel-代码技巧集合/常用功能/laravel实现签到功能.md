@@ -16,7 +16,7 @@ CREATE TABLE `user_society_sign` (
   `created_at` timestamp NULL DEFAULT NULL COMMENT '签到时间',
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户工会签到表';
 ```
 
 
