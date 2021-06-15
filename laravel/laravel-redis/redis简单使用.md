@@ -64,7 +64,7 @@ $redis->strlen('name');#结果(姚留洋)为9 因为string类型一个字符占�
 # 插入list类型数据 
 $redis->lpush('names',['李四']);# 从左侧插入每次插入的值在数据的最顶层 ASC 正叙
 $redis->rpush('names',['凌华']);# 从右侧插入每次插入的值在数据的最底层  DESC 倒叙
-$redis->lrange('names',1,-1);# 获取list数据类型的全部值(获取列表元素)
+$redis->lrange('names',0,-1);# 获取list数据类型的全部值(获取列表元素)
 $redis->llen('names');#获取列表的长度 及列表有多少条记录
 ```
 
