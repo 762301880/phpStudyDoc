@@ -34,6 +34,11 @@
 ```php
 # 参数1 评论表的id,参数2 被回复的评论id,参数3,数据可以为空 
 public function show($post_id,$comment_id,&$result=array())
+     $comment=$this->getComment($post_id,$comment_id,&$result=array());
+     return $this->success($comment); 
+   }
+# 这里有个问题就是如果需要返回resful api 的时候返回的数据会有点凌乱,解决方案 创建一个回调函数专门用来处理数据即可
+public function getComment($post_id,$comment_id,&$result=array()){
     {
         $results=Comments::where(['post_id'=>$post_id,'comment_id'=>$comment_id])->get();
         foreach ($results as $value){
@@ -41,7 +46,7 @@ public function show($post_id,$comment_id,&$result=array())
             $value['comment']=$this->show($value['post_id'],$value['id'],$thisArr);
         }
         return $results;
-   }
+}
 ```
 
 ## 结果示例
@@ -133,4 +138,6 @@ public function show($post_id,$comment_id,&$result=array())
 ```
 
 
+
+## 此处需要注意的是删除评论的时候 一级评论需要删除连带的评论
 
