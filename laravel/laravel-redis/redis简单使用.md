@@ -19,14 +19,7 @@
 
 ## 2.1 实例化`redis`
 
-- 第一种实例化方法
-
-```php
-use Predis\Client;
-$redis = new Client();
-```
-
-- 第二种实例化方法
+- 连接redis;
 
 ```php
 use Illuminate\Support\Facades\Redis;
@@ -34,10 +27,6 @@ $redis = Redis::connection();
 ```
 
 ## 2.2 经常使用的方法
-
-> 请实例化reids对象之后使用
->
-> $redis = new Client();
 
 ```php
 # 自增 increment
