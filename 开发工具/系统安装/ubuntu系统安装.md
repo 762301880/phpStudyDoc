@@ -8,6 +8,15 @@
 
 # 二 、安装
 
+- 资料
+
+| 名称               | 地址                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| windows安装 ububtu | [链接](https://ubuntu.com/tutorials/burn-a-dvd-on-windows#1-overview) |
+| 启动盘安装         | [链接](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows#1-overview) |
+
+
+
 ## 2.1 下载linux系统
 
 - 下载[地址](https://ubuntu.com/download/desktop)`https://ubuntu.com/download/desktop`
