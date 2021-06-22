@@ -27,7 +27,7 @@
 ```php
 # 生成迁移数据库 
 php artisan notifications:table # 此命令会生成:`database\migrations\2021_06_22_163654_create_notifications_table.php`
-php artisan migrate # z
+php artisan migrate # 此迁移命令会在数据库生成对应的数据表
 ```
 
 
