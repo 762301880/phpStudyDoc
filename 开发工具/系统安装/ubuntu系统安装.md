@@ -17,6 +17,7 @@
 | windows安装 `ububtu`                         | [链接](https://ubuntu.com/tutorials/burn-a-dvd-on-windows#1-overview) |
 | 启动盘安装                                   | [链接](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows#1-overview) |
 | U盘安装`Ubuntu`操作系统，对应工具(Rufus)下载 | [链接](https://jingyan.baidu.com/article/851fbc370a529b7e1f15abab.html)，[工具链接](http://www.pc6.com/softview/SoftView_94802.html) |
+| `Ubuntu` 桌面指南                            | [链接](http://people.ubuntu.com/~happyaron/ubuntu-docs/precise-html/) |
 
 
 
