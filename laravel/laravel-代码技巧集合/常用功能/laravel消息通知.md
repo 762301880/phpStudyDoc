@@ -4,6 +4,10 @@
 >
 > 对你评论或则点赞的提醒信息,`laravel`的消息通知不仅有邮件通知而且还有数据库通知
 
+- 例子可以参考钉钉
+
+![image-20210622164447771](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210622164447771.png)
+
 - 资料
 
 | 名称                  | 地址                                                         |
