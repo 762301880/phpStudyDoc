@@ -48,3 +48,59 @@ cluster - #指定运行应用程序的集群。
 encryption_master_key- #一个 32 字符长的密钥。此密钥与通道名称一起用于派生每个通道的加密密钥。每通道密钥用于加密加密通道上的事件数据。
 ```
 
+## 2.3 触发事件示例
+
+> 要在一个或多个通道上触发事件，请使用该`trigger`函数。
+
+> ### 单通道
+>
+> ```php
+> #my-channel=>频道,my_event=>事件,data=>数据:可以是json数据 
+> pusher -> trigger ( 'my-channel' , 'my_event' , 'hello world' );
+> ```
+>
+> ### 多渠道
+>
+> ```php
+>  pusher -> trigger ([ 'channel-1' , 'channel-2' ], 'my_event' , 'hello world' );
+> ```
+
+
+
+- 发送完成之后可以在控制台查看输出的内容
+
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210623105910893.png" alt="image-20210623105910893" style="zoom:50%;" />
+
+## 2.4前端接受事件
+
+- 可以在后台[入门](https://dashboard.pusher.com/apps/1222147/getting_started)这里查询对应的前端代码，更多方式请查阅官网[文档](https://pusher.com/docs)
+
+```js
+<!DOCTYPE html>
+<head>
+  <title>Pusher Test</title>
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('add71346f11ab0277158', {
+      cluster: 'mt1'
+    });
+
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+      alert(JSON.stringify(data));
+    });
+  </script>
+</head>
+<body>
+  <h1>Pusher Test</h1>
+  <p>
+    Try publishing an event to channel <code>my-channel</code>
+    with event name <code>my-event</code>.
+  </p>
+</body>
+```
+
