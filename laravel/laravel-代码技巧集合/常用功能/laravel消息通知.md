@@ -105,6 +105,11 @@ class User extends Authenticatable
     {
         $this->user=$user;
     }
+    # 开启数据库通知
+    public function via($notifiable)
+    {
+        return ['database'];
+    }
     # toDatabase 中保存数据库 $notifiable默认就是传递过来的实参
     public function toDatabase($notifiable)
     {
