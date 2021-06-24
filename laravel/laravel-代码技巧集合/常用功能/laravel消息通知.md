@@ -16,7 +16,7 @@
 
 # 二、消息提醒使用
 
-## 2.1数据库消息通知
+## 2.1数据库消息通知说明
 
 >database 通知频道会在数据库中存储通知信息。该表包含通知的类型和描述通知的自定义 `JSON `数据之类的信息。
 >
@@ -47,5 +47,85 @@ CREATE TABLE `notifications` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
+## 2.2 使用
 
+> 假设我们需要用户登录的时候有一个通知谁谁谁登录了，
+
+### 2.2.1 创建消息通知
+
+- 使用`artisan`命令创建通知
+
+> ` php artisan make:notification`+  你需要定义的通知名称 
+
+```php
+# 此命令会在以下目录中生成通知类 app\Notifications\UserLoginNotification.php
+php artisan make:notification UserLoginNotification
+```
+
+- 在需要对应的实体类模型中引用通知
+
+```php
+# 在模型中引用Notifiable
+class User extends Authenticatable
+{
+    use Notifiable;
+    -----省略代码   
+}   
+```
+
+- 控制器中代码
+
+> 例如我需要在登录的时候通知
+
+```php
+ public function login(Request $request)
+    {
+        $validator = UserLoginValidator::validate($request);
+        if ($validator->fails()) {
+            return ResponseLayout::apply(false,$validator->errors()->messages());
+        }
+        $user=User::where(['email' => $request->email, 'password' => $request->password])->first();
+        if ($user) {
+            $user->api_token=Str::random(20);
+            $user->save();
+            $user->notify(new UserLoginNotification($user));# 此处就是引用实体类传参通知
+            return ResponseLayout::apply(true,'登陆成功');
+        } else {
+            return ResponseLayout::apply(false,'登陆失败');
+        }
+    }
+```
+
+- 通知类代码
+
+```php
+    public $user;
+    # 需要定义依赖注入接受参数
+    public function __construct(User $user)
+    {
+        $this->user=$user;
+    }
+    # toDatabase 中保存数据库 $notifiable默认就是传递过来的实参
+    public function toDatabase($notifiable)
+    {
+        #dd($notifiable instanceof User); 结果 true
+        # 直接将结果序列化至数据库
+       return [
+           $notifiable
+       ];
+    }
+```
+
+## 2.3更多使用方法
+
+```php
+#标记通知已读
+$user->unreadNotifications->markAsRead();#user==实体类
+# 大规模设置已读
+$user->unreadNotifications()->update(['read_at' => now()]);
+#查询数量
+$user->unreadNotifications()->count();
+# 删除
+$user->notifications()->delete();
+```
 
