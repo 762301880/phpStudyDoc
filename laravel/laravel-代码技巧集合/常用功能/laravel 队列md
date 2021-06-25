@@ -4,6 +4,12 @@
 > 在逻辑层注册完成之后执行一个发送邮件，这样做的话我们必须要等待邮件发送
 > 完毕的时候用户才可以注册成功，效率很慢，这个时候我们就需要用到队列的功能了
 
+## 1.1 参考资料
+
+| 项目名称     | 项目地址                                                     |
+| ------------ | ------------------------------------------------------------ |
+| laravel-队列 | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#introduction) |
+
 # 二、配置
 
 ## 2.1 配置驱动
@@ -85,9 +91,17 @@ php artisan  make:job SaveLog
 
 ```php
 $this->dispatch(new SaveLog('您好')); 
+/* 1. 延迟分发
+ * 如果你希望有条件地执行队列任务，可以在分发任务时使用 delay 方法 。例如，让我们指定调度任务在 10 分钟后他被调度后才执行，在这之前它将是无效的：
+ */
+SaveLog::dispatch('你好啊,这是一次队列实验')->delay(now()->addMinutes(10));
+/*
+ * 2. 队列优先级
+ * 有时，你可能希望优先考虑如何处理队列。例如，在 config/queue.php 中，
+ * 你可以将你的 redis 连接的默认 queue 设置为 low。然而，有时你可能希望将一个任务推   到一个 high 优先级队列，就像这样:
+ */
+dispatch((new Job)->onQueue('high'));
 ```
-
-
 
 ```php
 # 在控制器中调用队列
@@ -108,3 +122,6 @@ php artisan queue:work
 ```
 
 > 执行以上命令就会监听数据库是否有未执行的队列如果有则消费队列你就会在`storage\logs\laravel.log`中看见对应的数据
+
+## 3.4更多使用请查阅官方[文档](https://learnku.com/docs/laravel/8.x/queues/9398#e43937)
+
