@@ -8,9 +8,15 @@
 
 ## 2.1 配置驱动
 
->1. 注意在使用的时候最好不要在 `.env`中配置请用# 注释#QUEUE_CONNECTION ，在`config\queue.php`中配置更直观
+>1. 注意在使用的时候最好不要在 `.env`中配置请用# 注释#QUEUE_CONNECTION 
 >
->2. 在`.env`文件中配置QUEUE_CONNECTION=database
+>2. 在`config\queue.php`中配置更直观
+>
+>   ```php
+>   'default' => env('QUEUE_CONNECTION', 'database'),
+>   ```
+>
+>3. 在`.env`文件中配置QUEUE_CONNECTION=database
 >   `Laravel`可配置多种队列驱动，包括 "sync", "database", "beanstalkd", "sqs", "redis", "null"（具体参见app/config/queue.php）
 >   其中sync为同步，database为使用数据库，后面三种为第三方队列服务，最后一种为不使用队列。
 >   通过在 .env 中的 QUEUE_CONNECTION 选项，来决定选择何种驱动。
@@ -34,17 +40,17 @@ php artisan migrate
 
 ```sql
 # 以上命令会在mysql中生成 1.jobs 2.failed_jobs 表这里我们主要看一下 jobs表
-CREATE TABLE `failed_jobs` (
+CREATE TABLE `jobs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci; 
+  KEY `jobs_queue_index` (`queue`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci; 
 ```
 
 # 三、使用队列
@@ -75,14 +81,22 @@ php artisan  make:job SaveLog
 
 ## 3.2调用队列
 
+- 更多调用队列的方式
+
+```php
+$this->dispatch(new SaveLog('您好')); 
+```
+
+
+
 ```php
 # 在控制器中调用队列
 use App\Jobs\SaveLog;  
 public function test(Request $request)
-    {
-        SaveLog::dispatch('你好啊,这是一次队列实验');# 调用队列 传入参数你好啊,这是一次队列实验
-        return;
-    }
+  {
+    SaveLog::dispatch('你好啊,这是一次队列实验');# 调用队列 传入参数你好啊,这是一次队列实验
+    return;
+  }
 ```
 
 > 这个时候应为队列没有启用开启执行队列，数据库的队列表中会有一个任务，等待队列启动后执行，所以可以在数据库中的`jobs`表中看见没有执行的数据
