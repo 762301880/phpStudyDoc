@@ -23,10 +23,10 @@
 >   ```
 >
 >3. 在`.env`文件中配置QUEUE_CONNECTION=database
->   `Laravel`可配置多种队列驱动，包括 "sync", "database", "beanstalkd", "sqs", "redis", "null"（具体参见app/config/queue.php）
->   其中sync为同步，database为使用数据库，后面三种为第三方队列服务，最后一种为不使用队列。
->   通过在 .env 中的 QUEUE_CONNECTION 选项，来决定选择何种驱动。
->   如 QUEUE_CONNECTION=database 即为选择数据库驱动队列。
+>     `Laravel`可配置多种队列驱动，包括 "sync", "database", "beanstalkd", "sqs", "redis", "null"（具体参见app/config/queue.php）
+>     其中sync为同步，database为使用数据库，后面三种为第三方队列服务，最后一种为不使用队列。
+>     通过在 .env 中的 QUEUE_CONNECTION 选项，来决定选择何种驱动。
+>     如 QUEUE_CONNECTION=database 即为选择数据库驱动队列。
 
 ## 2.2 生成`mysql`队列表
 
@@ -119,6 +119,7 @@ public function test(Request $request)
 
 ```php
 php artisan queue:work
+#  php artisan queue:work --queue=high,low  加上参数设置队列的优先级 d
 ```
 
 > 执行以上命令就会监听数据库是否有未执行的队列如果有则消费队列你就会在`storage\logs\laravel.log`中看见对应的数据
