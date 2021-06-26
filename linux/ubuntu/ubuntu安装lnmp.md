@@ -9,6 +9,8 @@
 
 # 一、安装nginx
 
+[nginx中文文档](https://www.nginx.cn/doc/)
+
 ##  1.1安装nginx
 
 ```shell
