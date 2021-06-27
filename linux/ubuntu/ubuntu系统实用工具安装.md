@@ -33,3 +33,20 @@ sudo wget https://wdl1.cache.wps.cn/wps/download/ep/Linux2019/10161/wps-office_1
 sudo dpkg -i  wps-office_11.1.0.10161_amd64.deb
 ```
 
+# 三、`ubuntu`安装`qq`音乐
+
+## 3.1官网下载`qq音乐deb`安装包官网
+
+- 官网地址
+
+| 名称         | 链接                                                         |
+| ------------ | ------------------------------------------------------------ |
+| 官网下载地址 | [链接](https://y.qq.com/download/download.html)              |
+| deb下载链接  | [链接](https://dldir1.qq.com/music/clntupate/linux/deb/qqmusic_1.0.9_amd64.deb) |
+
+## 3.2安装qq音乐
+
+```shell
+sudo dpkg -i qqmusic_1.0.9_amd64.deb
+```
+
