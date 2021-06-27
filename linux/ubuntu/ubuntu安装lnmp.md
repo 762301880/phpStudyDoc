@@ -106,6 +106,8 @@ mysql
 
 ## 2.4 navicat mysql客户端链接mysql
 
+`记住navicat的主机一定要填写   127.0.0.1`
+
 > 1. 问题，以上安装之后使用navicat发现就是无法安装mysql
 > 2. 参考[资料](https://m.linuxidc.com/Linux/2013-11/92763.htm)
 
