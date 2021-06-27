@@ -148,7 +148,11 @@ grant all privileges on *.* to 'yaoliuyang'@'localhost';
 flush privileges;
 ```
 
+## 2.5卸载mysql
 
+- apt安装使用命令卸载
 
-
+```shell
+sudo apt remove mysql-*
+```
 
