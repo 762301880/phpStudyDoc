@@ -104,3 +104,49 @@ sudo su root
 mysql
 ```
 
+## 2.4 navicat mysql客户端链接mysql
+
+> 1. 问题，以上安装之后使用navicat发现就是无法安装mysql
+> 2. 参考[资料](https://m.linuxidc.com/Linux/2013-11/92763.htm)
+
+`解决方案`
+
+- 用创建安装时候默认创建的密码登陆
+
+```shell
+#进入 /etc/mysql/ 打开debian.cnf 这里保存着相关的用户名与密码
+root@benben:/etc/mysql# cd /etc/mysql/ 
+root@benben:/etc/mysql# cat debian.cnf 
+
+# 显示如下
+[client] # 这里就是我们链接需要的用户名&密码
+host     = localhost # 127.0.0.1
+user     = debian-sys-maint
+password = g0aju1KPWK0whF2A # 此处就是通过apt命令安装mysql系统给我们设置的用户名&密码
+socket   = /var/run/mysqld/mysqld.sock
+[mysql_upgrade]
+host     = localhost
+user     = debian-sys-maint
+password = g0aju1KPWK0whF2A
+socket   = /var/run/mysqld/mysqld.sock
+```
+
+- 创建新用户登陆(适用于mysql8)
+
+  [参考资料](https://blog.csdn.net/Jatal/article/details/104273439)
+
+```shell
+# 1.先采用root 方式或者上一种默认账户与密码的方式进入mysql
+use mysql;# 选择数据库
+#创建新的用户 by 后面跟密码
+create user 'yaoliuyang'@'localhost' identified by '123456';
+# 设置权限也就是将数据库中的权限字段设置为Y 
+grant all privileges on *.* to 'yaoliuyang'@'localhost';
+# 刷新MySQL系统权限相关表
+flush privileges;
+```
+
+
+
+
+
