@@ -146,7 +146,25 @@ create user 'yaoliuyang'@'localhost' identified by '123456';
 grant all privileges on *.* to 'yaoliuyang'@'localhost';
 # 刷新MySQL系统权限相关表
 flush privileges;
+
+update mysql.user set authentication_string=password('123456') where user='root' and host='localhost' 
 ```
+
+- 重新设置root账户登陆
+
+参考[博客](https://blog.csdn.net/naffan/article/details/115720337)
+
+```shell
+关闭mysql服务。
+找到mysql的安装位置，并进入bin文件夹，会发现mysqld运行文件
+运行 mysqld –skip-grant-tables #跳过登录检验环节直接启动mysql
+use mysql;
+ALTER USER 'root'@'localhost' IDENTIFIED BY '你的密码' PASSWORD EXPIRE NEVER; #修改密码规则
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '你的密码'; #更新用户密码
+flush privileges; #刷新权限
+```
+
+
 
 ## 2.5卸载mysql
 
