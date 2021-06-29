@@ -25,6 +25,66 @@ nginx -v
 
 ## 1.2建立自己的服务
 
+- phpstudy拷贝文件  [laravel nginx需要优雅链接配置](https://learnku.com/docs/laravel/8.x/installation/9354#62e0b5)
+
+```shell
+server {
+        listen        80;
+        server_name  www.cs.com; # 填写自己服务的名字
+        root   /WWW/work_project/php-api-admin/public; #填写自己项目的地址
+       # laravel nginx需要优雅链接配置      
+       location / {
+          try_files $uri $uri/ /index.php?$query_string;
+        }
+        location ~ \.php(.*)$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            fastcgi_param  PATH_INFO  $fastcgi_path_info;
+            fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
+            include     fastcgi_params;
+        }
+}
+```
+
+- laravel 学院[nginx配置](https://learnku.com/docs/laravel/8.x/deployment/9359#nginx)
+
+```shell
+server {
+    listen 80;
+    server_name example.com;# 填写自己服务的名字
+    root /srv/example.com/public; # 填写自己项目的地址
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php;
+
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
 
 
 # 二、ubuntu安装`msyql`
