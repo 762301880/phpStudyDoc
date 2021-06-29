@@ -40,3 +40,46 @@ cd /etc/nginx/conf.d
 cp default.conf default.conf.bak
 ```
 
+# 三、安装 `mysql5.7`
+
+## 3.1 安装`MySQL`
+
+1. 运行以下命令更新YUM源。
+
+   ```shell
+   rpm -Uvh  http://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
+   ```
+
+2. 运行以下命令安装`MySQL`
+
+   **说明** 如果您使用的操作系统内核版本为`el8`，可能会提示报错信息No match for argument。您需要先运行命令**yum module disable mysql**禁用默认的mysql模块，再安装MySQL。
+
+   ```shell
+   yum -y install mysql-community-server
+   ```
+
+3. 运行以下命令查看MySQL版本号。
+
+   ```shell
+   mysql -V
+   ```
+
+   返回结果如下所示，表示MySQL安装成功。
+
+   ```shell
+   mysql  Ver 14.14 Distrib 5.7.28, for Linux (x86_64) using  EditLine wrapper
+   ```
+
+4. 运行以下命令启动MySQL。
+
+   ```shell
+   systemctl start mysqld
+   ```
+
+5. 运行以下命令设置开机启动MySQL。
+
+   ```shell
+   systemctl enable mysqld
+   systemctl daemon-reload
+   ```
+
