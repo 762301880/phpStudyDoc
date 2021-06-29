@@ -91,7 +91,7 @@ server {
 
 参考资料[第三方博客](https://blog.csdn.net/weixx3/article/details/80782479)
 
-## 2.1 安装msyql
+## 2.1 安装mysql
 
 - 安装mysql服务
 
