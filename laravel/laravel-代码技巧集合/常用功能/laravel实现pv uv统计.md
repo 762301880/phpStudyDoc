@@ -108,15 +108,15 @@ CREATE TABLE `club2_statistical` (
 ```php
  public function store()
     {
-        $date = date('Ymd') - 1;//获取上一天的时间
+        $day_before_timestamp=strtotime(date('Y-m-d'))-86400;//前一天的时间戳
+        $date = date('Ymd',$day_before_timestamp);//获取上一天的时间
         $redis = Redis::connection();
         # 这里有多少页面就写多少个
-
         #获取单个的
         # todo 此处应该获取多个值进行循环插入先需要判断取到的是否有值如果没有值给个默认值0,记得取完值之后删除redis表中不需要的数据
         $params = [0 => '本校动态列表', 1 => '发布动态', 2 => '投票页面', 3 => '篮球比赛页面', 4 => '简历活动首页',
             5 => '攻略页面', 6 => '简历修改意见页面', 7 => '职位详情', 8 => '资讯页面', 9 => '我的积分'
-            , 11 => '推荐给好友'];
+            , 10 => '推荐给好友'];
         foreach ($params as $value) {
             $pvCount = $redis->get('pv:' . $value . $date);//获取上一天的pv统计
             $uvCount = $redis->bitcount('uv:' . $value . $date);//获取上一天的uv统计
@@ -124,7 +124,7 @@ CREATE TABLE `club2_statistical` (
             $statistical->statistical_page_name = $value;
             $statistical->pv = $pvCount ?? 0;
             $statistical->uv = $uvCount ?? 0;
-            $statistical->statistical_time = substr($date, 0, 4) . '-' . substr($date, 4, 2) . '-' . substr($date, 6, 8);//统计的时间日期默认上一天
+            $statistical->statistical_time = date('Y-m-d',$day_before_timestamp);//统计的时间日期默认上一天
             $isSave = $statistical->save();
             //保存之后删除redis中的旧数据
             if ($isSave) {
@@ -136,10 +136,75 @@ CREATE TABLE `club2_statistical` (
     }
 ```
 
-- 在linux中创建定时任务
+- 在`linux`中创建定时任务
 
 ```php
 crontab -e 
 0 6 * * * curl +你的接口名称    #定义每天六点定时保存到数据库
+```
+
+## 2.3 后台取值
+
+```php
+  public function index(Request $request)
+    {
+        $club2Statistical = Club2Statistical::filter($request->all(), StatisticsFilter::class)->get()->groupBy('statistical_time');
+        return $this->success($club2Statistical, '统计信息返回成功');
+    }
+```
+
+- 查询条件`StatisticsFilter::class`
+
+```php
+<?php
+
+namespace App\Http\ModelFilters;
+
+use Carbon\Carbon;
+use EloquentFilter\ModelFilter;
+
+class StatisticsFilter extends ModelFilter
+{
+    /**
+     * Related Models that have ModelFilters as well as the method on the ModelFilter
+     * As [relationMethod => [input_key1, input_key2]].
+     *
+     * @var array
+     */
+    public $relations = [];
+
+    public function statisticalPageName($statistical_page_name)
+    {
+        $this->where('statistical_page_name', $statistical_page_name);
+    }
+
+    public function setup()
+    {
+        //开始-结束时间
+        if (!empty($this->input('start_time')) && !empty($this->input('end_time'))) {
+            $this->whereBetween('statistical_time', [$this->input('start_time'), $this->input('end_time')]);
+        }
+        //如果选择的开始时间与结束时间为空则默认显示从现在开始七天前的时间
+        if (empty($this->input('start_time')) && empty($this->input('end_time'))) {
+            $seven_days = strtotime(date('Y-m-d', time())) - (7 * 86400);
+            $seven_days = date('Y-m-d', $seven_days);
+            $this->whereBetween('statistical_time', [$seven_days, date('Y-m-d', time())]);
+        }
+        if ($this->input('type') == 1) {
+            $this->select('id', 'statistical_page_name', 'pv', 'statistical_time', 'created_at', 'updated_at');
+        } elseif ($this->input('type') == 2) {
+            $this->select('id', 'statistical_page_name', 'uv', 'statistical_time', 'created_at', 'updated_at');
+        }
+//        //最近多少天
+//        if (!empty($this->input('day'))) {
+//            $start_time=Carbon::now()->toDateTimeString();
+//            dd($start_time);
+//
+//            $this->whereBetween('statistical_time', [$this->input('start_time'), $this->input('end_time')]);
+//        }
+        $this->orderBy('created_at', 'DESC');
+    }
+}
+
 ```
 
