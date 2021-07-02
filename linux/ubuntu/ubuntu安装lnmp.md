@@ -9,7 +9,12 @@
 
 # 一、安装nginx
 
-[nginx中文文档](https://www.nginx.cn/doc/)
+- 资料
+
+  | 资料名称                                   | 资料地址                                         |
+  | ------------------------------------------ | ------------------------------------------------ |
+  | [nginx中文文档](https://www.nginx.cn/doc/) | [nginx中文文档](https://www.nginx.cn/doc/)       |
+  | 第三方博客                                 | [链接](https://www.nginx.cn/nginxchscommandline) |
 
 ##  1.1安装nginx
 
