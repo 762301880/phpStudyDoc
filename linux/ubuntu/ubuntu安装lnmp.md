@@ -92,6 +92,13 @@ server {
 }
 ```
 
+- ubuntu nginx配置 
+
+```shell
+# 在/etc/nginx/sites-enabled中配置以上服务
+vim w
+```
+
 
 
 # 二、ubuntu安装`msyql`
