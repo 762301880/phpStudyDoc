@@ -13,3 +13,15 @@
 | Hyperf文档 | [跳转地址](https://hyperf.wiki/2.1/#/) |
 |            |                                        |
 
+#  二、windows 安装Hyperf
+
+## 2.1 [通过 `Composer` 创建项目](https://www.hyperf.wiki/2.1/#/zh-cn/quick-start/install?id=通过-composer-创建项目)
+
+> 接下来composer安装Hyperf的骨架项目（可能会提示proc_open等函数被禁用，所以提前去除这些禁用再安装）：composer create-project hyperf/hyperf-skeleton hyperf，安装过程会提示按需选择安装hyperf提供的组件，我们可以全选n选项，或者按自己需要的选择安装；
+>
+> 安装过程中的选项我们全部选择n，
+
+```shell
+composer create-project hyperf/hyperf-skeleton  + 项目名称
+```
+
