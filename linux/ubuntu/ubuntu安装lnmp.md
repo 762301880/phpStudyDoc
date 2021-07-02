@@ -5,7 +5,8 @@
 | 阿里云帮助文档 | [点我跳转]() |
 |                |              |
 
-
+- 注意事项 
+- 1.项目一定要权限开到最大 sudo chmod  -R 777 +你的项目名称
 
 # 一、安装nginx
 
@@ -31,6 +32,7 @@ nginx -v
 ## 1.2建立自己的服务
 
 - phpstudy拷贝文件  [laravel nginx需要优雅链接配置](https://learnku.com/docs/laravel/8.x/installation/9354#62e0b5)
+- 记得要在 /etc/hosts  中添加自己的虚拟域名
 
 ```shell
 server {
@@ -53,7 +55,7 @@ server {
 }
 ```
 
-- laravel 学院[nginx配置](https://learnku.com/docs/laravel/8.x/deployment/9359#nginx)
+- laravel 学院[nginx配置](https://learnku.com/docs/laravel/8.x/deployment/9359#nginx)(亲测好用以后直接复制这个就可以)
 
 ```shell
 server {
