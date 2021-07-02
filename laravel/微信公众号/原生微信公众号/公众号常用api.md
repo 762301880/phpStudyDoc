@@ -55,3 +55,34 @@ https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a
     }
 ```
 
+# 四、 模板消息接口
+
+- 项目[地址](https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Template_Message_Interface.html)
+
+```php
+$json = [
+            "touser" => "o7wV86RHxGwlG_y8fo5-SHd_muZo",
+            "template_id" => "tCsqWfkM6g-tvzlEK4OdgYfRaW_xyIA7vcctJDDUFKw",
+            "url" => "www.baidu.com",
+            "miniprogram" => [
+                "appid" => "",
+                "pagepath" => ""
+            ],
+            "data" => [
+                "name" => [
+                    "value" => "尼古拉斯.赵四",
+                    "color" => "#173177"
+                ],
+                "date" => [
+                    "value" => date('Y-m-d H:i:s',time()),
+                    "color" => "red"
+                ]
+            ]
+        ];
+        $api = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={$this->accessToken}";
+        $data = Http::post($api, $json)->json();
+        dd($data);
+```
+
+
+
