@@ -1,5 +1,7 @@
 # 一、说明
 
+- 文档搬取[地址](https://blog.csdn.net/weixin_42424269/article/details/88988249?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EOPENSEARCH%7Edefault-1.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EOPENSEARCH%7Edefault-1.control)
+
 > 由于研究本地配置nginx服务的时候把nginx玩坏了，卸载重装发现无论如何都是
 >
 > 无法成功复原nginx服务。
