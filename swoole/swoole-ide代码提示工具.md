@@ -5,6 +5,7 @@
 | 第三方博客          | [跳转](https://blog.csdn.net/qq_37970180/article/details/103501759) |
 | `Swoole IDE Helper` | [跳转](https://github.com/swoole/ide-helper)                 |
 | `第三方文档`        | [跳转](https://toscode.gitee.com/JYPHP/swoole-ide-helper)    |
+| github地址          | [跳转](https://github.com/wudi/swoole-ide-helper)            |
 
 # 二、安装
 
