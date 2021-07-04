@@ -81,10 +81,12 @@ php artisan make:command Swoole
           //$this->ws->on('open', [$this, 'open']);
           # 用户连接事件
           $ws->on('open', function (Server $server, Request $request) {
+              $server->bind($request->fd,'401');# 绑定用户 第二个参数暂时写三
               echo "server: handshake success with fd{$request->fd}\n";
           });
           # 用户发送消息事件
           $ws->on('message', function (Server $server, Frame $frame) {
+               \Log::info($ws->getClientInfo($frame->fd));#获取绑定的用户信息
               $server->push($frame->fd, $frame->fd);
               echo $frame->data;
           });
