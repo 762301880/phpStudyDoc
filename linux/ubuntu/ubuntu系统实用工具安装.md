@@ -50,3 +50,9 @@ sudo dpkg -i  wps-office_11.1.0.10161_amd64.deb
 sudo dpkg -i qqmusic_1.0.9_amd64.deb
 ```
 
+## 3.3 卸载qq音乐
+
+```shell
+sudo dpkg -r qqmusic
+```
+
