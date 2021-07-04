@@ -56,3 +56,23 @@ sudo dpkg -i qqmusic_1.0.9_amd64.deb
 sudo dpkg -r qqmusic
 ```
 
+# 四 、Ubuntu系统安装谷歌浏览器
+
+- 官网地址
+
+| 官网下载地址  | 地址                                  |
+| ------------- | ------------------------------------- |
+| Google Chrome | [链接](https://www.google.cn/chrome/) |
+
+## 4.1  从网络下载deb包
+
+```shell
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+```
+
+## 4.2 安装
+
+```shell
+sudo dpkg -i  google-chrome-stable_current_amd64.deb
+```
+
