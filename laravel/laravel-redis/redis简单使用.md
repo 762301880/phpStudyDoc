@@ -22,8 +22,8 @@
 - 连接redis;
 
 ```php
-use Illuminate\Support\Facades\Redis;
-$redis = Redis::connection();
+use Illuminate\Support\Facades\Redis; 
+$redis = Redis::connection(); # 如果还没有提示请这样 $redis=Redis::connection()->client();
 ```
 
 ## 2.2 经常使用的方法
