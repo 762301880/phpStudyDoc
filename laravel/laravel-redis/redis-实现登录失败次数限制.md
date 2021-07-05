@@ -24,7 +24,7 @@
             if ($count < $limit) {
                 $redis->incr('user:' . $request->email);
             }
-            $errorCount = $limit - $count;# 还剩多少次机会
+            $errorCount = $limit-$redis->get('user:' . $request->email);//还剩多少次机会
             if ($errorCount == 0 && $redis->ttl('user:' . $request->email) == -1) { # 失败次数等于0，并且没有设置过期时间的时候才设置过期时间
                 $redis->expire('user:' . $request->email, $time);# 如果等于0,并且过期时间不存在,设置过期时间,ttl:秒
             }
