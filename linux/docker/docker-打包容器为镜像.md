@@ -38,7 +38,20 @@ php             7.4.3     e66ae809d99a   16 months ago    405MB # 原来的php�
 ```shell
 # myphp 需要保存的镜像名称  187 需要保存镜像的镜像id
 $ docker save -o   f:\ myphp 187
+# linux 保存到根目录下
+docker save -o /myphp 187
 ```
 
+- 加载打包的镜像
 
+```shell
+# linux 
+docker load -i /myphp
+# 查看加载的镜像
+docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+<none>              <none>              8fcb3668bb27        6 minutes ago       494 MB
+# 解决镜像名称 版本为<none的问题>  docker tag [image id] [name]:[版本]
+docker tag 8f php:7.4.3
+```
 
