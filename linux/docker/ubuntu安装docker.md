@@ -12,3 +12,15 @@ sudo apt install docker.io
 sudo systemctl start docker 
 ```
 
+## 删除docker
+
+```shell
+sudo apt-get remove --auto-remove docker
+
+# 使用dpkg查询已安装包，针对性删除
+# 查询相关软件包
+dpkg -l | grep docker
+# 删除这个包
+sudo apt remove --purge dock.io
+```
+
