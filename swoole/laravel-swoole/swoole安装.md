@@ -32,3 +32,4 @@ extension=swoole.so
 ```
 
 - 保存并退出，在终端运行 `php -m`，如果看到扩展里包含 `swoole`，说明安装启用成功。
+
