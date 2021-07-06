@@ -35,7 +35,7 @@ CONTAINER ID   IMAGE       COMMAND                  CREATED          STATUS     
 - 进入容器内部
 
 ```shell
-docker exec -it +CONTAINER ID NAMES /bin/bash
+docker exec -it +CONTAINER_ID  /bin/bash
 ```
 
 - 配置php.ini
@@ -55,6 +55,27 @@ ls
 conf.d   php.ini-development  php.ini-production
 cp php.ini-development php.ini # 将开发配置复制一份
 # 3.退出容器
-
+exit
 ```
+
+# 二、docker安装nginx
+
+## 2.1 拉去php镜像
+
+```shell
+docker pull nginx 
+```
+
+- 查看拉取的镜像
+
+```shell
+docker images
+```
+
+## 2.2  启动镜像
+
+```shell
+```
+
+
 
