@@ -1,4 +1,4 @@
-# 1. 镜像 提交dockerhub仓库
+# 一、 镜像 提交dockerhub仓库
 
 ## 1.1 登录仓库
 
@@ -36,3 +36,68 @@ docker images
 docker push yaoliuyang/php:latest # latest版本号
 ```
 
+
+
+# 二、镜像提交到阿里云仓库
+
+## 2.1 创建阿里云镜像仓库
+
+- 打开阿里云[镜像容器服务](https://cr.console.aliyun.com/cn-beijing/instances)
+
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210706163529366.png" alt="image-20210706163529366" style="zoom:50%;" />
+
+- 添加新仓库
+
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210706163700186.png" alt="image-20210706163700186" style="zoom:50%;" />
+
+- 选择仓库存储类型
+
+![image-20210706163835217](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210706163835217.png)
+
+
+
+## 2.2 使用方式
+
+### 2.2.1  登录阿里云Docker Registry
+
+```shell
+$ docker login --username=76230****@qq.com registry.cn-beijing.aliyuncs.com
+```
+
+用于登录的用户名为阿里云账号全名，密码为开通服务时设置的密码。
+
+您可以在访问凭证页面修改凭证密码。
+
+### 2.2.2 从Registry中拉取镜像
+
+```shell
+$ docker pull registry.cn-beijing.aliyuncs.com/yaoliuyang/php:[镜像版本号]
+```
+
+### 2.2.3  将镜像推送到Registry
+
+```shell
+$ docker login --username=76230****@qq.com registry.cn-beijing.aliyuncs.com$ docker tag [ImageId] registry.cn-beijing.aliyuncs.com/yaoliuyang/php:[镜像版本号]$ docker push registry.cn-beijing.aliyuncs.com/yaoliuyang/php:[镜像版本号]
+```
+
+请根据实际镜像信息替换示例中的[ImageId]和[镜像版本号]参数。
+
+### 2.2.4  选择合适的镜像仓库地址
+
+从ECS推送镜像时，可以选择使用镜像仓库内网地址。推送速度将得到提升并且将不会损耗您的公网流量。
+
+如果您使用的机器位于VPC网络，请使用 registry-vpc.cn-beijing.aliyuncs.com 作为Registry的域名登录。
+
+### 2.2.5  示例
+
+使用"docker tag"命令重命名镜像，并将它通过专有网络地址推送至Registry。
+
+```shell
+$ docker imagesREPOSITORY                                                         TAG                 IMAGE ID            CREATED             VIRTUAL SIZEregistry.aliyuncs.com/acs/agent                                    0.7-dfb6816         37bb9c63c8b2        7 days ago          37.89 MB$ docker tag 37bb9c63c8b2 registry-vpc.cn-beijing.aliyuncs.com/acs/agent:0.7-dfb6816
+```
+
+使用 "docker push" 命令将该镜像推送至远程。
+
+```shell
+$ docker push registry-vpc.cn-beijing.aliyuncs.com/acs/agent:0.7-dfb6816
+```
