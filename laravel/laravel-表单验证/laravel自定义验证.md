@@ -43,6 +43,7 @@ class UpgradeRoleValidator
 # 自定义验证规则
     protected static function customRules()
     {
+        # 这里必须要注意 is_club_member 自定义的验证规则名称一定不能为
         Validator::extend('is_club_member', function ($attribute, $value, $parameters, $validator) {
             return ClubMember::find($value) != null;
         });
