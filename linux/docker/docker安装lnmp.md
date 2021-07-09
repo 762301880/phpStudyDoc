@@ -75,6 +75,21 @@ docker images
 ## 2.2  启动镜像
 
 ```shell
+docker run -itd  --name mynginx  -p 8080:80  -v /etc/nginx:/www +r
+```
+
+## 2.3 nginx 容器配置文件位置
+
+- nginx的配置目录
+
+```shell
+/etc/nginx
+```
+
+- nginx 多主机配置目录
+
+```shell
+/etc/nginx/conf.d/
 ```
 
 
