@@ -17,5 +17,8 @@
 
 ```shell
 docker run -itd --name php -v /etc/php:/usr/local/etc/php eb
+
+# windows 本地目录\etc\nginx要使用反斜杠 \
+docker run -itd --name nginx -p 8080:80  -v c:\etc\nginx:/www 4f
 ```
 
