@@ -90,6 +90,8 @@ docker run -itd  --name mynginx  -p 8080:80  -v /etc/nginx:/www +r
 
 ```shell
 /etc/nginx/conf.d/
+# 在这里配置的默认启动文件位置需要重启nginx 才能使配置生效
+nginx -s reload
 ```
 
 
