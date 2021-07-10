@@ -34,3 +34,14 @@ sudo apt-get update
 sudo apt-get install typora
 ```
 
+# 三、ubuntu安装mysql客户端 dbeaver
+
+- 官网[下载地址](https://dbeaver.io/download/)
+
+## 3.1 使用命令下载deb包
+
+```shell
+wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
+```
+
+- 安装同上
