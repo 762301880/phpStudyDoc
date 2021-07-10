@@ -45,3 +45,18 @@ wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
 ```
 
 - 安装同上
+
+## 3.2 删除 dbeaver
+
+- 要列出你系统中安装的所有包，输入下面的命令：
+
+```shell
+dpkg --get-selections
+```
+
+- 找到对应的包之后删除
+
+```shell
+sudo dpkg -r dbeaver-ce
+```
+
