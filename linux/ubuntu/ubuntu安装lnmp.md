@@ -256,6 +256,7 @@ sudo apt remove mysql-*
 
 ```shell
 sudo apt install php7.4-cli
+sudo apt install php7.4-f
 ```
 
 - 安装composer
