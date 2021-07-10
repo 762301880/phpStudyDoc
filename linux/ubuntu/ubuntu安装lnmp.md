@@ -248,3 +248,23 @@ flush privileges; #刷新权限
 sudo apt remove mysql-*
 ```
 
+# 三、安装php
+
+## 3.1 使用apt命令安装
+
+> 安装完成之后的配置文件在/etc/php/7.4中
+
+```shell
+sudo apt install php7.4-cli
+```
+
+- 安装composer
+
+```shell
+sudo apt install composer
+# 安装完成之后切换composer的镜像源
+    composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+# 查看镜像源
+composer config -g -l repo.packagist
+```
+
