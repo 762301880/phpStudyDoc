@@ -29,7 +29,26 @@ ubuntu@VM-123-64-ubuntu:~$ sudo apt-get install -y docker.io
 sudo systemctl start docker
 ```
 
-## 1.5 注意使用docker 所有的命令一定要在前面加入sudo 
+## 1.5 使用docker 所有的命令一定要在前面加入sudo ,解决方案
+
+1. 添加docker用户组
+
+```shell
+sudo groupadd docker
+```
+
+2. 将登陆用户加入到docker用户组中
+
+```shell
+sudo gpasswd -a $USER docker	#USER处是你自己的用户名
+ubuntu@VM-123-64-ubuntu:~$ sudo gpasswd -a ubuntu docker
+```
+
+3. 更新用户组
+
+```shell
+newgrp docker
+```
 
 # 二、删除docker
 
