@@ -97,14 +97,54 @@ docker run [可选参数] image_name||image_id
 -d       后台方式运行
 -it      使用交互方式运行，经如容器查看内容
 -p 8080:80       制定容器端口,本机的8080端口映射容器内部的80端口
-
-# 启动并进入容器
-
+# 运行容器
+ubuntu@VM-123-64-ubuntu:~$ docker run --name nginx -itd -p 8080:80 nginx
+3c3dfa40d92b45851f5b590df51c85b5e4aac3bee7bcc063515919b2964cfd36
 ```
 
+### 列出所有运行的容器
 
+```shell
+# docker ps 命令 列出当前正在运行中的容器
+-a # 列出当前正在运行的容器+带出历史运行过的容器
+-n=?  #显示最近创建的容器
+-q # 列出当前正在运行中的容器的id ，docker ps -aq 显示当前所有运行容器的id 
 
+ubuntu@VM-123-64-ubuntu:~$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES
+3c3dfa40d92b        nginx               "/docker-entrypoint.…"   36 seconds ago      Up 35 seconds       0.0.0.0:8080->80/tcp nginx
+```
 
+### 进入容器
+
+```shell
+docker exec -it 容器id /bin/bash
+```
+
+### 删除容器
+
+```shell
+# 删除指定的容器
+docker rm 容器id||容器名称
+# 删除全部的容器
+docker rm -f $(docker ps -aq)
+```
+
+### 退出容器
+
+```shell
+exit # 直接容器停止并推出
+Ctrl + P + Q #容器不停止退出
+```
+
+### 启动或停止容器
+
+```shell
+docker stop 容器id  # 停止容器
+docker restart 容器id  # 重启容器
+docker start 容器id  # 启动容器
+docker kall 容器id  # 强制停止当前容器
+```
 
 
 
