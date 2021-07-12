@@ -25,3 +25,72 @@
 composer create-project hyperf/hyperf-skeleton  + 项目名称
 ```
 
+# 三、docker启动Hyperf
+
+## 3.1 第一种方式使用
+
+### 3.1.1 docker 安装php-fpm
+
+```shell
+docker pull php:7.4-fpm 
+```
+
+### 3.12 启动php容器
+
+```shell
+# windows
+C:\Users\Administrator> docker run -itd -p 9501:9501 --name=myphp  -v c:\etc\www:/www   + 容器id
+
+# 参数说明
+-itd    # 以交互式并后台启动容器
+-p      # 本地端口映射服务器端口
+--name  # 定义容器的名称
+-v      # 本地文件挂载到容器内的文件,此文件用于存放项目地址
+```
+
+### 3.1.3 创建hyperf项目
+
+> 在挂载的本地的目录中创建项目
+
+```shell
+composer create-project hyperf/hyperf-skeleton  + 项目名称
+```
+
+### 3.1.4 进入php-fpm容器内部
+
+```shell
+docker exec -it 容器id  /bin/bash
+```
+
+> 进入容器后请安装swoole，此步骤省略
+
+### 3.1.5进入被挂载的容器目录`www\你的项目`中启动
+
+```shell
+root@f137b92f2b16:/www/hyperf-skeleton# php bin/hyperf.php start
+```
+
+- 如果出现以下bug解决方法
+
+```shell
+ERROR Swoole short name have to disable before start server, please set swoole.use_shortname = off into your php.ini.
+```
+
+1. 编辑php.ini 
+
+```shell
+ cd /usr/local/etc/php&&vim php.ini
+ 
+ # 在文件中加入
+ swoole.use_shortname = off
+```
+
+### 3.1.6 helloword
+
+在打开的浏览器中输入`http://127.0.0.1:9501/`
+
+```shell
+method	"GET"
+message	"Hello Hyperf."
+```
+
