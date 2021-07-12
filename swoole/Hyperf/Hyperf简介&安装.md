@@ -66,7 +66,9 @@ docker exec -it 容器id  /bin/bash
 
 > 进入容器后请安装swoole，此步骤省略
 
-### 3.1.5进入被挂载的容器目录`www\你的项目`中启动
+### 3.1.5  启动 hyperf项目
+
+>  进入被挂载的容器目录`www\你的项目`中启动
 
 ```shell
 root@f137b92f2b16:/www/hyperf-skeleton# php bin/hyperf.php start
