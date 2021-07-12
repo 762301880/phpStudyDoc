@@ -29,6 +29,8 @@ composer create-project hyperf/hyperf-skeleton  + 项目名称
 
 ## 3.1 第一种方式使用
 
+- 参考[资料](https://www.freesion.com/article/3230360618/)
+
 ### 3.1.1 docker 安装php-fpm
 
 ```shell
