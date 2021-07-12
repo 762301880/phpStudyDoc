@@ -148,9 +148,80 @@ docker kall 容器id  # 强制停止当前容器
 
 
 
+## 常用命令
 
+### 查看日志命令
 
+```shell
+[root@VM-23-6-centos ~]# docker logs --help
 
+Usage:  docker logs [OPTIONS] CONTAINER
+
+Fetch the logs of a container
+
+Options:
+      --details        Show extra details provided to logs
+  -f, --follow         Follow log output
+      --help           Print usage
+      --since string   Show logs since timestamp
+      --tail string    Number of lines to show from the end of the logs (default "all")
+  -t, --timestamps     Show timestamps
+ # 使用
+ [root@VM-23-6-centos ~]# docker logs -f  -t  --tail 查询数量 容器id
+ - tf # 显示日至
+ - tail  number  # 要显示日志条数
+```
+
+### 查看容器中进程的信息
+
+```shell
+[root@VM-23-6-centos ~]# docker top 容器id
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                23021               23006               0                   20:31               pts/2               00:00:00            php-fpm: master process (/usr/local/etc/php-fpm.conf)
+33                  23046               23021               0                   20:31               pts/2               00:00:00            php-fpm: pool www
+33                  23047               23021               0                   20:31               pts/2               00:00:00            php-fpm: pool www
+
+```
+
+### 查看镜像的元数据
+
+```shell
+root@VM-23-6-centos ~]# docker inspect --help
+
+Usage:  docker inspect [OPTIONS] NAME|ID [NAME|ID...]
+
+Return low-level information on Docker objects
+
+Options:
+  -f, --format string   Format the output using the given Go template
+      --help            Print usage
+  -s, --size            Display total file sizes if the type is container
+      --type string     Return JSON for specified type
+      
+# 基本使用      
+docker inspect 容器id
+```
+
+### 进入当前正在运行中的容器
+
+```shell
+# 我们通常容器都是使用后台方式运行的需要进入容器修改一些配置
+# 命令
+docker exec -it 容器id  /bin/bash
+```
+
+### 将容器内部的文件考出文件外部(本地主机)
+
+```shell
+docker cp 容器id:容器内路径  本地主机路径
+# 使用势力--请在容器外部执行
+[root@VM-23-6-centos ~]# docker cp 125:/usr  ~
+[root@VM-23-6-centos ~]# ls
+usr
+[root@VM-23-6-centos ~]# cd usr/
+[root@VM-23-6-centos usr]# ls
+bin  games  include  lib  local  sbin  share  src
+```
 
 
 
