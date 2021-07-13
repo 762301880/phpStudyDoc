@@ -75,7 +75,10 @@ docker images
 ## 2.2  启动镜像
 
 ```shell
-docker run -itd  --name mynginx  -p 8080:80  -v /etc/nginx:/www  r
+# linux
+docker run -itd  --name mynginx  -p 8080:80  -v /etc/nginx:/www  容器id
+# windows 
+docker run -itd  --name mynginx  -p 8080:80  -v c:/etc/nginx:/www  容器id
 ```
 
 ## 2.3 nginx 容器配置文件位置
