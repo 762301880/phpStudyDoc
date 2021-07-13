@@ -12,13 +12,13 @@
 ##  1.1  下载php镜像
 
 ```shell
-docker pull php:7.4.3
+docker pull php:7.4-fpm
 ```
 
 ## 1.2 启动php容器
 
 ```shell
-docker run -itd  -p 80:80 --name php  php:7.4.3
+docker run -itd  -p 80:80 --name php  容器id
 ```
 
 ### 1.2.1 进入容器内部
