@@ -35,7 +35,7 @@ CONTAINER ID   IMAGE       COMMAND                  CREATED          STATUS     
 - 进入容器内部
 
 ```shell
-docker exec -it +CONTAINER_ID  /bin/bash
+docker exec -it 容器id /bin/bash
 ```
 
 - 配置php.ini
@@ -95,6 +95,8 @@ docker run -itd  --name mynginx  -p 8080:80  -v c:/etc/nginx:/www  容器id
 /etc/nginx/conf.d/
 # 在这里配置的默认启动文件位置需要重启nginx 才能使配置生效
 nginx -s reload
+# 或则
+service nginx reload
 ```
 
 
