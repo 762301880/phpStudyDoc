@@ -16,9 +16,9 @@
  `docker run -it -v /宿主机绝对路径:/容器内目录：权限   镜像名`
 
 ```shell
-docker run -itd --name php -v /etc/php:/usr/local/etc/php eb
 
+docker run -itd --name php -v /etc/php:/usr/local/etc/php 容器id
 # windows 本地目录\etc\nginx要使用反斜杠 \
-docker run -itd --name nginx -p 8080:80  -v c:\etc\nginx:/www 4f
+docker run -itd --name nginx -p 8080:80  -v c:\etc\nginx:/www  容器id
 ```
 
