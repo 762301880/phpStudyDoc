@@ -34,6 +34,7 @@ $redis->incr('likeMeCount');# 调用函数likeMeCount加1
 $redis->incrby('age',10); #制定自增的数值incrby,年龄每次自增10 
 # 自减
 $redis->decr('likeMeCount');#调用函数likeMeCount减1
+$redis->decrBy('likeMeCount',10)#调用函数likeMeCount减10
 # 持久化保存值
 $redis->save();# 在链式调用之后使用,将需要保存的信息持久化保存在内存中
 # 删除值 
