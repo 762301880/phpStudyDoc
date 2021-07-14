@@ -8,6 +8,7 @@
 | microsoft官网    | [链接](https://www.microsoft.com/zh-cn/software-download/windows10) |
 | msdn系统下载     | [链接](https://msdn.itellyou.cn/)                            |
 | 微PE官网         | [链接](http://www.wepe.com.cn/download.html?tdsourcetag=s_pcqq_aiomsg) |
+| NEXTITELLyou     | [链接](https://next.itellyou.cn/)                            |
 
 # 安装说明
 
