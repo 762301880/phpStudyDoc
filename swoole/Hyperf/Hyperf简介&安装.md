@@ -86,6 +86,7 @@ ERROR Swoole short name have to disable before start server, please set swoole.u
  cd /usr/local/etc/php&&vim php.ini
  
  # 在文件中加入
+ extension=swoole.so
  swoole.use_shortname = off
 ```
 
