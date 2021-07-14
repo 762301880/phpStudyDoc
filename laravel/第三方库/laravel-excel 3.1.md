@@ -259,5 +259,13 @@ use Illuminate\Support\Carbon;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 # 解决方案
 Carbon::instance(Date::excelToDateTimeObject($row[2]))->format('Y-m-d'),
+
+# 第二种
+private function ExcelToTime(int $date)
+ {
+        $d = 25569;
+        $fixationT = 24 * 60 * 60;
+        return gmdate('Y-m-d',($date - $d) * $fixationT);
+ }
 ```
 
