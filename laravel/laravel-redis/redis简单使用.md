@@ -58,8 +58,8 @@ $redis->lrange('names',0,-1);# 获取list数据类型的全部值(获取列表�
 $redis->llen('names');#获取列表的长度 及列表有多少条记录
 # Setbit 命令用于对 key 所储存的字符串值，设置或清除指定偏移量上的位(bit)
 # 此命令中间存储的数据只会存在一次不会重复存在
-$redis->setbit('version:' . $userId . $request->input('id'), $userId, 1); #设置已阅读的版本号
-$redis->getbit('version:' . $userId . $request->input('id'), $userId) #d
+$redis->setbit('version:' . 版本id. 用户id, $userId, 1); #设置已阅读的版本号
+$redis->getbit('version:' . 版本id . 用户id, $userId) #得到已阅读的版本号
 ```
 
 
