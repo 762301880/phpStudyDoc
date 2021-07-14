@@ -220,3 +220,18 @@ php artisan make:import UsersImport                     # 如果不需要可以�
    # $request->file('file') 指定传输过来的excel文件
 ```
 
+
+
+# 所遇bug解析
+
+## 导入时间读取为数值类型
+
+> 例如我再excel表那边的时间值是 2021-02-09，打印得到的值却是 43870
+
+```shell
+use Illuminate\Support\Carbon;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+# 解决方案
+Carbon::instance(Date::excelToDateTimeObject($row[2]))->format('Y-m-d'),
+```
+
