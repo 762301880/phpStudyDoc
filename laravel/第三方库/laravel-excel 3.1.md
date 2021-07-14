@@ -220,11 +220,33 @@ php artisan make:import UsersImport                     # 如果不需要可以�
    # $request->file('file') 指定传输过来的excel文件
 ```
 
+## 导入使用验证
+
+### 目前找到的一种方案就是直接写在导入集合中
+
+```php
+use Illuminate\Support\Facades\Validator;
+class StuImport implements ToModel, WithStartRow,ToCollection
+{
+   public function collection(Collection $collection)
+    {
+        $validator = Validator::make($collection->toArray(), [
+            '0' => 'required|integer'
+        ], [
+            '0.integer' => '输入结果必须是整数'
+        ]);
+        dd($validator->errors()->first());
+    }
+}
+```
+
 
 
 # 所遇bug解析
 
-## 导入时间读取为数值类型
+## 导入时间类型读取为数值类型
+
+ 参考[资料](https://learnku.com/laravel/t/43832)
 
 > 例如我再excel表那边的时间值是 2021-02-09，打印得到的值却是 43870
 
