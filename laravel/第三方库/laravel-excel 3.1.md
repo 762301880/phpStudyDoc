@@ -235,7 +235,11 @@ class StuImport implements ToModel, WithStartRow,ToCollection
         ], [
             '0.integer' => '输入结果必须是整数'
         ]);
-        dd($validator->errors()->first());
+        foreach ($collection as $row) {
+            User::create([
+                'name' => $row[0],
+            ]);
+        }
     }
 }
 ```
