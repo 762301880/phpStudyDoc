@@ -30,26 +30,18 @@ php                 7.4.3               8fcb3668bb27        10 minutes ago      
 
 ```shell
 docker commit 提交容器成为一个新的副本
-docker commit -m='提交的描述信息' -a='作者信息' 容器id  个人仓库名/目标镜像名:tag
-```
-
-
-
-```shell
-docker ps -a 
-# 构建新镜像		
-docker commit yaoliuyang/php
-# 查看构建的镜像
-docker images
+docker commit -m '提交的描述信息' -a '作者信息'  需要提交的容器id  个人仓库名/目标镜像名:tag
+# 例如
+docker commit -m 'include swoole&vim' -a 'yaoliuyang' cd1  yaoliuyang/php:7.4-fpm
 ```
 
 ## 1.4 将构建的镜像提交到远程dockerhub库
 
 ```shell
+docker push 需要推送的地址名/镜像名:版本号
+# 使用
 docker push yaoliuyang/php:latest # latest版本号
 ```
-
-
 
 # 二、镜像提交到阿里云仓库
 
