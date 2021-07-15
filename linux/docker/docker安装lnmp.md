@@ -138,7 +138,7 @@ server {
     #access_log  /var/log/nginx/host.access.log  main;
     location / {
         root   /www/;    # 此处修改为nginx中挂载的项目目录
-        index index.php index.html index.htm; # 添加index.
+        index index.php index.html index.htm; # 添加index.php
     }
     #error_page  404              /404.html;
     # redirect server error pages to the static page /50x.html
@@ -169,6 +169,7 @@ server {
     #}
 }
 
-
+# 记得重启 nginx
+snginx reload 
 ```
 
