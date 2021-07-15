@@ -22,6 +22,17 @@ php                 7.4.3               8fcb3668bb27        10 minutes ago      
 
 ## 1.3 查看正在运行的镜像容器&&构建新镜像
 
+### docker commit  提交一个容器为新的镜像
+
+> 次命令常用于提交自己构建的容器
+
+```shell
+docker commit 提交容器成为一个新的副本
+docker commit -m='提交的描述信息' -a='作者信息' 容器id  目标镜像名:tag
+```
+
+
+
 ```shell
 docker ps -a 
 # 构建新镜像		
