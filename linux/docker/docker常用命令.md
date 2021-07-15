@@ -221,6 +221,9 @@ usr
 [root@VM-23-6-centos ~]# cd usr/
 [root@VM-23-6-centos usr]# ls
 bin  games  include  lib  local  sbin  share  src
+
+# windows使用示例
+docker cp 容器id:/etc/nginx/conf.d/ c:/      # 将容器内nginx的配置文件拷贝到本地 
 ```
 
 
