@@ -101,3 +101,74 @@ service nginx reload
 
 
 
+## 2.4 nginx结合php搭建网站
+
+- 参考[资料](https://blog.csdn.net/gaoxuaiguoyi/article/details/106818303)
+
+### 2.4.1 启动nginx
+
+```shell
+docker pull nginx # 下载nginx
+# 启动nginx
+# 第一个是挂载是挂载配置文件  第二个挂载是挂载项目存放目录
+docker run --name mynginx -itd -p 8080:80 -v C:\etc\nginx\conf.d:/etc/nginx/conf.d/ -v C:\etc\nginx\www:/www  容器id
+```
+
+### 2.4.2 安装php
+
+```shell
+# 下载php
+docker pull php:7.4-fpm
+# 启动php -v 将本地项目目录挂载到容器 内部的www目录
+docker run docker run --name  myphp -v C:\etc\nginx\www:/www  -itd  容器id
+```
+
+### 2.4.5 最后的配置
+
+```shell
+# 在本地修改nginx配置文件
+cp default.conf default.conf.cp # 备份一份配置文件 
+vim default.conf #编辑默认的配置文件
+
+
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+    #access_log  /var/log/nginx/host.access.log  main;
+    location / {
+        root   /www/;    # 此处修改为nginx中挂载的项目目录
+        index index.php index.html index.htm;
+    }
+    #error_page  404              /404.html;
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+    #
+    #location ~ \.php$ {
+    #    proxy_pass   http://127.0.0.1;
+    #}
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    location ~ \.php$ {
+        root           html;
+        fastcgi_pass   172.17.0.3:9000; # 此处修改为php的网络,使用 docker inspect 容器id命令 IPAddress 字段就是对应的网络地址
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  /www/$fastcgi_script_name; # /www/ 修改为 php内部挂载的项目目录
+        include        fastcgi_params;
+    }
+    # deny access to .htaccess files, if Apache's document root
+    # concurs with nginx's one
+    #
+    #location ~ /\.ht {
+    #    deny  all;
+    #}
+}
+
+
+```
+
