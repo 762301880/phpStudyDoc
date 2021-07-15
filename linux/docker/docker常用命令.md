@@ -80,7 +80,7 @@ Status: Downloaded newer image for docker.io/nginx:latest # 真实地址
 # 可选项
 -f 强制删除
 # 骚操作
-# 1.递归删除全部的镜像 $() 传递参数，-aq 查询所有镜像
+# 1.递归删除全部的镜像 $() 传递参数，-aq 查询所有镜像 此命令限于linux环境使用
 docker rmi -f $(docker images -aq)
 ```
 
@@ -126,7 +126,7 @@ docker exec -it 容器id /bin/bash
 ```shell
 # 删除指定的容器
 docker rm 容器id||容器名称
-# 删除全部的容器
+# 删除全部的容器 此命令限于linux环境使用
 docker rm -f $(docker ps -aq)
 ```
 
