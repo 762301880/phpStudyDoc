@@ -17,6 +17,20 @@
 | 使用 Dockerfile 定制镜像 | [link](https://yeasy.gitbook.io/docker_practice/image/build) |
 |                          |                                                              |
 
+Dockefile的主体包括如下几个部分
+
+```shell
+FROM rackspacedot/python37:latest #指明基础镜像包
+COPY xxx /xxx/ #将Dockerfile同目录下的xxx文件或目录拷贝到生成镜像中的/xxx/目录下
+RUN xxx #这里相当于在bash里执行指令，每条指令用一个RUN来标记，完成service文件的chmod修改等
+MAINTAINER name email #留下你的大名和邮箱
+EXPOSE 10000 #暴露端口号
+ENTRYPOINT xxx #这个是启动执行命令，只能有一条
+CMD xxx #这个也是启动执行命令（或给ENTRYPOINT传递默认参数），若启动容器时附加了参数，则CMD中的命令会被忽略
+```
+
+
+
 # 使用
 
 ## 创建一个dockerfile
@@ -36,6 +50,8 @@ RUN echo '这是一个本地构建的nginx镜像' > /usr/share/nginx/html/index.
 ```
 
 ## 构建一个基本镜像
+
+- 在docker目录中打开终端执行命令
 
 ```shell
 docker build -t   nginx:latest  .
