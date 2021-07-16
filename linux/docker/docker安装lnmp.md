@@ -111,16 +111,18 @@ service nginx reload
 docker pull nginx # 下载nginx
 # 启动nginx
 # 第一个是挂载是挂载配置文件  第二个挂载是挂载项目存放目录
-docker run --name mynginx -itd -p 8080:80 -v C:\etc\nginx\conf.d:/etc/nginx/conf.d/ -v C:\etc\nginx\www:/www  容器id
+docker run --name mynginx -itd -p 8080:80 -v C:\etc\nginx\conf.d:/etc/nginx/conf.d/ -v C:\etc\www:/www 容器id
 ```
 
 ### 2.4.2 安装php
+
+> 注意 -v C:\etc\www:/www  此映射目录必须与上一步 nginx的映射目录一致
 
 ```shell
 # 下载php
 docker pull php:7.4-fpm
 # 启动php -v 将本地项目目录挂载到容器 内部的www目录
-docker run docker run --name  myphp -v C:\etc\nginx\www:/www  -itd  容器id
+docker run --name  myphp -v  C:\etc\www:/www  -itd  容器id
 ```
 
 ### 2.4.5 最后的配置
@@ -171,5 +173,37 @@ server {
 
 # 记得重启 nginx
 snginx reload 
+```
+
+- laravel 配置
+
+```shell
+server {
+  listen       80;
+  server_name  localhost;
+
+  location / {
+      #/www/laravel_study/public; 是nginx对应的docker里面的项目地址
+      root   /www/laravel_study/public;
+      try_files $uri $uri/ /index.php?$query_string;
+      index  index.html index.htm index.php;
+  }
+  error_page   500 502 503 504  /50x.html;
+  location = /50x.html {
+      root   /usr/share/nginx/html;
+  }
+  location ~ \.php$ {
+      fastcgi_pass   172.17.0.3:9000;
+      fastcgi_index  index.php;
+      # /www/laravel_study/public; 是php对应的docker里面的项目地址
+      fastcgi_param  SCRIPT_FILENAME /www/laravel_study/public/$fastcgi_script_name;
+      fastcgi_param  APP_ENV dev;
+      include        fastcgi_params;
+      fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
+      fastcgi_param  PATH_INFO  $fastcgi_path_info;
+      fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
+  }
+}
+
 ```
 
