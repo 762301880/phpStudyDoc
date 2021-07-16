@@ -11,7 +11,7 @@
 ## 1.1 创建command
 
 ```shell
-php artisan make:command Swoole
+php artisan make:command Swoole     # 创建command类
 ```
 
 - 创建的swoole
