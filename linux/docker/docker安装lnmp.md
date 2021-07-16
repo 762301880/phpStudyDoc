@@ -175,7 +175,7 @@ server {
 snginx reload 
 ```
 
-- laravel 配置
+- laravel 配置,[参考资料](https://learnku.com/articles/49827)
 
 ```shell
 server {
