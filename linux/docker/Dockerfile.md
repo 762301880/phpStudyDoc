@@ -9,13 +9,17 @@
 > 这个使用方法于是提供了更简便的使用方法dockerfile,直接把我们需要的环境与配置写在文件
 >
 > 中直接一个命令启动即可构建出我们需要的开发环境
+>
+> 具体说明:
+>
+> Dockerfile就是用来构建docker镜像的构建文件!命令脚本!
 
 ## 资料
 
-| name                     | url                                                          |
-| ------------------------ | ------------------------------------------------------------ |
-| 使用 Dockerfile 定制镜像 | [link](https://yeasy.gitbook.io/docker_practice/image/build) |
-|                          |                                                              |
+| name                       | url                                                          |
+| -------------------------- | ------------------------------------------------------------ |
+| 使用 Dockerfile 定制镜像   | [link](https://yeasy.gitbook.io/docker_practice/image/build) |
+| Docker学习笔记：Dockerfile | [link](https://www.docker.org.cn/dockerppt/114.html)         |
 
 Dockefile的主体包括如下几个部分
 
@@ -42,10 +46,13 @@ CMD xxx #这个也是启动执行命令（或给ENTRYPOINT传递默认参数）�
 ```shell
 mkdir mynginx
 cd mynginx
-touch Dockerfile
+touch Dockerfile     # 名字可以随机,建议Dockerfile
 vim Dockerfile  # 编辑Dockerfile
-# 在里面输入
-FROM nginx
+
+
+# 文件中的内容 其中所有的指令都是大写(参数)的，这里每个指令就是镜像的一层
+
+FROM nginx:latest
 RUN echo '这是一个本地构建的nginx镜像' > /usr/share/nginx/html/index.html
 ```
 
@@ -53,7 +60,32 @@ RUN echo '这是一个本地构建的nginx镜像' > /usr/share/nginx/html/index.
 
 - 在docker目录中打开终端执行命令
 
-```shell
-docker build -t   nginx:latest  .
+``` 
+# 构建惊险
+docker build -f   Fockerfile绝对路径 .
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
