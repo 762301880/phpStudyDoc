@@ -69,9 +69,42 @@ docker build -f   Fockerfile绝对路径 .
 
 
 
+## 常用命令
 
 
 
+### ADD
+
+> ADD复制本地主机文件、目录或者远程文件 URLS 从 并且添加到容器指定路径中 。
+
+```shell
+ADD <src>... <dest>
+```
+
+ADD复制本地主机文件、目录或者远程文件 URLS 从 并且添加到容器指定路径中 。
+
+支持通过 [Go](http://lib.csdn.net/base/go) 的正则模糊匹配，具体规则可参见 [Go filepath.Match](http://golang.org/pkg/path/filepath/#Match)
+
+```
+ADD hom* /mydir/        # adds all files starting with "hom"
+ADD hom?.txt /mydir/    # ? is replaced with any single character
+```
+
+- 路径必须是绝对路径，如果 不存在，会自动创建对应目录
+- 路径必须是 Dockerfile 所在路径的相对路径
+- 如果是一个目录，只会复制目录下的内容，而目录本身则不会被复制
+
+
+
+### COPY
+
+> COPY复制新文件或者目录从 并且添加到容器指定路径中
+
+```shell
+COPY a.txt /a.txt 
+# 此命令将Dockerfile中同级的文件复制到容器内部中	
+# 用法同ADD，唯一的不同是不能指定远程文件 URLS。 
+```
 
 
 
