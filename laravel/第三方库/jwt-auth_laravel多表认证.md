@@ -10,6 +10,7 @@
 
 | name              | url                                                          |
 | ----------------- | ------------------------------------------------------------ |
+| 第三方博客        | [link](https://learnku.com/articles/30342)                   |
 | jwt-auth Wiki文档 | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
 | packagist项目地址 | [link](https://packagist.org/packages/tymon/jwt-auth)        |
 
@@ -59,7 +60,6 @@ php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServicePro
 ```php
 php artisan jwt:secret
 # 上诉命令会在.env中生成
-   
 JWT_SECRET=mNkE9Rba3lH0LxvaHFu6Mx0H6I37JXP4nLW1KI3vVCjuaIwBOyib3QLgjGCFrufz
 ```
 
