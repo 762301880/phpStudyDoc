@@ -25,6 +25,7 @@
 | 第三方博客        | [link](https://learnku.com/articles/30342)                   |
 | jwt-auth Wiki文档 | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
 | packagist项目地址 | [link](https://packagist.org/packages/tymon/jwt-auth)        |
+| laravel学院       | [link](https://laravelacademy.org/post/9178)                 |
 
 
 
