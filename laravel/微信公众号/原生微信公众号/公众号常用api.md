@@ -6,6 +6,12 @@
 https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a_Parametric_QR_Code.html
 ```
 
+## 1.2 w3school 微信公众号开发文档
+
+```api
+https://www.w3cschool.cn/weixinkaifawendang/
+```
+
 # 二、获取Access token
 
 - 官网`api`[地址](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html)
