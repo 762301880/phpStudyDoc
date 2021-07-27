@@ -6,10 +6,11 @@
 
 ## 参考资料
 
-| name              | address                                          |
-| ----------------- | ------------------------------------------------ |
-| swoole官网        | [点我跳转](https://wiki.swoole.com/#/)           |
-| swoole-github下载 | [点我跳转](https://github.com/swoole/swoole-src) |
+| name                        | address                                                      |
+| --------------------------- | ------------------------------------------------------------ |
+| swoole官网                  | [点我跳转](https://wiki.swoole.com/#/)                       |
+| swoole-github下载           | [点我跳转](https://github.com/swoole/swoole-src)             |
+| 第三方公众号-swoole安装示例 | [点我跳转](https://mp.weixin.qq.com/s/pi7aEMQTQ0lIHSUY-1xYHA) |
 
 # 安装
 
