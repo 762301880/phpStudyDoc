@@ -39,6 +39,8 @@
 composer require tymon/jwt-auth
 ```
 
+## 配置
+
 - 添加服务提供者
 
 >1. 添加服务提供者（Laravel 5.4 或以下）
@@ -50,6 +52,10 @@ composer require tymon/jwt-auth
 'providers' => [
     ...
     Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+]
+'aliases' => [
+	'JWTAuth'=> Tymon\JWTAuth\Facades\JWTAuth::class,
+    'JWTFactory'=> Tymon\JWTAuth\Facades\JWTFactory::class,
 ]
 ```
 
@@ -76,5 +82,23 @@ php artisan jwt:secret
 JWT_SECRET=mNkE9Rba3lH0LxvaHFu6Mx0H6I37JXP4nLW1KI3vVCjuaIwBOyib3QLgjGCFrufz
 ```
 
-# 待补充
+- 在auth.php 文件中 配置 auth guard 让api的driver使用jwt
+
+```shell
+'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'jwt',//更改此处为jwt
+            'provider' => 'users',
+        ],
+    ],
+```
+
+
+
+- 更改 User model使其支持 jwt-auth
 
