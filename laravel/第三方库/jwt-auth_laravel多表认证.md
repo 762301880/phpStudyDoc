@@ -84,6 +84,8 @@ JWT_SECRET=mNkE9Rba3lH0LxvaHFu6Mx0H6I37JXP4nLW1KI3vVCjuaIwBOyib3QLgjGCFrufz
 
 - 在auth.php 文件中 配置 auth guard 让api的driver使用jwt
 
+> 在该`config/auth.php`文件中，您需要进行一些更改以配置 Laravel 以使用`jwt`防护来支持您的应用程序身份验证。
+
 ```shell
 'guards' => [
         'web' => [
@@ -92,7 +94,7 @@ JWT_SECRET=mNkE9Rba3lH0LxvaHFu6Mx0H6I37JXP4nLW1KI3vVCjuaIwBOyib3QLgjGCFrufz
         ],
 
         'api' => [
-            'driver' => 'jwt',//更改此处为jwt
+            'driver' => 'jwt', # 更改此处为jwt
             'provider' => 'users',
         ],
     ],
@@ -100,5 +102,48 @@ JWT_SECRET=mNkE9Rba3lH0LxvaHFu6Mx0H6I37JXP4nLW1KI3vVCjuaIwBOyib3QLgjGCFrufz
 
 
 
-- 更改 User model使其支持 jwt-auth
+- 更新您的用户模型使其支持jwt
+
+> 首先，您需要`Tymon\JWTAuth\Contracts\JWTSubject`在 User 模型上实现合约，这需要您实现 2 个方法`getJWTIdentifier()`和`getJWTCustomClaims()`.
+
+```php
+<?php
+
+namespace App;
+
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable implements JWTSubject
+{
+    use Notifiable;
+
+    // 为简洁起见，省略其余部分
+
+    /**
+     * 获取将存储在JWT主题声明中的标识符。
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * 返回一个键值数组，其中包含要添加到JWT的任何自定义声明。
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+}
+```
+
+
+
+# 日后补充
 
