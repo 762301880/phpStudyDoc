@@ -1,6 +1,8 @@
 # 说明&资料
 
-## 说明[此段说明截取第三方博客](https://laravelacademy.org/post/9794)
+## 说明
+
+> [此段说明截取第三方博客](https://laravelacademy.org/post/9794
 
 ### 什么是jwt
 
@@ -20,12 +22,14 @@
 
 ## 资料
 
-| name              | url                                                          |
-| ----------------- | ------------------------------------------------------------ |
-| 第三方博客        | [link](https://learnku.com/articles/30342)                   |
-| jwt-auth Wiki文档 | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
-| packagist项目地址 | [link](https://packagist.org/packages/tymon/jwt-auth)        |
-| laravel学院       | [link](https://laravelacademy.org/post/9178)                 |
+| name                      | url                                                          |
+| ------------------------- | ------------------------------------------------------------ |
+| 第三方博客                | [link](https://learnku.com/articles/30342)                   |
+| jwt-auth Wiki文档         | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
+| packagist项目地址         | [link](https://packagist.org/packages/tymon/jwt-auth)        |
+| jwt超详细解释             | [link](https://learnku.com/articles/17883)                   |
+| laravel学院               | [link](https://laravelacademy.org/post/9178)                 |
+| laravel-wikis-jwt认证详解 | [link](https://learnku.com/laravel/wikis/25704)              |
 
 
 
