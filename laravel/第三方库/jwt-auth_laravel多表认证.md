@@ -100,6 +100,7 @@ JWT_SECRET=mNkE9Rba3lH0LxvaHFu6Mx0H6I37JXP4nLW1KI3vVCjuaIwBOyib3QLgjGCFrufz
         'api' => [
             'driver' => 'jwt', # 更改此处为jwt
             'provider' => 'users',
+             #'hash' => false,
         ],
     ],
 ```
@@ -147,7 +148,61 @@ class User extends Authenticatable implements JWTSubject
 }
 ```
 
+## 认证方式
+
+> 支持以下两种方式。通过 HTTP 请求来认证：
+
+1. 
+
+```shell
+Authorization header
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiI...   
+```
+
+  2 .
+
+```shell
+Query string parameter
+
+http://example.dev/me?token=eyJhbGciOiJIUzI1NiI...
+```
 
 
-# 日后补充
+
+## 代码中使用详解
+
+>
+
+```shell
+# 创建登录路由
+Route::any('login',[\App\Http\Controllers\AuthUserController::class,'login']);
+# 对应控制器代码
+ public function login(Request $request)
+    {
+        $token = Auth('api')->attempt($request->all()); # 采用Auth的attempt验证 密码一定要bcrypt()函数加密
+        if (!$token){
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return $this->respondWithToken($token);
+    }
+   # 组装成功返回的token
+    public function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
+    }   
+```
+
+- 获取已经登录的用户
+
+```shell
+use Tymon\JWTAuth\Facades\JWTAuth
+JWTAuth::parseToken()->authenticate()->toArray() 
+```
+
+
 
