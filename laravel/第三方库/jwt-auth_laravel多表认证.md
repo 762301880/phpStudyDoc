@@ -152,15 +152,19 @@ class User extends Authenticatable implements JWTSubject
 
 > 支持以下两种方式。通过 HTTP 请求来认证：
 
-1. 
+1. 在headers 中添加Authorization  值是Bearer+空格+token
 
-```shell
+```php
 Authorization header
 
 Authorization: Bearer eyJhbGciOiJIUzI1NiI...   
 ```
 
-  2 .
+![1627627501(1).jpg](https://i.loli.net/2021/07/30/ahEZCYBNiKgFLTj.png)
+
+
+
+  2 .  以参数的格式传输token
 
 ```shell
 Query string parameter
@@ -168,11 +172,11 @@ Query string parameter
 http://example.dev/me?token=eyJhbGciOiJIUzI1NiI...
 ```
 
-
+![1627627721(1).jpg](https://i.loli.net/2021/07/30/kEewtNi273UpHvC.png)
 
 ## 代码中使用详解
 
->
+>创建登录路由
 
 ```shell
 # 创建登录路由
@@ -204,5 +208,15 @@ use Tymon\JWTAuth\Facades\JWTAuth
 JWTAuth::parseToken()->authenticate()->toArray() 
 ```
 
+- 登录之后访问其他路由
 
+ ```php
+ # 例如测试路由,后面加一个中间件
+ Route::any('test', [\App\Http\Controllers\TestController::class, 'test'])->middleware('auth:api');
+ # 我们也可以使用jwt自带的中间件
+ 在Http\Kernel.php中的$routeMiddleware中定义jwt提供的中间件
+ protected $routeMiddleware = [
+     'auth.jwt' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+ ]
+ ```
 
