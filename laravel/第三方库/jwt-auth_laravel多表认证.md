@@ -220,3 +220,9 @@ JWTAuth::parseToken()->authenticate()->toArray()
  ]
  ```
 
+
+
+# 多表认证日后补充
+
+如有需要[参考第三方博客](https://blog.csdn.net/qq_25991751/article/details/114574514)
+
