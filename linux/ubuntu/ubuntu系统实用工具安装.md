@@ -76,3 +76,6 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i  google-chrome-stable_current_amd64.deb
 ```
 
+
+
+# 更多软件版本请安装[星火应用商店](https://spark-app.store/download.html)
