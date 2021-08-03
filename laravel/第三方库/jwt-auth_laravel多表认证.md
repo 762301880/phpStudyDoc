@@ -184,6 +184,9 @@ Route::any('login',[\App\Http\Controllers\AuthUserController::class,'login']);
 # 对应控制器代码
  public function login(Request $request)
     {
+        # 第二种加密方式 
+        # use Tymon\JWTAuth\Facades\JWTAuth;
+        # JWTAuth::fromuser(User::where(['email'=>$request->email])->first())
         $token = Auth('api')->attempt($request->all()); # 采用Auth的attempt验证 密码一定要bcrypt()函数加密
         if (!$token){
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -198,15 +201,32 @@ Route::any('login',[\App\Http\Controllers\AuthUserController::class,'login']);
             'token_type' => 'Bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
-    }   
+    }  
 ```
 
 - 获取已经登录的用户
 
 ```shell
 use Tymon\JWTAuth\Facades\JWTAuth
-JWTAuth::parseToken()->authenticate()->toArray() 
+# 方法一
+ $user=JWTAuth::parseToken()->authenticate()->toArray();
+# 或
+ $user=JWTAuth::parseToken()->touser();
+# 方法二 添加 auth:api之后就可以直接通过request->user()获取当前已经登录的用户实例
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+# 方法三 
+auth()->user();
 ```
+
+- 退出
+
+ ```shell
+ JWTAuth::parseToken()->invalidate()
+ ```
+
+
 
 - 登录之后访问其他路由
 
