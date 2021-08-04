@@ -251,3 +251,9 @@ auth()->user();
 
 如有需要[参考第三方博客](https://blog.csdn.net/qq_25991751/article/details/114574514)
 
+
+
+# 更多jwt包
+
+[jwt](http://packagist.p2hp.com/packages/firebase/php-jwt)
+
