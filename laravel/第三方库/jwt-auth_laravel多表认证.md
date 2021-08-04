@@ -202,6 +202,11 @@ Route::any('login',[\App\Http\Controllers\AuthUserController::class,'login']);
             'expires_in' => auth('api')->factory()->getTTL() * 60
         ]);
     }  
+   # 刷新token
+   public function refresh()
+   {
+        return $this->respondWithToken(auth('api')->refresh());
+   }
 ```
 
 - 获取已经登录的用户
