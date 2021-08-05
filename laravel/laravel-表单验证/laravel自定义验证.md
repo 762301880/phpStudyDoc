@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 
 class UpgradeRoleValidator
 {
-    public static function validate(Request $request)
+    public static function verify(Request $request)
     {
         self::customRules();#调用自定义验证规则只针对于5.4框架
         return Validator::make($request->all(), self::rules(), self::messages());
