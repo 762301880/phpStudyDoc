@@ -49,3 +49,25 @@ composer require getuilaboratory/getui-pushapi-php-client-v2
     }
 ```
 
+[透传](https://github.com/GetuiLaboratory/getui-pushapi-php-client-v2/blob/master/test/PushApiTest.php)
+
+```php
+   $api = new \GTClient(config('getui.url'),config('getui.app_key'), config('getui.app_id'),config('getui.master_secret'));
+        //设置推送参数
+        $push = new \GTPushRequest();
+        $push->setRequestId(strtotime(Carbon::now()->toDateTimeString()));
+        $message = new \GTPushMessage();
+        /*
+         * 点击通知后续动作，目前支持以下后续动作:
+         * 1intent：打开应用内特定页面url：打开网页地址。
+         * 2、payload：自定义消息内容启动应用。
+         * 3、payload_custom：自定义消息内容不启动应用。
+         * 4、startapp：打开应用首页。5、none：纯通知，无后续动作
+         */
+        $message->setTransmission("999999999");
+        $push->setPushMessage($message);
+        //处理返回结果
+        $result = $api->pushApi()->pushAll($push);
+        dd($result);
+```
+
