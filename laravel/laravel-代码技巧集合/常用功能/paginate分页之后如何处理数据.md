@@ -19,6 +19,7 @@
             })
             ->paginate($request->input('pageSize'));
         # 核心代码示例-直接调用 getCollection()  transform(传递闭包)
+        # getCollection得到集合,tranfrom 方法是修改原值
         $orderDelivery->getCollection()->transform(function ($orderDelivery) {
             # response
             return new OrderDeliveryStatusDetails($orderDelivery);
