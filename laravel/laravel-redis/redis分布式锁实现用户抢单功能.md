@@ -32,6 +32,15 @@
 # 逻辑示例
 
 ```php
-
+  $expire = 5;//过期时间
+        $key = "lock:$request->input('order_id')";//key:订单id
+        $value = time() + $expire;//锁的值 = Unix时间戳 + 锁的有效期
+        $lock = $this->redis->setnx($key, $value);//设置分布式锁
+        $isRob = false; //是否抢购成功
+        //如果设置分布式锁成功或者分布式锁已过期
+        if (!empty($lock) || $this->redis->get($key) <= time()) {
+            # 逻辑操作
+             $this->redis-del($key);
+        }
 ```
 
