@@ -16,10 +16,10 @@
 
 ## 资料
 
-| name                                       | url                                                     |
-| ------------------------------------------ | ------------------------------------------------------- |
-| redis-setnx(**SET** if **N**ot e**X**ists) | [link](https://www.runoob.com/redis/strings-setnx.html) |
-|                                            |                                                         |
+| name                                       | url                                                      |
+| ------------------------------------------ | -------------------------------------------------------- |
+| redis-setnx(**SET** if **N**ot e**X**ists) | [link](https://www.runoob.com/redis/strings-setnx.html)  |
+| 第三方博客                                 | [link](https://www.cnblogs.com/jackzhuo/p/13678008.html) |
 
 >***setnx解释***
 >
@@ -40,7 +40,7 @@
         //如果设置分布式锁成功或者分布式锁已过期
         if (!empty($lock) || $this->redis->get($key) <= time()) {
             # 逻辑操作
-             $this->redis-del($key);
+             $this->redis->del($key);
         }
 ```
 
