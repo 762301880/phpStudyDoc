@@ -9,9 +9,19 @@
 
 #  代码示例
 
+##  定义工具类
+
+> 此工具类中的方法主要可以定义门面后直接调用（此类可以在任意位置），或者指定代码中的任何类
+>
+> 例如以下我自定义了一个保存log的方法
+
+![image-20210812102453851](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210812102453851.png)
+
 ## 定义门面
 
-> 在项目中的app\Facades中定义
+> 在项目中的app\Facades中定义，***类名称***可以自定义，需要继承`Facade`类，重写***getFacadeAccessor***
+>
+> 方法，返回的数据可以自定义但是需要与服务者中的绑定（一致）
 
 ![image-20210812102020349](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210812102020349.png)
 
@@ -26,3 +36,4 @@
 php artisan  make:provider 自定义名称+ServiceProvider    
 ```
 
+![image-20210812102554909](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210812102554909.png)
