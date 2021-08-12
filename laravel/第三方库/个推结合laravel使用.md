@@ -94,3 +94,4 @@ composer require getuilaboratory/getui-pushapi-php-client-v2
             dd($result);
 ```
 
+通知震动等请[查阅文档](https://docs.getui.com/getui/server/rest_v2/common_args/)
