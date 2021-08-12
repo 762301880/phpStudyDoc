@@ -39,3 +39,14 @@ php artisan  make:provider 自定义名称+ServiceProvider
 ```
 
 ![image-20210812102554909](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210812102554909.png)
+
+
+
+```
+  //自定义注册服务提供者
+
+        App\Providers\SaveLogServiceProvider::class
+//自定义门面
+
+'SaveLog'=>App\Facades\SaveLog::class
+```
