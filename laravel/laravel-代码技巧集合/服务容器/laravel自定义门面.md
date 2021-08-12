@@ -31,6 +31,8 @@
 
 ## 定义服务提供者
 
+> 在***register***方法中注册绑定，返回需要绑定的类(如果类中需要再次依赖类可以再次实例化类例如 return new LogTool(new "依赖的类");)
+
 ```php
 # 使用artisan 命令定义服务提供者 此命令会在app\Providers中
 php artisan  make:provider 自定义名称+ServiceProvider    
