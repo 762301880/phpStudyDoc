@@ -9,3 +9,20 @@
 
 #  代码示例
 
+## 定义门面
+
+> 在项目中的app\Facades中定义
+
+![image-20210812102020349](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210812102020349.png)
+
+
+
+
+
+## 定义服务提供者
+
+```php
+# 使用artisan 命令定义服务提供者 此命令会在app\Providers中
+php artisan  make:provider 自定义名称+ServiceProvider    
+```
+
