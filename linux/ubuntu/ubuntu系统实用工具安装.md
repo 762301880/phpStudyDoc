@@ -76,6 +76,16 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg -i  google-chrome-stable_current_amd64.deb
 ```
 
+# ubuntu安装[向日葵](https://sunlogin.oray.com/download/)
+
+> 向日葵是一个远程桌面连接软件，可以跨平台使用
+
+- 下载桌面版安装
+
+```shell
+sudo dpkg -i sunloginclient-11.0.0.36662-amd64.deb 
+```
+
 
 
 # 更多软件版本请安装[星火应用商店](https://spark-app.store/download.html)
