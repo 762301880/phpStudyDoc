@@ -22,14 +22,15 @@
 
 ## 资料
 
-| name                      | url                                                          |
-| ------------------------- | ------------------------------------------------------------ |
-| 第三方博客                | [link](https://learnku.com/articles/30342)                   |
-| jwt-auth Wiki文档         | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
-| packagist项目地址         | [link](https://packagist.org/packages/tymon/jwt-auth)        |
-| jwt超详细解释             | [link](https://learnku.com/articles/17883)                   |
-| laravel学院               | [link](https://laravelacademy.org/post/9178)                 |
-| laravel-wikis-jwt认证详解 | [link](https://learnku.com/laravel/wikis/25704)              |
+| name                       | url                                                          |
+| -------------------------- | ------------------------------------------------------------ |
+| 第三方博客                 | [link](https://learnku.com/articles/30342)                   |
+| jwt-auth Wiki文档          | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
+| packagist项目地址          | [link](https://packagist.org/packages/tymon/jwt-auth)        |
+| jwt超详细解释              | [link](https://learnku.com/articles/17883)                   |
+| laravel学院                | [link](https://laravelacademy.org/post/9178)                 |
+| laravel-wikis-jwt认证详解  | [link](https://learnku.com/laravel/wikis/25704)              |
+| laravel学院扩展包-登陆认证 | [link](https://laravelacademy.org/post/3640)                 |
 
 
 
