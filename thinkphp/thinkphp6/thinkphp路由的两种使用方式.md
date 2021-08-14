@@ -91,3 +91,5 @@ Route::get('test', 'test/index');
 {{url}}/test # 效果和上图是一样的这里就不演示了
 ```
 
+
+
