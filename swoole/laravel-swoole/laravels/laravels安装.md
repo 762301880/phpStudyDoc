@@ -102,3 +102,80 @@ stdout_logfile=/path/to/project/storage/logs/supervisord-stdout.log
 # 其中 /path/to/project 为 Web 项目的目录，你可以根据自己的项目路径进行修改。
 ```
 
+## laravel-laravels使用swoole-websocket
+
+> 要基于该扩展包实现 WebSocket 服务器，首先首先需要创建一个实现了 `Hhxsv5\LaravelS\Swoole\WebSocketHandlerInterface` 接口的 `WebSocketService` 类：
+
+###  建立websocket服务
+
+> 在app\services 中建立  WebSocketService.php 实现 WebSocketHandlerInterface接口
+
+```php
+<?php
+
+namespace App\Services;
+
+use Hhxsv5\LaravelS\Swoole\WebSocketHandlerInterface;
+use Illuminate\Support\Facades\Log;
+use Swoole\Http\Request;
+use Swoole\WebSocket\Frame;
+use Swoole\WebSocket\Server;
+
+class WebSocketService implements WebSocketHandlerInterface
+{
+
+    public function __construct()
+    {
+
+    }
+
+    // 连接建立时触发
+    public function onOpen(Server $server, Request $request)
+    {
+        // 在触发 WebSocket 连接建立事件之前，Laravel 应用初始化的生命周期已经结束，你可以在这里获取 Laravel 请求和会话数据
+        // 调用 push 方法向客户端推送数据，fd 是客户端连接标识字段
+        Log::info('WebSocket 连接建立');
+        $server->push($request->fd, 'Welcome to WebSocket Server built on LaravelS');
+    }
+
+    // 收到消息时触发
+    public function onMessage(Server $server, Frame $frame)
+    {
+        // 调用 push 方法向客户端推送数据
+        $server->push($frame->fd, 'This is a message sent from WebSocket Server at ' . date('Y-m-d H:i:s'));
+    }
+
+    // 关闭连接时触发
+    public function onClose(Server $server, $fd, $reactorId)
+    {
+        Log::info('WebSocket 连接关闭');
+    }
+}
+
+```
+
+### 修改配置文件实现swoole
+
+> 在config\laravels.php中启用 WebSocket 通信并将刚刚创建的服务器类配置到对应的配置项：
+
+```php
+'websocket' => [
+    'enable' => true,
+    'handler' => \App\Services\WebSocketService::class,
+],
+```
+
+- 我们还可以在 `swoole` 配置项中配置 WebSocket 长连接的强制关闭逻辑：
+
+```shell
+'swoole' => [
+    ...
+    
+    // 每隔 60s 检测一次所有连接，如果某个连接在 600s 内都没有发送任何数据，则关闭该连接
+    'heartbeat_idle_time'      => 600,
+    'heartbeat_check_interval' => 60,
+    
+    ...
+],
+```
+
