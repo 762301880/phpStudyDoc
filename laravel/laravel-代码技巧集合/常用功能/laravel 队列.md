@@ -124,5 +124,50 @@ php artisan queue:work
 
 > 执行以上命令就会监听数据库是否有未执行的队列如果有则消费队列你就会在`storage\logs\laravel.log`中看见对应的数据
 
-## 3.4更多使用请查阅官方[文档](https://learnku.com/docs/laravel/8.x/queues/9398#e43937)
+## 3.4  linux Supervisor 配置队列守护进程
+
+### 安装 [Supervisor](https://learnku.com/docs/laravel/8.x/queues/9398#38f783)
+
+> Supervisor 是一个用于 Linux 操作系统的进程监视器，如果 `queue:work` 进程失败，它将自动重启该进程。要在 Ubuntu 上安装 Supervisor，你可以使用以下命令：
+
+```shell
+sudo apt-get install supervisor
+```
+
+#### Supervisor [配置](https://learnku.com/docs/laravel/8.x/queues/9398#e45763)
+
+>Supervisor 配置文件通常存储在 /etc/supervisor/conf.d 目录。在此目录中，你可以创建任意数量的配置文件，这些配置文件将指示 supervisor 如何监视你的进程。例如，让我们创建一个 laravel-worker.conf 文件，启动并监视 queue:work 进程：
+
+```shell
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /home/forge/app.com/artisan queue:work sqs --sleep=3 --tries=3
+autostart=true
+autorestart=true
+user=forge
+numprocs=8
+redirect_stderr=true
+stdout_logfile=/home/forge/app.com/worker.log
+stopwaitsecs=3600
+```
+
+  >在本例中， numprocs 指令将指示监控器运行 8 个 queue:work 进程并监视所有进程，如果它们失败，将自动重新启动它们。你应该更改 command 指令的 queue:work sqs 部分，以反映所需的队列连接。
+  >
+  >注意：应该确保 `stopwaitsecs` 的值大于运行时间最长的任务所消耗的秒数。否则，Supervisor 可能会在任务完成前终止任务。
+
+#### 启动 Supervisor
+
+>创建了配置文件后，你可以使用以下命令更新 Supervisor 配置并启动进程：
+
+```shell
+sudo supervisorctl reread
+
+sudo supervisorctl update
+
+sudo supervisorctl start laravel-worker:*
+```
+
+有关 Supervisor 的更多信息，请参考 [Supervisor documentation](http://supervisord.org/index.html)
+
+## 3.5更多使用请查阅官方[文档](https://learnku.com/docs/laravel/8.x/queues/9398#e43937)
 
