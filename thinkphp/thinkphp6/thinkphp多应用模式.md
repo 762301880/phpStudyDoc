@@ -52,3 +52,19 @@ composer  require topthink/think-view
 
 
 
+## 多应用模式下的路由使用问题
+
+需要在单个模块下建立***route\app.php***文件
+
+```shell
+<?php
+use think\facade\Route;
+
+Route::get('test',function (){
+    return 'Hello World';
+});
+Route::get('test','你的控制器名/你需要访问的方法名');
+# 访问路由
+你的虚拟域名/admin/test  # admin 是模块名 /test 是路由名
+```
+
