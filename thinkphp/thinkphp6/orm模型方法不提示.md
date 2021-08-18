@@ -11,6 +11,8 @@ composer create-project topthink/think=5.1 tp5  --prefer-dist
 ```
 
 > 找到***tp5\thinkphp\library\think\Model.php*** ,复制其中的@method注释到自己的模型中
+>
+> ***Tp6推荐注释到*****项目\vendor\topthink\think-orm\src\DbManager.php**中
 
 
 
