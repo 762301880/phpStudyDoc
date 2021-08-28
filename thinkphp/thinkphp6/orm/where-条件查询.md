@@ -9,7 +9,7 @@
 
 
 
-```php+HTML
+```php
 EQ  = 等于
 
 NEQ  <> 不等于
@@ -29,5 +29,7 @@ NOTBETWEEN NOT BETWEEN * AND * 不在两者之间
 IN IN (*,*) 在两者之间
 
 NOTIN NOT IN (*,*) 不在两者之间
+# orWhere 查询 等同于sql where (order_state=12 OR order_id =13)
+->where('order_state=12 or order_state=13')     
 ```
 
