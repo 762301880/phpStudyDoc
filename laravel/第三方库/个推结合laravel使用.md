@@ -7,6 +7,7 @@
 | 个推文档中心                         | [link](https://docs.getui.com/getui/server/rest_v2/service_sdk/) |
 | ***github***个推***phpsdk***使用文档 | [link](https://github.com/GetuiLaboratory/getui-pushapi-php-client-v2) |
 | packagist个推官方安装composer        | [link](https://packagist.org/packages/getuilaboratory/getui-pushapi-php-client-v2) |
+| 第三方博客                           | [link](https://www.cnblogs.com/evakang/p/12059920.html)      |
 
 
 
@@ -120,7 +121,7 @@ composer require getuilaboratory/getui-pushapi-php-client-v2
          1：无声音，无振动，锁屏不显示，通知栏中被折叠显示，导航栏无logo;
          2：无声音，无振动，锁屏和通知栏中都显示，通知不唤醒屏幕;
          3：有声音，无振动，锁屏和通知栏中都显示，通知唤醒屏幕;
- 4：有声音，有振动，亮屏下通知悬浮展示，锁屏通知以默认形式展示且唤醒屏幕;
+         4：有声音，有振动，亮屏下通知悬浮展示，锁屏通知以默认形式展示且唤醒屏幕;
         */
         $notify->setChannelLevel($this->channelLevel);# 设置通知渠道等级
         /*
