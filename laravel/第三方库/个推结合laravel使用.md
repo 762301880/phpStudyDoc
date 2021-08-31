@@ -94,4 +94,47 @@ composer require getuilaboratory/getui-pushapi-php-client-v2
             dd($result);
 ```
 
-通知震动等请[查阅文档](https://docs.getui.com/getui/server/rest_v2/common_args/)
+## 通知震动等请[查阅文档](https://docs.getui.com/getui/server/rest_v2/common_args/)
+
+![1630386077(1).jpg](https://i.loli.net/2021/08/31/hK756YkIXrOdtuV.png)
+
+- 代码示例
+
+```php
+ $push = new GTPushRequest();
+        $push->setRequestId(self::onlyCode());
+        $message = new GTPushMessage();
+        $notify = new GTNotification();
+        $notify->setTitle($this->title);
+        $notify->setBody($this->message);
+        $notify->setChannelId($this->channelId);#设置通知渠道id，长度 ≤ 64
+        $notify->setChannelName($this->channelName); #设置通知渠道名称，长度 ≤ 64
+        /***
+         设置通知渠道重要性（可以控制响铃，震动，浮动，闪灯等等）
+         android8.0以下
+         0，1，2:无声音，无振动，不浮动
+         3:有声音，无振动，不浮动
+         4:有声音，有振动，有浮动
+         android8.0以上
+         0：无声音，无振动，不显示；
+         1：无声音，无振动，锁屏不显示，通知栏中被折叠显示，导航栏无logo;
+         2：无声音，无振动，锁屏和通知栏中都显示，通知不唤醒屏幕;
+         3：有声音，无振动，锁屏和通知栏中都显示，通知唤醒屏幕;
+ 4：有声音，有振动，亮屏下通知悬浮展示，锁屏通知以默认形式展示且唤醒屏幕;
+        */
+        $notify->setChannelLevel($this->channelLevel);# 设置通知渠道等级
+        /*
+         * 点击通知后续动作，目前支持以下后续动作:
+         * 1、intent：打开应用内特定页面url：打开网页地址。
+         * 2、payload：自定义消息内容启动应用。
+         * 3、payload_custom：自定义消息内容不启动应用。
+         * 4、startapp：打开应用首页。5、none：纯通知，无后续动作
+         */
+        $notify->setClickType("none");
+        $message->setNotification($notify);
+        $push->setPushMessage($message);
+        //处理返回结果
+        $this->response = $result = $this->client->pushApi()->pushAll($push);
+        return isset($result['code']) && $result['code'] == '0';
+```
+
