@@ -82,10 +82,12 @@ $api = app('Dingo\Api\Routing\Router');
 
 - 定义一个版本分组
 
-> 这种定义方式有利于后续为相同端点新增多版本支持
+> 这种定义方式有利于后续为相同端点新增多版本支持，使用dingoapi提供的示例
+>
+> 创建路由
 
 ```shell
-# \Dingo\Api\Routing\Router t
+# \Dingo\Api\Routing\Router
 $api->version('v1', function (\Dingo\Api\Routing\Router $api) {
 
 });
@@ -132,7 +134,7 @@ $api->get('users/{id}', ['as' => 'users.index', 'uses' => 'Api\V1\UserController
 
 # 现在你可以为命名的路由生成 URL 了。
 
-app('Dingo\Api\Routing\UrlGenerator')->version('v1')->route('users.index');Copy
+app('Dingo\Api\Routing\UrlGenerator')->version('v1')->route('users.index');Cop
 
 #你需要提供一个版本，这样才能基于这个版本的路由生成正确的 URL。并且允许你在不同版本中使用相同的名字。
 
