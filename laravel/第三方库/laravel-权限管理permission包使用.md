@@ -16,6 +16,7 @@
 | github项目地址 | [link](https://github.com/spatie/laravel-permission)         |
 | packagist      | [link](https://packagist.org/packages/spatie/laravel-permission) |
 | 后盾人         | [link](https://doc.houdunren.com/%E6%8F%92%E4%BB%B6%E6%89%A9%E5%B1%95/%E5%90%8E%E5%8F%B0%E6%8F%92%E4%BB%B6/2%20permission.html) |
+| laravel-学院   | [link](https://learnku.com/articles/9842/user-role-permission-control-package-laravel-permission-usage-description) |
 
 ## 二、安装&使用
 
