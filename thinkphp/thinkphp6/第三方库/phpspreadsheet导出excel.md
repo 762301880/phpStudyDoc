@@ -50,13 +50,6 @@ return $writer->save('hello world.xlsx'); # 此命令会自动保存在项目目
         $data = [];
         $date = date('YmdHis');
         # 序列化为可以导出的数据
-        /**
-         * 序列化可以优化 将结果序列化对象处理 然后转化为json字符串再转化为zh 
-         * $data=$orderList->getCollection()->map(function ($order){
-         *  return new OrderResponse($order);# OrderResponse
-         * });
-         * $data=json_decode(json_encode($data),true);
-         */
         foreach ($orderList->getCollection()->toArray() as $key => $value) {
             $data[$key]['statistical_date'] = $value['statistical_date'];
             $data[$key]['order_num'] = $value['order_num'];
@@ -80,5 +73,28 @@ return $writer->save('hello world.xlsx'); # 此命令会自动保存在项目目
             }
         }
 
+# 优化序列化为可以导出的数据
+ /**
+  * 序列化可以优化 将结果序列化对象处理 然后转化为json字符串再转化为数组即可 
+  */
+  $data=$orderList->getCollection()->map(function ($order){
+  return new OrderResponse($order);# OrderResponse
+  });
+ $data=json_decode(json_encode($data),true);
+/**
+ * 处理返回结果
+ */
+<?php
+namespace app\admin\Responses;
+class OrderResponse
+{
+    public function __construct($order)
+    {
+        $this->statistical_date = $order->statistical_date;
+        $this->order_num = $order->order_num;
+        $this->play_type_count = $order->play_type_count;
+        $this->invalid_order_count = $order->invalid_order_count;
+    }
+}
 ```
 
