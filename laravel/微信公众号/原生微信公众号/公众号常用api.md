@@ -93,5 +93,21 @@ $json = [
         dd($data);
 ```
 
+# 五 、素材管理
 
+## 5.1 新增临时素材
+
+- 先采用curl上传实验
+
+```php
+# 将图片放在电脑桌面采用curl上传实验
+Administrator@PC-20200506AVAU MINGW64 ~/Desktop
+$ curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=你的token&type=image"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 68165  100   118  100 68047    354   199k --:--:-- --:--:-- --:--:--  199k{"errcode":40001,"errmsg":"invalid credential, access_token is invalid or not latest rid: 61419f9a-4562b82d-485f0bd1"}
+
+```
+
+- laravel代码
 
