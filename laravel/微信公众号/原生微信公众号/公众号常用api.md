@@ -19,7 +19,9 @@ https://www.w3cschool.cn/weixinkaifawendang/
 ## 2.1 项目中使用代码示例
 
 ```php
-    # 依赖注入以便quan 
+   use Illuminate\Support\Facades\Config;
+   use Illuminate\Support\Facades\Http;
+   # 依赖注入以便全局使用
     private $accessToken;
     public function __construct()
     {
@@ -32,6 +34,7 @@ https://www.w3cschool.cn/weixinkaifawendang/
      */
     public function getAccessToken()
     {
+        # 调用config下面的配置 app_id、secret
         $appID = Config::get('wechat.official_account.default.app_id');
         $appSECRET = Config::get('wechat.official_account.default.secret');
         $data = Http::get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appID&secret=$appSECRET")->json();
