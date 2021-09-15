@@ -116,6 +116,8 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
 
 # 六 新增自定义菜单
 
+- [参考资料](https://www.jb51.net/article/94175.htm)
+
 ```php
   public function createMenu()
     {
