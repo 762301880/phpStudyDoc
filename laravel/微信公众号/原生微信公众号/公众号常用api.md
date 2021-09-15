@@ -99,14 +99,13 @@ $json = [
 
 - 先采用curl上传实验
 
-```php
-# 将图片放在电脑桌面采用curl上传实验
+```shell
+# 将图片放在电脑桌面采用curl上传实验-可以看出官方提供的接口
 Administrator@PC-20200506AVAU MINGW64 ~/Desktop
-$ curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=你的token&type=image"
+$  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=你的token&type=image"
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100 68165  100   118  100 68047    354   199k --:--:-- --:--:-- --:--:--  199k{"errcode":40001,"errmsg":"invalid credential, access_token is invalid or not latest rid: 61419f9a-4562b82d-485f0bd1"}
-
+100 68175  100   128  100 68047    229   119k --:--:-- --:--:-- --:--:--  119k{"type":"image","media_id":"lJP_1YgbiXdIJj8AIdlmmvgcnASjHe_yA5fvTM9FLl-ENTHRplWKyrJJMsuD48Zr","created_at":1631690891,"item":[]}
 ```
 
 - laravel代码
