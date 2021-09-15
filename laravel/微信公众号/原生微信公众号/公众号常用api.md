@@ -100,7 +100,7 @@ $json = [
 - 先采用curl上传实验
 
 ```shell
-# 将图片放在电脑桌面采用curl上传实验-可以看出官方提供的接口
+# 将图片放在电脑桌面采用curl上传实验-可以看出官方提供的接口是ok的
 Administrator@PC-20200506AVAU MINGW64 ~/Desktop
 $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=你的token&type=image"
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -110,3 +110,6 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
 
 - laravel代码
 
+> 注意事项 上传图片需要绝对路径 例如 `C:/etc/www/laravel_study/public/a.jpg` 
+>
+> 可以将图片上传至框架目录然后再取得绝对路径
