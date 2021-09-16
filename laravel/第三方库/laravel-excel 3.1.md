@@ -274,5 +274,5 @@ private function ExcelToTime(int $date)
 | name                                                         | url                                                |
 | ------------------------------------------------------------ | -------------------------------------------------- |
 | [xlswriter](https://xlswriter.viest.me/index.html)高性能excel导出扩展 | [xlswriter](https://xlswriter.viest.me/index.html) |
-|                                                              |                                                    |
+| xlswriter-中文文档                                           | [link](https://xlswriter-docs.viest.me/zh-cn)      |
 
