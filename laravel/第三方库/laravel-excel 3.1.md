@@ -1,4 +1,4 @@
-# 介绍
+# 绍
 
 > 平时的开发工作过程中我们需要对数据进行excel导入导出的工作，这时候我们就
 >
@@ -268,11 +268,4 @@ private function ExcelToTime(int $date)
         return gmdate('Y-m-d',($date - $d) * $fixationT);
  }
 ```
-
-# 有空待研究
-
-| name                                                         | url                                                |
-| ------------------------------------------------------------ | -------------------------------------------------- |
-| [xlswriter](https://xlswriter.viest.me/index.html)高性能excel导出扩展 | [xlswriter](https://xlswriter.viest.me/index.html) |
-| xlswriter-中文文档                                           | [link](https://xlswriter-docs.viest.me/zh-cn)      |
 
