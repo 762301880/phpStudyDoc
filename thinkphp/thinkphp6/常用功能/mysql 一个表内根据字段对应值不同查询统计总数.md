@@ -64,6 +64,12 @@ public function ajaxOrderDate(Request $request)
         }
         $this->error('订单统计返回成功', '', compact('orderDate'));
     }
+# 补充说明
+/**
+ * 如果需要查询此状态的时候统计别的字段的值
+ * 例如如果状态为1的时候统计jin
+ */
+sum(case when sale_status=1 then 需要合计的字段 else 0 end ) as been_use,  
 ```
 
 
