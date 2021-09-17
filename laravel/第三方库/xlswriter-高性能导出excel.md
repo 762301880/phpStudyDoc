@@ -22,7 +22,7 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
 | -------------------------------- | ----------------------------------------------------------- |
 | GitHub Release-(github提供的ddl) | [link](https://github.com/viest/php-ext-xlswriter/releases) |
 | PECL-(php官网提供的ddl)          | [link](https://pecl.php.net/package/xlswriter)              |
-|                                  |                                                             |
+| php中文网-php安装扩展            | [link](https://www.php.cn/php-weizijiaocheng-392756.html)   |
 
 - 我下载的是GitHub提供的ddl
 
