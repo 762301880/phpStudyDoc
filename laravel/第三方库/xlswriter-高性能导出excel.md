@@ -56,7 +56,9 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
          * 你可以自定义该工作表名称，工作表名称为可选参数
          */
         $filePath = $excel->fileName('tutorial01.xlsx', 'sheet1')
+            # 导出的标题
             ->header(['Item', 'Cost'])
+            # 导出的数据
             ->data([
                 ['Rent', 1000],
                 ['Gas', 100],
@@ -64,5 +66,18 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
                 ['Gym', 50],
             ])
             ->output();
+```
+
+- 简单导入实验
+
+```php
+        $config = ['path' => public_path('/')];
+        $excel = new \Vtiful\Kernel\Excel($config);
+        // 读取测试文件
+        // $file=$request->file('file')->getClientOriginalName();
+        $data = $excel->openFile('tutorial01.xlsx')
+            ->openSheet()
+            ->getSheetData();
+        dd($data); // [['Item', 'Cost']]
 ```
 
