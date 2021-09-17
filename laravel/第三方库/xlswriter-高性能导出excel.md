@@ -78,6 +78,8 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
         $data = $excel->openFile('tutorial01.xlsx')
             ->openSheet()
             ->getSheetData();
-        dd($data); // [['Item', 'Cost']]
+        dd($data); //返回数据表中的全部数据
 ```
+
+# 更多使用请参考官方文档-日后补充
 
