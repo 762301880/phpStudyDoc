@@ -79,6 +79,22 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
             ->openSheet()
             ->getSheetData();
         dd($data); //返回数据表中的全部数据
+# 自定义导入
+/**
+ * 本来想着直接上传导入的看来不支持
+ * 所以先上传到服务器然后再进行数据处理吧
+
+ */
+        $file_name=date('YmdHis').$request->file('file')->getClientOriginalName();# 设置上传的文件名称为了不重复设置了时间戳
+        $path_name=public_path('/upload_temp_excel');
+        $request->file('file')->move($path_name,$file_name);
+        $config = ['path' => $path_name];
+        $excel = new \Vtiful\Kernel\Excel($config);
+        // 读取测试文件
+        $data = $excel->openFile($file_name)
+            ->openSheet()
+            ->getSheetData();
+        var_dump($data);
 ```
 
 # 更多使用请参考官方文档-日后补充
