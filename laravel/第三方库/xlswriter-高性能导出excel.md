@@ -87,7 +87,8 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
  * 上传的临时excel文件
  */
         $file_name=date('YmdHis').$request->file('file')->getClientOriginalName();# 设置上传的文件名称为了不重复设置了时间戳
-        $path_name=public_path('/upload_temp_excel');
+        $date=date('Ymd');
+        $path_name = public_path("/upload_temp_excel/{$date}");# s
         $request->file('file')->move($path_name,$file_name);
         $config = ['path' => $path_name];
         # 判断文件是否上传成功
@@ -99,7 +100,7 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
         $data = $excel->openFile($file_name)
             ->openSheet()
             ->getSheetData();
-        var_dump($data); #得到读取的excel数据-这里忽略写入到数据库
+        var_dump($data); #得到读取的excel数据-这里忽略写入到数据库的逻辑
 ```
 
 # 更多使用请参考官方文档-日后补充
