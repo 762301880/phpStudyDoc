@@ -79,6 +79,11 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
             ->openSheet()
             ->getSheetData();
         dd($data); //返回数据表中的全部数据
+```
+
+# 导入实战
+
+```php
 # 通过表单上传
 /**
  * 本来想着直接上传导入的看来不支持
@@ -86,23 +91,55 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
  * 如果真实开发环境需要弄一个定时任务每天删除
  * 上传的临时excel文件
  */
-        $file_name=time().$request->file('file')->getClientOriginalName();# 设置上传的文件名称为了不重复设置了时间戳
-        $date=date('Ymd');
-        $path_name = public_path("/upload_temp_excel/{$date}");# 上传今天的文件夹
-        $request->file('file')->move($path_name,$file_name);
+    public function test(Request $request)
+    {
+        $file_name = time() . $request->file('file')->getClientOriginalName();# 设置上传的文件名称为了不重复设置了时间戳
+        $date = date('Ymd');
+        $path_name = public_path("/upload_temp_excel/{$date}");
+        $request->file('file')->move($path_name, $file_name);
         $config = ['path' => $path_name];
-        # 判断文件是否上传成功
+        $excel = new \Vtiful\Kernel\Excel($config);
+        // 读取测试文件
         if (!file_exists($path_name . '/' . $file_name)) {
             return response()->json(['code' => '5500', 'message' => '文件上传失败', 'data' => []]);
         }
-        $excel = new \Vtiful\Kernel\Excel($config);
-        // 读取测试文件
         $data = $excel->openFile($file_name)
             ->openSheet()
-            ->setSkipRows(1) /
+            ->setSkipRows(1)
             ->getSheetData();
-        var_dump($data); #得到读取的excel数据-这里忽略写入到数据库的逻辑
+        $message = $this->importExcel($data);
+        return response()->json(['code' => '2000', 'message' => '导入成功', 'data' => $message]);
+    }
+    /**
+     * 导入excel并返回错误信息，行号错误的返回错误信息成功的z
+     */
+    protected function importExcel(array $data)
+    {
+        $errorMessage = [];
+        foreach ($data as $key => $value) {
+            $key = $key + 1;//默认传入的数组下标是第0行所以自增1 第几行就是第几行
+            $chinese_bool = preg_match('/[^\u4E00-\u9FA5]/', $value[0]) == 0 ? false : true;//返回0 是中文
+            if ($chinese_bool == false) {
+                $errorMessage[] = ['num' => "第{$key}行", 'errorMessage' => '姓名只能为中文'];//==0不是中文
+            }
+            $phone_bool = DB::table('user')->where('phone', $value[3])->exists() == false ? true : false;//返回false手机号不存在
+            if ($phone_bool == false) {
+                $errorMessage[] = ['num' => "第{$key}行", 'errorMessage' => '手机号码已存在'];
+            }
+            if ($chinese_bool && $phone_bool) {
+                DB::table('user')->insert([
+                    'name' => $value[0],
+                    'sex' => $value[1],
+                    'age' => $value[2],
+                    'phone' => $value[3],
+                ]);
+            }
+        }
+        return $errorMessage;
+    }
 ```
+
+
 
 # 更多使用请参考官方文档-日后补充
 
