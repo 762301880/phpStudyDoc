@@ -86,9 +86,9 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
  * 如果真实开发环境需要弄一个定时任务每天删除
  * 上传的临时excel文件
  */
-        $file_name=date('YmdHis').$request->file('file')->getClientOriginalName();# 设置上传的文件名称为了不重复设置了时间戳
+        $file_name=time().$request->file('file')->getClientOriginalName();# 设置上传的文件名称为了不重复设置了时间戳
         $date=date('Ymd');
-        $path_name = public_path("/upload_temp_excel/{$date}");# s
+        $path_name = public_path("/upload_temp_excel/{$date}");# 上传今天的文件夹
         $request->file('file')->move($path_name,$file_name);
         $config = ['path' => $path_name];
         # 判断文件是否上传成功
