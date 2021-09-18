@@ -83,6 +83,34 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
 
 # 导入实战
 
+- 测试导入excel数据
+
+| name | sex  | age  | phone       |
+| ---- | ---- | ---- | ----------- |
+| 213  | 男   | 18   | 17538397579 |
+| 李四 | 男   | 20   | 15290237819 |
+| 芳芳 | 女   | 18   | 13135694568 |
+| 小雅 | 女   | 26   | 15698745625 |
+
+- 测试数据库
+
+  ```sql
+  CREATE TABLE `user` (
+    `id` int(255) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) DEFAULT NULL,
+    `sex` varchar(255) DEFAULT NULL,
+    `age` int(11) DEFAULT NULL,
+    `phone` bigint(255) DEFAULT NULL,
+    `created_at` timestamp NULL DEFAULT NULL,
+    `updated_at` timestamp NULL DEFAULT NULL,
+    PRIMARY KEY (`id`)
+  ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4;
+  ```
+
+  
+
+- 代码逻辑
+
 ```php
 # 通过表单上传
 /**
@@ -111,7 +139,7 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
         return response()->json(['code' => '2000', 'message' => '导入成功', 'data' => $message]);
     }
     /**
-     * 导入excel并返回错误信息，行号错误的返回错误信息成功的z
+     * 导入excel并返回错误信息，行号错误的返回错误信息成功的直接插入数据库
      */
     protected function importExcel(array $data)
     {
