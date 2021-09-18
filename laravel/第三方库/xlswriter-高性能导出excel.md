@@ -99,6 +99,7 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
         // 读取测试文件
         $data = $excel->openFile($file_name)
             ->openSheet()
+            ->setSkipRows(1) /
             ->getSheetData();
         var_dump($data); #得到读取的excel数据-这里忽略写入到数据库的逻辑
 ```
