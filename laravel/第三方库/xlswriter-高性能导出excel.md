@@ -79,7 +79,7 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
             ->openSheet()
             ->getSheetData();
         dd($data); //返回数据表中的全部数据
-# 自定义导入
+# 通过表单上传
 /**
  * 本来想着直接上传导入的看来不支持
  * 所以先上传到服务器然后再进行数据处理吧,
