@@ -4,11 +4,11 @@
 
 ## 资料
 
-| 名称                              | 地址                                                        |
-| --------------------------------- | ----------------------------------------------------------- |
-| `ImageMagick `中文手册-第三方论坛 | [link](http://www.pooy.net/imagemagick-chinese-manual.html) |
-| `php`官网-`Imagick`手册           | [link](https://www.php.net/manual/zh/book.imagick.php)      |
-|                                   |                                                             |
+| 名称                              | 地址                                                         |
+| --------------------------------- | ------------------------------------------------------------ |
+| `ImageMagick `中文手册-第三方论坛 | [link](http://www.pooy.net/imagemagick-chinese-manual.html)  |
+| `php`官网-`Imagick`手册           | [link](https://www.php.net/manual/zh/book.imagick.php)       |
+| 安装此 PECL 扩展                  | [link_one](https://www.php.net/manual/zh/imagick.installation.php)         [link_two](https://pecl.php.net/package/imagick) |
 
 
 
