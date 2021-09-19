@@ -19,9 +19,18 @@
 # 代码实战
 
 ```php
-     $image = new \Imagick($files->getRealPath());
-     $image->setImageCompressionQuality(50);//设置图片压缩的质量
-     //$image->cropThumbnailImage($image->getImageWidth()*0.5,$image->getImageHeight()*0.5);
-     $image->writeImage($destinationPath . $fileName);//保存新的路径
+            $ext = $files->getClientOriginalExtension();//得到图片的文件后缀 如:jpg
+            $destinationPath = 'uploads/xcx/' . date('Ymd') . '/';//构建新的保存路径
+            $fileName = uniqid() . '.' . $ext;//构建唯一名称
+            //todo 文件路径如果不存在不能自动创建问题
+            if (!is_dir($destinationPath)){
+                mkdir(public_path().'/'.($destinationPath), 0777, true);
+            }
+            $image=new \Imagick($files->getRealPath());
+            $image->setImageCompressionQuality(50);//设置质量
+            //$image->cropThumbnailImage($image->getImageWidth()*0.5,$image->getImageHeight()*0.5);//等比例重置大小
+            $image->writeImage($destinationPath . $fileName);//保存到新路径    
 ```
+
+
 
