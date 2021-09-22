@@ -85,7 +85,7 @@ php artisan vendor:publish --provider="EloquentFilter\ServiceProvider"
 ## 2.4 常用方法
 
 ````shell
-public function setup() # 此方法中的逻辑会优先处理
+public function setup() # 此方法中的逻辑会优先处理  相当于 __construct() 构造函数默认调用
 {
  if (!empty($this->input('start_time')) && !empty($this->input('end_time'))) { # 例如我们可以增加逻辑查询
             //注意拼接的时间格式一定要加上空格例子' 00:00:00'
