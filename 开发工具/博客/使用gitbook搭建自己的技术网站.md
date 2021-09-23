@@ -29,6 +29,10 @@
 
 <img src="https://i.loli.net/2021/09/22/plKdDaOrJURf7Be.png" alt="1632281536(1).jpg" style="zoom:50%;" />
 
-# 以上不知道为什么就是无法导入成功建议从首页直接导入github网址进行导入
 
-![1632282207(1).jpg](https://i.loli.net/2021/09/22/DeqTVN84Fkfuzn7.png)
+
+## 设置主分支显示
+
+> 刚搭建完成的时候是不会默认按照分支去展示需要设置一下
+
+![1632370671(1).jpg](https://i.loli.net/2021/09/23/4VNoWUJCyxFePvh.png)
