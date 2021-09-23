@@ -13,6 +13,6 @@
 - php代码打印文件
 
 ```php
-  dd($request->file('files')); #接收并打印上传的w
+  dd($request->file('files')); #接收并打印上传的文件
 ```
 
