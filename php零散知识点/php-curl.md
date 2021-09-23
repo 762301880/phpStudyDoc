@@ -10,7 +10,7 @@
 
 # 代码示例
 
-```shell
+```php
 # 上传逻辑
 public function request_post($url = '', $post_data = array())
     {
