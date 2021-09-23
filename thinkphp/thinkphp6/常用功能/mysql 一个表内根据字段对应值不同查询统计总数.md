@@ -70,6 +70,7 @@ public function ajaxOrderDate(Request $request)
  * 例如如果状态为1的时候统计jin
  */
 sum(case when sale_status=1 then 需要合计的字段 else 0 end ) as been_use,  
+SUM(IF(order_state in (12,13),order_amount,0)) as refund_amount,
 ```
 
 
