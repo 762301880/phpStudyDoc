@@ -18,8 +18,8 @@
 
 ### 微信
 
-<img src="https://i.loli.net/2021/09/24/rACjRqfHa1U4Yi7.jpg" alt="b4f5eda4b451777cf1e80ca0730cf2d.jpg" style="zoom:25%;" />
+<img src="https://i.loli.net/2021/09/24/rACjRqfHa1U4Yi7.jpg" alt="微信收款二维码" style="zoom:25%;" />
 
 ### 支付宝
 
-<img src="https://i.loli.net/2021/09/24/F53pQJmXPDdoYOZ.jpg" alt="10923726d95ba16051a6db0635855db.jpg" style="zoom:25%;" />
+<img src="https://i.loli.net/2021/09/24/F53pQJmXPDdoYOZ.jpg" alt="支付宝收款二维码" style="zoom:25%;" />
