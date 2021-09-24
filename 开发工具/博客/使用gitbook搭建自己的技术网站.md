@@ -8,10 +8,12 @@
 
 ## 说明
 
-| 名称        | 地址                             |
-| ----------- | -------------------------------- |
-| GitBook官网 | [link](https://www.gitbook.com/) |
-|             |                                  |
+| 名称                       | 地址                                                         |
+| -------------------------- | ------------------------------------------------------------ |
+| GitBook官网                | [link](https://www.gitbook.com/)                             |
+| GitBook官方文档,第三方文档 | [link](https://docs.gitbook.com/)  [link](http://www.chengweiyang.cn/gitbook/introduction/README.html) |
+| gitbookio                  | [link](https://github.com/GitbookIO/gitbook)                 |
+| 更多类似于gitbook推荐      | [link](https://zhuanlan.zhihu.com/p/36294814)                |
 
 # 网站搭建个人笔记
 
