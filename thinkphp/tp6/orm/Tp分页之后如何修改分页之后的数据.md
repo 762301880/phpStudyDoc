@@ -1,18 +1,10 @@
-
-
-
-
-
-
-
-
 # 说明
 
 > 采用***$printersModel->getCollection()***获取分页之后的数据，然后采用**map()**
 >
 >方法修改原有的值
 
-## 逻辑代码示例
+# 逻辑代码示例
 
 ```php
     public function index(Request $request)
