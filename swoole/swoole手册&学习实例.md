@@ -2,7 +2,7 @@
 
 > 提供一下swool的学习地址
 
-##  资料
+# 资料
 
 [swoole 手册](https://www.kancloud.cn/fage/swoole_extension/691334)
 
