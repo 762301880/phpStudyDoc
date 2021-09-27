@@ -14,6 +14,14 @@ https://help.aliyun.com/document_detail/97251.html
 yum install -y nginx
 ```
 
+- 启动nginx
+
+```shell
+service nginx start 
+```
+
+
+
 - 查看是否安装成功
 
 ```shell
