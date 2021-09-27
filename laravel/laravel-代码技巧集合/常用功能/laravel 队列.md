@@ -6,9 +6,10 @@
 
 ## 1.1 参考资料
 
-| 项目名称     | 项目地址                                                     |
-| ------------ | ------------------------------------------------------------ |
-| laravel-队列 | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#introduction) |
+| 项目名称         | 项目地址                                                     |
+| ---------------- | ------------------------------------------------------------ |
+| laravel-队列     | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#introduction) |
+| 消息队列实战教程 | [链接](https://laravelacademy.org/books/laravel-queue-action) |
 
 # 二、配置
 
