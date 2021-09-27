@@ -112,6 +112,24 @@ grep 'temporary password' /var/log/mysqld.log
 mysql_secure_installation
 ```
 
+- 使用数据库报错
+
+```shell
+mysql> show databases;
+# 在执行此语句之前，必须使用ALTER USER语句重置密码(会报错提醒让我们修改密码)
+ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.
+# 修改密码
+alter user user() identified by "asda355555523113"; # 随便设置一个
+```
+
+- 如果设置远程链接可以查看我的另一篇[博客](https://www.cnblogs.com/yaoliuyang/p/13266376.html)
+
+```shell
+https://www.cnblogs.com/yaoliuyang/p/13266376.html
+```
+
+
+
 安全性的配置包含以下五个方面：
 
 1. 重置root账号密码。
