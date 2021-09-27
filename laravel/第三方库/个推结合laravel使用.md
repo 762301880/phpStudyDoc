@@ -8,6 +8,7 @@
 | ***github***个推***phpsdk***使用文档 | [link](https://github.com/GetuiLaboratory/getui-pushapi-php-client-v2) |
 | packagist个推官方安装composer        | [link](https://packagist.org/packages/getuilaboratory/getui-pushapi-php-client-v2) |
 | 第三方博客                           | [link](https://www.cnblogs.com/evakang/p/12059920.html)      |
+| laravel-个推开发包                   | [link](https://laravelacademy.org/post/9522)                 |
 
 
 
