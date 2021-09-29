@@ -4,7 +4,8 @@
 | ------------------------------------------------------------ | -------------------------------------------------- |
 | [xlswriter](https://xlswriter.viest.me/index.html)高性能excel导出扩展 | [xlswriter](https://xlswriter.viest.me/index.html) |
 | xlswriter-中文文档                                           | [link](https://xlswriter-docs.viest.me/zh-cn)      |
-| github-第三方参考                                            | [https://github.com/yzh0325/xlswrite]              |
+| github-第三方参考                                            | [link](https://github.com/yzh0325/xlswrite)        |
+| xlswriter-gitee文档                                          | [link](https://gitee.com/viest/php-ext-xlswriter)  |
 
 安装ide-提醒工具
 
@@ -175,3 +176,6 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
 
 ##   遇到老版本的excel ，**xls**格式无法获取数据
 
+> 目前比较坑的就是作者也说了,只支持xlsx格式坑爹的玩意
+>
+> 如果有补充后续添加
