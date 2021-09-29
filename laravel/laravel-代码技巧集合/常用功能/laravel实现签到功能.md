@@ -1,4 +1,4 @@
-# 一、思路
+# 思路
 
 > 签到功能,比如用户每天在游戏公会只可以签到一次,
 >
@@ -21,7 +21,7 @@ CREATE TABLE `user_society_sign` (
 
 
 
-# 二、逻辑设计
+# 逻辑设计
 
 ```php
 use Illuminate\Http\Request;
