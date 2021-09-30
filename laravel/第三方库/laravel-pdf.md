@@ -167,3 +167,5 @@ return PDF::loadView('welcome',$name)->download('test.pdf');
 
 
 
+# 待研究
+
