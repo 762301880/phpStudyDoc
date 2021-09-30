@@ -114,6 +114,10 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
 >
 > 可以将图片上传至框架目录然后再取得绝对路径
 
+- postman上传
+
+<img src="https://i.loli.net/2021/09/30/vWmJ6CdSyYuNt1b.png" alt="1632982890.jpg" style="zoom: 67%;" />
+
 # 六 新增自定义菜单
 
 - [参考资料](https://www.jb51.net/article/94175.htm)
