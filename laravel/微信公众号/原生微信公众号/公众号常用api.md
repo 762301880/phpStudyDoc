@@ -133,6 +133,50 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
 
 <img src="https://i.loli.net/2021/09/30/vWmJ6CdSyYuNt1b.png" alt="1632982890.jpg" style="zoom: 67%;" />
 
+## 5.2代码示例
+
+```php
+    public function addTemporaryMaterial(Request $request)
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $this->getAccessToken() . "&type=image";
+        $file = $request->file('media');
+        if (class_exists('\CURLFile')) {
+            $josn = array(
+                'media' => new \CURLFile(realpath('a.jpg'))
+            );
+        } else {
+            $josn = array('media' => '@' . public_path("b.png"));
+        }
+        $ret = $this->https_request($url, $josn);
+        dd($ret);
+    }
+    public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        $error=curl_error($curl);
+        curl_close($curl);
+        return json_decode($output, true);
+    }
+# 返回结果示例
+array:4 [▼
+  "type" => "image"
+  "media_id" => "Qf1gSe87N3m4adQhQPViKflVXpIs5ckX2hexE546HASz8K-0ZkXIWvAYdvcW5A3w"
+  "created_at" => 1633334437
+  "item" => []
+]
+```
+
+
+
 # 六 新增自定义菜单
 
 - 资料
