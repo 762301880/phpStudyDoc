@@ -41,8 +41,8 @@ https://www.w3cschool.cn/weixinkaifawendang/
         return $data['access_token'];
         
         # 或者原生写法
-        $appID = Config::get('wechat.official_account.default.app_id');
-        $appSECRET = Config::get('wechat.official_account.default.secret');
+        $appID = "*******************";
+        $appSECRET = "*******************";
         $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appID}&secret={$appSECRET}";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
