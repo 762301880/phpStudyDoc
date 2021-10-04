@@ -153,7 +153,7 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
         }
         if (class_exists('\CURLFile')) {
             $josn = array(
-                'media' => new \CURLFile(realpath($file_name)); # 5.6 之后使用CURLFile函数接受
+                'media' => new \CURLFile(realpath($file_name)); # 5.6 之后使用CURLFile
             );
         } else {
             $josn = array('media' => '@' . realpath($file_name));
