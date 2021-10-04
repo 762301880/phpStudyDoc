@@ -2,7 +2,18 @@
 
 - 简介
 
-> PHP 支持 Daniel Stenberg 创建的 libcurl 库，能够连接通讯各种服务器、使用各种协议。libcurl 目前支持的协议有 http、https、ftp、gopher、telnet、dict、file、ldap。 libcurl 同时支持 HTTPS 证书、HTTP POST、HTTP PUT、 FTP 上传(也能通过 PHP 的 FTP 扩展完成)、HTTP 基于表单的上传、代理、cookies、用户名+密码的认证。
+> cURL 是一个利用***URL***语法规定来传输文件和数据的工具,支持很多协议,如HTTP、FTP、TELNET等，
+>
+> 我们可以利用curl来发送**GET**、**POST** 等请求
+>
+> **curl操作四步骤**
+>
+> 1. 初始化 $ch=curl_init();
+> 2. 执行参数 curl_setop($ch,参数);
+> 3. 执行 curl_exec($ch);
+> 4. 关闭 curl_close($ch);  
+>
+> 输出错误信息：curl_error($ch);
 
 - 参考地址
 
