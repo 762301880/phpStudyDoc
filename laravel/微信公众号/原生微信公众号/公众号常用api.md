@@ -136,20 +136,33 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
 ## 5.2代码示例
 
 ```php
-    public function addTemporaryMaterial(Request $request)
+ public function addTemporaryMaterial(Request $request)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $this->getAccessToken() . "&type=image";
-        $file = $request->file('media');
+        $file_name = uniqid() . $request->file('media')->getClientOriginalName();//设置唯一的上传图片
+        $path = public_path('/');//设置上传路径
+        $absolute_path_file = $path . '/' . $file_name;//图片全路径,绝对路径
+        $request->file('media')->move($path, $file_name);//转移文件到public目录下
+        //判断文件是否存在
+        if (!file_exists($absolute_path_file)) {
+            return response()->json([
+                'msg' => '文件没有上传成功',
+                'data' => [],
+                'code' => '5000'
+            ]);
+        }
         if (class_exists('\CURLFile')) {
             $josn = array(
-                'media' => new \CURLFile(realpath('a.jpg'))
+                'media' => new \CURLFile(realpath($file_name)); # 5.6 之后使用CURLFile函数接受
             );
         } else {
-            $josn = array('media' => '@' . public_path("b.png"));
+            $josn = array('media' => '@' . realpath($file_name));
         }
         $ret = $this->https_request($url, $josn);
+        unlink($absolute_path_file); //上传完成之后删除临时文件
         dd($ret);
     }
+
     public function https_request($url, $data = null)
     {
         $curl = curl_init();
@@ -162,15 +175,15 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
         }
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($curl);
-        $error=curl_error($curl);
+        $error = curl_error($curl);
         curl_close($curl);
         return json_decode($output, true);
     }
 # 返回结果示例
-array:4 [▼
+array:4 [
   "type" => "image"
-  "media_id" => "Qf1gSe87N3m4adQhQPViKflVXpIs5ckX2hexE546HASz8K-0ZkXIWvAYdvcW5A3w"
-  "created_at" => 1633334437
+  "media_id" => "AAYIdVzqiTxbUHFMZ07A5ZgaHEZhfd900Y0h-CD_uzl06rbDP0CKuTTZ4-x-uUiu"
+  "created_at" => 1633341836
   "item" => []
 ]
 ```
