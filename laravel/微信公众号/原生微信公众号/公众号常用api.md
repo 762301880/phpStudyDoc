@@ -38,8 +38,7 @@ https://www.w3cschool.cn/weixinkaifawendang/
         $appID = Config::get('wechat.official_account.default.app_id');
         $appSECRET = Config::get('wechat.official_account.default.secret');
         $data = Http::get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appID&secret=$appSECRET")->json();
-        return $data['access_token'];
-        
+        return $data;
         # 或者原生写法
         $appID = "*******************";
         $appSECRET = "*******************";
@@ -49,9 +48,13 @@ https://www.w3cschool.cn/weixinkaifawendang/
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
         $data = curl_exec($ch);
         curl_close($ch);
-        return json_decode($data,true);
-       
+        return json_decode($data,true);  
     }
+# 返回结果示例
+array:2 [▼
+  "access_token" => "49_DnwYlC9x4f3sHyOLFW7b3QDsahJEfDIB12FNJKNQETc_vSzCR-vj46U5kPW5BVXrmf5NiYgiVjAJ_EvaZQAjDpOPUPsxOj_V1nA1oyo6FlongLOt4fnxIm78naepp3-tc4HWWkPVYdS2rNeUDCEaAIAYXZ"
+  "expires_in" => 7200
+]
 ```
 
 # 三 、生成带参数的二维码
