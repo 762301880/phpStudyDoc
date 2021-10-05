@@ -133,7 +133,7 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
 
 <img src="https://i.loli.net/2021/09/30/vWmJ6CdSyYuNt1b.png" alt="1632982890.jpg" style="zoom: 67%;" />
 
-## 5.2代码示例
+### 代码示例
 
 ```php
 public function addTemporaryMaterial(Request $request)
@@ -191,7 +191,7 @@ array:4 [
 ]
 ```
 
-## 5.3 遇到的bug
+### 遇到的bug
 
 参考[资料](https://blog.csdn.net/weixin_40786663/article/details/99681571)
 
@@ -206,6 +206,22 @@ array:4 [
 ```php
 client_max_body_size 100m;
 ```
+
+## 5.2 获取临时素材
+
+- 资料
+
+| 名称                  | 地址                                                         |
+| --------------------- | ------------------------------------------------------------ |
+| 官方-获取临时素材地址 | [link](https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Get_temporary_materials.html) |
+|                       |                                                              |
+
+### 代码示例
+
+```php
+```
+
+
 
 # 六 新增自定义菜单
 
