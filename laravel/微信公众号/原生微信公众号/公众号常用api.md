@@ -136,7 +136,7 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
 ## 5.2代码示例
 
 ```php
- public function addTemporaryMaterial(Request $request)
+public function addTemporaryMaterial(Request $request)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $this->getAccessToken() . "&type=image";
         $file_name = uniqid() . $request->file('media')->getClientOriginalName();//设置唯一的上传图片
@@ -153,7 +153,7 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
         }
         if (class_exists('\CURLFile')) {
             $josn = array(
-                'media' => new \CURLFile(realpath($file_name)); # 5.6 之后使用CURLFile
+                'media' => new \CURLFile(realpath($file_name))
             );
         } else {
             $josn = array('media' => '@' . realpath($file_name));
@@ -162,7 +162,6 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
         unlink($absolute_path_file); //上传完成之后删除临时文件
         dd($ret);
     }
-
     public function https_request($url, $data = null)
     {
         $curl = curl_init();
@@ -179,13 +178,6 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
         curl_close($curl);
         return json_decode($output, true);
     }
-# 返回结果示例
-array:4 [
-  "type" => "image"
-  "media_id" => "AAYIdVzqiTxbUHFMZ07A5ZgaHEZhfd900Y0h-CD_uzl06rbDP0CKuTTZ4-x-uUiu"
-  "created_at" => 1633341836
-  "item" => []
-]
 ```
 
 
