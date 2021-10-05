@@ -218,13 +218,15 @@ client_max_body_size 100m;
 
 ### 代码示例
 
+- [base64图片转换工具](http://tool.chinaz.com/tools/imgtobase/)
+
 ```php
  public function getTemporaryMaterial($mediaId)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token={$this->accessToken}&media_id={$mediaId}";
         $data = $this->curl_get_file($url);
         dd(file_put_contents('a.jpg', $data));# 写入到本地
-        //或者 加密成base64不含头部信息的图片直接传给前
+        //或者 加密成base64不含头部信息的图片直接传给前端处理 例如 data:image/jpeg;base64,加密的base64编码
         dd(base64_encode($data));
     }
 
