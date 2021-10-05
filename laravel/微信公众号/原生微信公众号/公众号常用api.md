@@ -152,10 +152,10 @@ public function addTemporaryMaterial(Request $request)
             ]);
         }
         if (class_exists('\CURLFile')) {
-            $josn = array(
+            $josn = array( # php5.6以上使用
                 'media' => new \CURLFile(realpath($file_name))
             );
-        } else {
+        } else { # php 5.6以下使用
             $josn = array('media' => '@' . realpath($file_name));
         }
         $ret = $this->https_request($url, $josn);
@@ -180,7 +180,16 @@ public function addTemporaryMaterial(Request $request)
     }
 ```
 
+- 返回结果示例
 
+```php
+array:4 [
+  "type" => "image"
+  "media_id" => "lISmUds-02cCRkjVsAfI3yxhbkYDSYQTnW_oQKlS-it7blBiQ9HVY1X80Ch5JnYq" # 返回的媒体id
+  "created_at" => 1633399965
+  "item" => []
+]
+```
 
 # 六 新增自定义菜单
 
