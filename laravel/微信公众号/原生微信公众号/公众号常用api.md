@@ -219,6 +219,7 @@ client_max_body_size 100m;
 ### 代码示例
 
 - [base64图片转换工具](http://tool.chinaz.com/tools/imgtobase/)
+- 参考[博客](https://www.cnblogs.com/oldinaction/p/5167465.html)
 
 ```php
  public function getTemporaryMaterial($mediaId)
