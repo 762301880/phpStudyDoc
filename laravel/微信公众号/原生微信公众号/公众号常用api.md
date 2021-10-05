@@ -219,6 +219,23 @@ client_max_body_size 100m;
 ### 代码示例
 
 ```php
+ public function getTemporaryMaterial($mediaId)
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token={$this->accessToken}&media_id={$mediaId}";
+        $data = $this->curl_get_file($url);
+        dd(file_put_contents('a.jpg', $data));# 写入到不
+    }
+
+    public function curl_get_file($url)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_NOBODY, 0);                //只取body头
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//curl_exec执行成功后返回执行的结果；不设置的话，curl_exec执行成功则返回true
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
 ```
 
 
