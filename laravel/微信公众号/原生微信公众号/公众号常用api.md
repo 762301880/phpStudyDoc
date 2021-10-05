@@ -18,6 +18,8 @@ https://www.w3cschool.cn/weixinkaifawendang/
 
 ## 2.1 项目中使用代码示例
 
+> 注意真实开发中获取**access_token**，一定要使用***redis***缓存去获取
+
 ```php
    use Illuminate\Support\Facades\Config;
    use Illuminate\Support\Facades\Http;
