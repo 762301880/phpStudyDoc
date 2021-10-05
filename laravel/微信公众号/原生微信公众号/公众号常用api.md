@@ -191,6 +191,22 @@ array:4 [
 ]
 ```
 
+## 5.3 遇到的bug
+
+参考[资料](https://blog.csdn.net/weixin_40786663/article/details/99681571)
+
+- 413 Request Entity Too Large
+
+> 请求体太大,nginx配置问题
+>
+> **解决方案**
+>
+> 找到nginx配置文件，然后在配置文件中加入以下配置
+
+```php
+client_max_body_size 100m;
+```
+
 # 六 新增自定义菜单
 
 - 资料

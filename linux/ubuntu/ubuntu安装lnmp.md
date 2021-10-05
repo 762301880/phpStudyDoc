@@ -68,7 +68,7 @@ server {
     add_header X-Content-Type-Options "nosniff";
 
     index index.php;
-
+    client_max_body_size 100m; # 设置请求体
     charset utf-8;
 
     location / {
