@@ -245,6 +245,15 @@ client_max_body_size 100m;
     }
 ```
 
+## 5.3  [新增永久素材](https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Adding_Permanent_Assets.html)
+
+>asd
+
+**代码示例**
+
+```php
+```
+
 
 
 # 六 自定义菜单
