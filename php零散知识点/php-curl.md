@@ -47,7 +47,7 @@ CURLOPT_SSL_VERIFYPEER  //false 禁止 cURL 验证对等证书（peer's certific
 # 代码示例
 
 ```php
-# 上传逻辑
+# post请求
 public function request_post($url = '', $post_data = array())
     {
         if (empty($url) || empty($post_data)) {
@@ -64,6 +64,22 @@ public function request_post($url = '', $post_data = array())
         $data = curl_exec($ch);//运行curl
         curl_close($ch);
         return $data;
+    }
+    # get请求
+    public function request_get($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_NOBODY, 0);                //只取body头
+        if (!empty($data)) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//curl_exec执行成功后返回执行的结果；不设置的话，curl_exec执行成功则返回true
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output, true);
     }
 ```
 
