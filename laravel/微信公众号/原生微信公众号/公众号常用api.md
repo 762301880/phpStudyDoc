@@ -247,9 +247,107 @@ client_max_body_size 100m;
 
 ## 5.3  [新增永久素材](https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Adding_Permanent_Assets.html)
 
-参考[资料](https://www.jb51.net/article/110925.htm)
+###  新增永久图文素材
+
+ [参考资料](https://blog.csdn.net/qq_40011533/article/details/106096911)
+
+- 接口调用请求说明
+
+```php
+# http请求方式: POST，https协议 https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN
+
+# 调用示例
+
+{
+    "articles": [{
+     "title": TITLE,
+    "thumb_media_id": THUMB_MEDIA_ID,
+    "author": AUTHOR,
+    "digest": DIGEST,
+    "show_cover_pic": SHOW_COVER_PIC(0 / 1),
+    "content": CONTENT,
+    "content_source_url": CONTENT_SOURCE_URL,
+    "need_open_comment":1,
+    "only_fans_can_comment":1
+},
+    //若新增的是多图文素材，则此处应还有几段articles结构
+]
+}
+```
+
+
+
+**参数说明**
+
+| 参数                  | 是否必须 | 说明                                                         |
+| :-------------------- | :------- | :----------------------------------------------------------- |
+| title                 | 是       | 标题                                                         |
+| thumb_media_id        | 是       | 图文消息的封面图片素材id（必须是永久mediaID）                |
+| author                | 否       | 作者                                                         |
+| digest                | 否       | 图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空。如果本字段为没有填写，则默认抓取正文前54个字。 |
+| show_cover_pic        | 是       | 是否显示封面，0为false，即不显示，1为true，即显示            |
+| content               | 是       | 图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS,涉及图片url必须来源 "上传图文消息内的图片获取URL"接口获取。外部图片url将被过滤。 |
+| content_source_url    | 是       | 图文消息的原文地址，即点击“阅读原文”后的URL                  |
+| need_open_comment     | 否       | Uint32 是否打开评论，0不打开，1打开                          |
+| only_fans_can_comment | 否       | Uint32 是否粉丝才可评论，0所有人可评论，1粉丝才可评论        |
+
+**代码示例**
+
+```php
+public function addForeverMaterial(Request $request)
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token={$this->accessToken}";
+        $articles = [
+            'articles' => [
+                [
+                    "title" => '2131',
+                    "thumb_media_id" => 'c_m-4fqktopH35sgQfmzqfPyjoN0xZJ0RXMyQPea8tE',
+                    "author" => 'yaoliuyang',
+                    "digest" => '1322233333333333333333',
+                    "show_cover_pic" => 1,
+                    "content" => '13222333333333333333244444444444444333',
+                    "content_source_url" => '1322233333333333333333',
+                    "need_open_comment" => 1,
+                    "only_fans_can_comment" => 1
+                ]
+            ]
+        ];
+        $res = $this->https_request($url, json_encode($articles));
+        dd($res);
+    }
+ # curl请求
+ public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        $error = curl_error($curl);
+        curl_close($curl);
+        return json_decode($output, true);
+    } 
+```
+
+**结果示例**
+
+```php
+array:2 [
+  "media_id" => "c_m-4fqktopH35sgQfmzqbfEgBzhG24VZDQqMBo5iMY"
+  "item" => []
+]
+```
+
+
 
 ###  新增其他类型永久素材
+
+参考[资料](https://www.jb51.net/article/110925.htm)
 
 **代码示例**
 
