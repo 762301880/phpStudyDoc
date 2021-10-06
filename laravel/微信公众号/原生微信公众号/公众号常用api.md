@@ -247,7 +247,7 @@ client_max_body_size 100m;
 
 
 
-# 六 新增自定义菜单
+# 六 自定义菜单
 
 - 资料
 
@@ -257,7 +257,7 @@ client_max_body_size 100m;
 | 参考资料       | [link](https://www.jb51.net/article/94175.htm)               |
 |                |                                                              |
 
-## 6.1 代码示例
+## 6.1 创建菜单
 
 ```php
   public function createMenu()
@@ -337,5 +337,68 @@ client_max_body_size 100m;
         curl_close($curl);
         return $output;
     }
+```
+
+## 6.2 查询菜单
+
+**代码示例**
+
+```php
+public function queryMenu()
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token={$this->accessToken}";
+        $res = $this->curl_get($url);
+        dd($res);
+    }
+    # curl请求 
+    public function curl_get($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_NOBODY, 0);                //只取body头
+        if (!empty($data)) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//curl_exec执行成功后返回执行的结果；不设置的话，curl_exec执行成功则返回true
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output, true);
+    }
+```
+
+**返回结果示例**
+
+```php
+array:2 [
+  "is_menu_open" => 1
+  "selfmenu_info" => array:1 [
+    "button" => array:2 [
+      0 => array:3 [
+        "type" => "click"
+        "name" => "今日歌曲"
+        "key" => "V1001_TODAY_MUSIC"
+      ]
+      1 => array:2 [
+        "name" => "菜单"
+        "sub_button" => array:1 [
+          "list" => array:2 [
+            0 => array:3 [
+              "type" => "view"
+              "name" => "搜索"
+              "url" => "http://www.soso.com/"
+            ]
+            1 => array:3 [
+              "type" => "click"
+              "name" => "赞一下我们"
+              "key" => "V1001_GOOD"
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
 ```
 
