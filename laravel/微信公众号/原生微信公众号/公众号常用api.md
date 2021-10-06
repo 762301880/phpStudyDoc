@@ -247,7 +247,7 @@ client_max_body_size 100m;
 
 ## 5.3  [新增永久素材](https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Adding_Permanent_Assets.html)
 
->asd
+参考[资料](https://www.jb51.net/article/110925.htm)
 
 ###  新增其他类型永久素材
 
@@ -297,18 +297,35 @@ public function https_request($url, $data = null)
         curl_close($curl);
         return json_decode($output, true);
     }
+# 上传视频
+/**
+ * 上传视频时候的数据封装
+ * 在上传视频素材时需要POST另一个表单，表单为description，包含素材的描述信息，内容格式为JSON，格式如下：
+ */
+ $josn = array( # php5.6以上使用
+                'media' => new \CURLFile(realpath($file_name)),
+                'description' => json_encode([
+                    'title' => '视频标题', # 可配置化
+                    'introduction' => '视频描述' # 可配置化
+                ])
+    );
 ```
 
 **返回结果示例**
 
 ```php
-# 上传永久图片返回结构示例
+# 上传永久图片返回结果示例
 array:3 [
   "media_id" => "c_m-4fqktopH35sgQfmzqekI_ZVWxGyib24e1ZLFy3c"
   "url" => "http://mmbiz.qpic.cn/mmbiz_jpg/yuXMG6DMxJ4Fc7VhKKibyBRMll6RNK
   s8RsPWvXtvgQWSa4dZsk62YJZicic9OJ2VxyMXXDmpqV3ib2K8VnWb4Sp9kg/0?wx_fmt=jpeg"
   "item" => []
 ]
+#  上传视频返回示例
+array:2 [
+  "media_id" => "c_m-4fqktopH35sgQfmzqYO7OCBtCZLKO7mGivJplyQ"
+  "item" => []
+]    
 ```
 
 
