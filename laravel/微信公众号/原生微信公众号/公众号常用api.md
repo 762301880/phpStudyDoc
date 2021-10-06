@@ -402,3 +402,46 @@ array:2 [
 ]
 ```
 
+## 6.3 删除菜单
+
+>使用接口创建自定义菜单后，开发者还可使用接口删除当前使用的自定义菜单。
+>
+>另请注意，在个性化菜单时，调用此接口会删除默认菜单及全部个性化菜单。
+
+**代码示例**
+
+```php
+ public function deleteMenu()
+    {
+        # get 请求
+        $url = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token={$this->accessToken}";
+        $res = $this->curl_get($url);
+        dd($res);
+    }
+
+    public function curl_get($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_NOBODY, 0);                //只取body头
+        if (!empty($data)) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//curl_exec执行成功后返回执行的结果；不设置的话，curl_exec执行成功则返回true
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output, true);
+    }
+```
+
+**结果示例**
+
+```php
+array:2 [
+  "errcode" => 0
+  "errmsg" => "ok"
+]
+```
+
