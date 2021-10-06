@@ -249,9 +249,66 @@ client_max_body_size 100m;
 
 >asd
 
+###  新增其他类型永久素材
+
 **代码示例**
 
 ```php
+# 上传图片
+  public function addForeverMaterial(Request $request)
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token={$this->accessToken}&type=image";
+        $file_name = uniqid() . $request->file('media')->getClientOriginalName();//设置唯一的上传图片
+        $path = public_path('/');//设置上传路径
+        $absolute_path_file = $path . '/' . $file_name;//图片全路径,绝对路径
+        $request->file('media')->move($path, $file_name);//转移文件到public目录下
+        //判断文件是否存在
+        if (!file_exists($absolute_path_file)) {
+            return response()->json([
+                'msg' => '文件没有上传成功',
+                'data' => [],
+                'code' => '5000'
+            ]);
+        }
+        if (class_exists('\CURLFile')) {
+            $josn = array( # php5.6以上使用
+                'media' => new \CURLFile(realpath($file_name))
+            );
+        } else { # php 5.6以下使用
+            $josn = array('media' => '@' . realpath($file_name));
+        }
+        $ret = $this->https_request($url, $josn);
+        unlink($absolute_path_file); //上传完成之后删除临时文件
+        dd($ret);
+    }
+public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        $error = curl_error($curl);
+        curl_close($curl);
+        return json_decode($output, true);
+    }
+```
+
+**返回结果示例**
+
+```php
+# 上传永久图片返回结构示例
+array:3 [
+  "media_id" => "c_m-4fqktopH35sgQfmzqekI_ZVWxGyib24e1ZLFy3c"
+  "url" => "http://mmbiz.qpic.cn/mmbiz_jpg/yuXMG6DMxJ4Fc7VhKKibyBRMll6RNK
+  s8RsPWvXtvgQWSa4dZsk62YJZicic9OJ2VxyMXXDmpqV3ib2K8VnWb4Sp9kg/0?wx_fmt=jpeg"
+  "item" => []
+]
 ```
 
 
