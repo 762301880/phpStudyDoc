@@ -254,10 +254,10 @@ client_max_body_size 100m;
 - 接口调用请求说明
 
 ```php
-# http请求方式: POST，https协议 https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN
-
-# 调用示例
-
+/**
+* 调用示例
+* http请求方式: POST，https协议 https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN
+*/
 {
     "articles": [{
      "title": TITLE,
