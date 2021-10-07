@@ -708,7 +708,150 @@ array:3 [
 ]
 ```
 
+## 5.7 删除永久素材
 
+`http请求方式: POST https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=ACCESS_TOKEN`
+
+调用示例
+
+```json
+{
+  "media_id":MEDIA_ID
+}
+```
+
+参数说明
+
+| 参数         | 是否必须 | 说明                   |
+| :----------- | :------- | :--------------------- |
+| access_token | 是       | 调用接口凭证           |
+| media_id     | 是       | 要获取的素材的media_id |
+
+- 代码示例
+
+```php
+public function deleteForeverMaterial()
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/material/del_material?access_token={$this->accessToken}";
+        $data = [
+            "media_id"=>'c_m-4fqktopH35sgQfmzqWO2B49BAQdw2fyHTJYB9qE' # 永久素材id可配置化,这里实验写死
+        ];
+        $res = $this->https_request($url,json_encode($data));
+        dd(json_decode($res,true));
+    }
+public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+```
+
+**结果示例**
+
+```php
+array:2 [
+  "errcode" => 0
+  "errmsg" => "ok"
+]
+```
+
+## 5.8 修改永久图文素材
+
+接口调用请求说明
+
+`http请求方式: POST https://api.weixin.qq.com/cgi-bin/material/update_news?access_token=ACCESS_TOKEN`
+
+调用示例
+
+```php
+{
+  "media_id":MEDIA_ID,
+  "index":INDEX,
+  "articles": {
+       "title": TITLE,
+       "thumb_media_id": THUMB_MEDIA_ID,
+       "author": AUTHOR,
+       "digest": DIGEST,
+       "show_cover_pic": SHOW_COVER_PIC(0 / 1),
+       "content": CONTENT,
+       "content_source_url": CONTENT_SOURCE_URL
+    }
+}
+```
+
+参数说明
+
+| 参数               | 是否必须 | 说明                                                         |
+| :----------------- | :------- | :----------------------------------------------------------- |
+| media_id           | 是       | 要修改的图文消息的id                                         |
+| index              | 是       | 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为0 |
+| title              | 是       | 标题                                                         |
+| thumb_media_id     | 是       | 图文消息的封面图片素材id（必须是永久mediaID）                |
+| author             | 是       | 作者                                                         |
+| digest             | 是       | 图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空       |
+| show_cover_pic     | 是       | 是否显示封面，0为false，即不显示，1为true，即显示            |
+| content            | 是       | 图文消息的具体内容，支持HTML标签，必须少于2万字符，小于1M，且此处会去除JS |
+| content_source_url | 是       | 图文消息的原文地址，即点击“阅读原文”后的URL                  |
+
+- 代码示例
+
+```php
+public function updateForeverMaterial()
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/material/update_news?access_token={$this->accessToken}";
+        $data = [
+            "media_id" => 'c_m-4fqktopH35sgQfmzqbfEgBzhG24VZDQqMBo5iMY',
+            'index' => 0,
+            'articles' => [
+                "title" => '标题',
+                "thumb_media_id" => 'c_m-4fqktopH35sgQfmzqfPyjoN0xZJ0RXMyQPea8tE',
+                "author" => '作者',
+                "digest" => '图文消息的摘要',
+                "show_cover_pic" => 1,
+                "content" => '图文消息的具体内容',
+                "content_source_url" => '图文消息的原文地址'
+            ]
+        ];
+        $res = $this->https_request($url, json_encode($data));
+        dd(json_decode($res, true));
+    }
+
+
+    public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+```
+
+**返回结果示例**
+
+```php
+array:2 [
+  "errcode" => 0
+  "errmsg" => "ok"
+]
+```
 
 # 六 自定义菜单
 
