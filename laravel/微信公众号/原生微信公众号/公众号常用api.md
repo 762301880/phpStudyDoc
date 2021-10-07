@@ -487,6 +487,107 @@ array:2 [
 ]    
 ```
 
+## 5.4 获取永久素材
+
+>在新增了永久素材后，开发者可以根据media_id通过本接口下载永久素材。
+>
+>公众号在公众平台官网素材管理模块中新建的永久素材，可通过"获取素材列表"获知素材的media_id。
+>
+>请注意：临时素材无法通过本接口获取
+
+**接口请求说明**
+
+>http请求方式: POST,https协议 https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN
+
+`请求示例`
+
+```php
+{
+  "media_id":MEDIA_ID
+}
+```
+
+`调用参数说明`
+
+| 参数         | 是否必须 | 说明                   |
+| :----------- | :------- | :--------------------- |
+| access_token | 是       | 调用接口凭证           |
+| media_id     | 是       | 要获取的素材的media_id |
+
+**代码示例**
+
+```php
+ public function getForeverMaterial()
+    {
+       $url="https://api.weixin.qq.com/cgi-bin/material/get_material?access_token={$this->accessToken}";
+       $data=['media_id'=>'c_m-4fqktopH35sgQfmzqbfEgBzhG24VZDQqMBo5iMY'];
+       $res=$this->https_request($url,json_encode($data));
+       dd($res);
+    }
+ public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        $error = curl_error($curl);
+        curl_close($curl);
+        return json_decode($output, true);
+    }
+# 如果是其他类型的素材
+/**
+ * 由于是直接返回素材内容所以暂时只好重写curl请求后期有好的方案再重新写
+ */
+public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_NOBODY, 0);                //只取body头
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+       // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($output, true);
+    }
+```
+
+**返回示例**
+
+```php
+# 1. 图文素材返回
+array:3 [
+  "news_item" => array:1 [
+    0 => array:11 [
+      "title" => "2131"
+      "author" => "yaoliuyang"
+      "digest" => "1322233333333333333333"
+      "content" => "13222333333333333333244444444444444333"
+      "content_source_url" => "http://1322233333333333333333"
+      "thumb_media_id" => "c_m-4fqktopH35sgQfmzqfPyjoN0xZJ0RXMyQPea8tE"
+      "show_cover_pic" => 1
+      "url" => "http://mp.weixin.qq.com/s?__biz=MzkxNzIxOTMxMQ==&mid=100000010&idx=1&sn=32d48530a6b8a659df2a7a8fe704b2b9&chksm=4142b38a76353a9c7d1b0f5604559fc60bcd51a9d713a198cb1e442977984c4162bc824d014a#rd"
+      "thumb_url" => "http://mmbiz.qpic.cn/mmbiz_jpg/yuXMG6DMxJ4Fc7VhKKibyBRMll6RNKs8RsPWvXtvgQWSa4dZsk62YJZicic9OJ2VxyMXXDmpqV3ib2K8VnWb4Sp9kg/0?wx_fmt=jpeg"
+      "need_open_comment" => 1
+      "only_fans_can_comment" => 1
+    ]
+  ]
+  "create_time" => 1633542202
+  "update_time" => 1633542203
+]
+```
+
 
 
 # 六 自定义菜单
