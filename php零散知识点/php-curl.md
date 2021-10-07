@@ -46,6 +46,10 @@ CURLOPT_SSL_VERIFYPEER  //false 禁止 cURL 验证对等证书（peer's certific
 
 # 代码示例
 
+> 注意返回的结果最好不要用json_decode() 包裹
+>
+> 如果返回的是一个**图片的二进制**则直接返回为null
+
 ```php
 # post请求
 public function request_post($url = '', $post_data = array())

@@ -524,7 +524,12 @@ array:2 [
        $res=$this->https_request($url,json_encode($data));
        dd($res);
     }
- public function https_request($url, $data = null)
+    # curl请求
+    /**
+     * 注意返回的结果最好不要用json_decode() 包裹
+     * 如果返回的是一个**图片的二进制**则直接返回为null
+     */
+    public function https_request($url, $data = null)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -536,30 +541,8 @@ array:2 [
         }
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($curl);
-        $error = curl_error($curl);
         curl_close($curl);
-        return json_decode($output, true);
-    }
-# 如果是其他类型的素材
-/**
- * 由于是直接返回素材内容所以暂时只好重写curl请求后期有好的方案再重新写
- */
-public function https_request($url, $data = null)
-    {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_NOBODY, 0);                //只取body头
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-        if (!empty($data)) {
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        }
-       // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $output = curl_exec($curl);
-        curl_close($curl);
-        return json_decode($output, true);
+        return $output;
     }
 ```
 
