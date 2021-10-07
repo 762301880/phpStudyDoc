@@ -569,6 +569,143 @@ array:3 [
   "create_time" => 1633542202
   "update_time" => 1633542203
 ]
+# 2. 其他素材例如图片返回的是二进制(请自行保存到本地或者base64加密返回)    
+```
+
+##  5.5 获取素材总数
+
+
+
+```php
+ public function getMaterialCount()
+    {
+       $url = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token={$this->accessToken}";
+       $res=$this->curl_get($url);
+       dd($res);
+    }
+ public function curl_get($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_NOBODY, 0);                //只取body头
+        if (!empty($data)) {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//curl_exec执行成功后返回执行的结果；不设置的话，curl_exec执行成功则返回true
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output, true);
+    }
+```
+
+**结果示例**
+
+```php
+array:4 [
+  "voice_count" => 0 # 语音总数量
+  "video_count" => 3 # 视频总数量
+  "image_count" => 4 # 图片总数量
+  "news_count" => 1  # 图文总数量
+]
+```
+
+## 5.6 获取素材列表
+
+接口调用请求说明
+
+`http请求方式: POST https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN`
+
+调用示例
+
+```php
+{
+    "type":TYPE,
+    "offset":OFFSET,
+    "count":COUNT
+}
+```
+
+参数说明
+
+| 参数   | 是否必须 | 说明                                                         |
+| :----- | :------- | :----------------------------------------------------------- |
+| type   | 是       | 素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news） |
+| offset | 是       | 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回       |
+| count  | 是       | 返回素材的数量，取值在1到20之间                              |
+
+- 代码示例
+
+```php
+public function getMaterialList()
+    {
+        $url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token={$this->accessToken}";
+        $data = [
+            'type' => 'image',
+            'offset' => 0,
+            'count' => 20
+        ];
+        $res = $this->https_request($url,json_encode($data));
+        dd(json_decode($res,true));
+    }
+
+
+    public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+
+```
+
+**结果示例**
+
+```php
+array:3 [
+  "item" => array:4 [
+    0 => array:5 [
+      "media_id" => "c_m-4fqktopH35sgQfmzqWO2B49BAQdw2fyHTJYB9qE"
+      "name" => "/home/yaoliuyang/公共的/phpProject/laravel_study/public/615e5fd9516899.jpg"
+      "update_time" => 1633574876
+      "url" => "https://mmbiz.qpic.cn/mmbiz_jpg/yuXMG6DMxJ4Iow46gW2fhhdT1ia2nDHQibicvRt41EbdQ1TEDmcvaiaVPyoN8Yrl6lNxrqOeSaIZSSpsjoOWPaxpvg/0?wx_fmt=jpeg"
+      "tags" => []
+    ]
+    1 => array:5 [
+      "media_id" => "c_m-4fqktopH35sgQfmzqfPyjoN0xZJ0RXMyQPea8tE"
+      "name" => "/home/yaoliuyang/公共的/phpProject/laravel_study/public/615d80cf462bc9.jpg"
+      "update_time" => 1633517790
+      "url" => "https://mmbiz.qpic.cn/mmbiz_jpg/yuXMG6DMxJ4Fc7VhKKibyBRMll6RNKs8RsPWvXtvgQWSa4dZsk62YJZicic9OJ2VxyMXXDmpqV3ib2K8VnWb4Sp9kg/0?wx_fmt=jpeg"
+      "tags" => []
+    ]
+    2 => array:5 [
+      "media_id" => "c_m-4fqktopH35sgQfmzqUOyJapzDZ2t8-RNofcaNvM"
+      "name" => "/home/yaoliuyang/公共的/phpProject/laravel_study/public/615d7bac37d7f9.jpg"
+      "update_time" => 1633516540
+      "url" => "https://mmbiz.qpic.cn/mmbiz_jpg/yuXMG6DMxJ4Fc7VhKKibyBRMll6RNKs8RsPWvXtvgQWSa4dZsk62YJZicic9OJ2VxyMXXDmpqV3ib2K8VnWb4Sp9kg/0?wx_fmt=jpeg"
+      "tags" => []
+    ]
+    3 => array:5 [
+      "media_id" => "c_m-4fqktopH35sgQfmzqekI_ZVWxGyib24e1ZLFy3c"
+      "name" => "/home/yaoliuyang/公共的/phpProject/laravel_study/public/615d5f11a12cb9.jpg"
+      "update_time" => 1633509152
+      "url" => "https://mmbiz.qpic.cn/mmbiz_jpg/yuXMG6DMxJ4Fc7VhKKibyBRMll6RNKs8RsPWvXtvgQWSa4dZsk62YJZicic9OJ2VxyMXXDmpqV3ib2K8VnWb4Sp9kg/0?wx_fmt=jpeg"
+      "tags" => []
+    ]
+  ]
+  "total_count" => 4
+  "item_count" => 4
+]
 ```
 
 
