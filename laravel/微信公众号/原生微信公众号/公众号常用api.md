@@ -12,6 +12,12 @@ https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a
 https://www.w3cschool.cn/weixinkaifawendang/
 ```
 
+## 1.3  第三方博客参考
+
+```php
+https://blog.csdn.net/ljh101/article/details/108806075
+```
+
 # 二、获取Access token
 
 - 官网`api`[地址](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html)
