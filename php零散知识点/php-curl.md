@@ -94,6 +94,7 @@ public function request_post($url = '', $post_data = array())
 ```php
  # 获取发送的http请求头
  curl_setopt($curl,CURLINFO_HEADER_OUT,true); //在curl_exec($curl) 执行之前设置
- Log::error(curl_getinfo($curl,CURLINFO_HEADER_OUT));//获取httpq
+ Log::error(curl_getinfo($curl,CURLINFO_HEADER_OUT));//获取http请求头这里保存到日志
+#
 ```
 
