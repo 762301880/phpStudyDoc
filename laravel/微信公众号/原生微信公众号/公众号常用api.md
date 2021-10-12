@@ -298,11 +298,7 @@ curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(fi
           } else { # php 5.6以下使用
               $josn = array('media' => '@' . realpath($file_name));
           }
-          if (PHP_VERSION > 7.4) {
-              $ret = $this->https_request($url, $josn, $absolute_path_file);
-          } else {
-              $ret = $this->https_request($url, $josn);
-          }
+          $ret = $this->https_request($url, $josn, $absolute_path_file);
           unlink($absolute_path_file); //上传完成之后删除临时文件
           dd($ret);
       }
