@@ -230,7 +230,7 @@ array:4 [
 client_max_body_size 100m;
 ```
 
-### windows 无法上传成功
+### windows php-7.4 版本无法上传成功
 
 > 不知道为什么上面的代码使用***linux***跑的很顺畅，但是切换到***windows***执行的时候
 >
@@ -241,6 +241,10 @@ client_max_body_size 100m;
 **解决示例**
 
 [腾讯云**412**状态码介绍](https://cloud.tencent.com/developer/section/1190171)
+
+微信官网有人提出的[意见](https://developers.weixin.qq.com/community/develop/doc/000a6ca7ae4988a4d9f949d4456800)
+
+![1634031537(1).jpg](https://i.loli.net/2021/10/12/bsqmQoc7dizn5ah.png)
 
 ```php
 # curl 设置helder打印出来可以看出是412 状态
@@ -257,8 +261,16 @@ Content-Length: 0
  * 服务器在验证在请求的头字段中给出先决条件时，没能满足其中的一个或多个。
  * 这个状态码允许客户端在获取资源时在请求的元信息（请求头字段数据）中设置先决条件，
  * 以此避免该请求方法被应用到其希望的内容以外的资源上。
+ * HTTP 412错误就是先决条件不满足，所以就是请求头的问题，
+ * 对比PHP7.3.X和PHP7.4.X的请求头得出的结论，PHP7.3.X的请求头默认有Content-Length字段，
+ * 且其值比文件的字节大小多198，并且请求头中不包含Transfer-Encoding字段。
+ * 而PHP7.4.X的请求头中不包含Content-Length字段，所以要添加上，且默认包含Transfer-Encoding字段，所以要把该字段设置为空。
  */
-# 看样子因该是缺少了请求信息(c)
+# 解决方案 参考 https://www.zhihu.com/question/363042741/answer/1037650988
+//1.需要在    $output = curl_exec($curl); 之前加上一行代码   
+curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(filesize('文件的绝对路径')+198)]);
+//2. 修改 上传函数 写死一个 a.jpg 参数
+ 'media' => new \CURLFile(realpath($file_name),'','a.jpg')
 ```
 
 
