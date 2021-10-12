@@ -266,7 +266,9 @@ Content-Length: 0
  * 且其值比文件的字节大小多198，并且请求头中不包含Transfer-Encoding字段。
  * 而PHP7.4.X的请求头中不包含Content-Length字段，所以要添加上，且默认包含Transfer-Encoding字段，所以要把该字段设置为空。
  */
-# 解决方案 参考 https://www.zhihu.com/question/363042741/answer/1037650988
+# 解决方案 
+# 参考1 https://www.zhihu.com/question/363042741/answer/1037650988
+# 参考2 https://segmentfault.com/q/1010000021407039/a-1020000021870755?sort=created    
 //1.需要在    $output = curl_exec($curl); 之前加上一行代码   
 //文件路径可根据需求改为变量，而且还发现CURLFile的第三个参数，也就是a.jpg，不能用变量，只能用固定的字符串。
 curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(filesize('文件的绝对路径')+198)]);
