@@ -29,6 +29,7 @@ https://blog.csdn.net/ljh101/article/details/108806075
 ```php
    use Illuminate\Support\Facades\Config;
    use Illuminate\Support\Facades\Http;
+ use Illuminate\Support\Facades\Cache;
    # 依赖注入以便全局使用
     private $accessToken;
     public function __construct()
@@ -47,7 +48,7 @@ https://blog.csdn.net/ljh101/article/details/108806075
             $appID = Config::get('wechat.official_account.default.app_id');
         $appSECRET = Config::get('wechat.official_account.default.secret');
         
-         /***************************t*************************************/
+         /***************************推荐写法*************************************/
         if (Cache::has('access_token') != false) {
             //如果缓存存在直接返回缓存中的token
             return Cache::get('access_token');
