@@ -42,11 +42,25 @@ https://blog.csdn.net/ljh101/article/details/108806075
      */
     public function getAccessToken()
     {
+        /***************************公共参数*************************************/
         # 调用config下面的配置 app_id、secret
-        $appID = Config::get('wechat.official_account.default.app_id');
+            $appID = Config::get('wechat.official_account.default.app_id');
         $appSECRET = Config::get('wechat.official_account.default.secret');
-        $data = Http::get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appID&secret=$appSECRET")->json();
-        return $data;
+        
+         /***************************t*************************************/
+        if (Cache::has('access_token') != false) {
+            //如果缓存存在直接返回缓存中的token
+            return Cache::get('access_token');
+        }
+        //反之执行缓存
+        $data = json_decode(file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appID&secret=$appSECRET"), true);
+        if (isset($data['access_token'])) {
+            //设置缓存过期时间2小时
+            Cache::put('access_token', $data['access_token'], 60 * 60 * 2);
+        }
+        return $data['access_token'];
+        
+        /*********************************原生写法*****************************************/
         # 或者原生写法
         $appID = "*******************";
         $appSECRET = "*******************";
