@@ -29,7 +29,7 @@ https://blog.csdn.net/ljh101/article/details/108806075
 ```php
    use Illuminate\Support\Facades\Config;
    use Illuminate\Support\Facades\Http;
- use Illuminate\Support\Facades\Cache;
+   use Illuminate\Support\Facades\Cache;
    # 依赖注入以便全局使用
     private $accessToken;
     public function __construct()
@@ -45,7 +45,7 @@ https://blog.csdn.net/ljh101/article/details/108806075
     {
         /***************************公共参数*************************************/
         # 调用config下面的配置 app_id、secret
-            $appID = Config::get('wechat.official_account.default.app_id');
+        $appID = Config::get('wechat.official_account.default.app_id');
         $appSECRET = Config::get('wechat.official_account.default.secret');
         
          /***************************推荐写法*************************************/
