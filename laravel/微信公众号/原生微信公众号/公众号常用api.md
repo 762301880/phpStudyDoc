@@ -268,7 +268,7 @@ Content-Length: 0
  */
 # 解决方案 参考 https://www.zhihu.com/question/363042741/answer/1037650988
 //1.需要在    $output = curl_exec($curl); 之前加上一行代码   
-/文件路径可根据需求改为变量，而且还发现CURLFile的第三个参数，也就是a.jpg，不能用变量，只能用固定的字符串。
+//文件路径可根据需求改为变量，而且还发现CURLFile的第三个参数，也就是a.jpg，不能用变量，只能用固定的字符串。
 curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(filesize('文件的绝对路径')+198)]);
 //2. 修改 上传函数 写死一个 a.jpg 参数
  'media' => new \CURLFile(realpath($file_name),'','a.jpg')
@@ -317,7 +317,7 @@ curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(fi
           }
           curl_setopt($curl, CURLINFO_HEADER_OUT, true);
           curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-          if (PHP_VERSION >= 7.4) {
+          if (PHP_VERSION >= '7.4') {
               curl_setopt($curl, CURLOPT_HTTPHEADER, ['Transfer-Encoding:', 'Content-Length:' . (filesize($absolute_path_file) + 198)]);
           }
           $output = curl_exec($curl);
