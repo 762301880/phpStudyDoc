@@ -293,17 +293,21 @@ curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(fi
           }
           if (class_exists('\CURLFile')) {
               $josn = array( # php5.6以上使用
-                  'media' => new \CURLFile(realpath($file_name),'','a.jpg')
+                  'media' => new \CURLFile(realpath($file_name), '', 'a.jpg')
               );
           } else { # php 5.6以下使用
               $josn = array('media' => '@' . realpath($file_name));
           }
-          $ret = $this->https_request($url, $josn,$absolute_path_file);
+          if (PHP_VERSION > 7.4) {
+              $ret = $this->https_request($url, $josn, $absolute_path_file);
+          } else {
+              $ret = $this->https_request($url, $josn);
+          }
           unlink($absolute_path_file); //上传完成之后删除临时文件
           dd($ret);
       }
   
-      public function https_request($url, $data = null,$absolute_path_file)
+      public function https_request($url, $data = null, $absolute_path_file = null)
       {
           $curl = curl_init();
           curl_setopt($curl, CURLOPT_URL, $url);
@@ -316,13 +320,17 @@ curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(fi
           }
           curl_setopt($curl, CURLINFO_HEADER_OUT, true);
           curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-          curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(filesize($absolute_path_file)+198)]);
+          if (PHP_VERSION >= 7.4) {
+              curl_setopt($curl, CURLOPT_HTTPHEADER, ['Transfer-Encoding:', 'Content-Length:' . (filesize($absolute_path_file) + 198)]);
+          }
           $output = curl_exec($curl);
           Log::debug($output);
           Log::error(curl_getinfo($curl, CURLINFO_HEADER_OUT));
           curl_close($curl);
           return $output;
       }
+  # 返回结果示例
+  "{"type":"image","media_id":"Y4XvXKKlbtNyfDqR-OH_InMZHL0soJMf92NpJnhKp9bgg4EHgUbw3Dn02FvdpEds","created_at":1634031814,"item":[]}"
   ```
 
   
