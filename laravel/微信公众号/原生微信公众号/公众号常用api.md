@@ -273,7 +273,59 @@ curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(fi
  'media' => new \CURLFile(realpath($file_name),'','a.jpg')
 ```
 
+- 修改版本代码
 
+  ```php
+   public function addTemporaryMaterial(Request $request)
+      {
+          $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $this->getAccessToken() . "&type=image";
+          $file_name = uniqid() . $request->file('media')->getClientOriginalName();//设置唯一的上传图片
+          $path = public_path('/');//设置上传路径
+          $absolute_path_file = $path . '/' . $file_name;//图片全路径,绝对路径
+          $request->file('media')->move($path, $file_name);//转移文件到public目录下
+          //判断文件是否存在
+          if (!file_exists($absolute_path_file)) {
+              return response()->json([
+                  'msg' => '文件没有上传成功',
+                  'data' => [],
+                  'code' => '5000'
+              ]);
+          }
+          if (class_exists('\CURLFile')) {
+              $josn = array( # php5.6以上使用
+                  'media' => new \CURLFile(realpath($file_name),'','a.jpg')
+              );
+          } else { # php 5.6以下使用
+              $josn = array('media' => '@' . realpath($file_name));
+          }
+          $ret = $this->https_request($url, $josn,$absolute_path_file);
+          unlink($absolute_path_file); //上传完成之后删除临时文件
+          dd($ret);
+      }
+  
+      public function https_request($url, $data = null,$absolute_path_file)
+      {
+          $curl = curl_init();
+          curl_setopt($curl, CURLOPT_URL, $url);
+          //curl_setopt($curl, CURLOPT_HEADER, 1);//设置header
+          curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+          curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+          if (!empty($data)) {
+              curl_setopt($curl, CURLOPT_POST, 1);
+              curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+          }
+          curl_setopt($curl, CURLINFO_HEADER_OUT, true);
+          curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(filesize($absolute_path_file)+198)]);
+          $output = curl_exec($curl);
+          Log::debug($output);
+          Log::error(curl_getinfo($curl, CURLINFO_HEADER_OUT));
+          curl_close($curl);
+          return $output;
+      }
+  ```
+
+  
 
 ## 5.2 获取临时素材
 
