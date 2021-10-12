@@ -89,3 +89,11 @@ public function request_post($url = '', $post_data = array())
     }
 ```
 
+- 更多用法
+
+```php
+ # 获取发送的http请求头
+ curl_setopt($curl,CURLINFO_HEADER_OUT,true); //在curl_exec($curl) 执行之前设置
+ Log::error(curl_getinfo($curl,CURLINFO_HEADER_OUT));//获取httpq
+```
+
