@@ -34,3 +34,10 @@ $model->column('需要查询的字段');
  $model->push(['数组类型的数据']);
 ```
 
+- 关联查询
+
+```php
+# 左关联
+->leftJoin('ds_group_goods_sku', 'ds_group_goods_order.id=ds_group_goods_sku.group_goods_id')
+```
+
