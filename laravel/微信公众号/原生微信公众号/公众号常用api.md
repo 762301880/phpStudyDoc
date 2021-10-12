@@ -215,6 +215,30 @@ array:4 [
 client_max_body_size 100m;
 ```
 
+### windows 无法上传成功
+
+> 不知道为什么上面的代码使用***linux***跑的很顺畅，但是切换到***windows***执行的时候
+>
+> 就是给你返回一个`""`空字符，
+
+- 参考[资料](https://www.phpnanshen.com/article/92.html)
+
+**解决示例**
+
+```php
+# curl 设置helder打印出来可以看出是412 状态
+/**
+ * curl_setopt($curl, CURLOPT_HEADER, 1);//设置header 记得使用日志保存curl_exec()返回的结果
+ */
+[2021-10-12 07:26:55] local.DEBUG: HTTP/1.1 412 Precondition Failed
+Connection: keep-alive
+Date: Tue, 12-Oct-2021 07:26:54 GMT
+Content-Length: 0
+# 具体原因有待分析待日后补充    
+```
+
+
+
 ## 5.2 获取临时素材
 
 - 资料
