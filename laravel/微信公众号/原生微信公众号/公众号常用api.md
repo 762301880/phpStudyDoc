@@ -240,6 +240,8 @@ client_max_body_size 100m;
 
 **解决示例**
 
+[腾讯云**412**状态码介绍](https://cloud.tencent.com/developer/section/1190171)
+
 ```php
 # curl 设置helder打印出来可以看出是412 状态
 /**
