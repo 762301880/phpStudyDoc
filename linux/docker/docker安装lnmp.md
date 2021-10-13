@@ -11,6 +11,8 @@
 
 ##  1.1  下载php镜像
 
+> 自己封装的**php** 镜像 内置***swoole***        `docker pull yaoliuyang/php:7.4-fpm`
+
 ```shell
 docker pull php:7.4-fpm
 ```
