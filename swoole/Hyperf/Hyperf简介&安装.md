@@ -68,7 +68,11 @@ docker exec -it 容器id  /bin/bash
 
 ### 3.1.5  启动 hyperf项目
 
->  进入被挂载的容器目录`www\你的项目`中启动
+>  进入被挂载的容器目录**www**你的项目`中启动,
+>
+>  这里由于**nginx**内部不能使用php命令所以我进入
+>
+>  **php**容器内部执行的命令
 
 ```shell
 root@f137b92f2b16:/www/hyperf-skeleton# php bin/hyperf.php start
