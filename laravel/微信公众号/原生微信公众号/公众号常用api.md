@@ -273,7 +273,7 @@ Content-Length: 0
 //文件路径可根据需求改为变量，而且还发现CURLFile的第三个参数，也就是a.jpg，不能用变量，只能用固定的字符串。
 curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(filesize('文件的绝对路径')+198)]);
 //2. 修改 上传函数 写死一个 a.jpg 参数
- 'media' => new \CURLFile(realpath($file_name),'','a.jpg')
+ 'media' => new \CURLFile(realpath($file_name),'','a.jpg') # 如果是上传视频则修为改为      
 ```
 
 - 修改版本代码
