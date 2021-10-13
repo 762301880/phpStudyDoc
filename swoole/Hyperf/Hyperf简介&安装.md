@@ -8,10 +8,10 @@
 
 ## 1.1资料
 
-| 名称       | 地址                                   |
-| ---------- | -------------------------------------- |
-| Hyperf文档 | [跳转地址](https://hyperf.wiki/2.1/#/) |
-|            |                                        |
+| 名称              | 地址                                                        |
+| ----------------- | ----------------------------------------------------------- |
+| Hyperf文档        | [跳转地址](https://hyperf.wiki/2.1/#/)                      |
+| B站hyperf视频教程 | [跳转地址](https://www.bilibili.com/video/BV1WZ4y1x7Hw?p=1) |
 
 #  二、windows 安装Hyperf
 
@@ -27,7 +27,7 @@ composer create-project hyperf/hyperf-skeleton  + 项目名称
 
 # 三、docker启动Hyperf
 
-## 3.1 第一种方式使用
+## 3.1 docker容器搭建开发环境
 
 - 参考[资料](https://www.freesion.com/article/3230360618/)
 
