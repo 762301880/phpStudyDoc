@@ -103,3 +103,26 @@ method	"GET"
 message	"Hello Hyperf."
 ```
 
+## 3.2 官方[Docker 下开发](https://www.hyperf.wiki/2.0/#/zh-cn/quick-start/install?id=docker-下开发)
+
+- [地址](https://www.hyperf.wiki/2.0/#/zh-cn/quick-start/install?id=%E9%80%9A%E8%BF%87-composer-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE)
+
+假设您的本机环境并不能达到 Hyperf 的环境要求，或对于环境配置不是那么熟悉，那么您可以通过以下方法来运行及开发 Hyperf 项目：
+
+```php
+# 下载并运行 hyperf/hyperf 镜像，并将镜像内的项目目录绑定到宿主机的 /tmp/skeleton 目录
+docker run -v /tmp/skeleton:/hyperf-skeleton -p 9501:9501 -it --entrypoint /bin/sh hyperf/hyperf:7.4-alpine-v3.11-swoole
+
+# 将 Composer 镜像设置为阿里云镜像，加速国内下载速度
+composer config -g repo.packagist composer https://mirrors.aliyun.com/composer
+
+# 通过 Composer 安装 hyperf/hyperf-skeleton 项目
+composer create-project hyperf/hyperf-skeleton
+
+# 进入安装好的 Hyperf 项目目录
+cd hyperf-skeleton
+# 启动 Hyperf
+php bin/hyperf.php startCopy to clipboardErrorCopied
+```
+
+接下来，就可以在 `/tmp/skeleton` 中看到您安装好的代码了。由于 Hyperf 是持久化的 CLI 框架，当您修改完您的代码后，通过 `CTRL + C` 终止当前启动的进程实例，并重新执行 `php bin/hyperf.php start` 启动命令即可。
