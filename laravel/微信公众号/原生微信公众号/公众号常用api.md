@@ -273,7 +273,7 @@ Content-Length: 0
 //文件路径可根据需求改为变量，而且还发现CURLFile的第三个参数，也就是a.jpg，不能用变量，只能用固定的字符串。
 curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(filesize('文件的绝对路径')+198)]);
 //2. 修改 上传函数 写死一个 a.jpg 参数
- 'media' => new \CURLFile(realpath($file_name),'','a.jpg') # 如果是上传视频则修为改为      
+ 'media' => new \CURLFile(realpath($file_name),'','a.jpg') # 如果是上传视频则修为改为 .mp4     
 ```
 
 - 修改版本代码
@@ -1175,4 +1175,28 @@ array:2 [
   "errmsg" => "ok"
 ]
 ```
+
+# 七 、基础消息能力
+
+>微信公众平台开发者模式允许用户自己配置服务器，这样来自粉丝的信息，通过微信平台包装成 xml 格式，发送给后台服务器，后台服务器解析处理后，同样把信息包装成 xml 格式，通过微信平台，发送给用户。
+>微信平台和后台服务器直接是通过 xml 格式通信的（http POST），格式如下：
+
+```php
+<xml>
+  <ToUserName><![CDATA[toUser]]></ToUserName>
+  <FromUserName><![CDATA[fromUser]]></FromUserName>
+  <CreateTime>1348831860</CreateTime>
+  <MsgType><![CDATA[text]]></MsgType>
+  <Content><![CDATA[this is a test]]></Content>
+  <MsgId>1234567890123456</MsgId>
+</xml>
+    
+# 因为 xml 格式的 post 数据包不是 php 默认识别的，所以不能使用 $_POST [] 直接取值，需要获取原始数据包，即使用如下语句处理接收到的数据包：
+$msg = $GLOBALS[HTTP_RAW_POST_DATA];
+$xmlObj = simplexml_load_string($msg, 'SimpleXMLElement', LIBXML_NOCDATA);
+$msgType = $xmlObj->MsgType;
+# Laravel 的话，在 Controller 中要使用 $msg = $request->getContent() 获取原始数据。
+```
+
+## 7.1 [接受普通消息](https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html)
 
