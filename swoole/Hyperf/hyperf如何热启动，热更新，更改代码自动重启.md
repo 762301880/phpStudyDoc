@@ -12,7 +12,7 @@
 
 ```shell
 composer require hyperf/watcher --dev
-# 如果提示版本过大 k
+# 如果提示版本过大与当前hyperf不兼容可以安装低一点的版本
 composer require hyperf/watcher=2.1.* --dev 
 ```
 
