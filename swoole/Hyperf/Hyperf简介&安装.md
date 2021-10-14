@@ -39,7 +39,9 @@ docker pull php:7.4-fpm
 
 ### 3.12 启动php容器
 
-> ***注意容器外部的本地端口一定要映射 `hyperf` 内部的访问端口(及hyperfHttp开启地址) ***
+> ***注意容器外部的本地端口一定要映射 `hyperf` 内部的访问端口(及hyperfHttp开启地址) ***   
+>
+> 项目 启动 Hyperf 之后才可以 本地+端口访问
 
 ```shell
 # windows
@@ -128,3 +130,9 @@ php bin/hyperf.php startCopy to clipboardErrorCopied
 ```
 
 接下来，就可以在 `/tmp/skeleton` 中看到您安装好的代码了。由于 Hyperf 是持久化的 CLI 框架，当您修改完您的代码后，通过 `CTRL + C` 终止当前启动的进程实例，并重新执行 `php bin/hyperf.php start` 启动命令即可。
+
+#  遇到的bug
+
+## 端口访问问题
+
+![lALPDg7mSNyFfUzNAkvNA-w_1004_587.png](https://i.loli.net/2021/10/14/1lyxkrdUbHPI6u3.png)
