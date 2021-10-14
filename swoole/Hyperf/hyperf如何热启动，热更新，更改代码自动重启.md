@@ -41,3 +41,6 @@ php bin/hyperf.php server:watch
 
 
 
+## 补充
+
+> 上面启动完成之后就可以不用每次更新代码的时候再去重启hyperf框架了他会自动更新框架代码
