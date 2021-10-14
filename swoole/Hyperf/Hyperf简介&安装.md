@@ -39,9 +39,11 @@ docker pull php:7.4-fpm
 
 ### 3.12 启动php容器
 
+> ***注意容器外部的本地端口一定要映射 `hyperf` 内部的访问端口(及hyperfHttp开启地址) ***
+
 ```shell
 # windows
-C:\Users\Administrator> docker run -itd -p 9501:9501 --name=myphp  -v c:\etc\www:/www   + 容器id
+C:\Users\Administrator> docker run -itd -p 9501:9501 --name=myphp  -v c:\etc\www:/www   + 容器id 
 
 # 参数说明
 -itd    # 以交互式并后台启动容器
