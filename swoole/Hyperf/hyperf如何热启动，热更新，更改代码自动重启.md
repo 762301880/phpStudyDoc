@@ -12,6 +12,8 @@
 
 ```shell
 composer require hyperf/watcher --dev
+# 如果提示版本过大 k
+composer require hyperf/watcher=2.1.* --dev 
 ```
 
 - 生成配置文件
