@@ -8,10 +8,11 @@
 
 ## 1.1资料
 
-| 名称              | 地址                                                        |
-| ----------------- | ----------------------------------------------------------- |
-| Hyperf文档        | [跳转地址](https://hyperf.wiki/2.1/#/)                      |
-| B站hyperf视频教程 | [跳转地址](https://www.bilibili.com/video/BV1WZ4y1x7Hw?p=1) |
+| 名称              | 地址                                                         |
+| ----------------- | ------------------------------------------------------------ |
+| Hyperf文档        | [跳转地址](https://hyperf.wiki/2.1/#/)                       |
+| B站hyperf视频教程 | [跳转地址](https://www.bilibili.com/video/BV1WZ4y1x7Hw?p=1)  |
+| 第三方Hyperf文档  | [跳转地址](https://itdashu.com/docs/hyperf/c5ee6/db-paginator.html) |
 
 #  二、windows 安装Hyperf
 

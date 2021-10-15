@@ -146,7 +146,27 @@ docker start 容器id  # 启动容器
 docker kall 容器id  # 强制停止当前容器
 ```
 
+### 修改容器的名称
 
+```php
+/**
+ * 修改容器的名称  
+ * 参考资料：https://www.west.cn/docs/58259.html
+ */
+docker rename +原有容器的名称(容器id)
+# 示例 将name为pedantic_dhawan的容器修改为local_hyperf_test
+PS C:\Users\Administrator> docker ps -a
+CONTAINER ID   IMAGE                                   COMMAND     CREATED        STATUS                       PORTS                                       NAMES
+452bf88b2512   hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"   21 hours ago   Up 4 minutes                 0.0.0.0:9802->9802/tcp, :::9802->9802/tcp   hf_industrial_park
+158dc26af455   hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"   23 hours ago   Exited (255) 7 minutes ago   0.0.0.0:9501->9501/tcp, :::9501->9501/tcp   hf_industrialBusiness
+21cb792091da   hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"   23 hours ago   Exited (255) 7 minutes ago   0.0.0.0:9801->9801/tcp, :::9801->9801/tcp   pedantic_dhawan
+PS C:\Users\Administrator> docker rename 21 local_hyperf_test
+PS C:\Users\Administrator> docker ps -a
+CONTAINER ID   IMAGE                                   COMMAND     CREATED        STATUS                       PORTS                                       NAMES
+452bf88b2512   hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"   21 hours ago   Up 4 minutes                 0.0.0.0:9802->9802/tcp, :::9802->9802/tcp   hf_industrial_park
+158dc26af455   hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"   23 hours ago   Exited (255) 8 minutes ago   0.0.0.0:9501->9501/tcp, :::9501->9501/tcp   hf_industrialBusiness
+21cb792091da   hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"   23 hours ago   Exited (255) 8 minutes ago   0.0.0.0:9801->9801/tcp, :::9801->9801/tcp   local_hyperf_test    
+```
 
 ## 常用命令
 
