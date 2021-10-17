@@ -62,7 +62,7 @@ mkdir dockerfile && cd dockerfile && vim mydockerfile
 FROM centos:latest     
 MAINTAINER 姚留洋 762301880@qq.com
 
-ENV MYPATH /user/local # 设置环境变量工作的目录
+ENV MYPATH /usr/local # 设置环境变量工作的目录
 WORKDIR	$MYPATH   # 取上面设置的便利的名称
 
 RUN yum -y install vim
@@ -72,12 +72,20 @@ EXPOSE 80
 
 CMD echo $MYPATH
 CMD echo "--构建完毕--"
-CMD cd /bin/bash
+CMD /bin/bash
 
 # 构建镜像
 # -f 指定镜像的路径  -t(tagged) 镜像名:版本号
-docker build -f mydockerfile -t mycentos:0.1 . # 出现Successfully built 镜像id 及构建镜像成功
+*docker build -f mydockerfile -t mycentos:0.1 . # 出现Successfully built 镜像id 及构建镜像成功
 
+# 列出构建的镜像
+[root@VM-30-101-centos ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+mycentos            0.1                 90ff9ad7dee5        5 minutes ago       304 MB
+docker.io/centos    latest              5d0da3dc9764        4 weeks ago         231 MB
+
+# 启动镜像
+docker run -itd mycentos:0.1
 ```
 
 
