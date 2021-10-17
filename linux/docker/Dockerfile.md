@@ -37,7 +37,7 @@
 >3. **#**表示注释
 >4. 每一个**指令**都会**创建**提交一个**新**的**镜像层**，并**提交**
 
-```shell
+```dockerfile
 FROM rackspacedot/python37:latest #指明基础镜像包，一切从这里开始构建
 MAINTAINER  name email # 镜像是谁写的，姓名+邮箱(通用标准)
 COPY xxx /xxx/ #将Dockerfile同目录下的xxx文件或目录拷贝到生成镜像中的/xxx/目录下
@@ -53,6 +53,34 @@ ENV  # 构建的时候设置环境变量
 ```
 
 # 示例
+
+```dockerfile
+# 创建 dockerfile目录并进入然后编写自己的dockerfile
+mkdir dockerfile && cd dockerfile && vim mydockerfile
+
+# 编写 mydockerfile
+FROM centos:latest     
+MAINTAINER 姚留洋 762301880@qq.com
+
+ENV MYPATH /user/local # 设置环境变量工作的目录
+WORKDIR	$MYPATH   # 取上面设置的便利的名称
+
+RUN yum -y install vim
+RUN yum -y install net-tools 
+
+EXPOSE 80
+
+CMD echo $MYPATH
+CMD echo "--构建完毕--"
+CMD cd /bin/bash
+
+# 构建镜像
+# -f 指定镜像的路径  -t(tagged) 镜像名:版本号
+docker build -f mydockerfile -t mycentos:0.1 . # 出现Successfully built 镜像id 及构建镜像成功
+
+```
+
+
 
 ## 创建一个dockerfile
 
@@ -78,7 +106,7 @@ RUN echo '这是一个本地构建的nginx镜像' > /usr/share/nginx/html/index.
 - 在docker目录中打开终端执行命令
 
 ``` 
-# 构建惊险
+# 构建镜像
 docker build -f   Fockerfile绝对路径 .
 ```
 
