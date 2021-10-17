@@ -4,38 +4,55 @@
 
 > 平时我们需要构建自己的镜像需要在已经启动的容器内添加自己需要的软件,再
 >
-> 提交(commit)为镜像，然后提交到自己的dockerHub中以便下次继续使用，官方不推荐
+> 提交(commit)为镜像，然后提交到自己的**dockerHub**中以便下次继续使用，官方不推荐
 >
-> 这个使用方法于是提供了更简便的使用方法dockerfile,直接把我们需要的环境与配置写在文件
+> 这个使用方法于是提供了更简便的使用方法**dockerfile**,直接把我们需要的环境与配置写在文件
 >
 > 中直接一个命令启动即可构建出我们需要的开发环境
 >
-> 具体说明:
+> ***具体说明***:
 >
-> Dockerfile就是用来构建docker镜像的构建文件!命令脚本!
+> ***Dockerfile***就是用来构建docker镜像的构建文件!命令脚本!
+>
+> ***构建步骤***
+>
+> 1. 编写一个[^dockerfile]文件
+> 2. **docker build** 构建成为一个镜像
+> 3. **docker run**运行镜像
+> 4. **docker push** 发布镜像([^DockerHub]、[^阿里云镜像仓库])
 
 ## 资料
 
-| name                       | url                                                          |
-| -------------------------- | ------------------------------------------------------------ |
-| 使用 Dockerfile 定制镜像   | [link](https://yeasy.gitbook.io/docker_practice/image/build) |
-| Docker学习笔记：Dockerfile | [link](https://www.docker.org.cn/dockerppt/114.html)         |
+| name                               | url                                                          |
+| ---------------------------------- | ------------------------------------------------------------ |
+| 使用 **Dockerfile** 定制镜像       | [link](https://yeasy.gitbook.io/docker_practice/image/build) |
+| **Docker**学习笔记：**Dockerfile** | [link](https://www.docker.org.cn/dockerppt/114.html)         |
 
-Dockefile的主体包括如下几个部分
+**Dockefile**的主体包括如下几个部分
+
+>**基础知识**
+>
+>1. 每个**关键字**(指令)都必须是**大写字母**
+>2. 执行顺序**从上**-***到下***执行
+>3. **#**表示注释
+>4. 每一个**指令**都会**创建**提交一个**新**的**镜像层**，并**提交**
 
 ```shell
-FROM rackspacedot/python37:latest #指明基础镜像包
+FROM rackspacedot/python37:latest #指明基础镜像包，一切从这里开始构建
+MAINTAINER  name email # 镜像是谁写的，姓名+邮箱(通用标准)
 COPY xxx /xxx/ #将Dockerfile同目录下的xxx文件或目录拷贝到生成镜像中的/xxx/目录下
-RUN xxx #这里相当于在bash里执行指令，每条指令用一个RUN来标记，完成service文件的chmod修改等
-MAINTAINER name email #留下你的大名和邮箱
-EXPOSE 10000 #暴露端口号
-ENTRYPOINT xxx #这个是启动执行命令，只能有一条
-CMD xxx #这个也是启动执行命令（或给ENTRYPOINT传递默认参数），若启动容器时附加了参数，则CMD中的命令会被忽略
+RUN xxx #这里相当于在bash里执行指令，每条指令用一个RUN来标记，完成service文件的chmod修改等，镜像构建的时候需要运行的命令
+ADD xxx # 步骤
+ENTRYPOINT xxx #这个是启动执行命令，只能有一条，可以追加命令
+CMD xxx #这个也是启动执行命令（或给ENTRYPOINT传递默认参数），若启动容器时附加了参数，则CMD中的命令会被忽略,只有最后一个会生效，可被替代
+WORKDIT #镜像的工作目录
+VOLUME  #挂载的目录
+EXPOSE 10000 #暴露端口号,指定端口
+ONBUILD #当构建一个被继承 DockerFile这个时候就会运行ONBUILD的指令。触发指令
+ENV  # 构建的时候设置环境变量
 ```
 
-
-
-# 使用
+# 示例
 
 ## 创建一个dockerfile
 
