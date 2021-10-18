@@ -50,7 +50,33 @@ VOLUME  #挂载的目录
 EXPOSE 10000 #暴露端口号,指定端口
 ONBUILD #当构建一个被继承 DockerFile这个时候就会运行ONBUILD的指令。触发指令
 ENV  # 构建的时候设置环境变量
+
 ```
+
+## CMD和ENTRYPOINT区别
+
+```php
+CMD            # 指定这个容器启动时候需要运行的命令,只有最后一个会生效,可被代替
+ENTRYPOINT     # 指定这个容器启动的时候需要运行的命令,可以追加命令    
+```
+
+- 测试**CMD**命令
+
+```dockerfile
+# 1. 编写镜像，镜像内容如下 简单 执行一条 显示列表的镜像	
+FROM nginx:latest
+CMD ["ls","-a"]
+# 执行效果如下
+[root@VM-34-63-centos mydockerfile]# docker run ce
+.
+..
+.dockerenv
+bin
+boot
+dev # 以下省略
+```
+
+
 
 # 示例
 
@@ -76,7 +102,7 @@ CMD /bin/bash
 
 # 构建镜像
 # -f 指定镜像的路径  -t(tagged) 镜像名:版本号
-*docker build -f mydockerfile -t mycentos:0.1 . # 出现Successfully built 镜像id 及构建镜像成功
+docker build -f mydockerfile -t mycentos:0.1 . # 出现Successfully built 镜像id 及构建镜像成功
 
 # 列出构建的镜像
 [root@VM-30-101-centos ~]# docker images
@@ -90,7 +116,7 @@ docker run -itd mycentos:0.1
 
 
 
-## 创建一个dockerfile
+## 创建一个dockerfiledocker run -itd mycentos:0.1
 
 >1、下面以定制一个 nginx 镜像（构建好的镜像内会有一个 /usr/share/nginx/html/index.html 文件）
 >
