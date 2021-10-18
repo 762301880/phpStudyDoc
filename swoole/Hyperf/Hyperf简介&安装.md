@@ -127,7 +127,7 @@ composer create-project hyperf/hyperf-skeleton
 # 进入安装好的 Hyperf 项目目录
 cd hyperf-skeleton
 # 启动 Hyperf
-php bin/hyperf.php startCopy to clipboardErrorCopied
+php bin/hyperf.php start
 ```
 
 接下来，就可以在 `/tmp/skeleton` 中看到您安装好的代码了。由于 Hyperf 是持久化的 CLI 框架，当您修改完您的代码后，通过 `CTRL + C` 终止当前启动的进程实例，并重新执行 `php bin/hyperf.php start` 启动命令即可。
