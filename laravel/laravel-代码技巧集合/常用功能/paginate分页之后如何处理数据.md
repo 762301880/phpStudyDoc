@@ -27,6 +27,12 @@
             return new OrderDeliveryStatusDetails($orderDelivery);
         });
         return $orderDelivery;
+        # 补充方法
+            $orderDelivery->getCollection()->map(function ($orderDelivery) {
+               $orderDelivery->字段='字段';
+               return $orderDelivery;
+          }
+
 ```
 
 - response 类处理组装数据
