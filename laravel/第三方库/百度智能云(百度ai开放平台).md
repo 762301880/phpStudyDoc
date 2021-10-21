@@ -1,8 +1,78 @@
-# 说明
+# 人脸对比
+
+## 百度图像人脸对比
+
+- 资料
+
+| name                                      | url                                                          |
+| ----------------------------------------- | ------------------------------------------------------------ |
+| 在线图片Base64编码,base64在线图片转换工具 | [link](https://oktools.net/image2base64),[link](http://tool.chinaz.com/tools/imgtobase/) |
+| 百度ai人脸对比api文档                     | [link](https://cloud.baidu.com/doc/FACE/s/Lk37c1tpf)         |
+
+- 代码示例
+
+```php
+    public function faceContrast(Request $request)
+    {
+        $image_json =
+            [
+                [
+                    "image" => base64_encode($request->file('image1')->get()), #得到不包含data:image/jpeg;base64,开头的base64加密
+                    "image_type" => "BASE64",
+                    "face_type" => "LIVE",
+                    "quality_control" => "LOW",
+                    "liveness_control" => "NONE"
+                ],
+                [
+                    "image" =>base64_encode($request->file('image2')->get()),
+                    "image_type" => "BASE64",
+                    "face_type" => "LIVE",
+                    "quality_control" => "LOW",
+                    "liveness_control" => "NONE"
+                ]
+            ];
+
+        $access_token = Http::get('https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=b8jmx9vjyvoNUnSvTjmj6B31&client_secret=rsRDlmL8vy00SbDw0tLgKCkntSZchpRd&')->json()['access_token'];
+        $url = "https://aip.baidubce.com/rest/2.0/face/v3/match?access_token={$access_token}";
+        $data = Http::post($url,$image_json)->json();
+        dd($data);
+    }
+```
+
+- 结果示例
+
+```shell
+array:6 [
+  "error_code" => 0
+  "error_msg" => "SUCCESS"
+  "log_id" => 1545550019400
+  "timestamp" => 1627004838
+  "cached" => 0
+  "result" => array:2 [
+    "score" => 95.85346222 # 得到人脸识别对比分数
+    "face_list" => array:2 [
+      0 => array:1 [
+        "face_token" => "0799143db5ce11b13a4607d1a67d1bf4"
+      ]
+      1 => array:1 [
+        "face_token" => "c9799cbed5103f67174250bc1b7613b2"
+      ]
+    ]
+  ]
+]
+```
+
+# 图像增强与特效
+
+##  黑白图像上色
+
+### 说明&资料
+
+- 说明
 
 > 采用[百度AI开放平台](https://ai.baidu.com/tech/imageprocess/colourize)`黑白图像上色`接口
 
-- 参考文档
+- 参考资料
 
 | 名称                                      | 地址                                                         |
 | :---------------------------------------- | :----------------------------------------------------------- |
@@ -10,13 +80,11 @@
 | 黑白图像上色                              | [链接](https://cloud.baidu.com/doc/IMAGEPROCESS/s/Bk3bclns3) |
 | 在线图片Base64编码,base64在线图片转换工具 | [link](https://oktools.net/image2base64),[link](http://tool.chinaz.com/tools/imgtobase/) |
 
-# 代码示例
+获取`access_token`
 
-## 获取`access_token`
+[官方文档](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu)
 
-- [官方文档](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu)
-
-### 获取Access Token
+获取Access Token
 
 **请求URL数据格式**
 
@@ -26,9 +94,9 @@
 - **client_id：** 必须参数，应用的`API Key`；
 - **client_secret：** 必须参数，应用的`Secret Key`；
 
-## 控制器逻辑
+### 代码示例
 
-- 代码参考官方php[示例](https://cloud.baidu.com/doc/IMAGEPROCESS/s/2k3bclou0)
+> 代码参考官方php[示例](https://cloud.baidu.com/doc/IMAGEPROCESS/s/2k3bclou0)
 
 ```php
 <?php
@@ -89,6 +157,4 @@ class TestController extends Controller
 }
 
 ```
-
-
 
