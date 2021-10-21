@@ -41,3 +41,16 @@ $model->column('需要查询的字段');
 ->leftJoin('ds_group_goods_sku', 'ds_group_goods_order.id=ds_group_goods_sku.group_goods_id')
 ```
 
+- 或者查询
+
+```php
+# or 表示或者
+->where("order_state= 12 or order_state= 13")
+```
+
+- 不等于
+
+```php
+->where('order_state', '<>', '0')
+```
+
