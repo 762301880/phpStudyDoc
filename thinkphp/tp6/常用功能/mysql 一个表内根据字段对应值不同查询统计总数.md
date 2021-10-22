@@ -77,7 +77,8 @@ sum(IF($indexField=$payment_time,order_amount,0)) as order_amount,
 - 补充依赖于退款时间或者支付时间查询
 
 ```php
- $orders->getCollection()->map(function ($order) use ($request, $indexField) {
+# payment_time 是 int 的时间戳类型所以需要转换为 datetimel
+$orders->getCollection()->map(function ($order) use ($request, $indexField) {
             $order->order_amount=$this->getTurnoverQuery($request)->where(function ($query)use ($order){
                 $query->where('order_state', '<>', '1')->where('order_state', '<>', '0');
                 $query->where("DATE_FORMAT(FROM_UNIXTIME(payment_time),'%Y-%m-%d')='{$order->statistical_date}'");
