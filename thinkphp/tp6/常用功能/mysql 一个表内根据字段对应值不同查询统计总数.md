@@ -74,5 +74,16 @@ SUM(IF(order_state in (12,13),order_amount,0)) as refund_amount,
 sum(IF($indexField=$payment_time,order_amount,0)) as order_amount,
 ```
 
+- 补充依赖于退款时间或者支付时间查询
+
+```php
+ $orders->getCollection()->map(function ($order) use ($request, $indexField) {
+            $order->order_amount=$this->getTurnoverQuery($request)->where(function ($query)use ($order){
+                $query->where('order_state', '<>', '1')->where('order_state', '<>', '0');
+                $query->where("DATE_FORMAT(FROM_UNIXTIME(payment_time),'%Y-%m-%d')='{$order->statistical_date}'");
+            })->sum('order_amount');
+        });
+```
+
 
 
