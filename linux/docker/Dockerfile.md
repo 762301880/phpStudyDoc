@@ -190,6 +190,36 @@ COPY a.txt /a.txt
 
 
 
+# 实战
+
+## Tomcat镜像
+
+1、准备镜像文件 tomcat 压缩包，jdk(java开发环境)的压缩包
+
+**资料**
+
+| **地址**                | **链接**                                                     |
+| ----------------------- | ------------------------------------------------------------ |
+| tomcat官网，tomcat9下载 | [link](https://tomcat.apache.org/)          [link](https://tomcat.apache.org/download-90.cgi) |
+| jdk官网,jdk8下载        | [link](https://www.oracle.com/java/technologies/downloads/)          [link](http://jdk.java.net/java-se-ri/8-MR3) |
+
+**准备环境**
+
+```shell
+# 创建tomcat 镜像文件夹，创建Dockerfile文件 下载 tomcat 压缩包,下载jdk工具包
+# 推荐 tomcat 压缩包，jdk工具包源码文家下载到mytomcat文件夹中
+mkdir mytomcat
+      && touch Dockerfile
+      && wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.54/bin/apache-tomcat-9.0.54.tar.gz
+      && wget https://download.java.net/openjdk/jdk8u41/ri/openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz
+```
+
+**编写Dockerfile**
+
+```dockerfile
+FORM 
+```
+
 
 
 
