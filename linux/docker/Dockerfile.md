@@ -240,15 +240,21 @@ ENV CATALINA_BASH /usr/local/apache-tomcat-9.0.54
 ENV PATH $PATH;$JAVA_HOME/bin;$CATALINA_HOME/lib;$CATALINA_HOME/bin
 # 暴露端口
 EXPOSE 8080
-# 启动并书
+# 启动并输出日志
 CMD /usr/local/apache-tomcat-9.0.54/bin/startup.sh && tail -F /usr/local/apache-tomcat-9.0.54/bin/logs/catalina.out
 ```
 
+- 构建[^dockerfile]
 
+```shell
+docker build -t mytomcat:0.1 .
+```
 
+- 启动镜像
 
-
-
+```php
+docker run -itd -p 9090:8080 --name mytomcat -v /本地tomcat配置:容器内部配置(/usr/local/apache-tomcat-9.0.54/webapps/外部配置) 容器id 
+```
 
 
 
