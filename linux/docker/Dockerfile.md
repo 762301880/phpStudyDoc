@@ -221,8 +221,9 @@ mkdir mytomcat && cd mytomcat touch Dockerfil && wget https://dlcdn.apache.org/t
 FROM centos:latest
 # 设置作者信息
 MAINTAINER yaoliuyang<762301880@qq.com>
-# 
-COPY 
+# ADD 命令会自动解压压缩文件 把tomcat&jdk放到向
+ADD  apache-tomcat-9.0.54.tar.gz  /usr/local/
+ADD openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz /usr/local/   
 ```
 
 
