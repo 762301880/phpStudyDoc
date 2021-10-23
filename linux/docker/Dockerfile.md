@@ -205,11 +205,12 @@ COPY a.txt /a.txt
 
 **准备环境**
 
-```shell
-# 创建tomcat 镜像文件夹，创建Dockerfile文件 下载 tomcat 压缩包,下载jdk工具包
-# 推荐 tomcat 压缩包，jdk工具包源码文件下载到mytomcat文件夹中
+>1. 创建tomcat 镜像文件夹，创建Dockerfile文件 下载 tomcat 压缩包,下载jdk工具包
+>
+>2. .推荐 tomcat 压缩包，jdk工具包源码文件下载到mytomcat文件夹中
 
-mkdir mytomcat && cd mytomcat &touch Dockerfil && wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.54/bin/apache-tomcat-9.0.54.tar.gz && wget https://download.java.net/openjdk/jdk8u41/ri/openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz
+```shell
+mkdir mytomcat && cd mytomcat && touch Dockerfil && wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.54/bin/apache-tomcat-9.0.54.tar.gz && wget https://download.java.net/openjdk/jdk8u41/ri/openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz
 ```
 
 **编写**[^Dockerfile]文件
