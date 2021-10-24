@@ -203,6 +203,28 @@ public function addTemporaryMaterial(Request $request)
     }
 ```
 
+- 补充方法
+
+```php
+# 可以采用curl上传，使用php 的exec 函数执行原生命令      
+$url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $this->getAccessToken() . "&type=image";
+        $file_name = uniqid() . $request->file('media')->getClientOriginalName();//设置唯一的上传图片
+        $path = public_path('/');//设置上传路径
+        $absolute_path_file = $path . '/' . $file_name;//图片全路径,绝对路径
+        $request->file('media')->move($path, $file_name);//转移文件到public目录下
+        //判断文件是否存在
+        if (!file_exists($absolute_path_file)) {
+            return response()->json([
+                'msg' => '文件没有上传成功',
+                'data' => [],
+                'code' => '5000'
+            ]);
+        }
+        $ret = exec("curl -F media=@$absolute_path_file 'https://api.weixin.qq.com/cgi-bin/media/upload?access_token={$this->accessToken}&type=image' ");
+        unlink($absolute_path_file); //上传完成之后删除临时文件
+        dd($ret);
+```
+
 - 返回结果示例
 
 ```php
