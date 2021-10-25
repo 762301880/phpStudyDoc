@@ -230,7 +230,7 @@ RUN yum -y install vim
 # 设置环境变量
 ENV MYPATH /usr/local
 # 设置工作目录 变量是上面设置的环境变量
-WORK $MYPATH
+WORKDIR $MYPATH
 # 设置java环境变量
 ENV JAVA_HOME /usr/local/openjdk-8u41-b04
 ENV CLASSPATH  $JAVA_HOME/lib/dt.jar;$JAVA_HOME/lib/tools.jar
