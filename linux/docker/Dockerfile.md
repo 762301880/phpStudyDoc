@@ -272,9 +272,9 @@ RUN tar -zxvf apache-tomcat-9.0.54.tar.gz \
      && rm -rf /apache-tomcat-9.0.54.tar.gz \
      && rm -rf /jdk-8u151-linux-x64.tar.gz
 
-# 设置环境变量
+# 设置环境变量 
 ENV MYPATH /usr/local
-# 设置工作目录 变量是上面设置的环境变量
+# 设置工作目录 变量是上面设置的环境变量(使用命令进入容器的时候就是这个目录)
 WORKDIR $MYPATH
 # 设置java环境变量
 ENV JAVA_HOME /usr/local/jdk1.8.0_151
@@ -304,7 +304,11 @@ docker build -t mytomcat:0.1 .
 docker run -itd -p 9090:8080 --name mytomcat -v /本地tomcat配置:容器内部配置(/usr/local/apache-tomcat-9.0.54/webapps/外部配置) 容器id 
 ```
 
+- 本地测试
 
+​    本地访问**域名:9090** 即可
+
+<img src="https://i.loli.net/2021/10/26/3K4sBF7AXQCOW8q.png" alt="1635210948(1).jpg" style="zoom:50%;" />
 
 
 
