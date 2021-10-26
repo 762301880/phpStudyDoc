@@ -198,10 +198,11 @@ COPY a.txt /a.txt
 
 **资料**
 
-| **地址**                | **链接**                                                     |
-| ----------------------- | ------------------------------------------------------------ |
-| tomcat官网，tomcat9下载 | [link](https://tomcat.apache.org/)          [link](https://tomcat.apache.org/download-90.cgi) |
-| jdk官网,jdk8下载        | [link](https://www.oracle.com/java/technologies/downloads/)          [link](http://jdk.java.net/java-se-ri/8-MR3) |
+| **地址**                                 | **链接**                                                     |
+| ---------------------------------------- | ------------------------------------------------------------ |
+| tomcat官网，tomcat9下载 ,tomcat 中国镜像 | [link](https://tomcat.apache.org/)          [link](https://tomcat.apache.org/download-90.cgi)    [link](https://mirrors.cnnic.cn/apache/tomcat/tomcat-9/v9.0.54/bin/) |
+| jdk官网,jdk8下载,华为jdk8镜像            | [link](https://www.oracle.com/java/technologies/downloads/)          [link](http://jdk.java.net/java-se-ri/8-MR3)    [link](https://repo.huaweicloud.com/java/jdk/8u151-b12/) |
+|                                          |                                                              |
 
 **准备环境**
 
