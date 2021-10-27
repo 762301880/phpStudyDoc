@@ -310,7 +310,7 @@ docker run -itd -p 9090:8080 --name mytomcat -v /本地tomcat配置:容器内部
 
 <img src="https://i.loli.net/2021/10/26/3K4sBF7AXQCOW8q.png" alt="1635210948(1).jpg" style="zoom:50%;" />
 
-
+如果想放入自己的**jsp**文件测试可以请[参考-菜鸟教程-jsp](https://www.runoob.com/jsp/eclipse-jsp.html)
 
 
 
