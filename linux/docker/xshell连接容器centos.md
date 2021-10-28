@@ -51,8 +51,8 @@ New password:  # 这里输入至少8位密码
 BAD PASSWORD: The password fails the dictionary check - it is too simplistic/systematic
 Retype new password:  # 重复密码
 passwd: all authentication tokens updated successfully.
-# 安装ssh
-[root@11fe3d74f2cd /]#  yum -y install openssh-server
+# 安装ssh 可以研究一下这个 https://www.runoob.com/linux/linux-remote-login.html
+[root@11fe3d74f2cd /]#  yum -y install openssh-server 
 # 安装网络工具
 [root@101fe8e80378 /]#  yum -y install net-tools.x86_64 
 # 启动ssh
