@@ -98,3 +98,29 @@ class OrderResponse
 }
 ```
 
+# bug记录
+
+##  导出 excel 文件结果集中为0 没有展示
+
+> 解决方案：由于我们的查询结果导出的是**int**类型的**0**，我们将其转化为字符串类型的**"0"**,即可实现导出
+
+```php
+# 例如我再处理导出结果的时候如果结果为0转化为字符串类型的"0" 即可实现excel导出结果为0
+<?php
+
+namespace app\admin\Responses;
+
+
+class OrderExcelResponse
+{
+    public function __construct($orders)
+    {
+        $this->statistical_date = $orders->statistical_date;
+        $this->order_num = $orders->order_num != 0 ? $orders->order_num : '0';
+        $this->play_type_count = $orders->play_type_count != 0 ? $orders->play_type_count : '0';
+        $this->invalid_order_count = $orders->invalid_order_count != 0 ? $orders->invalid_order_count : '0';
+        return $this;
+    }
+}
+```
+
