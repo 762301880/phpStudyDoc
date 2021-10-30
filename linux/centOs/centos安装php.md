@@ -61,6 +61,8 @@ rpm -e ......
 ## 示例
 
 > 我们以php:7.4.3为例
+>
+> 由于官网下载太慢所以我放到了个人**网盘**[点我下载](https://yaoliuyang.lanzoui.com/iJCqBvxx8rc)
 
 ```shell
 # 下载php 7.4的源码包
