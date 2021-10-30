@@ -53,3 +53,7 @@
 
 ![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/5fc6ce49012e428c85da9d6fa709c040.png)
 
+**装机完成后遇到问题**
+
+无法识别U盘，[纯净系统默认没有网卡驱动](https://jingyan.baidu.com/article/17bd8e522b908785ab2bb89d.html)
+
