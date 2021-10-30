@@ -52,3 +52,18 @@ rpm -qa|grep php
 rpm -e ......
 ```
 
+# 源码编译安装php
+
+> 很多时候不同的环境可能没有我们需要的php
+>
+> 版本这个时候就可以考虑编译安装需要的php版本
+
+## 示例
+
+> 我们以php:7.4.3为例
+
+```shell
+# 下载php 7.4的源码包
+wget https://www.php.net/distributions/php-7.4.3.tar.gz
+```
+
