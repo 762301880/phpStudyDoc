@@ -55,5 +55,5 @@
 
 **装机完成后遇到问题**
 
-无法识别U盘，[纯净系统默认没有网卡驱动](https://jingyan.baidu.com/article/17bd8e522b908785ab2bb89d.html)
+无法识别U盘，[纯净系统默认没有网卡驱动](https://jingyan.baidu.com/article/17bd8e522b908785ab2bb89d.html),[驱动精灵](http://2t6y.mydown.com/tianji/f20.shtml?sfrom=166&keyID=16535)
 
