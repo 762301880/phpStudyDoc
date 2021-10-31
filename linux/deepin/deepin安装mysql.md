@@ -10,7 +10,7 @@
 # 在Deepin系统中如何安装MySQL数据库呢？希望这篇文章可以帮到你
 #这里。我以安装MySQL的一个分支版本，MariaDB为例，首先打开终端，输入
 
-sudo apt-getinstall mariadb-server mariadb-client
+sudo apt-get install mariadb-server mariadb-client
 
 # 安装后，默认的密码是空，通过以下命令进入数据库
 
@@ -32,6 +32,6 @@ sudo systemctl enable mysqld.service
 
 sudo systemctl daemon-reload
 
-#这整个安装过程就完毕了！
+# 这整个安装过程就完毕了！
 ```
 
