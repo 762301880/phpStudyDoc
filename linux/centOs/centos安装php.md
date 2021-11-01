@@ -66,6 +66,6 @@ rpm -e ......
 
 ```shell
 # 下载php 7.4的源码包
-wget https://www.php.net/distributions/php-7.4.3.tar.gz
+wget https://www.php.net/distributions/php-7.4.3.tar.gz  --no-check-certificate
 ```
 
