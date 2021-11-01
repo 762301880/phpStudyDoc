@@ -42,11 +42,49 @@ sudo dpkg -i mysql-apt-config_0.8.20-1_all.deb
 ### 执行安装
 
 ```shell
-# 选择完版本之后执行 j
+# 选择完版本之后执行 即可
 sudo apt-get install mysql-server 
 ```
 
+**过程会提示输入root用户新密码**
 
+![fa89610d55b76283e2faf52c49c4fc8.png](https://i.loli.net/2021/11/01/pznmwYJgo2DsljA.png)
+
+**校验新密码**
+
+![ee6f57d83825d9007e2c9b98a9be6e5.png](https://i.loli.net/2021/11/01/rnVxa1GcW6jhDBy.png)
+**安装完成之后直接使用即可**
+
+> 登录用户并输入密码
+
+```shell
+root@2c546338dc3e:~# mysql -uroot -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 43
+Server version: 5.5.53-0+deb8u1 (Debian)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+3 rows in set (0.01 sec)
+
+mysql>
+
+```
 
 
 
