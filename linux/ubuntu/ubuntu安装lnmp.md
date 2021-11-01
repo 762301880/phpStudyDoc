@@ -264,7 +264,7 @@ sudo apt install php7.4-f
 ```shell
 sudo apt install composer
 # 安装完成之后切换composer的镜像源
-    composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
+composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 # 查看镜像源
 composer config -g -l repo.packagist
 ```
