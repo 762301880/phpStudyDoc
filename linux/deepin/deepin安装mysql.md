@@ -6,10 +6,10 @@
 
 ## 资料
 
-| 名称                                       | 地址                                                         |
-| ------------------------------------------ | ------------------------------------------------------------ |
-| 第三方博客-Deepin V20 安装MySQL 8 菜鸟教程 | [link](https://bbs.deepin.org/post/191965#mod=viewthread&tid=191965&extra=) |
-| 知乎deepin系统使用体验                     | [link](https://zhuanlan.zhihu.com/p/66428353)                |
+| 名称                              | 地址                                                         |
+| --------------------------------- | ------------------------------------------------------------ |
+| 第三方博客-Deepin V20 安装MySQL 8 | [link](https://bbs.deepin.org/post/191965#mod=viewthread&tid=191965&extra=) |
+| 知乎deepin系统使用体验            | [link](https://zhuanlan.zhihu.com/p/66428353)                |
 
 
 
@@ -37,6 +37,13 @@ wget https://dev.mysql.com/get/mysql-apt-config_0.8.20-1_all.deb
 
 ```shell
 sudo dpkg -i mysql-apt-config_0.8.20-1_all.deb
+```
+
+### 执行安装
+
+```shell
+# 选择完版本之后执行 j
+sudo apt-get install mysql-server 
 ```
 
 
