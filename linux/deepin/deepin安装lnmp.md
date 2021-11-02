@@ -1,4 +1,6 @@
-# 说明
+# mysql 安装 
+
+说明
 
 > 本来之前使用的是Ubuntu系统结果无缘无故的崩了(已经是第二次了，虽然这次只是开个机)，
 >
@@ -11,11 +13,9 @@
 | 第三方博客-Deepin V20 安装MySQL 8 | [link](https://bbs.deepin.org/post/191965#mod=viewthread&tid=191965&extra=) |
 | 知乎deepin系统使用体验            | [link](https://zhuanlan.zhihu.com/p/66428353)                |
 
+## 安装
 
-
-# 安装
-
-##  [官网下载mysql存储库安装](https://bbs.deepin.org/post/191965#mod=viewthread&tid=191965&extra=)
+[官网下载mysql存储库安装](https://bbs.deepin.org/post/191965#mod=viewthread&tid=191965&extra=)
 
 ### [**下载存储库**](https://dev.mysql.com/downloads/repo/apt/)
 
@@ -86,8 +86,6 @@ mysql>
 
 ```
 
-
-
 ## mariadb-替代mysql使用(不推荐)
 
 > 由于**deepin**      apt源里没有mysql-server所以可以考虑使用**mariadb**
@@ -121,5 +119,32 @@ sudo systemctl enable mysqld.service
 sudo systemctl daemon-reload
 
 # 这整个安装过程就完毕了！
+```
+
+# php 安装
+
+```shell
+sudo apt update --fix-missing # 更新镜像源
+sudo apt -y install php7.4-fpm # 不推荐因为deepin 默认最高php版本是7.3
+sudo apt install php #推荐
+# 安装默认常用php 扩展
+apt -y install  php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring  php-soap curl php-curl
+```
+
+- 卸载php
+
+```php
+# 删除php的相关包及配置
+
+sudo apt-get autoremove php7*
+
+# 删除关联
+    
+sudo find /etc -name "*php*" |xargs  rm -rf  
+    
+# 清除dept列表
+ sudo apt purge `dpkg -l | grep php| awk '{print $2}' |tr "\n" " "`
+# 检查是否卸载干净（无返回就是卸载完成）
+  dpkg -l | grep php7.0
 ```
 
