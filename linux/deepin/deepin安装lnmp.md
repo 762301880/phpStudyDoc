@@ -148,3 +148,48 @@ sudo find /etc -name "*php*" |xargs  rm -rf
   dpkg -l | grep php7.0
 ```
 
+# nginx 安装
+
+```shell
+sudo apt -y  install php-fpm
+sudo apt -y  install nginx
+```
+
+**配置文件信息**
+
+```shell
+server {
+    listen 80;
+    server_name www.cs.com;
+    root /home/yaoliuyang/Documents/work_study/laravel_study/public/;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php;
+    client_max_body_size 100m;
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+        location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+
+```
+
