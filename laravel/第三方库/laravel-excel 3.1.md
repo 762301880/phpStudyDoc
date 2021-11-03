@@ -254,13 +254,16 @@ class StuImport implements ToModel, WithStartRow,ToCollection
 
 > 例如我再excel表那边的时间值是 2021-02-09，打印得到的值却是 43870
 
-```shell
+```php
 use Illuminate\Support\Carbon;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 # 解决方案
 Carbon::instance(Date::excelToDateTimeObject($row[2]))->format('Y-m-d'),
 
 # 第二种
+/**
+ * 使用的时候直接调用即可 例如  dd($this->ExcelToTime($row[0])); 打印"2021-12-06"
+ */
 private function ExcelToTime(int $date)
  {
         $d = 25569;
