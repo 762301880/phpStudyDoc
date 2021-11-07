@@ -46,9 +46,9 @@ tar -zxvf nginx-1.21.4.tar.gz && rm -rf nginx-1.21.4.tar.gz && cd nginx-1.21.4
 > 以下命令执行之后会在项目中生成Makefile的文件
 
 ```shell
-# --perfix 指定程序安装路径
+# --prfix 指定程序安装路径
 # --with   指定需要引用哪些模块  --with-pcre 不带路径系统自己查询，--with-zlib=/usr/local/lib/ 指定路径
-./configure  --perfix=/usr/local/nginx --with-pcre --with-zlib=/usr/local/lib/
+./configure  --prefix=/usr/local/nginx --with-pcre --with-zlib=/usr/local/lib/
 make && sudo make install
 ```
 
