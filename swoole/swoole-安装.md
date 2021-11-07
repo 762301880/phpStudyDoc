@@ -57,13 +57,14 @@ yaoliuyang@benben:~/php-7.4.21$ make
 yaoliuyang@benben:~/php-7.4.21$ make install
 ```
 
-## 二 、[源码编译安装swoole](https://wiki.swoole.com/wiki/page/6.html)
+## 二 、[安装swoole](https://wiki.swoole.com/wiki/page/6.html)
 
 **资料**
 
-| 名称         | 地址                                          |
-| ------------ | --------------------------------------------- |
-| 官网安装文档 | [link](https://wiki.swoole.com/#/environment) |
+| 名称             | 地址                                                    |
+| ---------------- | ------------------------------------------------------- |
+| 官网安装文档     | [link](https://wiki.swoole.com/#/environment)           |
+| 官网安装视频教程 | [link](https://course.swoole-cloud.com/course-video/23) |
 
 ## 编译安装
 
