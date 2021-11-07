@@ -81,7 +81,7 @@ php artisan make:command Swoole     # 创建command类
           //$this->ws->on('open', [$this, 'open']);
           # 用户连接事件
           $ws->on('open', function (Server $server, Request $request) {
-              $server->bind($request->fd,'401');# 绑定用户 第二个参数暂时写三
+              $server->bind($request->fd,'401');# 绑定用户 第二个参数暂时写死
               echo "server: handshake success with fd{$request->fd}\n";
           });
           # 用户发送消息事件
