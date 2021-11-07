@@ -1,0 +1,121 @@
+#  编译安装与卸载Nginx
+
+> Nginx：是一款比较流行的web服务器软件，类似于Apache
+
+## 资料
+
+| 名称                                 | 地址                                                         |
+| ------------------------------------ | ------------------------------------------------------------ |
+| nginx(官网)                          | [link](http://nginx.org/en/download.html)                    |
+| nginx(中文文档)  nginx(编译安装教程) | [link](https://www.nginx.cn/doc/)  [link](https://www.nginx.cn/install) |
+| nginx(中文站)                        | [link](https://www.nginx.cn/)                                |
+
+# 安装
+
+**安装之前必须要安装的编译工具**
+
+```shell
+gcc
+g++
+make
+```
+
+
+
+## [下载nginx](http://nginx.org/en/download.html)
+
+> 鼠标放置在[ nginx-1.21.4](http://nginx.org/download/nginx-1.21.4.tar.gz) (可以看见浏览器左下角以**.tar.gz结尾**)后不需要管后面的**pgp**
+>
+> 直接右键复制链接 使用**wget命令下载**，或者下载到本地然后使用**ftp**上传到服务器
+
+```shell
+wget http://nginx.org/download/nginx-1.21.4.tar.gz
+```
+
+**下载完成之后解压nginx** &删除下载nginx的压缩包&进入解压目录
+
+```shell
+tar -zxvf nginx-1.21.4.tar.gz && rm -rf nginx-1.21.4.tar.gz && cd nginx-1.21.4 
+```
+
+
+
+## 编译安装
+
+> 以下命令执行之后会在项目中生成Makefile的文件
+
+```shell
+# --perfix 指定程序安装路径
+# --with   指定需要引用哪些模块  --with-pcre 不带路径系统自己查询，--with-zlib=/usr/local/lib/ 指定路径
+./configure  --perfix=/usr/local/nginx --with-pcre --with-zlib=/usr/local/lib/
+make && sudo make install
+```
+
+**报错处理**
+
+1. 如果在配置时候报错：没有PCRE库
+
+>./configure: error: the HTTP rewrite module requires the PCRE library.
+>You can either disable the module by using --without-http_rewrite_module
+>option, or install the PCRE library into the system, or build the PCRE library
+>statically from the source with nginx by using --with-pcre=<path> option.
+
+```shell
+# 安装开发版本
+yum -y install pcre-devel
+```
+
+
+
+2. 提示缺少**zlib**库
+
+> ./configure: error: the HTTP gzip module requires the zlib library.
+> You can either disable the module by using --without-http_gzip_module
+> option, or install the zlib library into the system, or build the zlib library
+> statically from the source with nginx by using --with-zlib=<path> option.
+
+```shell
+yum -y install zlib-devel
+```
+
+## 启动nginx
+
+> 输入路径没有任何错误抛出即启动成功，此时可以通过ip地址尝试访问验证
+>
+> 注意
+>
+> 编译安装的软件没有service nginx start 类似的启动命令
+
+```shell
+[root@VM-56-0-centos ~]# /usr/local/nginx/sbin/nginx
+[root@VM-56-0-centos ~]# 
+# 重启nginx
+[root@VM-56-0-centos ~]# /usr/local/nginx/sbin/nginx -s reload
+# 停止nginx 
+[root@VM-56-0-centos ~]# /usr/local/nginx/sbin/nginx -s stop
+```
+
+```shell
+[root@VM-56-0-centos ~]# nginx
+-bash: nginx: command not found
+
+```
+
+## 卸载编译安装的软件
+
+> 注意：卸载一个编译安装软件的时候必须先停止
+
+```shell
+rm -rf /usr/local/nginx      # 直接删除软件的安装目录即可
+```
+
+
+
+
+
+
+
+
+
+
+

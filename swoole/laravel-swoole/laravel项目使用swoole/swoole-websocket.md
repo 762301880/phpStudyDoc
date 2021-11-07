@@ -106,7 +106,7 @@ php artisan make:command Swoole     # 创建command类
   
   ```
 
-  - 开启swoole
+  - 开启swoole9*/88
 
    ```php
    php artisan swoole
