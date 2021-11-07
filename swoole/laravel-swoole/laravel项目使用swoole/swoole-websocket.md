@@ -86,7 +86,7 @@ php artisan make:command Swoole     # 创建command类
           });
           # 用户发送消息事件
           $ws->on('message', function (Server $server, Frame $frame)use ($ws) {
-              \Log::info($ws->getClientInfo($frame->fd));#获取绑定的用户信息
+              \Log::info($ws->getClientInfo($frame->fd));#获取绑定的用户信息 记得linux开启storage/logs 写入权限
               $server->push($frame->fd, $frame->fd);
               echo $frame->data;
           });
