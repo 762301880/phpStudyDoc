@@ -9,6 +9,7 @@
 | nginx(官网)                          | [link](http://nginx.org/en/download.html)                    |
 | nginx(中文文档)  nginx(编译安装教程) | [link](https://www.nginx.cn/doc/)  [link](https://www.nginx.cn/install) |
 | nginx(中文站)                        | [link](https://www.nginx.cn/)                                |
+| 菜鸟教程-Nginx 安装配置              | [link](https://www.runoob.com/linux/nginx-install-setup.html) |
 
 # 安装
 
@@ -99,6 +100,16 @@ yum -y install zlib-devel
 [root@VM-56-0-centos ~]# nginx
 -bash: nginx: command not found
 
+
+# 外部使用nginx命令配置
+# 首先我们在/usr/bin/创建nginx程序的软连接将其加入环境变量中，以后我们就不需要进入nginx安装目录下找nginx命令来执行他了
+ln -s /usr/local/nginx/sbin/nginx /usr/bin/nginx
+#  重启
+[root@VM-56-0-centos ~]# nginx -s reload
+# 启动
+[root@VM-56-0-centos ~]# nginx
+# 停止
+[root@VM-56-0-centos ~]# nginx -s
 ```
 
 ## 卸载编译安装的软件
