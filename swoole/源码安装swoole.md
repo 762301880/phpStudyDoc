@@ -59,8 +59,20 @@ yaoliuyang@benben:~/php-7.4.21$ make install
 
 ## 二 、[源码编译安装swoole](https://wiki.swoole.com/wiki/page/6.html)
 
+**官网介绍**
+
+>`Swoole` 扩展是按照 `PHP` 标准扩展构建的。使用 `phpize` 来生成编译检测脚本，`./configure` 来做编译配置检测，`make` 进行编译，`make install` 进行安装。
+>
+>- **如无特殊需求，请务必编译安装 `Swoole` 的最新 [release](https://github.com/swoole/swoole-src/releases/latest) 版本或 [v4.4LTS](https://github.com/swoole/swoole-src/tree/v4.4.x)**
+>- 如果当前用户不是 `root`，可能没有 `PHP` 安装目录的写权限，安装时需要 `sudo` 或者 `su`
+>- 如果是在 `git` 分支上直接 `git pull` 更新代码，重新编译前务必要执行 `make clean`
+>- 仅支持 `Linux`(2.3.32 以上内核)、`FreeBSD`、`MacOS` 三种操作系统，低版本 Linux 系统（如 `CentOS 6`）可以使用 `RedHat` 提供的 `devtools` 编译，[参考文档](https://blog.csdn.net/ppdouble/article/details/52894271)， 在 `Windows` 平台，可使用 `WSL(Windows Subsystem for Linux)` 或 `CygWin`
+>- 部分扩展与 `Swoole` 扩展不兼容，参考[扩展冲突](https://wiki.swoole.com/#/getting_started/extension)
+
+**必须安装的编译软件**
+
 ```shell
-安装前必须保证系统已经安装了下列软件
+# 安装前必须保证系统已经安装了下列软件 除了php 却啥装啥 例如: sudo  apt install -y gcc g++ make autoconf 
 
 php-7.0 或更高版本
 gcc-4.8 或更高版本
