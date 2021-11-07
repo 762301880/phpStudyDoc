@@ -59,6 +59,8 @@ yaoliuyang@benben:~/php-7.4.21$ make install
 
 ## 二 、[源码编译安装swoole](https://wiki.swoole.com/wiki/page/6.html)
 
+## 编译安装
+
 **官网介绍**
 
 >`Swoole` 扩展是按照 `PHP` 标准扩展构建的。使用 `phpize` 来生成编译检测脚本，`./configure` 来做编译配置检测，`make` 进行编译，`make install` 进行安装。
@@ -156,4 +158,39 @@ php -m
 swoole # 显示出的扩展有swoole即可
 ...
 ```
+
+## pecl安装
+
+**资料**
+
+| 资料名称                               | 资料地址                                                 |
+| -------------------------------------- | -------------------------------------------------------- |
+| `laravel`学院`Swoole` 从入门到实战教程 | [地址](https://laravelacademy.org/books/swoole-tutorial) |
+|                                        |                                                          |
+
+`Ubuntu安装swoole`
+
+- 参考[资料](https://laravelacademy.org/post/9780)
+
+如果是在服务器安装的话，以` Ubuntu` 系统为例，通过执行下列命令安装即可：
+
+```shell
+sudo pecl install swoole
+```
+
+- 如果提示 `Command 'pecl' not found, but can be installed with:`
+
+```shell
+sudo apt install php7.4-dev    # 必须要安装用于执行phpize来生成编译检测脚本 
+sudo apt install php-pear      # 必须安装用于直接安装swoole的命令
+```
+
+- 然后通过 `php -i | grep php.ini` 定位 `php.ini` 文件所在位置，并打开该配置文件，在文件末尾追加如下内容：
+
+```shell
+[swoole]
+extension=swoole.so
+```
+
+- 保存并退出，在终端运行 `php -m`，如果看到扩展里包含 `swoole`，说明安装启用成功。
 
