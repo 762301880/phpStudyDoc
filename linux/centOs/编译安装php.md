@@ -31,7 +31,9 @@ tar -zxvf php-7.4.21.tar.gz
 yaoliuyang@benben:~ $ cd php-7.4.21/
 # ./configure --prefix=/home/.... ,--perfix参数指定目录 此参数可以不加 编译 PHP 时需要 --enable-fpm 配置选项来激活 FPM 支持。
 # 编译fpm支持 https://www.php.net/manual/zh/install.fpm.install.php
-yaoliuyang@benben:~/php-7.4.21$ ./configure  --prefix=/usr/local/php7.4.21  --disable-fileinfo  --enable-fpm
+yaoliuyang@benben:~/php-7.4.21$ ./configure  --prefix=/usr/local/php7.4.21  --disable-fileinfo  --enable-fpm 
+--without-pear  --disable-phar 
+
 # 出现以下则代表成功
 +--------------------------------------------------------------------+
 | License:                                                           |

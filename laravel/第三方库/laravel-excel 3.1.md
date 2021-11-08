@@ -1,4 +1,4 @@
-# 绍
+# 介绍
 
 > 平时的开发工作过程中我们需要对数据进行excel导入导出的工作，这时候我们就
 >
@@ -270,5 +270,11 @@ private function ExcelToTime(int $date)
         $fixationT = 24 * 60 * 60;
         return gmdate('Y-m-d',($date - $d) * $fixationT);
  }
+```
+
+# 注意事项
+
+```php
+# 导出请求必须是get请求要不然前端会获取到二进制的数据  s
 ```
 
