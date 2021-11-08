@@ -1,143 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-#  一、源码编译安装php
-
-## 1.1 下载php7源码
-
-### 1.1.1 进入php[官网](https://www.php.net/),点击[Downloads](https://www.php.net/downloads)
-
-```php
-[php-7.4.21.tar.gz][(sig)]
-(https://www.php.net/distributions/php-7.4.21.tar.gz.asc) [16,223Kb]
-```
-
-### 1.1.2 linux-wget下载php7
-
-```shell
-wget https://www.php.net/distributions/php-7.4.21.tar.gz
-```
-
-## 1.2 php7 源码编译安装
-
-### 1.2.1 解压
-
-```shell
-tar -zxvf php-7.4.21.tar.gz
-```
-
-###  1.2.2 configure
-
-```shell
-# 进入上一部解压的php目录
-yaoliuyang@benben:~ $ cd php-7.4.21/
-# 编译
-yaoliuyang@benben:~/php-7.4.21$ ./configure  --prefix=/usr/local/php7.4.21  --disable-fileinfo  #./configure --prefix=/home/.... ,--perfix参数指定目录 此参数可以不加
-# 出现以下则代表成功
-+--------------------------------------------------------------------+
-| License:                                                           |
-| This software is subject to the PHP License, available in this     |
-| distribution in the file LICENSE. By continuing this installation  |
-| process, you are bound by the terms of this license agreement.     |
-| If you do not agree with the terms of this license, you must abort |
-| the installation process at this point.                            |
-+--------------------------------------------------------------------+
-
-Thank you for using PHP.
-```
-
-编译遇到bug
-
-1. libxml 缺少提示
-
-> No package 'libxml-2.0' found
->
-> checking whether to build with LIBXML support... yes
-> checking for libxml-2.0 >= 2.7.6... no
-> configure: error: Package requirements (libxml-2.0 >= 2.7.6) were not met:
->
-> No package 'libxml-2.0' found
-
-```shell
-yum -y install libxml2-devel
-```
-
-2. sqlite3缺少提示
-
-> checking for sqlite3 > 3.7.4... no
-> configure: error: Package requirements (sqlite3 > 3.7.4) were not met:
->
-> No package 'sqlite3' found
-
-```shell
-yum -y install sqlite-devel
-```
-
-3. make: *** [ext/fileinfo/libmagic/apprentice.lo] Error 1
-
-> 原因是由于服务器内存不足1G，跑不动。
->
-> 在./configure 时加–disable-fileinfo
-
-```shell
-./configure --disable-fileinfo --with-php-config=/usr/local/php/bin/php-config
-```
-
-
-
-### 1.2.3 make
-
-```shell
-# 编译
-yaoliuyang@benben:~/php-7.4.21$ make
-```
-
-### 1.2.4 make install
-
-```shell
-yaoliuyang@benben:~/php-7.4.21$ make install
-```
-
-### 1.2.5  建立全局php命令
-
-```shell
-ln -s /usr/local/php7.4.21/bin/php  /usr/bin/php # 然后你就可以在任何地方使用php 命令了
-```
-
-复制php.ini
-
-```shell
-# 查询php.ini位置
-[root@VM-139-48-centos include]# php -r "phpinfo();" | grep 'php.ini' 
-Configuration File (php.ini) Path => /usr/local/php7.4.21/lib
-# or 
-[root@VM-139-48-centos ~]# find / -name php.ini*
-/root/php-7.4.21/php.ini-development
-/root/php-7.4.21/php.ini-production
-
-# 如果出现了以下的情况找不到（php.ini）
-[root@VM-139-48-centos ~]# php --ini
-Configuration File (php.ini) Path: /usr/local/php7.4.21/lib
-Loaded Configuration File:         (none)
-Scan for additional .ini files in: (none)
-Additional .ini files parsed:      (none)
-
-# 可以在源码那里复制过来
-cp /root/php-7.4.21/php.ini-development /usr/local/php7.4.21/lib/php.ini
-```
-
-
-
-## 二 、[安装swoole](https://wiki.swoole.com/wiki/page/6.html)
+#  [安装swoole](https://wiki.swoole.com/wiki/page/6.html)
 
 **资料**
 
@@ -146,7 +7,7 @@ cp /root/php-7.4.21/php.ini-development /usr/local/php7.4.21/lib/php.ini
 | 官网安装文档     | [link](https://wiki.swoole.com/#/environment)           |
 | 官网安装视频教程 | [link](https://course.swoole-cloud.com/course-video/23) |
 
-## 编译安装
+# 编译安装
 
 **官网介绍**
 
@@ -246,7 +107,7 @@ swoole # 显示出的扩展有swoole即可
 ...
 ```
 
-## pecl安装
+# pecl安装
 
 **资料**
 
