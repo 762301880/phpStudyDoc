@@ -13,7 +13,7 @@
 > --no-check-certificate 不校验证书
 
 ```shell
-wget https://www.php.net/distributions/php-7.4.21.tar.gz --no-check-certificate
+wget https://www.php.net/distributions/php-7.4.3.tar.gz --no-check-certificate
 ```
 
 ##  php7 源码编译安装
@@ -21,18 +21,18 @@ wget https://www.php.net/distributions/php-7.4.21.tar.gz --no-check-certificate
 ### 解压
 
 ```shell
-tar -zxvf php-7.4.21.tar.gz
+tar -zxvf php-7.4.3.tar.gz
 ```
 
 ###   configure
 
 ```shell
 # 进入上一部解压的php目录
-yaoliuyang@benben:~ $ cd php-7.4.21/
+[root@VM-56-0-centos ~]#  cd php-7.4.3/
+
 # ./configure --prefix=/home/.... ,--perfix参数指定目录 此参数可以不加 编译 PHP 时需要 --enable-fpm 配置选项来激活 FPM 支持。
 # 编译fpm支持 https://www.php.net/manual/zh/install.fpm.install.php
-yaoliuyang@benben:~/php-7.4.21$ ./configure  --prefix=/usr/local/php7.4.21  --disable-fileinfo  --enable-fpm 
---without-pear  --disable-phar 
+[root@VM-56-0-centos php-7.4.3]#  ./configure  --prefix=/usr/local/php7.4.3  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar 
 
 # 出现以下则代表成功
 +--------------------------------------------------------------------+
@@ -88,19 +88,19 @@ yum -y install sqlite-devel
 
 ```shell
 # 编译
-yaoliuyang@benben:~/php-7.4.21$ make
+yaoliuyang@benben:~/php-7.4.3$ make
 ```
 
 ###  make install
 
 ```shell
-yaoliuyang@benben:~/php-7.4.21$ make install
+yaoliuyang@benben:~/php-7.4.3$ make install
 ```
 
 ###  建立全局php命令
 
 ```shell
-ln -s /usr/local/php7.4.21/bin/php  /usr/bin/php # 然后你就可以在任何地方使用php 命令了
+ln -s /usr/local/php7.4.3/bin/php  /usr/bin/php # 然后你就可以在任何地方使用php 命令了
 ```
 
 复制php.ini
@@ -108,20 +108,20 @@ ln -s /usr/local/php7.4.21/bin/php  /usr/bin/php # 然后你就可以在任何�
 ```shell
 # 查询php.ini位置
 [root@VM-139-48-centos include]# php -r "phpinfo();" | grep 'php.ini' 
-Configuration File (php.ini) Path => /usr/local/php7.4.21/lib
+Configuration File (php.ini) Path => /usr/local/php7.4.3/lib
 # or 
 [root@VM-139-48-centos ~]# find / -name php.ini*
-/root/php-7.4.21/php.ini-development
-/root/php-7.4.21/php.ini-production
+/root/php-7.4.3/php.ini-development
+/root/php-7.4.3/php.ini-production
 
 # 如果出现了以下的情况找不到（php.ini）
 [root@VM-139-48-centos ~]# php --ini
-Configuration File (php.ini) Path: /usr/local/php7.4.21/lib
+Configuration File (php.ini) Path: /usr/local/php7.4.3/lib
 Loaded Configuration File:         (none)
 Scan for additional .ini files in: (none)
 Additional .ini files parsed:      (none)
 
 # 可以在源码那里复制过来
-cp /root/php-7.4.21/php.ini-development /usr/local/php7.4.21/lib/php.ini
+cp /root/php-7.4.3/php.ini-development /usr/local/php7.4.3/lib/php.ini
 ```
 
