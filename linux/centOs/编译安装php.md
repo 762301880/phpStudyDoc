@@ -18,18 +18,20 @@ wget https://www.php.net/distributions/php-7.4.3.tar.gz --no-check-certificate
 
 ##  php7 源码编译安装
 
-### 解压
+### 解压 && 进入解压目录
 
 ```shell
+# 解压
 tar -zxvf php-7.4.3.tar.gz
+# 进入上一部解压的php目录
+cd php-7.4.3/
 ```
 
 ###   configure
 
 ```shell
-# 进入上一部解压的php目录
-[root@VM-56-0-centos ~]#  cd php-7.4.3/
-
+# 安装php依赖
+yum -y install libxml2-devel sqlite-devel
 # ./configure --prefix=/home/.... ,--perfix参数指定目录 此参数可以不加 编译 PHP 时需要 --enable-fpm 配置选项来激活 FPM 支持。
 # 编译fpm支持 https://www.php.net/manual/zh/install.fpm.install.php
 [root@VM-56-0-centos php-7.4.3]#  ./configure  --prefix=/usr/local/php7.4.3  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar 
@@ -84,23 +86,32 @@ yum -y install sqlite-devel
 ./configure --disable-fileinfo --with-php-config=/usr/local/php/bin/php-config
 ```
 
-###  make
+###  make && make install
 
 ```shell
 # 编译
-yaoliuyang@benben:~/php-7.4.3$ make
+[root@VM-64-25-centos php-7.4.3]# make && make install 
 ```
 
-###  make install
+**测试命令**
 
 ```shell
-yaoliuyang@benben:~/php-7.4.3$ make install
+[root@VM-64-25-centos]# /usr/local/php7.4.3/bin/php --version
+PHP 7.4.3 (cli) (built: Nov  9 2021 08:24:01) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies
 ```
 
 ###  建立全局php命令
 
 ```shell
 ln -s /usr/local/php7.4.3/bin/php  /usr/bin/php # 然后你就可以在任何地方使用php 命令了
+
+# 测试 
+[root@VM-64-25-centos /]# php -v
+PHP 7.4.3 (cli) (built: Nov  9 2021 08:24:01) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies
 ```
 
 复制php.ini
