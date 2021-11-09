@@ -1,12 +1,22 @@
 #  源码编译安装php
 
+## 资料
+
+| 名称                                 | 地址                                                         |
+| ------------------------------------ | ------------------------------------------------------------ |
+| Centos 7源码编译安装 php7.2 之生产篇 | [link](https://www.linuxprobe.com/centos7-install-php72.html) |
+
 ##  [下载php7源码]
 
 > 进入php[官网](https://www.php.net/),点击[Downloads](https://www.php.net/downloads)
 
 ![1636332939(1).jpg](https://i.loli.net/2021/11/08/1rABOpzM3haU8WQ.png)
 
+**安装编译工具及库文件**
 
+```shell
+yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-deve
+```
 
 ###  linux-wget下载php7
 
