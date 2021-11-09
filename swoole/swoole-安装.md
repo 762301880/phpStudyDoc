@@ -66,7 +66,10 @@ tar -zxvf swoole-4.8.1.tgz
 > 使用phpize来生成php编译配置
 
 ```shell
-sudo apt-get install php-dev # 来安装 phpize
+# ubuntu
+sudo apt-get install php-dev # 来安装 phpize 
+# centos
+yum -y install php-devel 
 ```
 
 **编译安装**
@@ -78,9 +81,10 @@ sudo apt-get install php-dev # 来安装 phpize
 > make install进行安装
 
 ```shell
-cd swoole-4.8.1 && \
-phpize && \
-./configure && \
+cd swoole-4.8.1 
+phpize 
+./configure --with-php-config=/usr/local/php7.4.3/bin/php-config
+
 make && sudo make install
 ```
 
@@ -88,6 +92,26 @@ make && sudo make install
 
 ```shell
 make: *** 没有指明目标并且找不到 makefile。 停止。#  此时需要检查一下有没有安装 gcc g++
+```
+
+- 如果报错
+
+```shell
+# configure: error: Cannot find php-config. Please use --with-php-config=PATH
+# php -r "echo ini_get('extension_dir');" 查看扩展存放位置
+
+[root@VM-64-25-centos swoole-4.8.1]# find / -name php-config
+/root/php-7.4.3/scripts/php-config
+/usr/local/php7.4.3/bin/php-config
+/usr/bin/php-config
+
+centos下linux版本 Linux version 3.10.0-693.2.2.el7.x86_64 (builder@kbuilder.dev.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) ) #1 SMP 周二 9 月 12 日 22:26:13 UTC 2017
+
+安装包下载地址 http://pecl.php.net/get/swoole-4.5.9.tgz
+
+1.执行解析命令./configure --with-php-config=/usr/local/webserver/php/bin/php-config
+
+2.出现问题检查是否启用swoole覆盖支持...不检查是否启用Swoole开发者构建标志...不检查是否启用Swoole JSON构建标志...不检查是否用clang编译...不./配置：第 5534 行：意外标记附近的语法错误-Wbool-conversion,' ./configure: line 5534: AX_CHECK_COMPILE_FLAG(-Wbool-conversion, _MAINTAINER_CFLAGS="$_MAINTAINER_CFLAGS -Wbool-conversion")'
 ```
 
 
