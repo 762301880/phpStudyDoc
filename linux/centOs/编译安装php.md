@@ -5,6 +5,7 @@
 | 名称                                 | 地址                                                         |
 | ------------------------------------ | ------------------------------------------------------------ |
 | Centos 7源码编译安装 php7.2 之生产篇 | [link](https://www.linuxprobe.com/centos7-install-php72.html) |
+| php学院-CentOS 7.4 编译安装 PHP7     | [link](https://www.php.cn/topic/php7/449121.html)            |
 
 ##  [下载php7源码]
 
@@ -106,7 +107,8 @@ yum -y install sqlite-devel
 **测试命令**
 
 ```shell
-[root@VM-64-25-centos]# /usr/local/php7.4.3/bin/php --version
+# 只有在 /usr/local/php7.4.3/bin 目录下执行命令
+[root@VM-64-25-centos bin]# /usr/local/php7.4.3/bin/php --version
 PHP 7.4.3 (cli) (built: Nov  9 2021 08:24:01) ( NTS )
 Copyright (c) The PHP Group
 Zend Engine v3.4.0, Copyright (c) Zend Technologies
@@ -115,7 +117,27 @@ Zend Engine v3.4.0, Copyright (c) Zend Technologies
 ###  建立全局php命令
 
 ```shell
-ln -s /usr/local/php7.4.3/bin/php  /usr/bin/php # 然后你就可以在任何地方使用php 命令了
+ln -s /usr/local/php7.4.3/bin/php  /usr/bin/php # 然后你就可以在任何地方使用php 命令了(t)
+
+# 其它方式
+
+# 第一种方式
+1. 打开指令
+vim ~/.bash_profile
+2. 加入路径
+alias php=/usr/local/php7.4.3/bin/php
+3. 写入系统
+source ~/.bash_profile
+另外一种方法
+
+# 第二种方式
+1. 打开全局指令集
+vim /etc/profile
+2. 加入php指令到最后面
+PATH=$PATH:/usr/local/php7.4.3/bin/php
+export PATH
+3. 写入系统
+source /etc/profile
 
 # 测试 
 [root@VM-64-25-centos /]# php -v
