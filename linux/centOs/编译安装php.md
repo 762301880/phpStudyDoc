@@ -117,7 +117,7 @@ Zend Engine v3.4.0, Copyright (c) Zend Technologies
 ###  建立全局php命令
 
 ```shell
-ln -s /usr/local/php7.4.3/bin/php  /usr/bin/php # 然后你就可以在任何地方使用php 命令了(t)
+ln -s /usr/local/php7.4.3/bin/php  /usr/bin/php # 然后你就可以在任何地方使用php 命令了(推荐使用)
 
 # 其它方式
 
@@ -166,5 +166,49 @@ Additional .ini files parsed:      (none)
 
 # 可以在源码那里复制过来
 cp /root/php-7.4.3/php.ini-development /usr/local/php7.4.3/lib/php.ini
+```
+
+## 扩展使用dockerfile编译安装
+
+> 十分不推荐啊，这个亲测构建需要二十多分钟，构建出来的镜像有1.29个G,吐血了都
+
+```shell
+FROM centos:latest
+# 设置作者信息
+MAINTAINER yaoliuyang<762301880@qq.com>
+#  安装vim编辑器&编译工具
+RUN yum -y  update \
+  && yum -y install vim \
+     wget \
+  && yum -y install make \
+       zlib \
+       zlib-devel \
+       gcc-c++  \
+       libtool \
+       openssl \
+       openssl-devel
+# 安装php 跳过校验整数下载
+# 安装依赖
+RUN yum -y install libxml2-devel \
+     sqlite-devel \
+      # 下载源码包
+      && wget https://www.php.net/distributions/php-7.4.3.tar.gz --no-check-certificate \
+      # 解压 & 进入
+      && tar -zxvf  php-7.4.3.tar.gz \
+      && cd php-7.4.3 \
+      # 配置  --disable-fileinfo
+      && ./configure  --prefix=/usr/local/php7.4.3  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar \
+      && make \
+      && make install \
+      && ln -s /usr/local/php7.4.3/bin/php  /usr/bin/php \
+      && cp /php-7.4.3/php.ini-development /usr/local/php7.4.3/lib/php.ini \
+      && rm -rf /php-7.4.3 \
+      && rm -rf /php-7.4.3.tar.gz \
+```
+
+**构建dockerfile**
+
+```shell
+docker build -t myphp:0.1 .
 ```
 
