@@ -40,3 +40,6 @@ jenkins@37b124ebf446:/$ cat /var/jenkins_home/secrets/initialAdminPassword
 11ac1d04bf5d4932a85c1d7788cc76b7
 ```
 
+**安装建议的插件**
+
+![1636452627(1).png](https://i.loli.net/2021/11/09/JiTSRpWZDye6LAs.png)
