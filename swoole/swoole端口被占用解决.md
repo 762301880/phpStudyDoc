@@ -13,6 +13,12 @@ failed to listen server port[0.0.0.0:9802], Error: Address in use[98]
 
 **查看被占用的端口**
 
+> netstat  -a或--all 显示所有连线中的Socket 
+>
+> -n或--numeric 直接使用IP地址，而不通过域名服务器。
+>
+> -p或--programs 显示正在使用Socket的程序识别码和程序名称。
+
 ```shell
 bash-5.0# netstat  -anp  |  grep 9802
 tcp        0      0 0.0.0.0:9802            0.0.0.0:*               LISTEN      16/skeleton.Master
