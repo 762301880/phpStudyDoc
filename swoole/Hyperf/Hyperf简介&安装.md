@@ -52,7 +52,9 @@ C:\Users\Administrator> docker run -itd -p 9501:9501 --name=myphp  -v c:\etc\www
 -itd    # 以交互式并后台启动容器
 -p      # 本地端口映射服务器端口
 --name  # 定义容器的名称
--v      # 本地文件挂载到容器内的文件,此文件用于存放项目地址
+-v      # 本地文件挂载到容器内的文件,此文件用于存放项目地址 
+# 例 b
+ docker run -itd -p 9501:9501 --name=local_hyperf  -v C:\etc\www\hyperf:/www   7d0
 ```
 
 ### 3.1.3 创建hyperf项目
