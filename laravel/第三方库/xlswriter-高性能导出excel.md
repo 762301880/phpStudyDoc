@@ -83,6 +83,35 @@ apk add php7-pecl-xlswriter
                 ['Gym', 50],
             ])
             ->output();
+
+# 导出简单实战
+    public function test(Request $request)
+    {
+        $config = [
+            //这里设置为导出到项目的public目录下
+            'path' => public_path('/') // xlsx文件保存路径
+        ];
+        $excel = new \Vtiful\Kernel\Excel($config);
+        /*
+         * fileName 会自动创建一个工作表，
+         * 你可以自定义该工作表名称，工作表名称为可选参数
+         */
+        $data = DB::table('stu')->select(['id','sname'])->get()->map(function ($query) {
+            $query->aaa = 123;
+            return $query;
+        })->toArray();
+        $datas=[];
+        foreach ($data as $value){
+            $datas[]=array_values((array)$value);
+        }
+        $filePath = $excel->fileName('tutorial01.xlsx', 'sheet1')
+            # 导出的标题
+            ->header(['Item', 'Cost']);
+        # 导出的数据
+        $filePath = $filePath->data($datas);
+        $filePath = $filePath->output();
+        return $filePath;
+    }
 ```
 
 - 简单导入实验
