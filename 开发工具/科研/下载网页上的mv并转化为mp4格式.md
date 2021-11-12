@@ -25,5 +25,7 @@
 **如果下载的格式例如是.ts格式，我们想要.mp4格式,需要用转换器转换一下**
 
 > 转换器网络上很多的直接下载就可以了,不想下载的可以用网页版的在线转换 https://www.aconvert.com/cn/video/
+>
+> 软件例如 https://soft.kaobeitu.com/spzh/index/106?ver=gszhx-51&bd_vid=11866869815715989604
 
 ![1636689033(1).jpg](https://i.loli.net/2021/11/12/PWZhIJFpvosiRg3.png)
