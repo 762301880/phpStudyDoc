@@ -42,6 +42,22 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
   > 3. 重启阿帕奇 
   > 4. 输入代码phpinfo(),打开看见网站的扩展有`xlswriter`即配置成功
 
+### Alpine安装
+
+- 编辑源
+
+```shell
+vi /etc/apk/repositories
+# 添加官方 Testing 源
+http://nl.alpinelinux.org/alpine/edge/testing
+```
+
+- 使用 APK 安装
+
+```shell
+apk add php7-pecl-xlswriter
+```
+
 # 导出
 
 - 简单导出示例
