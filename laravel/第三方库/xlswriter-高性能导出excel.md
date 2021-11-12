@@ -112,6 +112,49 @@ apk add php7-pecl-xlswriter
         $filePath = $filePath->output();
         return $filePath;
     }
+# 导出实践2  '跟进信息' 是一对多数据 例如导出 跟进人1，跟进时间，跟进信息|跟进人，跟进时间，跟进信息
+    public function export($input)
+    {
+        $config = ['path' => BASE_PATH . '/public/xls/'];
+        $excel = new \Vtiful\Kernel\Excel($config);
+        $file_name = 'shop.' . date('ymdhis') . '.xlsx';
+
+        $fields = explode(',', ShopImport::$importFields);
+        $excel = $excel->fileName($file_name)->header([
+            '主键',
+            '店铺名称',
+            '经营模式',
+            '店铺行业分类',
+            '店铺行业',
+            '联系人名称',
+            '手机号码',
+            '省',
+            '城市',
+            '区',
+            '店铺地址',
+            '经度',
+            '纬度',
+            '意向度',
+            '类型',
+            '跟进状态',
+            '跟进信息',
+        ]);
+        $query = DB::table('shop');
+        $query = $this->setCondition($query, $input);
+        $arr = $query->select($fields)->orderBy('id')->get()->map(function ($query) {
+            $query->status = $this->getStatusText($query->status);//修改跟进状态
+            $followUps = FollowUp::where('store_id', $query->id)->select('staff_id', 'created_at', 'content')->get();
+            $query->info =  $this->getImploadText($followUps);
+            return $query;
+        })->toArray();
+        $export_datas = [];
+        foreach ($arr as $value) {
+            $export_datas[] = array_values((array)$value);
+        }
+        $excel = $excel->data($export_datas);
+        $excel = $excel->output();
+        return $this->path2AssetsUrl($excel);
+    }
 ```
 
 - 简单导入实验
