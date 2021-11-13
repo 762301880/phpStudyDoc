@@ -87,6 +87,8 @@ yum -y install zlib-devel
 > 注意
 >
 > 编译安装的软件没有service nginx start 类似的启动命令
+>
+> 如果是进入sbin目录直接执行 ./ nginx +参数命令
 
 ```shell
 [root@VM-56-0-centos ~]# /usr/local/nginx/sbin/nginx
@@ -105,13 +107,27 @@ yum -y install zlib-devel
 # 外部使用nginx命令配置
 # 首先我们在/usr/bin/创建nginx程序的软连接将其加入环境变量中，以后我们就不需要进入nginx安装目录下找nginx命令来执行他了
 ln -s /usr/local/nginx/sbin/nginx /usr/bin/nginx
-#  重启
+#  重启 重新启动配置
 [root@VM-56-0-centos ~]# nginx -s reload
 # 启动
 [root@VM-56-0-centos ~]# nginx
 # 停止
 [root@VM-56-0-centos ~]# nginx -s
 ```
+
+**查看nginx是否启动成功**
+
+```shell
+yaoliuyang@yaoliuyang-PC:/etc/nginx/sites-enabled$ ps -ef | wgrep nginx
+root      4885     1  0 13:38 ?        00:00:00 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+www-data  4886  4885  0 13:38 ?        00:00:00 nginx: worker process
+www-data  4887  4885  0 13:38 ?        00:00:00 nginx: worker process
+www-data  4888  4885  0 13:38 ?        00:00:00 nginx: worker process
+www-data  4889  4885  0 13:38 ?        00:00:00 nginx: worker process
+yaoliuy+ 16401 12041  0 19:05 pts/1    00:00:00 grep nginx
+```
+
+
 
 ## 卸载编译安装的软件
 
