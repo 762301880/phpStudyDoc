@@ -34,10 +34,8 @@ wget https://www.php.net/distributions/php-7.4.3.tar.gz --no-check-certificate
 ### 解压 && 进入解压目录
 
 ```shell
-# 解压
-tar -zxvf php-7.4.3.tar.gz
-# 进入上一部解压的php目录
-cd php-7.4.3/
+# 解压&&进入
+tar -zxvf php-7.4.3.tar.gz && cd php-7.4.3/
 ```
 
 ###   configure
