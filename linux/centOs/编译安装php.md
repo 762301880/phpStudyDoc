@@ -7,7 +7,7 @@
 | Centos 7源码编译安装 php7.2 之生产篇 | [link](https://www.linuxprobe.com/centos7-install-php72.html) |
 | php学院-CentOS 7.4 编译安装 PHP7     | [link](https://www.php.cn/topic/php7/449121.html)            |
 | php 国内官网                         | [link](http://php.p2hp.com/)  [link](https://www.p2hp.com/)  |
-| php国内镜像                          | [link](http://mirrors.sohu.com/php/)                         |
+| php-首户镜像                         | [link](http://mirrors.sohu.com/php/)                         |
 
 ##  [下载php7源码]
 
