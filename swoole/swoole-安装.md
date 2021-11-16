@@ -58,7 +58,7 @@ https://gitee.com/swoole/swoole/tags           # gitee
 **解压源码包**
 
 ```shell
-tar -zxvf swoole-4.8.1.tgz
+tar -zxvf swoole-4.8.1.tgz && cd swoole-4.8.1 
 ```
 
 **如果提示没有phpize**
@@ -81,9 +81,11 @@ yum -y install php-devel
 > make install进行安装
 
 ```shell
-cd swoole-4.8.1 
-phpize 
-./configure --with-php-config=/usr/local/php7.4.3/bin/php-config
+# 如果是 编译是安装的php 请先查询phpize位置  find / -name phpize  
+/usr/local/php7.4.3/bin/phpize  ./configure --with-php-config=/usr/local/php7.4.3/bin/php-config
+
+# 如果是yum||apt安装
+phpize  ./configure --with-php-config=/usr/local/php7.4.3/bin/php-config
 
 make && sudo make install
 ```
