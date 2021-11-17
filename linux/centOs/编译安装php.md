@@ -40,6 +40,11 @@ tar -zxvf php-7.4.3.tar.gz && cd php-7.4.3/
 
 ###   configure
 
+| 名称                       | 地址                                                      |
+| -------------------------- | --------------------------------------------------------- |
+| configure-核心配置选项列表 | [link](https://www.php.net/manual/zh/configure.about.php) |
+|                            |                                                           |
+
 ```shell
 # 安装php依赖
 yum -y install libxml2-devel sqlite-devel
@@ -94,7 +99,7 @@ yum -y install sqlite-devel
 > 在./configure 时加–disable-fileinfo
 
 ```shell
-./configure --disable-fileinfo --with-php-config=/usr/local/php/bin/php-config
+./configure --disable-fileinfo --with-php-config=/usr/local/php/bin/php-config 
 ```
 
 ###  make && make install
