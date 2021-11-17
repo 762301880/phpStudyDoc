@@ -156,6 +156,16 @@ sudo find /etc -name "*php*" |xargs  rm -rf
 
 # nginx 安装
 
+**因为deepin自带的apache2**所以安装nginx可能会错
+
+```shell
+service apache2 status
+service apache2 stop
+sudo apt autoremove a
+```
+
+
+
 ```shell
 sudo apt -y  install php-fpm
 sudo apt -y  install nginx
