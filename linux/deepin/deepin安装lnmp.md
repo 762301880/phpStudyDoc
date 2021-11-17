@@ -39,6 +39,12 @@ wget https://dev.mysql.com/get/mysql-apt-config_0.8.20-1_all.deb
 sudo dpkg -i mysql-apt-config_0.8.20-1_all.deb
 ```
 
+### 刷新软件包
+
+```shell
+sudo apt update
+```
+
 ### 执行安装
 
 ```shell
