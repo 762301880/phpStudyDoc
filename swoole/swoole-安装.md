@@ -82,7 +82,7 @@ yum -y install php-devel
 
 ```shell
 # 如果是 编译是安装的php 请先查询phpize位置  find / -name phpize  
-/usr/local/php7.4.3/bin/phpize  ./configure --with-php-config=/usr/local/php7.4.3/bin/php-config
+/usr/local/php7.4.3/bin/phpize  ./configure --with-php-config=/usr/local/php7.4.3/bin/php-config --enable-openssl
 
 # 如果是yum||apt安装
 phpize  ./configure --with-php-config=/usr/local/php7.4.3/bin/php-config
