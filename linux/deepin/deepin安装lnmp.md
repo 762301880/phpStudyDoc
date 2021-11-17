@@ -158,6 +158,8 @@ sudo find /etc -name "*php*" |xargs  rm -rf
 
 **因为deepin自带的apache2**所以安装nginx可能会错
 
+> nginx-full nginx E: Sub-process /usr/bin/dpkg returned an error code (1)
+
 ```shell
 service apache2 status
 service apache2 stop
