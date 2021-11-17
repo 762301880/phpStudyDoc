@@ -173,8 +173,9 @@ root      183056   90667  0 06:55 pts/1    00:00:00 grep --color=auto nginx
 mkdir /usr/local/nginx/conf.d
 vi /usr/local/nginx/conf/nginx.conf
 # 再下面加入一行 第一个是 www.cs.com.conf  第二个是 www.cs.com 任意取一个配置即可自己喜欢就好
-include /usr/local/nginx/conf.d/*.conf
-include /etc/nginx/sites-enabled/*
+# 再http模块中添加 不
+include /usr/local/nginx/conf.d/*.conf;
+include /etc/nginx/sites-enabled/*;
 
 cd /usr/local/nginx/conf.d
 vi www.cs.com.conf
