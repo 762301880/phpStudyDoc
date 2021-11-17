@@ -50,6 +50,7 @@ tar -zxvf php-7.4.3.tar.gz && cd php-7.4.3/
 yum -y install libxml2-devel sqlite-devel
 # ./configure --prefix=/home/.... ,--perfix参数指定目录 此参数可以不加 编译 PHP 时需要 --enable-fpm 配置选项来激活 FPM 支持。
 # 编译fpm支持 https://www.php.net/manual/zh/install.fpm.install.php
+#关联的扩展都在 源码的/root/php-7.4.3/ext m
 [root@VM-56-0-centos php-7.4.3]#  ./configure  --prefix=/usr/local/php7.4.3 --with-config-file-path=/usr/local/php7.4.3/etc  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar 
 
 # 出现以下则代表成功
