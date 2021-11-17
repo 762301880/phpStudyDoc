@@ -210,6 +210,44 @@ pid = run/php-fpm.pid
 tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      183277/php-fpm: mas 
 ```
 
+**相关nginx配置**
+
+```shell
+server {
+    listen 80;
+    server_name www.cs.com;
+    root /work/www/laravel/public/;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php;
+    client_max_body_size 100m;
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        # fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+        fastcgi_pass  127.0.0.1:9000;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
 
 
 ## 扩展使用dockerfile编译安装
