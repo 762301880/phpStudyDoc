@@ -42,15 +42,17 @@ tar -zxvf nginx-1.21.4.tar.gz && rm -rf nginx-1.21.4.tar.gz && cd nginx-1.21.4
 
 
 
-## 编译安装
+## 编译安装nginx
 
+> **先安装下面的报错处理**
+>
 > 以下命令执行之后会在项目中生成Makefile的文件
 
 ```shell
 # --prfix 指定程序安装路径
 # --with   指定需要引用哪些模块  --with-pcre 不带路径系统自己查询，--with-zlib=/usr/local/lib/ 指定路径
 ./configure  --prefix=/usr/local/nginx --with-pcre --with-zlib=/usr/local/lib/
-make && sudo make install
+make && sudo make install	
 ```
 
 **报错处理**
@@ -67,6 +69,18 @@ make && sudo make install
 yum -y install pcre-devel
 ```
 
+**编译安装pcre**
+
+```shell
+# 下载地址 https://sourceforge.net/projects/pcre/files/pcre/8.45/     wget 下载的文件叫download
+wget https://sourceforge.net/projects/pcre/files/pcre/8.45/pcre-8.45.tar.gz/download
+tar -zxvf download && rm -rf download &&cd pcre-8.45/
+./configure 
+make && make install
+# 查看版本
+pcre-config --version
+```
+
 
 
 2. 提示缺少**zlib**库
@@ -79,6 +93,24 @@ yum -y install pcre-devel
 ```shell
 yum -y install zlib-devel
 ```
+
+**[编译安装zlib](https://jingyan.baidu.com/article/49ad8bce8c088b5834d8fa3e.html)**
+
+[zlib官网](http://www.zlib.net/)
+
+<img src="https://i.loli.net/2021/11/17/x58HBYLRFbqlC9K.png" alt="1637131018(1).jpg" style="zoom:33%;" />
+
+```shell
+wget http://www.zlib.net/zlib-1.2.11.tar.gz 
+tar -zxvf zlib-1.2.11.tar.gz
+rm -rf zlib-1.2.11.tar.gz cd zlib-1.2.11
+./configure 
+make && make install
+```
+
+
+
+
 
 ## 启动nginx
 
