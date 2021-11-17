@@ -50,7 +50,7 @@ tar -zxvf php-7.4.3.tar.gz && cd php-7.4.3/
 yum -y install libxml2-devel sqlite-devel
 # ./configure --prefix=/home/.... ,--perfix参数指定目录 此参数可以不加 编译 PHP 时需要 --enable-fpm 配置选项来激活 FPM 支持。
 # 编译fpm支持 https://www.php.net/manual/zh/install.fpm.install.php
-[root@VM-56-0-centos php-7.4.3]#  ./configure  --prefix=/usr/local/php7.4.3  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar 
+[root@VM-56-0-centos php-7.4.3]#  ./configure  --prefix=/usr/local/php7.4.3 --with-config-file-path=/usr/local/php7.4.3/etc  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar 
 
 # 出现以下则代表成功
 +--------------------------------------------------------------------+
@@ -173,6 +173,45 @@ Additional .ini files parsed:      (none)
 cp /root/php-7.4.3/php.ini-development /usr/local/php7.4.3/lib/php.ini
 ```
 
+###  启动php-fpm
+
+> 编译的时候加上**--enable-fpm**
+
+```shell
+# 首先启动报错 错误信息说是找不到php-fpm.conf
+[root@101fe8e80378 /]# /usr/local/php7.4.3/sbin/php-fpm 
+[17-Nov-2021 08:10:54] ERROR: failed to open configuration file '/usr/local/php7.4.3/etc/php-fpm.conf': No such file or directory (2)
+[17-Nov-2021 08:10:54] ERROR: failed to load configuration file '/usr/local/php7.4.3/etc/php-fpm.conf'
+[17-Nov-2021 08:10:54] ERROR: FPM initialization failed
+# cp 一份 php-fpm.conf
+[root@101fe8e80378 /]# cd /usr/local/php7.4.3/etc/
+[root@101fe8e80378 etc]# ls
+php-fpm.conf.default  php-fpm.d
+[root@101fe8e80378 etc]# cp php-fpm.conf.default  php-fpm.conf
+[root@101fe8e80378 etc]# ls
+php-fpm.conf  php-fpm.conf.default  php-fpm.d
+# 编辑 php-fpm.conf 大概在17行取消注释
+pid = run/php-fpm.pid
+ 
+# 如果报错
+[root@101fe8e80378 etc]# /usr/local/php7.4.3/sbin/php-fpm
+[17-Nov-2021 08:24:11] WARNING: Nothing matches the include pattern '/usr/local/php7.4.3/etc/php-fpm.d/*.conf' from /usr/local/php7.4.3/etc/php-fpm.conf at line 143.
+[17-Nov-2021 08:24:11] ERROR: No pool defined. at least one pool section must be specified in config file
+[17-Nov-2021 08:24:11] ERROR: failed to post process the configuration
+[17-Nov-2021 08:24:11] ERROR: FPM initialization failed
+# 操作如下
+[root@101fe8e80378]#  cd /usr/local/php7.4.3/etc/php-fpm.d
+[root@101fe8e80378 php-fpm.d]# cp www.conf.default www.conf
+# 再次启动没有报错即可
+[root@101fe8e80378 php-fpm.d]# /usr/local/php7.4.3/sbin/php-fpm
+
+# 查看是否启动成功
+[root@101fe8e80378 php-fpm.d]# netstat -ntlp | grep 9000
+tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      183277/php-fpm: mas 
+```
+
+
+
 ## 扩展使用dockerfile编译安装
 
 > 十分不推荐啊，这个亲测构建需要二十多分钟，构建出来的镜像有1.29个G,吐血了都
@@ -202,7 +241,7 @@ RUN yum -y install libxml2-devel \
       && tar -zxvf  php-7.4.3.tar.gz \
       && cd php-7.4.3 \
       # 配置  --disable-fileinfo
-      && ./configure  --prefix=/usr/local/php7.4.3  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar \
+      && ./configure  --prefix=/usr/local/php7.4.3   --disable-fileinfo  --enable-fpm --without-pear  --disable-phar \
       && make \
       && make install \
       && ln -s /usr/local/php7.4.3/bin/php  /usr/bin/php \
