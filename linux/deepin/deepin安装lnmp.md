@@ -163,7 +163,7 @@ sudo find /etc -name "*php*" |xargs  rm -rf
 ```shell
 service apache2 status
 service apache2 stop
-sudo apt autoremove a
+sudo apt autoremove apache2
 ```
 
 
