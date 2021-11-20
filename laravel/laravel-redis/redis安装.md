@@ -9,7 +9,7 @@
 **下载官网提供的稳定版本**
 
 ```shell
-# 从源代码 下载、解压和编译Redis：
+# 从源代码 下载、解压和编译Redis： 推荐将redis放在 /usr/local目录下
 wget https://download.redis.io/releases/redis-6.2.6.tar.gz 
 tar -zxzf redis-6.2.6.tar.gz
 cd redis-6.2.6
