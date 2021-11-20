@@ -10,7 +10,7 @@
 
 ```shell
 # 如果php是对应版本的后面也要加上对应的版本号例如php7-curl
-apt -y install  php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring  php-soap curl php-curl
+apt -y install  php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring  php-soap curl php-curl 
 ```
 
 参考[资料](https://www.jb51.net/article/117895.htm)
