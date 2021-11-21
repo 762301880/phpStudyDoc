@@ -2,11 +2,11 @@
 
 ## 1.1地址
 
-| 名称         | 地址                                                         |
-| ------------ | ------------------------------------------------------------ |
-| 说明地址     | [链接](https://mp.weixin.qq.com/s/S05rgr5JPZSOWJmOvCIzfg)    |
-| 软件下载地址 | [链接](https://github.com/qishibo/AnotherRedisDesktopManager/releases) |
-| gitee地址    | [链接](https://gitee.com/qishibo/AnotherRedisDesktopManager) |
+| 名称                         | 地址                                                         |
+| ---------------------------- | ------------------------------------------------------------ |
+| 说明地址                     | [链接](https://mp.weixin.qq.com/s/S05rgr5JPZSOWJmOvCIzfg)    |
+| 软件下载地址   gitee下载地址 | [链接](https://github.com/qishibo/AnotherRedisDesktopManager/releases)   [链接](https://gitee.com/qishibo/AnotherRedisDesktopManager/releases) |
+| gitee地址                    | [链接](https://gitee.com/qishibo/AnotherRedisDesktopManager) |
 
 # 二、下载
 
@@ -42,3 +42,4 @@ https://github.com/qishibo/AnotherRedisDesktopManager/releases
 ![image-20210607134744191](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210607134744191.png)
 
 以上设置完毕直接在项目中使用即可
+
