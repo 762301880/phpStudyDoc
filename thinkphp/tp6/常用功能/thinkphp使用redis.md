@@ -73,3 +73,46 @@ return [
         dd($redis->get('name'));
 ```
 
+#  bug
+
+## serialize error at offset...
+
+> 有这样一个问题我需要从redis中读取别的端存储的的token发现,报错**serialize error at offset**
+>
+> 查看报错位置**\vendor\topthink\framework\src\think\Driver.php**如下所示
+>
+> 这个原因是thinkphp使用redis保存的时候会自动给你序列化,读取的时候也会自动给你
+>
+> 反序列化, 而laravel保存的是原数据，所以需要到laravel端使用redis的时候手动序列化和反序列化
+
+```php
+    /**
+     * 序列化数据
+     * @access protected
+     * @param mixed $data 缓存数据
+     * @return string
+     */
+    protected function serialize($data): string
+    {
+        if (is_numeric($data)) {
+            return (string) $data;
+        }
+
+        $serialize = $this->options['serialize'][0] ?? "serialize";
+
+        return $serialize($data);
+    }
+```
+
+> 可以看出如果是数值类型直接返回元数据,反之返回序列化数据
+
+**解决方案**
+
+```shell
+# 在别的端加密token的时候手动序列化一下value
+$redis->set('token',serialize('token'));
+
+# 别的端解密的时候手动的解密一下结果
+$token=unserialize($redis->get('token'));
+```
+
