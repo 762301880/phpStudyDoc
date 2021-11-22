@@ -69,6 +69,7 @@ return [
         use think\cache\driver\Redis;   
         
         $redis = new Redis();
+        $redis->connect('192.168.40.236','6379'); # 实际使用的时候需要手动的连一下
         $redis->set('name','zhangsan'); 
         dd($redis->get('name'));
 ```
