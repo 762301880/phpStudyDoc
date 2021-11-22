@@ -7,7 +7,7 @@
 | thinkphp6.0-缓存 | [link](https://www.kancloud.cn/manual/thinkphp6_0/1037634) |
 | ---------------- | ---------------------------------------------------------- |
 | 第三方博客       | [link](https://www.cnblogs.com/laijinquan/p/13613647.html) |
-|                  |                                                            |
+| redis配置        | [link](http://www.thinkphp.cn/topic/68472.html)            |
 
 
 
