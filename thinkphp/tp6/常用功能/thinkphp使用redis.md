@@ -73,9 +73,14 @@ return [
 
 ```shell
         use think\cache\driver\Redis;   
-        
-        $redis = new Redis();
-        $redis->connect('192.168.40.236','6379'); # 实际使用的时候需要手动的连一下
+    # 这里的用法需要参考底层  https://github.com/phpredis/phpredis    
+    $redis = new Redis([  
+            'host' => $redis_host,
+            'port' => $redis_port,
+            'connectTimeout' => 2.5,
+            'auth' => ['phpredis', 'phpredis'],
+            'ssl' => ['verify_peer' => false],
+        ]);
         $redis->set('name','zhangsan'); 
         dd($redis->get('name'));
 ```
