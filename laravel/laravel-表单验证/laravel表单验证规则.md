@@ -56,3 +56,29 @@ Validator::make(
   # 返回 "手机号最大11位"    
 ```
 
+## 判断当前需要插入的值必须存在于另一个数据表中的某一列
+
+> 例如这种情况，我们想要插入虚假的中奖记录，所以中奖的奖项名称必须与奖品列表中的表名对应
+>
+> 所以需要这么一个判断：使用laravel 验证规则中的**[in](https://learnku.com/docs/laravel/8.x/validation/9374#rule-in)**方法查询
+
+**代码示例**
+
+```php
+ protected static function rules(): array
+    {
+        $prize_names=PullNewPrize::pluck('prize_name')->toArray();
+        $prize_names=implode(',',$prize_names);
+        return [
+            '*.3' => "required|in:$prize_names",//奖品名称
+        ];
+    }
+  protected static function messages(): array
+    {
+        return [
+            '*.3.required' => '奖品名称不能为空',
+            '*.3.in' => '奖品名称必须要存在于奖品列表中',
+        ];
+    }
+```
+
