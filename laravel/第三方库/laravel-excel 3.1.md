@@ -272,6 +272,26 @@ private function ExcelToTime(int $date)
  }
 ```
 
+##  数据库写入手机号的时候显示位数不足
+
+> 类似于下面这种强转为**string**类型,数据库记得类型修改为**varchar**
+
+```shell
+ foreach ($collection as $row) {
+            PullNewGainPrize::create([
+                'date' => $row[0],//用户昵称
+                'mobile' => (string)$row[1],//用户账号
+                'nickname' => $row[2],//用户昵称
+                'prize_name' => $row[3],//奖品名称
+                'pull_new_prize_id' => PullNewPrize::where('prize_name', $row[3])->first()->id ?? "",
+                'type' => PullNewGainPrize::TYPE_FALSE,//后台excel导入的假数据
+                'headimgurl' => getRandomHeadPortrait() //虚假头像
+            ]);
+        }
+```
+
+
+
 # 注意事项
 
 ```php
