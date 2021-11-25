@@ -96,5 +96,10 @@ public function request_post($url = '', $post_data = array())
  curl_setopt($curl,CURLINFO_HEADER_OUT,true); //在curl_exec($curl) 执行之前设置
  Log::error(curl_getinfo($curl,CURLINFO_HEADER_OUT));//获取http请求头这里保存到日志
 #
+CURLOPT_TIMEOUT	设置cURL允许执行的最长秒数。	
+CURLOPT_TIMEOUT_MS	设置cURL允许执行的最长毫秒数。
+CURLOPT_CONNECTTIMEOUT	在发起连接前等待的时间，如果设置为0，则无限等待。	
+CURLOPT_CONNECTTIMEOUT_MS	尝试连接等待的时间，以毫秒为单位。如果设置为0，则无限等待。
+
 ```
 
