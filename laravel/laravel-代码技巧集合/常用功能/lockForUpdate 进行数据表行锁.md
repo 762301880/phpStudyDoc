@@ -15,7 +15,7 @@
 | 名称                                                    | 地址                                                         |
 | ------------------------------------------------------- | ------------------------------------------------------------ |
 | 使用 Laravel sharedLock 与 lockForUpdate 进行数据表行锁 | [link](https://www.sunzhongwei.com/using-laravel-sharedlock-and-lockforupdate-for-table-row-locks) |
-|                                                         |                                                              |
+| Laravel 事务中 使用 悲观锁 小结                         | [link](https://learnku.com/articles/36846)                   |
 
 ​	
 
