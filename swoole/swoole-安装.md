@@ -87,6 +87,7 @@ yum -y install php-devel
 # 如果是yum||apt安装
 phpize  ./configure --with-php-config=/usr/local/php7.4.3/bin/php-config
 
+# 注意 make install 的时候不加 sudo 很可能会安装失败
 make && sudo make install
 ```
 
