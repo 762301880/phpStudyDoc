@@ -37,6 +37,11 @@ wget https://dev.mysql.com/get/mysql-apt-config_0.8.20-1_all.deb
 
 ```shell
 sudo dpkg -i mysql-apt-config_0.8.20-1_all.deb
+
+
+# 如果报错
+#Warning: apt-key should not be used in scripts (called from postinst maintainerscript of the package mysql-apt-config)
+sudo dpkg-reconfigure mysql-apt-config
 ```
 
 ### 刷新软件包
