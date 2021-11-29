@@ -108,7 +108,7 @@ CURLOPT_CONNECTTIMEOUT_MS	尝试连接等待的时间，以毫秒为单位。如
 [php扩展cURL执行中途无响应](https://segmentfault.com/a/1190000010197068)
 
 ```php
-# curl 请求执行时间   1 秒=1000 毫秒 
+# curl 请求执行时间   1 秒=1000 毫秒 ,1分钟 60000 毫秒
 
 CURLOPT_TIMEOUT #设置cURL允许执行的最长秒数。
 CURLOPT_TIMEOUT_MS #设置cURL允许执行的最长毫秒数。(在cURL7.16.2中被加入。从PHP5.2.3起可使用。)
