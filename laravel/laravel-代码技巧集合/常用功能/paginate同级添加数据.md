@@ -9,7 +9,7 @@
 | 名称                                   | 地址                                                         |
 | -------------------------------------- | ------------------------------------------------------------ |
 | laravel paginate 增加属性 （data同级） | [link](https://blog.csdn.net/ljwaheng/article/details/89477047) |
-|                                        |                                                              |
+| 增加同级                               | [link](https://www.it1352.com/1540344.html)                  |
 
 
 
