@@ -1200,10 +1200,74 @@ array:2 [
 
 # 七 、基础消息能力
 
+## [接入](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html)
+
+| 名称                   | 地址                                                         |
+| ---------------------- | ------------------------------------------------------------ |
+| 第三方博客参考         | [link](https://my.oschina.net/babyanzichen/blog/863310)      |
+| 微信官方测试号申请地址 | [link](http://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index) |
+| php 示例代码下载       | [link](https://res.wx.qq.com/op_res/-serEQ6xSDVIjfoOHcX78T1JAYX-pM_fghzfiNYoD8uHVd3fOeC0PC_pvlg4-kmP) |
+
+**首先我们在测试号中填写服务器配置**
+
+> 这里我们填写**URL**(校验请求地址),**token**(可以自定义)
+
+![1638251797(1).jpg](https://i.loli.net/2021/11/30/JnlMZL3VuEgK1T8.png)
+
+**[接入指南](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html)**
+
+> 之前一直不知道微信是怎么玩的果然想知道怎么玩还是要先查看别人是怎么玩的然后再从别人的写法中去分析
+>
+> 为什么要这样做
+
+**接入代码示例**
+
+| 参数      | 描述                                                         |
+| :-------- | :----------------------------------------------------------- |
+| signature | 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。 |
+| timestamp | 时间戳                                                       |
+| nonce     | 随机数                                                       |
+| echostr   | 随机字符串                                                   |
+
+> 开发者通过检验signature对请求进行校验（下面有校验方式）。若确认此次GET请求来自微信服务器，请原样返回***echostr参数内容***，**则接入生效**，成为开发者成功，否则接入失败。加密/校验流程如下：
+>
+> 1）将token、timestamp、nonce三个参数进行字典序排序 2）将三个参数字符串拼接成一个字符串进行sha1加密 3）开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
+
+```php
+# 路由
+Route::any('wechat', [\App\Http\Controllers\OfficialAccount::class, 'wechat']);//微信公众号接入
+
+# 控制器代码
+public function wechat()
+{
+  if ($this->checkSignature()) return $_GET["echostr"];
+}
+private function checkSignature()
+{
+    $signature = $_GET["signature"];
+    $timestamp = $_GET["timestamp"];
+    $nonce = $_GET["nonce"];
+	
+    $token = TOKEN;
+    $tmpArr = array($token, $timestamp, $nonce);
+    sort($tmpArr, SORT_STRING);
+    $tmpStr = implode( $tmpArr );
+    $tmpStr = sha1( $tmpStr );
+    
+    if( $tmpStr == $signature ){
+        return true;
+    }else{
+        return false;
+    }
+}
+```
 
 
->微信公众平台开发者模式允许用户自己配置服务器，这样来自粉丝的信息，通过微信平台包装成 xml 格式，发送给后台服务器，后台服务器解析处理后，同样把信息包装成 xml 格式，通过微信平台，发送给用户。
->微信平台和后台服务器直接是通过 xml 格式通信的（http POST），格式如下：
+
+## 7.1 [接受普通消息](https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html)
+
+> 微信公众平台开发者模式允许用户自己配置服务器，这样来自粉丝的信息，通过微信平台包装成 xml 格式，发送给后台服务器，后台服务器解析处理后，同样把信息包装成 xml 格式，通过微信平台，发送给用户。
+> 微信平台和后台服务器直接是通过 xml 格式通信的（http POST），格式如下：
 
 ```php
 <xml>
@@ -1222,5 +1286,5 @@ $msgType = $xmlObj->MsgType;
 # Laravel 的话，在 Controller 中要使用 $msg = $request->getContent() 获取原始数据。
 ```
 
-## 7.1 [接受普通消息](https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html)
+
 
