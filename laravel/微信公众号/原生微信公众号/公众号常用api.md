@@ -1204,7 +1204,7 @@ array:2 [
 
 | 名称                   | 地址                                                         |
 | ---------------------- | ------------------------------------------------------------ |
-| 第三方博客参考         | [link](https://my.oschina.net/babyanzichen/blog/863310)      |
+| 第三方博客参考         | [link](https://blog.csdn.net/timothy93bp/article/details/77650012) |
 | 微信官方测试号申请地址 | [link](http://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index) |
 | php 示例代码下载       | [link](https://res.wx.qq.com/op_res/-serEQ6xSDVIjfoOHcX78T1JAYX-pM_fghzfiNYoD8uHVd3fOeC0PC_pvlg4-kmP) |
 
@@ -1234,32 +1234,93 @@ array:2 [
 > 1）将token、timestamp、nonce三个参数进行字典序排序 2）将三个参数字符串拼接成一个字符串进行sha1加密 3）开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
 
 ```php
-# 路由
-Route::any('wechat', [\App\Http\Controllers\OfficialAccount::class, 'wechat']);//微信公众号接入
-
-# 控制器代码
-public function wechat()
-{
-  if ($this->checkSignature()) return $_GET["echostr"];
-}
-private function checkSignature()
-{
-    $signature = $_GET["signature"];
-    $timestamp = $_GET["timestamp"];
-    $nonce = $_GET["nonce"];
-	
-    $token = TOKEN;
-    $tmpArr = array($token, $timestamp, $nonce);
-    sort($tmpArr, SORT_STRING);
-    $tmpStr = implode( $tmpArr );
-    $tmpStr = sha1( $tmpStr );
-    
-    if( $tmpStr == $signature ){
-        return true;
-    }else{
-        return false;
+ public function wechat()
+    {
+        if (!isset($_GET['echostr'])) {
+            $this->message(); # 消息通知
+        }else{
+            $this->valid(); # 如果 $_GET['echostr'] 不存在的情况下校验接入服务器配置
+        }
     }
-}
+    public function valid()
+    {
+        $echoStr = $_GET["echostr"];
+        if($this->checkSignature()){
+            echo $echoStr;
+            exit;
+        }
+    }
+    //检查签名
+    private function checkSignature()
+    {
+        $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce = $_GET["nonce"];
+        $token = "yaoliuyang";
+        $tmpArr = array($token, $timestamp, $nonce);
+        sort($tmpArr, SORT_STRING);
+        $tmpStr = implode($tmpArr);
+        $tmpStr = sha1($tmpStr);
+        if ($tmpStr == $signature) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected function message()
+    {
+        //get post data, May be due to the different environments
+        $postStr = file_get_contents("php://input", 'r');//php:input
+        //日志图片
+        if (!empty($postStr)){
+            libxml_disable_entity_loader(true);
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $fromUsername = $postObj->FromUserName;
+            $toUsername = $postObj->ToUserName;
+            $keyword = trim($postObj->Content);
+            $time = time();
+            $textTpl = "<xml>
+                           <ToUserName><![CDATA[%s]]></ToUserName>
+                           <FromUserName><![CDATA[%s]]></FromUserName>
+                           <CreateTime>%s</CreateTime>
+                           <MsgType><![CDATA[%s]]></MsgType>
+                           <Content><![CDATA[%s]]></Content>
+                           <FuncFlag>0</FuncFlag>
+                           </xml>";
+            //订阅事件
+            if($postObj->Event=="subscribe")
+            {
+                $msgType = "text";
+                $contentStr = "欢迎关注";
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                echo $resultStr;
+            }
+
+
+            //语音识别
+            if($postObj->MsgType=="voice"){
+                $msgType = "text";
+                $contentStr = trim($postObj->Recognition,"。");
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                echo  $resultStr;
+            }
+
+            //自动回复
+            if(!empty( $keyword ))
+            {
+                $msgType = "text";
+                $contentStr = "自动回复测试";
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                echo $resultStr;
+            }else{
+                echo "Input something...";
+            }
+
+        }else {
+            echo "";
+        }
+    }
 ```
 
 
