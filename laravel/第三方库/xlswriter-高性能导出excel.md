@@ -225,7 +225,7 @@ apk add php7-pecl-xlswriter
             ->setSkipRows(1)
             ->getSheetData();
         $message = $this->importExcel($data);
-        unset($excel);# 释放资源(如果不释放h)
+        unset($excel);# 释放资源(如果不释放w)
         unlink($path_name . '/' . $file_name);//删除上传的临时文件
         return response()->json(['code' => '2000', 'message' => '导入成功', 'data' => $message]);
     }
