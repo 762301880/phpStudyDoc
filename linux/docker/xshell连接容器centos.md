@@ -34,8 +34,9 @@ PS C:\Users\Administrator> docker pull centos:latest
 PS C:\Users\Administrator> docker images                     
 REPOSITORY      TAG                       IMAGE ID       CREATED       SIZE
 centos          latest                    5d0da3dc9764   6 weeks ago   231MB
-# 构建镜像为容器
-PS C:\Users\Administrator> docker run -itd --name local_link_xshell_centos -p 6666:22 5d /usr/sbin/init
+# 构建镜像为容器 ubuntu容器 后面加上 /sbin/init  
+# 注意事项 --privileged 此参数一定要带上不然不发使用systemctlm
+PS C:\Users\Administrator> docker run -itd --name local_link_xshell_centos -p 6666:22  -p 9702:80 --privileged 5d /usr/sbin/init
 11fe3d74f2cd16ee93679b010b02a21f9f28f39edadde69f70e0e329d078da69
 # 查看启动的容器
 PS C:\Users\Administrator> docker ps -a
