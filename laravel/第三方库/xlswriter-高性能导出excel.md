@@ -42,7 +42,7 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
   > 3. 重启阿帕奇 
   > 4. 输入代码phpinfo(),打开看见网站的扩展有`xlswriter`即配置成功
 
-### Alpine安装
+## Alpine安装
 
 - 编辑源
 
