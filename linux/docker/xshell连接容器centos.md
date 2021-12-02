@@ -23,6 +23,8 @@
 
 ## 通过下载docker容器下载
 
+> 推荐下载之前先修改镜像容器的镜像源为阿里云源：https://developer.aliyun.com/mirror/centos?spm=a2c6h.13651102.0.0.3e221b119ri5ao
+
 **下载centos镜像**
 
 ```shell
