@@ -66,9 +66,18 @@ recovery
 root
 ```
 
+### 操作服务器的主机名
 
+> `hostname`   读取设置主机名
 
-
+```shell
+# 查看当前的主机名 含义:表示输出完整的主机名 
+$ hostname 
+yaoliuyang-PC
+# 含义:表示输出当前主机名中的FQDN(全限定域名)
+$ hostname -f
+yaoliuyang-PC
+```
 
 
 
