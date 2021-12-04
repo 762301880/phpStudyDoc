@@ -55,6 +55,15 @@ yaoliuyang@benben:~$ cat demo.txt
 - 过滤例子
 
 ```shell
+# 筛选/目录下名称为o的目名称
+yaoliuyang@yaoliuyang-PC:/$ ls | grep o
+boot
+home
+lost+found
+opt
+proc
+recovery
+root
 ```
 
 
