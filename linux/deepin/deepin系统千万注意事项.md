@@ -18,7 +18,7 @@
 
 | 名称       | 地址                                                         |
 | ---------- | ------------------------------------------------------------ |
-| 第三方博客 | [link](https://blog.csdn.net/hulang_better_me/article/details/99620350) |
+| 第三方博客 | [link](https://blog.csdn.net/hulang_better_me/article/details/99620350)  [link](https://blog.csdn.net/Brilliant_orange/article/details/110517149?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-2.no_search_link) |
 |            |                                                              |
 
 **依次安装**
