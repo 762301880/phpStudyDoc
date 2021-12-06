@@ -82,6 +82,7 @@ docker exec -it 容器id  /bin/bash
 >  **php**容器内部执行的命令
 
 ```shell
+# php bin/hyperf.php start >> hyperf_start_run.log  #将启动输出的结果保存到日志
 root@f137b92f2b16:/www/hyperf-skeleton# php bin/hyperf.php start
 ```
 
