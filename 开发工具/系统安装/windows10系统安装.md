@@ -20,7 +20,7 @@
 >
 > 这里下载64位版本复制连接地址那个都行
 >
-> 然后通过，[迅雷下载镜像](https://www.xunlei.com/)
+> 然后通过，[aria2](http://aria2.baisheng999.com/#Windows) 下载镜像
 
 ![1635553910(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/1haLs7ZVQSmJ6On.png)
 
