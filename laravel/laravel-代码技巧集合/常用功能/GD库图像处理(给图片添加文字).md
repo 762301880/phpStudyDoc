@@ -99,7 +99,7 @@ class TestController extends Controller
         $outPutText = file_get_contents('https://api.ixiaowai.cn/tgrj/index.php');
         // $textBox = imagettfbbox(13, 0, $font, $outPutText);
         $fontText = "";
-        for ($i = 0; $i <= mb_strlen($outPutText); $i += 16) {
+        for ($i = 0; $i <= mb_strlen($outPutText); $i += 1) {
             $fontText .= mb_substr($outPutText, $i, 16) . "\n";
         }
         $black = imagecolorallocate($dst, 0x00, 0x00, 0x00);//字体颜色
