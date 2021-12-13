@@ -74,7 +74,7 @@ imagedestroy($dst);
 
 **laravel中使用示例**
 
-图片素材下载：https://s2.loli.net/2021/12/13/jQlGcOzCHogwtv8.jpg
+图片素材下载：https://s2.loli.net/2021/12/13/Rkju2YGQJBOFHzZ.jpg
 
 字体素材下载：https://www.aigei.com/font/?wd=ttf%E5%AD%97%E4%BD%93%E4%B8%8B%E8%BD%BD&bd_vid=8920790964488450245
 
@@ -99,8 +99,8 @@ class TestController extends Controller
         $outPutText = file_get_contents('https://api.ixiaowai.cn/tgrj/index.php');
         // $textBox = imagettfbbox(13, 0, $font, $outPutText);
         $fontText = "";
-        for ($i = 0; $i <= mb_strlen($outPutText); $i += 1) {
-            $fontText .= mb_substr($outPutText, $i, 16) . "\n";
+        for ($i = 0; $i <= mb_strlen($outPutText); $i += 18) {
+            $fontText .= mb_substr($outPutText, $i, 18) . "\n";
         }
         $black = imagecolorallocate($dst, 0x00, 0x00, 0x00);//字体颜色
         imagefttext($dst, 13, 0, 10, 240, $black, $font, $fontText);
