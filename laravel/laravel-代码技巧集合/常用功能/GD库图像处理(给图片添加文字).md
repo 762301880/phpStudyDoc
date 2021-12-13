@@ -18,6 +18,7 @@
 | ----------------------- | ------------------------------------------------------------ |
 | php gd库                | [link](https://www.php.net/manual/zh/book.image.php)         |
 | 免费的第三方舔狗日记api | [link](https://api.ixiaowai.cn/)  [link](https://www.tianapi.com/apiview/180) |
+| ttf字体下载             | [link](https://www.aigei.com/font/?wd=ttf%E5%AD%97%E4%BD%93%E4%B8%8B%E8%BD%BD&bd_vid=8920790964488450245) |
 
 ## GD库简要介绍
 
@@ -41,7 +42,7 @@
 > 主要采用了**gd库的imagefttext**函数实现
 
 ```php
-$dst_path = 'dst.jpg'; # 这里传入图片的相对l
+$dst_path = 'dst.jpg'; # 这里传入图片的相对路径或者绝对路径地址
 //创建图片的实例
 $dst = imagecreatefromstring(file_get_contents($dst_path));
 
@@ -71,9 +72,61 @@ switch ($dst_type) {
 imagedestroy($dst);
 ```
 
+**laravel中使用示例**
+
+图片素材下载：https://s2.loli.net/2021/12/13/jQlGcOzCHogwtv8.jpg
+
+字体素材下载：https://www.aigei.com/font/?wd=ttf%E5%AD%97%E4%BD%93%E4%B8%8B%E8%BD%BD&bd_vid=8920790964488450245
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
+class TestController extends Controller
+{
+    public function test(Request $request)
+    {
+        $dst_path = public_path('tiangou.jpg'); # 这里传入图片的相对路径或者绝对路径地址
+        //创建图片的实例
+        $dst = imagecreatefromstring(file_get_contents($dst_path));
+        //打上文字
+        $font = public_path('minikatong.ttf');//字体路径
+        $outPutText = file_get_contents('https://api.ixiaowai.cn/tgrj/index.php');
+        // $textBox = imagettfbbox(13, 0, $font, $outPutText);
+        $fontText = "";
+        for ($i = 0; $i <= mb_strlen($outPutText); $i += 16) {
+            $fontText .= mb_substr($outPutText, $i, 16) . "\n";
+        }
+        $black = imagecolorallocate($dst, 0x00, 0x00, 0x00);//字体颜色
+        imagefttext($dst, 13, 0, 10, 240, $black, $font, $fontText);
+        list($dst_w, $dst_h, $dst_type) = getimagesize($dst_path);
+        switch ($dst_type) {
+            case 1://GIF
+                header('Content-Type: image/gif'); # 输出gif图像到浏览器
+                imagegif($dst);
+                break;
+            case 2://JPG
+                header('Content-Type: image/jpeg'); # 输出jpeg图像到浏览器
+                imagejpeg($dst);
+                break;
+            case 3://PNG
+                header('Content-Type: image/png'); # 输出png图像到浏览器
+                imagepng($dst);
+                break;
+            default:
+                break;
+        }
+        imagedestroy($dst);
+    }
+}
+```
 
+**结果示例**
 
-
+![res.jpg](https://s2.loli.net/2021/12/13/NsY9mjecKJuSaft.png)
 
