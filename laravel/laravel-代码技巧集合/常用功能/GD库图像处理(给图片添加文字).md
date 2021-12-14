@@ -18,7 +18,7 @@
 | ----------------------- | ------------------------------------------------------------ |
 | php gd库                | [link](https://www.php.net/manual/zh/book.image.php)         |
 | 免费的第三方舔狗日记api | [link](https://api.ixiaowai.cn/)  [link](https://www.tianapi.com/apiview/180) [link](https://api.oick.cn/) |
-| ttf字体下载             | [link](https://www.aigei.com/font/?wd=ttf%E5%AD%97%E4%BD%93%E4%B8%8B%E8%BD%BD&bd_vid=8920790964488450245) |
+| ttf字体下载             | [link ](https://www.aigei.com/font/?wd=ttf%E5%AD%97%E4%BD%93%E4%B8%8B%E8%BD%BD&bd_vid=8920790964488450245)  [link](http://www.downcc.com/k/ttfziti/) |
 
 ## GD库简要介绍
 
@@ -40,6 +40,8 @@
 ## [给图片添加文字](https://www.php.net/manual/zh/function.imagefttext.php)
 
 > 主要采用了**gd库的imagefttext**函数实现
+>
+> 如果不想从网络中找字体可以使用windows系统字体在[^C:\Windows\Fonts]目录下
 
 ```php
 $dst_path = 'dst.jpg'; # 这里传入图片的相对路径或者绝对路径地址
