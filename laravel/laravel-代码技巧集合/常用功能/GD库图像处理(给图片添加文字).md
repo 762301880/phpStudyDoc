@@ -92,19 +92,29 @@ class TestController extends Controller
     public function test(Request $request)
     {
         $dst_path = public_path('tiangou.jpg'); # 这里传入图片的相对路径或者绝对路径地址
+
         //创建图片的实例
         $dst = imagecreatefromstring(file_get_contents($dst_path));
+
         //打上文字
         $font = public_path('minikatong.ttf');//字体路径
+
         $outPutText = file_get_contents('https://api.ixiaowai.cn/tgrj/index.php');
+        $outPutText = date('m').'月'.date('d').'日'.'             '.$outPutText;
+
         // $textBox = imagettfbbox(13, 0, $font, $outPutText);
+
         $fontText = "";
         for ($i = 0; $i <= mb_strlen($outPutText); $i += 18) {
             $fontText .= mb_substr($outPutText, $i, 18) . "\n";
         }
+
         $black = imagecolorallocate($dst, 0x00, 0x00, 0x00);//字体颜色
         imagefttext($dst, 13, 0, 10, 240, $black, $font, $fontText);
+
         list($dst_w, $dst_h, $dst_type) = getimagesize($dst_path);
+
+
         switch ($dst_type) {
             case 1://GIF
                 header('Content-Type: image/gif'); # 输出gif图像到浏览器
@@ -124,6 +134,7 @@ class TestController extends Controller
         imagedestroy($dst);
     }
 }
+
 ```
 
 **结果示例**
