@@ -11,7 +11,7 @@
 | nginx(中文站)                        | [link](https://www.nginx.cn/)                                |
 | 菜鸟教程-Nginx 安装配置              | [link](https://www.runoob.com/linux/nginx-install-setup.html) |
 | w3cSchool-Nginx 安装配置             | [link](https://www.w3cschool.cn/linux/u5xv1rha.html)         |
-| 第三方博客参考                       | [link](https://www.cnblogs.com/fengbo123/p/10668655.html)    |
+| 第三方博客参考                       | [link](https://www.cnblogs.com/fengbo123/p/10668655.html)  [link](https://blog.csdn.net/think2me/article/details/44205699?locationNum=9&fps=1) |
 
 # 安装
 
@@ -23,7 +23,7 @@ g++
 make
 ```
 
-
+​	
 
 ## [下载nginx](http://nginx.org/en/download.html)
 
