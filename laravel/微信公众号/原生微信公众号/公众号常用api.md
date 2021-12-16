@@ -133,6 +133,8 @@ $json = [
 
 # 五 、素材管理
 
+> 有空研究一下如何使用guzzle 上传 https://developers.weixin.qq.com/community/develop/doc/0004c64ae882285531a954c5156400
+
 ## 5.1 新增临时素材
 
 - 先采用curl上传实验
