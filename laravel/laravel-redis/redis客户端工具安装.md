@@ -16,7 +16,7 @@
 https://github.com/qishibo/AnotherRedisDesktopManager/releases
 ```
 
-### 2.2 下载windows或则mac版本
+## 2.2 下载windows或则mac版本
 
 - 由于github下载比较慢我这里提供了网盘下载
 
@@ -26,6 +26,16 @@ https://github.com/qishibo/AnotherRedisDesktopManager/releases
 | 蓝奏云（mac版本）     | https://yaoliuyang.lanzoui.com/iOA9Gpwbeyb |
 
 ![image-20210607095046001](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210607095046001.png)
+
+## 2.3 linux版本下载
+
+[下载地址](https://gitee.com/qishibo/AnotherRedisDesktopManager/releases)
+
+```shell
+wget https://gitee.com/qishibo/AnotherRedisDesktopManager/attach_files/893990/download/eRedis-Desktop-Manager.1.5.0.AppImage
+# 执行命令-设置可执行文权限
+chmod + x  下载的文件
+```
 
 # 三、使用
 
