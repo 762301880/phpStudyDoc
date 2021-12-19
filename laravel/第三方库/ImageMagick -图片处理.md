@@ -12,9 +12,33 @@
 
 
 
-# 安装
+# 安装-未完待续日后补充
 
-> 安装这里有待补占时先不做处理
+## linux安装ImageMagick
+
+**资料**
+
+| 名称             | 地址                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| linux-官网源码包 | [link ](http://www.imagemagick.org/script/install-source.php#linux)  [link](https://download.imagemagick.org/ImageMagick/download/) |
+| 安装参考         | [link](https://www.it610.com/article/1292620735990276096.htm) |
+
+**下载源码包&安装**
+
+```shell
+# 下载源码包
+wget https://download.imagemagick.org/ImageMagick/download/ImageMagick-7.1.0-18.tar.gz
+
+# 解压
+tar -zxvf ImageMagick-7.1.0-18.tar.gz
+
+cd ImageMagick-7.1.0-18/
+./configure --prefix=/usr/local/imagemagick
+make
+sudo make install
+```
+
+
 
 # 代码实战
 
