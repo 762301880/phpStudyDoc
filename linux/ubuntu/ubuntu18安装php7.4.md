@@ -18,13 +18,13 @@
 ```shell
  sudo apt-get install software-properties-common
  sudo add-apt-repository ppa:ondrej/php # 走到这一步的时候会卡住按enter键继续即可
- sudo apt-get update g
+ sudo apt-get update 
 ```
 
 
 
 ```shell
-sudo -y apt install php7.4 
-sudo -y apt install php7.4-fpm
+sudo  apt -y install php7.4 
+sudo  apt -y install php7.4-fpm
 ```
 
