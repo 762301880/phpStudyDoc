@@ -60,6 +60,9 @@ $redis->llen('names');#获取列表的长度 及列表有多少条记录
 # 此命令中间存储的数据只会存在一次不会重复存在
 $redis->setbit('version:' . 版本id. 用户id, $userId, 1); #设置已阅读的版本号
 $redis->getbit('version:' . 版本id . 用户id, $userId) #得到已阅读的版本号
+# 有序集合
+$redis->zAdd('key' ,$id,$name);
+$this->redis->zRange("key:1", 0, -1);//返回有序集合(f)
 ```
 
 
