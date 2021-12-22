@@ -75,6 +75,20 @@ Don't forget to run 'make test'.
 Installing shared extensions:     /usr/local/php7.4.3/lib/php/extensions/no-debug-non-zts-20190902/
 Installing header files:          /usr/local/php7.4.3/include/php/
 
+# 最后找到php.ini文件再其中添加
+extension=imagick.so
+```
+
+**查看扩展是否安装成功**
+
+```shell
+[root@92201f5a71ce etc]# php -m
+[PHP Modules]
+..........
+imagick
+..........
+[Zend Modules]
+
 ```
 
 
