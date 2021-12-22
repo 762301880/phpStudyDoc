@@ -18,7 +18,7 @@
 **安装编译工具及库文件**
 
 ```shell
-yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-deve autoconf automake
+yum -y install make zlib zlib-devel gcc-c++ libtool  openssl openssl-devel autoconf automake
 ```
 
 ###  linux-wget下载php7
