@@ -72,8 +72,25 @@ Installing shared extensions:     /usr/local/php7.4.3/lib/php/extensions/no-debu
 Installing header files:          /usr/local/php7.4.3/include/php/
 
 # 最后找到php.ini文件再其中添加
+# 或者指定绝对路径 extension='/usr/local/php7.4.3/lib/php/extensions/no-debug-non-zts-20190902/imagick.so'
 extension=imagick.so
 ```
+
+[**如果打印phpinfo()看不见imagick扩展解决方案**](https://blog.csdn.net/xiaofeizhumiss/article/details/106409062)
+
+> 刷新一下php即可
+
+<img src="https://s2.loli.net/2021/12/22/ParqNY8XtSegf4w.png" alt="1640155074(1).jpg" style="zoom:50%;" />
+
+```shell
+[root@92201f5a71ce php]# netstat -anp | grep 9000
+tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      113937/php-fpm: mas 
+[root@92201f5a71ce php]# kill 113937
+# 重新启动php-fpm
+/usr/local/php7.4.3/sbin/php-fpm
+```
+
+
 
 **查看扩展是否安装成功**
 
