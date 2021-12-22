@@ -155,8 +155,8 @@ Zend Engine v3.4.0, Copyright (c) Zend Technologies
 复制php.ini
 
 ```shell
-# 查询php.ini位置
-[root@VM-139-48-centos include]# php -r "phpinfo();" | grep 'php.ini' 
+# 查询php.ini位置(后面赋值的php.inib)
+[root@VM-139-48-centos include]# php -r "phpinfo();" | grep 'php.ini'   
 Configuration File (php.ini) Path => /usr/local/php7.4.3/lib
 # or 
 [root@VM-139-48-centos ~]# find / -name php.ini*

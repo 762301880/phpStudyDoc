@@ -52,7 +52,7 @@ Delegates (built-in): lzma xml zlib
 Compiler: gcc (8.5)
 
 # 安装imagick
-# 下载扩展包  
+# 下载扩展包  http://pecl.php.net/package/imagick
 wget http://pecl.php.net/get/imagick-3.6.0.tgz && tar -zxvf imagick-3.6.0.tgz && cd imagick-3.6.0
 # 编译
 [root@92201f5a71ce imagick-3.6.0]# find /  -name phpize
@@ -69,6 +69,12 @@ Zend Extension Api No:   320190902
 # 编译
 [root@92201f5a71ce imagick-3.6.0]# ./configure --with-php-config=/usr/local/php7.4.3/bin/php-config  --with-imagick=/usr/local/imagemagick
 [root@92201f5a71ce imagick-3.6.0]# make && make install
+# 安装完成返回
+Build complete.
+Don't forget to run 'make test'.
+Installing shared extensions:     /usr/local/php7.4.3/lib/php/extensions/no-debug-non-zts-20190902/
+Installing header files:          /usr/local/php7.4.3/include/php/
+
 ```
 
 
