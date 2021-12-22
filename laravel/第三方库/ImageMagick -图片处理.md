@@ -11,10 +11,6 @@
 | 安装此 PECL 扩展                  | [link_one](https://www.php.net/manual/zh/imagick.installation.php)         [link_two](https://pecl.php.net/package/imagick) |
 | imagemagick 官网                  | [link](http://www.imagemagick.org/script/install-source.php) |
 
-
-
-# 安装-未完待续日后补充
-
 ## linux安装ImageMagick
 
 **资料**
@@ -22,7 +18,7 @@
 | 名称             | 地址                                                         |
 | ---------------- | ------------------------------------------------------------ |
 | linux-官网源码包 | [link ](http://www.imagemagick.org/script/install-source.php#linux)  [link](https://download.imagemagick.org/ImageMagick/download/) |
-| 安装参考         | [link](https://www.it610.com/article/1292620735990276096.htm) |
+| 安装参考         | [link](https://www.it610.com/article/1292620735990276096.htm)   [link](安装-未完待续日后补充) |
 
 **下载源码包&安装**
 
