@@ -6,7 +6,7 @@
 >
 > 不管了玩玩看再说
 
-# Antiword软件安装
+# Antiword软件[安装](http://www.winfield.demon.nl/)
 
 ## windows安装
 
