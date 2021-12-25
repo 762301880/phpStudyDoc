@@ -21,9 +21,14 @@ docker pull jenkins
 **启动jenkins镜像**
 
 > 将配置文件、编译日志、结果归档都存储在 *JENKINS_HOME* *目录*挂载到本机目录
+>
+> $ id
+> uid=1000(jenkins) gid=1000(jenkins) groups=1000(jenkins)
+>
+> 本地拥有的是root权限的目录,容器中 的目录uid为1000
 
 ```shell
-mkdir /var/jenkins && chown -R 1000 /var/jenkins/ # 这一步不执行端口都无法显示
+mkdir /var/jenkins && chown -R 1000 /var/jenkins/ # 这一步不执行端口都无法显示出来
 docker run  -itd -p 8080:8080 -p 50000:50000 --name jenkins	  -v /var/jenkins:/var/jenkins_home 镜像id
 ```
 
@@ -59,6 +64,7 @@ jenkins@37b124ebf446:/$ cat /var/jenkins_home/secrets/initialAdminPassword
 # 在宿主机的/var/jenkins_home下找到war/WEB-INF/detached-plugins这个目录，添加这个插件，然后重新启动jenkins容器
 
 cd /var/jenkins_home/war/WEB-INF/detached-plugins
+# 下载地址 https://mirrors.tuna.tsinghua.edu.cn/jenkins/plugins/cloudbees-folder/
 wget https://updates.jenkins-ci.org/download/plugins/cloudbees-folder/6.17/cloudbees-folder.hpi --no-check-certificate
 
 # 然后退出容器并刷新容器
