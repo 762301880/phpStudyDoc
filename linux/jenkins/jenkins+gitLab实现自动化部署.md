@@ -21,7 +21,7 @@ docker pull jenkins
 **启动jenkins镜像**
 
 ```shell
-docker run  -itd -p 8080:8080 -p --name jenkins 50000:50000 -v /your/home:/var/jenkins_home 镜像id
+docker run  -itd -p 8080:8080 -p 8 --name jenkins -v /your/home:/var/jenkins_home 镜像id
 ```
 
 **打开jenkins**
