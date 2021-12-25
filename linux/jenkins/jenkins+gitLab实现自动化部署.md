@@ -23,7 +23,8 @@ docker pull jenkins
 > 将配置文件、编译日志、结果归档都存储在 *JENKINS_HOME* *目录*挂载到本机目录
 
 ```shell
-docker run  -itd -p 8080:8080 -p 50000:50000 --name jenkins	  -v /your/home:/var/jenkins_home 镜像id
+mkdir /var/jenkins && chown -R 1000 /var/jenkins/ # 这一步不执行端口都无法显示
+docker run  -itd -p 8080:8080 -p 50000:50000 --name jenkins	  -v /var/jenkins:/var/jenkins_home 镜像id
 ```
 
 **打开jenkins**
@@ -62,6 +63,6 @@ wget https://updates.jenkins-ci.org/download/plugins/cloudbees-folder/6.17/cloud
 
 # 然后退出容器并刷新容器
 exit
-docker restart 容器i
+docker restart 容器id
 ```
 
