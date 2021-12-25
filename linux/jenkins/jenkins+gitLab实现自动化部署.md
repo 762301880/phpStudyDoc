@@ -20,8 +20,10 @@ docker pull jenkins
 
 **启动jenkins镜像**
 
+> 将配置文件、编译日志、结果归档都存储在 *JENKINS_HOME* *目录*挂载到本机目录
+
 ```shell
-docker run  -itd -p 8080:8080 -p 50000:50000 --name jenkins  -v /your/home:/var/jenkins_home 镜像id
+docker run  -itd -p 8080:8080 -p 50000:50000 --name jenkins	  -v /your/home:/var/jenkins_home 镜像id
 ```
 
 **打开jenkins**
@@ -43,3 +45,23 @@ jenkins@37b124ebf446:/$ cat /var/jenkins_home/secrets/initialAdminPassword
 **安装建议的插件**
 
 ![1636452627(1).png](https://i.loli.net/2021/11/09/JiTSRpWZDye6LAs.png)
+
+**发生以下报错解决方案**
+
+>安装过程中出现错误：没有这样的插件：cloudbees-folder
+
+![截图_选择区域_20211225141102.png](https://s2.loli.net/2021/12/25/zGyWpDOHJ83xM6E.png)
+
+```shell
+# https://updates.jenkins-ci.org/download/plugins/cloudbees-folder/下载cloudbees-folder 插件
+# --no-check-certificate不校验证书	
+# 在宿主机的/var/jenkins_home下找到war/WEB-INF/detached-plugins这个目录，添加这个插件，然后重新启动jenkins容器
+
+cd /var/jenkins_home/war/WEB-INF/detached-plugins
+wget https://updates.jenkins-ci.org/download/plugins/cloudbees-folder/6.17/cloudbees-folder.hpi --no-check-certificate
+
+# 然后退出容器并刷新容器
+exit
+docker restart 容器i
+```
+
