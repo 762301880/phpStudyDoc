@@ -37,5 +37,10 @@ Zend Extension Api No:   320190902
 extension=openssl.so
 
 # 最后需要重启服务器才能生效
+[root@15fb15a92f7c no-debug-non-zts-20190902]# netstat -anp | grep 9000
+tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      5289/php-fpm: maste
+[root@15fb15a92f7c no-debug-non-zts-20190902]# kill 5289
+/usr/local/php7.4.3/sbin/php-fpm # 重启php
+
 ```
 

@@ -45,13 +45,21 @@ tar -zxvf php-7.4.3.tar.gz && cd php-7.4.3/
 | configure-核心配置选项列表 | [link](https://www.php.net/manual/zh/configure.about.php) |
 |                            |                                                           |
 
-```shell
+```php
 # 安装php依赖
 yum -y install libxml2-devel sqlite-devel
 # ./configure --prefix=/home/.... ,--perfix参数指定目录 此参数可以不加 编译 PHP 时需要 --enable-fpm 配置选项来激活 FPM 支持。
 # 编译fpm支持 https://www.php.net/manual/zh/install.fpm.install.php
 #关联的扩展都在 源码的/root/php-7.4.3/ext 目录下
-[root@VM-56-0-centos php-7.4.3]#  ./configure  --with-openssl   --prefix=/usr/local/php7.4.3  --with-config-file-path=/usr/local/php7.4.3/etc  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar 
+/**
+ * 这里注意--disable-fileinfo 扩展内存小例如虚拟机安装docker安装php的时候很难编译
+ */
+[root@VM-56-0-centos php-7.4.3]#  ./configure  --with-openssl --with-phar    --prefix=/usr/local/php7.4.3  --with-config-file-path=/usr/local/php7.4.3/etc  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar 
+
+/**
+*  备注
+*  ./configure  --with-openssl --with-phar   --prefix=/usr/local/php7.4.3  --with-config-file-path=/usr/local/php7.4.3/etc  --disable-    *  fileinfo  --enable-fpm --without-pear  --disable-phar 
+*/
 
 # 出现以下则代表成功
 +--------------------------------------------------------------------+
