@@ -21,8 +21,12 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS  
 
 ## 2.2 提交自己的容器
 
+> -a(author)作者 
+>
+> -m  说明
+
 ```shell
-docker commit -a "yaoliuyang" -m "打包包含swoole的php"  1a   myphp:7.4.3 
+docker commit -a "yaoliuyang" -m "打包包含swoole的php"  容器id   myphp:7.4.3 
 ```
 
 ## 2.3 查看构建的镜像
