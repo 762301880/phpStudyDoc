@@ -76,3 +76,8 @@ exit
 docker restart 容器id
 ```
 
+# 配置
+
+## 配置gitlab信息
+
+![1640570777(1).jpg](https://s2.loli.net/2021/12/27/9yaLbzjECZteSKk.png)
