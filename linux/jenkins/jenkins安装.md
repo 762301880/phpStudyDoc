@@ -14,8 +14,12 @@
 
 **安装jenkins**
 
+> 可以官网下载更多版本 https://hub.docker.com/r/jenkins/jenkins/tags
+>
+> 这里我找了个可以用的版本因为2.60.3 版本的死活缺少插件装了也没有，最新版本的安装gitlab 扩展提示jdk版本过高不支持
+
 ```shell
-docker pull jenkins
+docker pull jenkins/jenkins:latest-jdk8
 ```
 
 **启动jenkins镜像**
@@ -52,7 +56,7 @@ jenkins@37b124ebf446:/$ cat /var/jenkins_home/secrets/initialAdminPassword
 
 ![1636452627(1).png](https://i.loli.net/2021/11/09/JiTSRpWZDye6LAs.png)
 
-**发生以下报错解决方案**
+**发生以下报错解决方案**(这里可以不用看了不是2.60.3版本就行)
 
 >安装过程中出现错误：没有这样的插件：cloudbees-folder
 
