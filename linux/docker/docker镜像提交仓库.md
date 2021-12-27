@@ -32,7 +32,7 @@ php                 7.4.3               8fcb3668bb27        10 minutes ago      
 docker commit 提交容器成为一个新的副本
 docker commit -m '提交的描述信息' -a '作者信息'  需要提交的容器id  个人仓库名/目标镜像名:tag
 # 例如
-docker commit -m 'include swoole&vim' -a 'yaoliuyang' cd1  yaoliuyang/php:7.4-fpm
+docker commit -m 'include swoole&vim' -a 'yaoliuyang' cd1  yaoliuyang/php:7.4-fpm:
 ```
 
 ## 1.4 将构建的镜像提交到远程dockerhub库

@@ -24,9 +24,11 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS  
 > -a(author)作者 
 >
 > -m  说明
+>
+> yaoliuyang/myphp:7.4.3  ,yaoliuyang 镜像仓库的地址  myphp 镜像名称  :7.4.3 版本号
 
 ```shell
-docker commit -a "yaoliuyang" -m "打包包含swoole的php"  容器id   myphp:7.4.3 
+docker commit -a "yaoliuyang" -m "打包包含swoole的php"  容器id   yaoliuyang/myphp:7.4.3 
 ```
 
 ## 2.3 查看构建的镜像
