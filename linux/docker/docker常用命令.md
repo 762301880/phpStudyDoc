@@ -190,6 +190,12 @@ Options:
  [root@VM-23-6-centos ~]# docker logs -f  -t  --tail 查询数量 容器id
  - tf # 显示日至
  - tail  number  # 要显示日志条数
+ # 使用示例  注意是已经启动的容器id不是镜像di
+ [root@VM-16-5-centos ~]# docker logs 容器id
+2021-12-27 00:28:51.474+0000 [id=387]	SEVERE	h.model.UpdateCenter$DownloadJob#run: Failed to install gitlab-hook
+java.io.IOException: Failed to load: Gitlab Hook Plugin (1.4.2) 显示报错日志
+ .................
+
 ```
 
 ### 查看容器中进程的信息
