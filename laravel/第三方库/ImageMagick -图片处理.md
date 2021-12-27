@@ -90,6 +90,47 @@ tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      
 /usr/local/php7.4.3/sbin/php-fpm
 ```
 
+**容器中测试php**
+
+> 添加**/etc/nginx/conf.d/127.0.0.1.conf**
+
+```shell
+server {
+    listen 80;
+    server_name  127.0.0.1;
+    root /usr/share/nginx/html;
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php;
+    client_max_body_size 100m;
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        # fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+        fastcgi_pass  127.0.0.1:9000;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+
+```
+
 
 
 **查看扩展是否安装成功**
