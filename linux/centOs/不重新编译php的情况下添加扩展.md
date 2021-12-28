@@ -78,7 +78,7 @@ Installing shared extensions:     /usr/local/php7.4.3/lib/php/extensions/no-debu
 ....
 extension=curl  # 找到这个位置然后取消注释
 ....
-# 最后重启php-fpmj
+# 最后重启php-fpm
 ```
 
 **2.报错解决**
@@ -98,5 +98,18 @@ and CURL_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 # 安装libcurl-devel扩展
 yum -y install libcurl-devel 
+```
+
+**gd扩展**
+
+```shell
+./configure  --with-php-config=/usr/local/php7.4.3/bin/php-config
+# 提示报错
+Package 'libpng', required by 'virtual:world', not found # 报错提示
+# 安装
+yum -y install libpng-devel
+
+./configure  --with-php-config=/usr/local/php7.4.3/bin/php-config
+make && make install
 ```
 
