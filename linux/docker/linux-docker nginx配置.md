@@ -53,3 +53,10 @@ server {
 
 ```
 
+**补充**
+
+```shell
+# 如果玩laravel 项目的时候提示缺少phpinfo扩展
+composer update --ignore-platform-req=ext-fileinfo
+```
+
