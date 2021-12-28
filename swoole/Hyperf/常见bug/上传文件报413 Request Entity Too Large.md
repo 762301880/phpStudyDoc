@@ -5,7 +5,7 @@
 
 > 昨天测试发现上传图片报了一个错误**413 Request Entity Too Large(请求实体太大)**,
 >
-> 参考解决方案的博客:https://blog.csdn.net/ls363/article/details/113591109
+> 参考解决方案的博客:	
 
 ```shell
 # 在文件的server.php中添加 package_max_length

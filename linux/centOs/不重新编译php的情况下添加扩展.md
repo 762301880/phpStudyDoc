@@ -113,3 +113,20 @@ yum -y install libpng-devel
 make && make install
 ```
 
+**这里安装的是不完整的gd扩展**
+
+![1640659364(1).jpg](https://s2.loli.net/2021/12/28/E6d9hbyYW8vfiFD.png)
+
+**执行命令的时候会报以下错误**
+
+```shell
+ErrorException
+imagecreatefromstring(): No JPEG support in this PHP build
+```
+
+
+
+
+
+
+

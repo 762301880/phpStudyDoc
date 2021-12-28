@@ -8,6 +8,7 @@
 | php学院-CentOS 7.4 编译安装 PHP7     | [link](https://www.php.cn/topic/php7/449121.html)            |
 | php 国内官网                         | [link](http://php.p2hp.com/)  [link](https://www.p2hp.com/)  |
 | php-搜狐镜像                         | [link](http://mirrors.sohu.com/php/)                         |
+| 第三方博客参考                       | [link](https://cloud.tencent.com/developer/article/1436889?from=15425) |
 
 ##  [下载php7源码]
 
