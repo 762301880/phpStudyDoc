@@ -52,9 +52,9 @@ yum -y install libxml2-devel sqlite-devel
 # 编译fpm支持 https://www.php.net/manual/zh/install.fpm.install.php
 #关联的扩展都在 源码的/root/php-7.4.3/ext 目录下
 /**
- * 这里注意--disable-fileinfo 扩展内存小例如虚拟机安装docker安装php的时候很难编译
+ * 这里注意--disable-fileinfo 扩展内存小例如虚拟机安装docker安装php的时候很难编译成功所以禁用
  */
-[root@VM-56-0-centos php-7.4.3]#  ./configure  --with-openssl --with-phar    --prefix=/usr/local/php7.4.3  --with-config-file-path=/usr/local/php7.4.3/etc  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar 
+[root@VM-56-0-centos php-7.4.3]#  ./configure  --with-openssl --with-phar  --with-c   --prefix=/usr/local/php7.4.3  --with-config-file-path=/usr/local/php7.4.3/etc  --disable-fileinfo  --enable-fpm --without-pear  --disable-phar 
 
 /**
 *  备注
