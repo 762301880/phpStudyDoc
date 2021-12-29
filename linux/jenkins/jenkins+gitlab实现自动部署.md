@@ -9,7 +9,7 @@
 | 名称               | 地址                                                         |
 | ------------------ | ------------------------------------------------------------ |
 | jenkins-docker官网 | [link](https://registry.hub.docker.com/_/jenkins)            |
-| 参考博客           | [link](https://learnku.com/articles/39601?spm=a2c6h.12873639.0.0.6a06b3069048Mh) |
+| 参考博客           | [link](https://learnku.com/articles/39601?spm=a2c6h.12873639.0.0.6a06b3069048Mh)  [link](https://blog.51cto.com/u_8416177/2129777) |
 
 #  [安装](https://developer.aliyun.com/article/742451)
 
@@ -81,7 +81,39 @@ docker restart 容器id
 
 ## 配置gitlab信息
 
+> 这里记住下载gitlab的插件
+
 ![1640570777(1).jpg](https://s2.loli.net/2021/12/27/9yaLbzjECZteSKk.png)
+
+**添加服务器地址密码**
+
+- 下载ssh插件 第一次下载应该有一个叫做ssh
+
+![image-20211229152002472](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152002472.png)
+
+- 配置ssh
+
+![image-20211229151814397](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229151814397.png)
+
+## 新建任务
+
+![image-20211229152239564](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152239564.png)
+
+![image-20211229152416670](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152416670.png)
+
+![image-20211229152524274](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152524274.png)
+
+**添加钩子**
+
+![image-20211229152635739](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152635739.png)
+
+**添加钩子**
+
+![image-20211229152754135](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152754135.png)
+
+![image-20211229152933074](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152933074.png)
+
+
 
 # 补充
 
