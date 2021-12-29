@@ -92,6 +92,16 @@ bash-5.0# cat /var/log/nginx/error.log
 2021/12/29 00:41:17 [emerg] 36#36: open() "/run/nginx/nginx.pid" failed (2: No such file or directory)
 2021/12/29 00:42:55 [emerg] 40#40: unknown directive "erver" in /etc/nginx/conf.d/81.69.231.252.conf:1
 
+# 启动php-fpm
+bash-5.0# find / -name php-fpm*
+/etc/logrotate.d/php-fpm7
+/etc/init.d/php-fpm7
+/etc/php7/php-fpm.d
+/etc/php7/php-fpm.conf
+/usr/sbin/php-fpm7
 
+bash-5.0# php-fpm7
+bash-5.0# netstat -anp | grep 9000
+tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      174/php-fpm: master 
 ```
 
