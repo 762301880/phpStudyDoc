@@ -81,3 +81,14 @@ docker restart 容器id
 ## 配置gitlab信息
 
 ![1640570777(1).jpg](https://s2.loli.net/2021/12/27/9yaLbzjECZteSKk.png)
+
+# 补充
+
+## 关于升级jenkins
+
+> 可以在清华大学镜像站下载war包复制到替换容器中的以下目录
+
+```shell
+/usr/share/jenkins/jenkins.war
+```
+

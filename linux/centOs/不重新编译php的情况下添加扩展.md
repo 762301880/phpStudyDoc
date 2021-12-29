@@ -124,7 +124,25 @@ ErrorException
 imagecreatefromstring(): No JPEG support in this PHP build
 ```
 
+**解决方案**
 
+```shell
+[root@15fb15a92f7c gd]# pwd
+/root/php-7.4.3/ext/gd
+# 查看安装帮助 会看到如下一条命令
+[root@15fb15a92f7c gd]# ./configure -h
+****
+--with-jpeg             GD: Enable JPEG support (only for bundled libgd)
+****
+
+yum -y install libjpeg-devel
+
+# m
+#wget http://www.ijg.org/files/jpegsrc.v9d.tar.gz
+#tar -zxvf jpegsrc.v9d.tar.gz && cd jpeg-9d/
+#./configure --prefix=/usr/local/libjpeg
+#make && make install
+```
 
 
 
