@@ -79,6 +79,7 @@ cd /etc/nginx/conf.d
 vim 你的服务器域名||ip.conf
 
 # 如果运行启动 nginx 报错 [emerg] open() "/run/nginx/nginx.pid" failed (2: No such file or directory)
+# 参考  https://www.cnblogs.com/chenmingjun/p/10052205.html
 bash-5.0# nginx
 
 bash-5.0# [emerg] open() "/run/nginx/nginx.pid" failed (2: No such file or directory)[emerg] open() "/run/nginx/nginx.pid" failed (2: No such file or directory)
