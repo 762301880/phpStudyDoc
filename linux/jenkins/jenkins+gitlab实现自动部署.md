@@ -6,11 +6,12 @@
 
 ## 资料
 
-| 名称               | 地址                                              |
-| ------------------ | ------------------------------------------------- |
-| jenkins-docker官网 | [link](https://registry.hub.docker.com/_/jenkins) |
+| 名称               | 地址                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| jenkins-docker官网 | [link](https://registry.hub.docker.com/_/jenkins)            |
+| 参考博客           | [link](https://learnku.com/articles/39601?spm=a2c6h.12873639.0.0.6a06b3069048Mh) |
 
-#  安装
+#  [安装](https://developer.aliyun.com/article/742451)
 
 **安装jenkins**
 
