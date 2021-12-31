@@ -12,10 +12,59 @@
 
 | 名称                       | 地址                                                         |
 | -------------------------- | ------------------------------------------------------------ |
+| laravel-官方文档           | [链接](https://learnku.com/docs/laravel/8.x/redis/9405#introduction) |
 | laravel学院高性能redis实战 | [链接](https://laravelacademy.org/books/high-performance-redis) |
 | 第三方博客                 | [链接](http://blog.ganyongmeng.com/?p=99)                    |
 
 # 二、使用
+
+**取消默认的表前缀**
+
+> ## 方案一
+>
+> 在**config\database.php** **redis-default中添加配置**
+>
+> 'options' => [
+>                 'prefix' => '',
+> ],
+>
+> ## 方案二
+>
+> 直接注释 options数组中的prefix选项
+
+```php
+  'redis' => [
+
+        'client' => env('REDIS_CLIENT', 'predis'),
+
+        'options' => [
+            'cluster' => env('REDIS_CLUSTER', 'redis'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+        ],
+      
+        'default' => [
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_DB', '0'),
+            'options' => [
+                'prefix' => '',
+            ],
+        ],
+
+        'cache' => [
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_CACHE_DB', '1'),
+        ],
+
+    ],
+```
+
+
 
 ## 2.1 实例化`redis`
 
