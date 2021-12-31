@@ -3,6 +3,19 @@
 > 本人已经玩过jenkins了只不过那时候一知半解的实现了自动构建
 >
 > 所以这次打算一点点刨析,这里我们采用docker安装jenkins
+>
+> ## 更多ci工具备注
+>
+> 1. [Travis CI](https://link.jianshu.com/?t=https%3A%2F%2Ftravis-ci.org%2F)
+> 2. [Circle CI](https://link.jianshu.com/?t=https%3A%2F%2Fcircleci.com%2F)
+> 3. [Jenkins](https://link.jianshu.com/?t=https%3A%2F%2Fjenkins.io%2F)
+> 4. [AppVeyor](https://link.jianshu.com/?t=https%3A%2F%2Fwww.appveyor.com%2F)
+> 5. [CodeShip](https://link.jianshu.com/?t=https%3A%2F%2Fcodeship.com%2F)
+> 6. [Drone](https://link.jianshu.com/?t=http%3A%2F%2Ftry.drone.io%2F)
+> 7. [Semaphore CI](https://link.jianshu.com/?t=https%3A%2F%2Fsemaphoreci.com%2F)
+> 8. [Buildkite](https://link.jianshu.com/?t=https%3A%2F%2Fbuildkite.com%2F)
+> 9. [Wercker](https://link.jianshu.com/?t=http%3A%2F%2Fwww.wercker.com%2F)
+> 10. [TeamCity](https://link.jianshu.com/?t=https%3A%2F%2Fwww.jetbrains.com%2Fteamcity%2F)
 
 ## 资料
 
