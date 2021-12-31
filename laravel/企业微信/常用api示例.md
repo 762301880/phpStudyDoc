@@ -32,7 +32,7 @@
 
 > 接口文档地址：https://work.weixin.qq.com/api/doc/90000/90135/90200
 >
-> 这里需要结合上一步的**获取部门列表**接口使用
+> 这里需要结合上一步的**获取部门列表**接口使用,上一步的部门列表会返回id
 
 ```shell
     public function simplelist(Request $request)
@@ -74,8 +74,51 @@
 >
 > toparty  指定接收消息的部门，如果有需要获取 **获取部门列表**返回
 
+**唯一注意的是企业应用id**
+
+> agentid	是	企业应用的id，整型。企业内部开发，可在应用的设置页面查看；第三方服务商，可通过接口 获取企业授权信息 获取该参数值
+
+<img src="https://s2.loli.net/2021/12/31/gCi7Eh5UXO9DwqS.png" alt="1640912288(1).jpg" style="zoom: 50%;" />
+
 **代码示例**
 
 ```shell
+ public function sendMessage()
+    {
+        $url = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={$this->getAccessToken()}";
+        $data = [
+            "touser" => "@all",
+            "toparty" => "PartyID1|PartyID2",
+            "totag" => "TagID1 | TagID2",
+            "msgtype" => "text",
+            "agentid" => 1000007,
+            "text" => [
+                "content" => "你的快递已到，请携带工卡前往邮件中心领取。\n出发前可查看<a href=\"http://work.weixin.qq.com\">邮件中心视频实况</a>，聪明避开排队。"
+            ],
+            "safe" => 0,
+            "enable_id_trans" => 0,
+            "enable_duplicate_check" => 0,
+            "duplicate_check_interval" => 1800
+        ];
+        $res=$this->https_request($url,json_encode($data));
+        dd($res);
+    }
+    
+    public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); //禁止 cURL 验证对等证书
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); //是否检测服务器的域名与证书上的是否一致
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        $error = curl_error($curl);
+        curl_close($curl);
+        return json_decode($output, true);
+    }
 ```
 
