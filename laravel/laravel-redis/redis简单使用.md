@@ -19,7 +19,7 @@
 
 # 二、使用
 
-**取消默认的表前缀**
+[**取消默认的表前缀**](https://www.hongfs.cn/2018/11/php/laravel/laravel-redis-clear-prefix/)
 
 > 开发过程中可能会遇到这种情况本来想使用redis的但是已经被别人使用了默认的配置(默认的配置中可能会有laravel__database_)前缀
 >
