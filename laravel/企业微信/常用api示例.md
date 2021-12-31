@@ -82,8 +82,11 @@
 
 **代码示例**
 
-```shell
- public function sendMessage()
+```php
+/**
+ *  $agentid 企业应用的id
+ */
+public function sendMessage($agentid)
     {
         $url = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={$this->getAccessToken()}";
         $data = [
@@ -91,7 +94,7 @@
             "toparty" => "PartyID1|PartyID2",
             "totag" => "TagID1 | TagID2",
             "msgtype" => "text",
-            "agentid" => 1000007,
+            "agentid" => $agentid,
             "text" => [
                 "content" => "你的快递已到，请携带工卡前往邮件中心领取。\n出发前可查看<a href=\"http://work.weixin.qq.com\">邮件中心视频实况</a>，聪明避开排队。"
             ],
