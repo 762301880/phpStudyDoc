@@ -15,6 +15,7 @@
 | laravel-官方文档           | [链接](https://learnku.com/docs/laravel/8.x/redis/9405#introduction) |
 | laravel学院高性能redis实战 | [链接](https://laravelacademy.org/books/high-performance-redis) |
 | 第三方博客                 | [链接](http://blog.ganyongmeng.com/?p=99)                    |
+| packagist-predis官方手册   | [链接](https://packagist.org/packages/predis/predis)         |
 
 # 二、使用
 
