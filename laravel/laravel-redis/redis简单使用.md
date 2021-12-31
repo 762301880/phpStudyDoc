@@ -20,9 +20,15 @@
 
 **取消默认的表前缀**
 
+> 开发过程中可能会遇到这种情况本来想使用redis的但是已经被别人使用了默认的配置(默认的配置中可能会有laravel__database_)前缀
+>
+> 为了不影响别人的逻辑只好自己再配置一个连接
+
+![1640920705(1).jpg](https://s2.loli.net/2021/12/31/qKQmwl2hDz5YPVj.png)
+
 > ## 方案一
 >
-> 在**config\database.php** **redis-default中添加配置**
+> 在**config\database.php** **redis   laravel_statistical中添加配置**
 >
 > 'options' => [
 >                 'prefix' => '',
@@ -41,8 +47,16 @@
             'cluster' => env('REDIS_CLUSTER', 'redis'),
             'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
         ],
-      
+
         'default' => [
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_DB', '0'),
+        ],
+        # 自定义配置赋值default 
+        'laravel_statistical' => [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
@@ -52,7 +66,6 @@
                 'prefix' => '',
             ],
         ],
-
         'cache' => [
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
@@ -62,6 +75,15 @@
         ],
 
     ],
+```
+
+**使用**
+
+> 直接指定连接配置即可 connection里面不指定配置则默认**default**配置
+
+```shell
+ $redis = Redis::connection('laravel_statistical')->client();
+ $redis->set('sex', '女');
 ```
 
 
