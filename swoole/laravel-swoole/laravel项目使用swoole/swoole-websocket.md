@@ -10,6 +10,8 @@
 
 ## 1.1 创建command
 
+> [关于command命令可以查看官方文档](https://learnku.com/docs/laravel/8.x/artisan/9387#tinker)  
+
 ```shell
 php artisan make:command Swoole     # 创建command类
 ```
