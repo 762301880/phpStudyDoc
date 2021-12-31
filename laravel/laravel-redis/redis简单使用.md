@@ -84,7 +84,7 @@
 
 ```shell
  $redis = Redis::connection('laravel_statistical')->client();
- $redis->set('sex', '女');
+ $redis->get('name');
 ```
 
 
