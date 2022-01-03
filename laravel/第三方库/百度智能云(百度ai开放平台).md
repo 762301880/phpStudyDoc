@@ -158,3 +158,18 @@ class TestController extends Controller
 
 ```
 
+# 文字识别
+
+## 资料
+
+| 名称     | 链接                                                         |
+| -------- | ------------------------------------------------------------ |
+| 官网地址 | [link](https://console.bce.baidu.com/ai/?_=1641191558414#/ai/ocr/overview/index) |
+| 官网文档 | [link](https://cloud.baidu.com/doc/OCR/index.html)           |
+
+​	
+
+
+
+
+
