@@ -1,4 +1,24 @@
-# 人脸对比
+# 获取access_token
+
+> 通过API Key和Secret Key获取的access_token,参考“[Access Token获取](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu)”, 调用API时必须在URL中带上access_token参数,需要调用百度api开放平台的接口很多地方都需要这个鉴权,所以这个可以当作一个全局的函数以便全局调用
+
+## 获取Access Token
+
+**请求URL数据格式**
+
+向授权服务地址`https://aip.baidubce.com/oauth/2.0/token`发送请求（推荐使用POST），并在URL中带上以下参数：
+
+- **grant_type：** 必须参数，固定为`client_credentials`；(写死即可)
+- **client_id：** 必须参数，应用的`API Key`；(调用的当前应用的client_id)
+- **client_secret：** 必须参数，应用的`Secret Key`；(调用的当前应用的client_secret)
+
+## 资料
+
+| 名称     | 地址                                                    |
+| -------- | ------------------------------------------------------- |
+| 官方文档 | [link](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu) |
+
+# **人脸对比**
 
 ## 百度图像人脸对比
 
