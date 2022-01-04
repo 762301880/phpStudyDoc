@@ -1351,3 +1351,72 @@ $json = [
         dd($data);
 ```
 
+# 微信网页开发
+
+## [网页授权](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html)
+
+**配置**
+
+> 由于我是沙箱环境开发所以只需要在 [微信网页账号配置授权](https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login)
+>
+> 这里需要加**http**
+
+<img src="https://s2.loli.net/2022/01/04/cqESUfIpeDw2JQy.png" alt="1641282368(1).jpg" style="zoom:50%;" />
+
+![1641282427(1).jpg](https://s2.loli.net/2022/01/04/7ebGcPZvRJnVs9S.png)
+
+### [第一步：用户同意授权，获取code](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#0)
+
+> 这里url需要encode，并且需要携带http
+
+```php
+  public function webpageAuthorization()
+    {
+        $appId = "wxba84ad7629bcaded";
+        $redirectUri = urlencode("http://81.69.231.252:1997/api/official_account/webpage_get_access_token");
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appId}&redirect_uri={$redirectUri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        return $url;
+    }
+```
+
+### [第二步：通过code换取网页授权access_token](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#1)
+
+```php
+public function webpageGetAccessToken(Request $request)
+    {
+        $expirationTime = 3600 * 2;//过期时间2小时
+        $key = 'webPageAccessToken';
+        # 如果不为空直接返回缓存token
+        $webPageAccessToken = \Cache::get($key);
+        if (!empty($webPageAccessToken)) {
+            return $webPageAccessToken;
+        }
+        $code = $request->input('code');//填写第一步获取的code参数
+        $appId = "wxba84ad7629bcaded";
+        $appSecret = "add912ac66a10eced3969e6a0170af85";
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appId}&secret={$appSecret}&code={$code}&grant_type=authorization_code";
+        $res = json_decode(file_get_contents($url), true);
+        $accessToken = $res['access_token'];
+        #保存一份到缓存
+        \Cache::set($key, $accessToken, $expirationTime);
+        return $accessToken;
+    }
+```
+
+[ 第三步：刷新access_token（如果需要）](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#2)
+
+[第四步：拉取用户信息(需scope为 snsapi_userinfo)](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#3)
+
+```php
+public function webpageGetUserinfo()
+    {
+        $access_token ="52_INujcySpf8pdHb4r5uOzNQts9RBVc2irh2lj-lvVqA8EXX3Tx1Fyg9DEhdqwNiBWfutPrBvc8uSmePZiR5X0Tw";
+        $openid="o7wV86RHxGwlG_y8fo5-SHd_muZo";
+        $url="https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang=zh_CN";
+        $res = json_decode(file_get_contents($url), true);
+        dd($res);
+    }
+```
+
+[附：检验授权凭证（access_token）是否有效](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#4)
+
