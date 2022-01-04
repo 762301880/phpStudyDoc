@@ -30,7 +30,7 @@ public function getAccessToken()
         $url = "https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={$client_id}&client_secret={$client_secret}";
         $originRes = file_get_contents($url);
         if (empty($originRes)) {
-            return response()->json(['code' => '500', 'message' => '获取access_token失败', 'data' => $originRes]);
+            return response()->json(['code' => '5000', 'message' => '获取access_token失败', 'data' => $originRes]);
         }
         # 如果缓存存在获取缓存中的token
         $access_token = \Cache::get('access_token');
@@ -218,7 +218,76 @@ class TestController extends Controller
 
 ​	
 
+## 通用场景文字识别
 
+### [通用文字识别（高精度版）](https://cloud.baidu.com/doc/OCR/s/1k3h7y3db)
 
+**代码示例**
 
+```shell
+ public function discern(Request $request)
+    {
+        $token = $this->getAccessToken();
+        $url = 'https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=' . $token;
+        # 文件上传
+        $file = $request->file('file');
+        if (empty($file)) {
+            return response()->json([
+                'code' => '5000',
+                'message' => '需要上传的文件不可以为空',
+                'data' => []
+            ]);
+        }
+        $file_name = uniqid() . $file->getClientOriginalName();//设置唯一的上传图片
+        $path = public_path('/');//设置上传路径
+        $absolute_path_file = $path . '/' . $file_name;//图片全路径,绝对路径
+        $file->move($path, $file_name);//转移文件到public目录下
+        //判断文件是否存在
+        if (!file_exists($absolute_path_file)) {
+            return response()->json([
+                'msg' => '文件没有上传成功',
+                'data' => [],
+                'code' => '5000'
+            ]);
+        }
+        $img = file_get_contents($absolute_path_file);
+        $img = base64_encode($img);
+        $bodys = array(
+            'image' => $img
+        );
+        $res = $this->request_post($url, $bodys);
+        var_dump($res);
+    }
+
+    /**
+     * 发起http post请求(REST API), 并获取REST请求的结果
+     * @param string $url
+     * @param string $param
+     * @return - http response body if succeeds, else false.
+     */
+    public function request_post($url = '', $param = '')
+    {
+        if (empty($url) || empty($param)) {
+            return false;
+        }
+
+        $postUrl = $url;
+        $curlPost = $param;
+        // 初始化curl
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $postUrl);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        // 要求结果为字符串且输出到屏幕上
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        // post提交方式
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $curlPost);
+        // 运行curl
+        $data = curl_exec($curl);
+        curl_close($curl);
+
+        return $data;
+    }
+```
 
