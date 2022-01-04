@@ -1,4 +1,4 @@
-# 获取access_token
+# [获取access_token](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu)
 
 > 通过API Key和Secret Key获取的access_token,参考“[Access Token获取](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu)”, 调用API时必须在URL中带上access_token参数,需要调用百度api开放平台的接口很多地方都需要这个鉴权,所以这个可以当作一个全局的函数以便全局调用
 
@@ -17,6 +17,35 @@
 | 名称     | 地址                                                    |
 | -------- | ------------------------------------------------------- |
 | 官方文档 | [link](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu) |
+
+## 代码示例
+
+> 具体参数可以查阅文档
+
+```php
+public function getToken()
+    {
+        $client_id = "应用的API_Key";
+        $client_secret = "应用的Secret_Key";
+        $url = "https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={$client_id}&client_secret={$client_secret}";
+        $originRes = file_get_contents($url);
+        if (empty($originRes)) {
+            return response()->json(['code' => '500', 'message' => '获取access_token失败', 'data' => $originRes]);
+        }
+        # 如果缓存存在获取缓存中的token
+        $access_token = \Cache::get('access_token');
+        if ($access_token) {
+            return $access_token;
+        }
+        $res = json_decode($originRes, true);
+        $access_token = $res['access_token'];
+        $CacheExpirationTime = 3600 * 24 * 10;//缓存过期时间10天
+        \Cache::set('access_token', $access_token, $CacheExpirationTime);//保存缓存
+        return $access_token;
+    }
+```
+
+
 
 # **人脸对比**
 
