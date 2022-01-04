@@ -79,9 +79,29 @@ $ hostname -f
 yaoliuyang-PC
 ```
 
+## 处理文件命令[^sed]
 
+### 替换文件中的字符
 
+> 假如现在有一个文件a.txt，如下图所示我想将 www.baidu.com 修改为 www.aliyun.com
 
+```shell
+[root@VM-16-5-centos ~]# cat a.txt 
+"www.baidu.com@1"
+"www.baidu.com@2"
+"www.baidu.com@3"
+"www.baidu.com@4"
+"www.baidu.com@5"
+# 命令如下 -i insert 可以理解为插入的意思   s select 可以理解为选择的意思  g global q
+[root@VM-16-5-centos ~]# sed -i  's/www.baidu.com/www.aliyun.com/g' a.txt 
+[root@VM-16-5-centos ~]# cat a.txt 
+"www.aliyun.com@1"
+"www.aliyun.com@2"
+"www.aliyun.com@3"
+"www.aliyun.com@4"
+"www.aliyun.com@5"
+
+```
 
 
 
