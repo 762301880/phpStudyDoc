@@ -23,7 +23,7 @@
 > 具体参数可以查阅文档
 
 ```php
-public function getToken()
+public function getAccessToken()
     {
         $client_id = "应用的API_Key";
         $client_secret = "应用的Secret_Key";
