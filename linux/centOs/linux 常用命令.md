@@ -81,6 +81,8 @@ yaoliuyang-PC
 
 ## 处理文件命令[^sed]
 
+[sed命令详解](https://www.runoob.com/linux/linux-comm-sed.html)
+
 ### 替换文件中的字符
 
 > 假如现在有一个文件a.txt，如下图所示我想将 www.baidu.com 修改为 www.aliyun.com
@@ -92,7 +94,7 @@ yaoliuyang-PC
 "www.baidu.com@3"
 "www.baidu.com@4"
 "www.baidu.com@5"
-# 命令如下 -i insert 可以理解为插入的意思   s select 可以理解为选择的意思  g global q
+# 命令如下 -i insert 可以理解为插入的意思   s select 可以理解为选择的意思  g global 全局的意思
 [root@VM-16-5-centos ~]# sed -i  's/www.baidu.com/www.aliyun.com/g' a.txt 
 [root@VM-16-5-centos ~]# cat a.txt 
 "www.aliyun.com@1"
