@@ -256,6 +256,7 @@ class TestController extends Controller
             'image' => $img
         );
         $res = $this->request_post($url, $bodys);
+        unlink($absolute_path_file);# 删除图片
         var_dump($res);
     }
 
