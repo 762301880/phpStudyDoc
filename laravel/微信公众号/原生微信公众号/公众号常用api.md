@@ -1,4 +1,4 @@
-# 一、资料
+# 资料
 
 ## 1.1 官网文档[地址](https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a_Parametric_QR_Code.html)
 
@@ -18,11 +18,11 @@ https://www.w3cschool.cn/weixinkaifawendang/
 https://blog.csdn.net/ljh101/article/details/108806075
 ```
 
-# 二、获取Access token
+# 获取Access token
 
 - 官网`api`[地址](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html)
 
-## 2.1 项目中使用代码示例
+##  项目中使用代码示例
 
 > 注意真实开发中获取**access_token**，一定要使用***redis***缓存去获取
 
@@ -80,15 +80,15 @@ array:2 [▼
 ]
 ```
 
-# 三 、生成带参数的二维码
+# 生成带参数的二维码
 
-## 3.1 官网`api`[地址](https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a_Parametric_QR_Code.html)
+## 官网`api`[地址](https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a_Parametric_QR_Code.html)
 
 ```php
 https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a_Parametric_QR_Code.html
 ```
 
-## 3.2项目中使用代码示例
+## 项目中使用代码示例
 
 ```php
  public function getQrcode(Request $request)
@@ -102,40 +102,11 @@ https://developers.weixin.qq.com/doc/offiaccount/Account_Management/Generating_a
     }
 ```
 
-# 四、 模板消息接口
-
-- 项目[地址](https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Template_Message_Interface.html)
-
-```php
-$json = [
-            "touser" => "o7wV86RHxGwlG_y8fo5-SHd_muZo",
-            "template_id" => "tCsqWfkM6g-tvzlEK4OdgYfRaW_xyIA7vcctJDDUFKw",
-            "url" => "www.baidu.com",
-            "miniprogram" => [
-                "appid" => "",
-                "pagepath" => ""
-            ],
-            "data" => [
-                "name" => [
-                    "value" => "尼古拉斯.赵四",
-                    "color" => "#173177"
-                ],
-                "date" => [
-                    "value" => date('Y-m-d H:i:s',time()),
-                    "color" => "red"
-                ]
-            ]
-        ];
-        $api = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={$this->accessToken}";
-        $data = Http::post($api, $json)->json();
-        dd($data);
-```
-
-# 五 、素材管理
+# 素材管理
 
 > 有空研究一下如何使用guzzle 上传 https://developers.weixin.qq.com/community/develop/doc/0004c64ae882285531a954c5156400
 
-## 5.1 新增临时素材
+## 新增临时素材
 
 - 先采用curl上传实验
 
@@ -358,7 +329,7 @@ curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(fi
 
   
 
-## 5.2 获取临时素材
+## 获取临时素材
 
 - 资料
 
@@ -394,7 +365,7 @@ curl_setopt($curl,CURLOPT_HTTPHEADER,['Transfer-Encoding:','Content-Length:'.(fi
     }
 ```
 
-## 5.3  [新增永久素材](https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Adding_Permanent_Assets.html)
+##  [新增永久素材](https://developers.weixin.qq.com/doc/offiaccount/Asset_Management/Adding_Permanent_Assets.html)
 
 ###  新增永久图文素材
 
@@ -636,7 +607,7 @@ array:2 [
 ]    
 ```
 
-## 5.4 获取永久素材
+## 获取永久素材
 
 >在新增了永久素材后，开发者可以根据media_id通过本接口下载永久素材。
 >
@@ -721,7 +692,7 @@ array:3 [
 # 2. 其他素材例如图片返回的是二进制(请自行保存到本地或者base64加密返回)    
 ```
 
-##  5.5 获取素材总数
+##  获取素材总数
 
 
 
@@ -760,7 +731,7 @@ array:4 [
 ]
 ```
 
-## 5.6 获取素材列表
+## 获取素材列表
 
 接口调用请求说明
 
@@ -857,7 +828,7 @@ array:3 [
 ]
 ```
 
-## 5.7 删除永久素材
+## 删除永久素材
 
 `http请求方式: POST https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=ACCESS_TOKEN`
 
@@ -914,7 +885,7 @@ array:2 [
 ]
 ```
 
-## 5.8 修改永久图文素材
+## 修改永久图文素材
 
 接口调用请求说明
 
@@ -1002,7 +973,7 @@ array:2 [
 ]
 ```
 
-# 六 自定义菜单
+#  自定义菜单
 
 - 资料
 
@@ -1012,7 +983,7 @@ array:2 [
 | 参考资料       | [link](https://www.jb51.net/article/94175.htm)               |
 |                |                                                              |
 
-## 6.1 创建菜单
+## 创建菜单
 
 ```php
   public function createMenu()
@@ -1094,7 +1065,7 @@ array:2 [
     }
 ```
 
-## 6.2 查询菜单
+##  查询菜单
 
 **代码示例**
 
@@ -1157,7 +1128,7 @@ array:2 [
 ]
 ```
 
-## 6.3 删除菜单
+## 删除菜单
 
 >使用接口创建自定义菜单后，开发者还可使用接口删除当前使用的自定义菜单。
 >
@@ -1200,7 +1171,7 @@ array:2 [
 ]
 ```
 
-# 七 、基础消息能力
+# 基础消息能力
 
 ## [接入](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html)
 
@@ -1327,7 +1298,7 @@ array:2 [
 
 
 
-## 7.1 [接受普通消息](https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html)
+##  [接受普通消息](https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html)
 
 > 微信公众平台开发者模式允许用户自己配置服务器，这样来自粉丝的信息，通过微信平台包装成 xml 格式，发送给后台服务器，后台服务器解析处理后，同样把信息包装成 xml 格式，通过微信平台，发送给用户。
 > 微信平台和后台服务器直接是通过 xml 格式通信的（http POST），格式如下：
@@ -1350,4 +1321,33 @@ $msgType = $xmlObj->MsgType;
 ```
 
 
+
+## 模板消息接口
+
+> 项目[地址](https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Template_Message_Interface.html)
+
+```php
+$json = [
+            "touser" => "o7wV86RHxGwlG_y8fo5-SHd_muZo",
+            "template_id" => "tCsqWfkM6g-tvzlEK4OdgYfRaW_xyIA7vcctJDDUFKw",
+            "url" => "www.baidu.com",
+            "miniprogram" => [
+                "appid" => "",
+                "pagepath" => ""
+            ],
+            "data" => [
+                "name" => [
+                    "value" => "尼古拉斯.赵四",
+                    "color" => "#173177"
+                ],
+                "date" => [
+                    "value" => date('Y-m-d H:i:s',time()),
+                    "color" => "red"
+                ]
+            ]
+        ];
+        $api = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={$this->accessToken}";
+        $data = Http::post($api, $json)->json();
+        dd($data);
+```
 
