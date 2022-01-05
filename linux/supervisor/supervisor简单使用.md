@@ -6,9 +6,10 @@
 
 # 资料
 
-| 名称                | 链接                                          |
-| ------------------- | --------------------------------------------- |
-| Supervisor-官方文档 | [链接](http://www.supervisord.org/index.html) |
+| 名称                   | 链接                                                         |
+| ---------------------- | ------------------------------------------------------------ |
+| Supervisor-官方文档    | [链接](http://www.supervisord.org/index.html)                |
+| laravel supervisor介绍 | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#e45763) |
 
 # 安装
 
@@ -84,7 +85,7 @@ supervisorctl restart 项目名称  # 重启
 # 查询命令是否启用成功
 
 ```shell
-# 查询是否启用成功  netstat -anp | grep d
+# 查询是否启用成功  netstat -anp | grep 端口号
 bash-5.0# netstat -anp | grep 9501
 tcp        0      0 0.0.0.0:9501            0.0.0.0:*               LISTEN      4741/php            
 # 关闭进程用于测试
