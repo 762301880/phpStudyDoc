@@ -9,7 +9,7 @@
      * 返回AccessToken
      * 文档地址:https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html
      */
-   public function getAccessToken()
+  public function getAccessToken()
     {
         $appId = config('wechat.mini_program.default.app_id');# 获取配置文件中的appId
         $secret = config('wechat.mini_program.default.secret');# 获取配置文件中的secret
@@ -23,6 +23,9 @@
             return $accessToken;
         }
         $res = json_decode(file_get_contents($url), true);# 使用http客户端调用
+        if (!empty($res['errcode'])) {
+            return response()->json(['code' => '5000', 'message' => '请求异常', 'data' => $res]);
+        }
         \Cache::set($key, $res['access_token'], $expiration_time); //保存缓存
         return $res['access_token'];
     }
