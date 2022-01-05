@@ -10,6 +10,7 @@
 | ---------------------- | ------------------------------------------------------------ |
 | Supervisor-官方文档    | [链接](http://www.supervisord.org/index.html)                |
 | laravel supervisor介绍 | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#e45763) |
+| 第三方博客参考         | [链接](https://www.jianshu.com/p/0036e8e6b882)               |
 
 # 安装
 
@@ -18,6 +19,9 @@
 ```shell
 apk add supervisor # apk 命令安装会同时安装依赖
 apk del supervisor # 卸载supervisor
+
+# 查看版本
+supervisord -v
 ```
 
 # [基本使用](https://blog.csdn.net/SooKie_p/article/details/109526417?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&utm_relevant_index=1)
@@ -56,18 +60,20 @@ command=php /data/work/laravel_study/artisan swoole
 autostart=true
 autorestart=true
 user=root # 修改为当前登录的用户 可以用 whoami 命令查询
-numprocs=8
+numprocs=3
 redirect_stderr=true
 stdout_logfile=/data/logs/worker.log # 日志保存位置 可以自定义
-stopwaitsecs=3600 # 停止等待mia's
+stopwaitsecs=3600 # 停止等待秒数
 
 
 # 关键如果修改了配置文件需要 https://blog.csdn.net/wangjianwanxiao/article/details/51007354
 supervisorctl reload  # 重载配置文件
 # 如果重启完报错 https://blog.csdn.net/xwd127429/article/details/106103653
 error: <class 'xmlrpc.client.Fault'>, <Fault 6: 'SHUTDOWN_STATE'>: file: /usr/lib/python3.8/xmlrpc/client.py line: 655
-supervisord -c /etc/supervisord.conf
+supervisord -c /etc/supervisord.conf # 启动supervisor 使用该命令启动supervisor
 
+# 查看是否启动成功
+supervisorctl status
 ```
 
 [启动 Supervisor](https://www.topgoer.com/beego%E6%A1%86%E6%9E%B6/%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2/supervisor%E9%83%A8%E7%BD%B2.html)
