@@ -58,7 +58,7 @@ autorestart=true
 user=root # 修改为当前登录的用户 可以用 whoami 命令查询
 numprocs=8
 redirect_stderr=true
-stdout_logfile=/data/logs//worker.log # 日志保存位置 可以自定义
+stdout_logfile=/data/logs/worker.log # 日志保存位置 可以自定义
 stopwaitsecs=3600
 
 
@@ -70,16 +70,20 @@ supervisord -c /etc/supervisord.conf
 
 ```
 
-启动 Supervisor#
+[启动 Supervisor](https://www.topgoer.com/beego%E6%A1%86%E6%9E%B6/%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2/supervisor%E9%83%A8%E7%BD%B2.html)
 创建了配置文件后，你可以使用以下命令更新 Supervisor 配置并启动进程：
 
 ```shell
-supervisorctl reread # 重启
+Supervisord 安装完成后有两个可用的命令行 supervisord 和 supervisorctl，命令使用解释如下：
 
-supervisorctl update # 更新
-
-supervisorctl start 项目名称  # 启动
-supervisorctl restart 项目名称  # 重启
+supervisord，初始启动 Supervisord  #启动、管理配置中设置的进程。
+supervisorctl stop programxxx  #停止某一个进程(programxxx)，programxxx 为 [program:beepkg] 里配置的值，这个示例就是 beepkg。
+supervisorctl start programxxx  # 启动某个进程
+supervisorctl restart programxxx # 重启某个进程
+supervisorctl stop groupworker: #重启所有属于名为 groupworker 这个分组的进程(start,restart 同理)
+supervisorctl stop all  # 停止全部进程，注：start、restart、stop 都不会载入最新的配置文件。
+supervisorctl reload  #载入最新的配置文件，停止原有进程并按新的配置启动、管理所有进程。
+supervisorctl update  #根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受
 ```
 
 # 查询命令是否启用成功
