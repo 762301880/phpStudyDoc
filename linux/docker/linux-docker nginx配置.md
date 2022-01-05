@@ -67,6 +67,8 @@ composer update --ignore-platform-req=ext-fileinfo
 docker run -v /data/work/laravel_study/:/data/work/laravel_study  -p 1997:80 -itd --entrypoint /bin/sh hyperf/hyperf:7.4-alpine-v3.11-swoole
 # 进入容器之后修改镜像源 https://developer.aliyun.com/mirror/alpine?spm=a2c6h.13651102.0.0.3e221b11a7F6xt
 vi /etc/apk/repositories #将里面 dl-cdn.alpinelinux.org 的 改成 mirrors.aliyun.com ; 保存退出即可
+sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" repositories   # 直接用sed命令一键替换
+
 # 安装常用软件
 apk add vim 
 apk add net-tools
