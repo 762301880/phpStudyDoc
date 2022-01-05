@@ -59,7 +59,7 @@ user=root # 修改为当前登录的用户 可以用 whoami 命令查询
 numprocs=8
 redirect_stderr=true
 stdout_logfile=/data/logs/worker.log # 日志保存位置 可以自定义
-stopwaitsecs=3600
+stopwaitsecs=3600 # 停止等待mia's
 
 
 # 关键如果修改了配置文件需要 https://blog.csdn.net/wangjianwanxiao/article/details/51007354
