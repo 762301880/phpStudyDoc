@@ -154,3 +154,28 @@ start all		Start all processes
 
 ```
 
+## 报错 supervisorctl start 项目名称 ERROR (no such process)
+
+> 这个百分之百不要怀疑绝逼是配置文件没有加载
+>
+> 刷新配置命令 **supervisorctl updat**  **supervisorctl reload**
+
+```shell
+# 自己的配置
+[program:laravel_swoole] 
+process_name=%(program_name)s
+command=php /data/work/laravel_study/artisan swoole
+autostart=true
+autorestart=true
+user=root
+#numprocs=1
+redirect_stderr=true
+stdout_logfile=/data/worker.log
+stopwaitsecs=3600
+
+# 刷新之后重启
+bash-5.0# supervisorctl restart laravel_swoole
+laravel_swoole: stopped
+laravel_swoole: started
+```
+
