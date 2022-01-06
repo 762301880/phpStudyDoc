@@ -78,3 +78,23 @@ use Swoole\Timer;
         });
 ```
 
+[**简单聊天室功能**](https://blog.csdn.net/weixin_41423450/article/details/82975346)
+
+> 请自行添加其他事件
+
+```shell
+# 用户发送消息事件
+        $ws->on('message', function (Server $server, Frame $frame) use ($ws) {
+            foreach ($ws->connections as $fd){
+            # $ws->getClientInfo($frame->fd) 可以利用这个函数获取绑定人的名称等信息
+                if ($frame->fd == $fd){
+                    # 返回自己发送的消息
+                    $server->push($fd,  '我对大家说'.$frame->data);
+                }else{
+                    # 推送给所有人发送的消息 
+                    $server->push($fd,  $fd.$frame->data);
+                }
+            }
+        });
+```
+
