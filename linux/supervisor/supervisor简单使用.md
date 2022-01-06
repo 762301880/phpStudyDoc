@@ -92,7 +92,7 @@ supervisorctl reload  #载入最新的配置文件，停止原有进程并按新
 supervisorctl update  #根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受
 
 # 子进程重启(向我上面的就属于子进程	) 
-supervisorctl restart swoole:* # stop start 
+supervisorctl restart swoole:* # c组中的所有进程 stop start  
 ```
 
 # 查询命令是否启用成功
