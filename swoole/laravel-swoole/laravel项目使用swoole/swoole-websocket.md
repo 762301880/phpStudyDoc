@@ -106,6 +106,10 @@ php artisan make:command Swoole     # 创建command类
                   }
               }
           });
+          # g
+          $ws->on('Close', function ($ws, $fd) {
+              echo "client-{$fd} is closed\n";
+          });
           # 开启swoole
           $ws->start();
       }

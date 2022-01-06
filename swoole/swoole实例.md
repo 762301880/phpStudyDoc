@@ -59,14 +59,23 @@ telnet 127.0.0.1 9501
 
 # 实战演练
 
-## 计算在线人数
+## [计算在线人数](https://blog.csdn.net/haibo0668/article/details/118193894)
+
+> 请自行添加 message，Close 事件
 
 ```php
-# 用户连接事件 用户连接的时候发送一个连接通知
+# 用户连接事件 用户连接的时候返回一个连接通知
 use Swoole\WebSocket\Server;
 use Swoole\Http\Request;
-$ws->on('open', function (Server $server, Request $request) {
-    $server->push($request->fd,['msg'=>'当前在线人数','num'=>count($server->connections)]);
-});
+use Swoole\Timer;
+  $ws->on('open', function (Server $server, Request $request) {
+            # 使用定时任务推送
+            Timer::tick(1000,function ()use ($server,$request){
+                if ($server->isEstablished($request->fd)){ #检查连接是否为有效的 WebSocket 客户端连接。
+                    $server->push($request->fd, '当前在线人数' . count($server->connections));
+                }
+            });
+            echo "server: handshake success with fd{$request->fd}\n";
+        });
 ```
 
