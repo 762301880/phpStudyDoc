@@ -55,3 +55,18 @@ telnet 127.0.0.1 9501
 
 ```
 
+
+
+# 实战演练
+
+## 计算在线人数
+
+```php
+# 用户连接事件 用户连接的时候发送一个连接通知
+use Swoole\WebSocket\Server;
+use Swoole\Http\Request;
+$ws->on('open', function (Server $server, Request $request) {
+    $server->push($request->fd,['msg'=>'当前在线人数','num'=>count($server->connections)]);
+});
+```
+
