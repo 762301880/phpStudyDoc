@@ -128,3 +128,29 @@ stopwaitsecs=3600
 user ，它的值默认是 forge 。应该将这个值改为我们系统当前登录的用户
 ```
 
+## [报错 Error: Another program is already listening on a port that one of our HTTP servers is configured to use.  Shut this program down first before starting supervisord](https://oldtang.com/2477.html)
+
+> 意思是**另一个程序已经在监听我们的HTTP服务器配置使用的端口。在启动监控程序之前先关闭这个程序** 
+
+```shell
+ps aux | grep supervisord #首先查看进程号 然后 kill 进程 (这里不推荐这样操作)
+
+# 解决方案
+bash-5.0# supervisorctl  # 进入命令模式
+# 查看可以操作命令
+supervisor> help 
+default commands (type help <topic>):
+=====================================
+add    exit      open  reload  restart   start   tail   
+avail  fg        pid   remove  shutdown  status  update 
+clear  maintail  quit  reread  signal    stop    version
+# c
+supervisor> start 
+Error: start requires a process name
+start <name>		Start a process
+start <gname>:*		Start all processes in a group
+start <name> <name>	Start multiple processes or groups
+start all		Start all processes
+
+```
+
