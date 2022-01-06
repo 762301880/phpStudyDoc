@@ -80,6 +80,11 @@ php artisan make:command Swoole     # 创建command类
       {
           # 开启 websocket服务 参数一指定任意域名 参数二 端口
           $ws = new \swoole_websocket_server('0.0.0.0', 1997);
+          $ws->set([
+              # 设置心跳检测 时间一到会自动断开连接 https://wiki.swoole.com/#/server/setting?id=heartbeat_check_interval
+              'heartbeat_idle_time' => 600, // 表示一个连接如果600秒内未向服务器发送任何数据，此连接将被强制关闭
+              'heartbeat_check_interval' => 60,  // 表示每60秒遍历一次
+          ]);
           //$this->ws->on('open', [$this, 'open']);
           # 用户连接事件
           $ws->on('open', function (Server $server, Request $request) {
@@ -107,21 +112,21 @@ php artisan make:command Swoole     # 创建command类
   }
   
   ```
-
+  
   - 开启swoole9*/88
-
+  
    ```php
    php artisan swoole
    # 守护进程启动
    php artisan swoole &    
    ```
-
   
-
+  
+  
   ## 1.2 控制器事件
-
+  
   > 直接调用此路由就可以传递给command/swoole.php	中request 事件
-
+  
   ```php
    public function index(Request $request)
      {
@@ -129,5 +134,5 @@ php artisan make:command Swoole     # 创建command类
           return;
       }
   ```
-
+  
   
