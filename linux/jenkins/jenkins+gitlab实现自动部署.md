@@ -128,12 +128,14 @@ docker restart 容器id
 
 > 这里要加上`git stash` 问了防止万一不想等自动构建然后直接在服务器上改代码的情况下直接拉取代码会冲突
 >
-> 所以需要封存起现有的代码然后再拉取服务器代码
+> 所以需要封存起现有的代码然后再拉取服务器代码 
+>
+> `git stash clear` 清除所有封存堆栈中的所有内容
 >
 > **不推荐使用 `git reset --hard` 这条命令会将现有代码也会保存在服务器上**
 
 ```shell
-cd /data/work/laravel_study &&  git stash && git pull
+cd /data/work/laravel_study &&  git stash && git pull && git stash clear
 ```
 
 ![image-20211229152933074](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152933074.png)
