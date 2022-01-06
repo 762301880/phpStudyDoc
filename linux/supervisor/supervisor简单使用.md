@@ -10,7 +10,7 @@
 | ---------------------- | ------------------------------------------------------------ |
 | Supervisor-官方文档    | [链接](http://www.supervisord.org/index.html)                |
 | laravel supervisor介绍 | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#e45763) |
-| 第三方博客参考         | [链接](https://www.jianshu.com/p/0036e8e6b882)               |
+| 第三方博客参考         | [链接](https://www.jianshu.com/p/0036e8e6b882) [链接](https://www.cnblogs.com/yezigege/p/13530850.html) [链接](https://blog.51cto.com/lixcto/1539136) [链接](https://www.cnblogs.com/zhoujinyi/p/6073705.html) |
 
 # 安装
 
@@ -55,13 +55,13 @@ vim /etc/supervisor.d/文件名称.ini # 例如 vim /etc/supervisor.d/laravel_st
 
 # 文件中加入
 [program:laravel_study_socket]
-process_name=%(program_name)s_%(process_num)02d
+process_name=%(program_name)s_%(process_num)02d  # 进程名，当下面的numprocs为多个的时候，才需要。否则默认
 command=php /data/work/laravel_study/artisan swoole
-autostart=true
-autorestart=true
+autostart=true   # true表示supervisord启动时自动启动
+autorestart=true  # 是否自动重启
 user=root # 修改为当前登录的用户 可以用 whoami 命令查询
-numprocs=3
-redirect_stderr=true
+numprocs=3 #启动这个程序的多个实例，如果numprocs>1，则process_name的表达式必须包含%(process_num)s，默认是1
+redirect_stderr=true #如果为true，则stderr的日志会被写入stdout日志文件中  默认为false，非必须设置
 stdout_logfile=/data/logs/worker.log # 日志保存位置 可以自定义
 stopwaitsecs=3600 # 停止等待秒数
 
