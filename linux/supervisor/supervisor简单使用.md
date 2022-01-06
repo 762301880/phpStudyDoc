@@ -10,7 +10,7 @@
 | ---------------------- | ------------------------------------------------------------ |
 | Supervisor-官方文档    | [链接](http://www.supervisord.org/index.html)                |
 | laravel supervisor介绍 | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#e45763) |
-| 第三方博客参考         | [链接](https://www.jianshu.com/p/0036e8e6b882) [链接](https://www.cnblogs.com/yezigege/p/13530850.html) [链接](https://blog.51cto.com/lixcto/1539136) [链接](https://www.cnblogs.com/zhoujinyi/p/6073705.html) |
+| 第三方博客参考         | [链接](https://www.jianshu.com/p/0036e8e6b882) [链接](https://www.cnblogs.com/yezigege/p/13530850.html) [链接](https://blog.51cto.com/lixcto/1539136) [链接](https://www.cnblogs.com/zhoujinyi/p/6073705.html) [链接](https://www.it610.com/article/1305823479957852160.htm) |
 
 # 安装
 
@@ -92,7 +92,7 @@ supervisorctl reload  #载入最新的配置文件，停止原有进程并按新
 supervisorctl update  #根据最新的配置文件，启动新配置或有改动的进程，配置没有改动的进程不会受
 
 # 子进程重启(向我上面的就属于子进程	) 
-supervisorctl restart swoole:* # c组中的所有进程 stop start  
+supervisorctl restart swoole:* # 操作组中的所有进程 stop start  
 ```
 
 # 查询命令是否启用成功
