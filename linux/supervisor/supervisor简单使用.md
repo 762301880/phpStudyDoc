@@ -32,7 +32,7 @@ Supervisor 安装完成后，运行 `echo_supervisord_conf`。这会将“示例
 
 **配置文件位置**
 
-> 安装完成之后会在 **/etc/supervisord.conf** 中有配置文件
+> 安装完成之后会在 **/etc/supervisord.conf** 中有配置文件(**注意这里修改了一定要使用supervisorctl reload 来重新加载配置文件，否则不会生效**)
 
 ```shell
 # 查看配置文件
@@ -144,7 +144,7 @@ default commands (type help <topic>):
 add    exit      open  reload  restart   start   tail   
 avail  fg        pid   remove  shutdown  status  update 
 clear  maintail  quit  reread  signal    stop    version
-# c
+# 操作命令启动停止等
 supervisor> start 
 Error: start requires a process name
 start <name>		Start a process
