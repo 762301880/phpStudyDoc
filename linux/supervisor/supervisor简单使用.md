@@ -156,7 +156,7 @@ start all		Start all processes
 
 ## 报错 supervisorctl start 项目名称 ERROR (no such process)
 
-> 这个百分之百不要怀疑绝逼是配置文件没有加载
+> 这个百分之百不要怀疑绝逼是配置文件没有加载  网上说是supervisorctd 没有重启 无奈我重启了docker
 >
 > 刷新配置命令 **supervisorctl updat**  **supervisorctl reload**
 
