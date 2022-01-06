@@ -61,7 +61,7 @@ telnet 127.0.0.1 9501
 
 ## [计算在线人数](https://blog.csdn.net/haibo0668/article/details/118193894)
 
-> 请自行添加 message，Close 事件
+> 请自行添加 message，Close 事件 [bug参考](https://blog.csdn.net/thinkthewill/article/details/109034237)
 
 ```php
 # 用户连接事件 用户连接的时候返回一个连接通知
@@ -75,7 +75,6 @@ use Swoole\Timer;
                     $server->push($request->fd, '当前在线人数' . count($server->connections));
                 }
             });
-            echo "server: handshake success with fd{$request->fd}\n";
         });
 ```
 
