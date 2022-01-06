@@ -80,6 +80,8 @@ use Swoole\Timer;
 
 [**简单聊天室功能**](https://blog.csdn.net/weixin_41423450/article/details/82975346)
 
+[参考](https://blog.csdn.net/jz_Orange/article/details/108366851?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-6-108366851.pc_agg_new_rank&utm_term=swoole+%E5%AE%9E%E7%8E%B0%E8%81%8A%E5%A4%A9%E5%8A%9F%E8%83%BD&spm=1000.2123.3001.4430)
+
 > 请自行添加其他事件
 
 ```shell
