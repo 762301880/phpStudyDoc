@@ -4,7 +4,7 @@
 | -------------- | ------------------------------------------------ |
 | swoole入门指引 | [链接](https://wiki.swoole.com/wiki/page/1.html) |
 | swoole官方文档 | [链接](https://wiki.swoole.com/#/)               |
-|                |                                                  |
+| swoole在线测试 | [链接](http://coolaf.com/tool/chattest)          |
 
 # 二、laravel中使用swoole
 
