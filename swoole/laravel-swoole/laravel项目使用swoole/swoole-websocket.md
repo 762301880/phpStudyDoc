@@ -130,11 +130,13 @@ php artisan make:command Swoole     # 创建command类
   ## 1.2 控制器事件
   
   > 直接调用此路由就可以传递给command/swoole.php	中request 事件
+  >
+  > **注意请求的端口一定要和swoole开启的端口一样,ip可以使用 127.0.0.1当作请求本机ip**
   
   ```php
    public function index(Request $request)
      {
-          $data = \Http::get('www.cs.com:1997',['test'=>'888']);
+          $data = \Http::get('127.0.0.1:1997',['test'=>'888']);
           return;
       }
   ```
