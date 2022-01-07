@@ -274,6 +274,39 @@ auth()->user();
 
 如有需要[参考第三方博客](https://blog.csdn.net/qq_25991751/article/details/114574514)
 
+- 在auth.php 文件中 配置 auth guard 让api的driver使用jwt
+
+> 在该`config/auth.php`文件中，您需要进行一些更改以配置 Laravel 以使用`jwt`防护来支持您的应用程序身份验证。
+
+```shell
+'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+            'driver' => 'jwt', # 更改此处为jwt
+            'provider' => 'users',
+             #'hash' => false,
+        ],
+        # 多指定一个验证
+        'admin' => [
+            'driver' => 'jwt', # 更改此处为jwt
+            'provider' => 'admin',
+             #'hash' => false,
+        ],
+    ],
+```
+
+**获取或验证用户信息**
+
+```shell
+Auth('admin')->attempt($request->all()); # 采用Auth的attempt验证 密码一定要bcrypt()函数加密
+
+auth('admin')->user(); # 获取用户信息
+```
+
 
 
 # 更多jwt包
