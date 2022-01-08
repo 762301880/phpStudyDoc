@@ -159,7 +159,7 @@ php artisan make:command Swoole     # 创建command类
   
   # 以面向对象的方式使用websocket
   
-  > 创建**PushServer**类
+  > 创建**PushServer**类 
 
 ```php
 <?php
@@ -265,7 +265,11 @@ class MessageHandler
 }
 ```
 
+**使用**
 
+```shell
+php PushServer.
+```
 
 
 
