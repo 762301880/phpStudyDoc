@@ -100,10 +100,14 @@ php artisan make:command Swoole     # 创建command类
            * 用户发送消息事件
            * 客户端向服务端发送消息时调用该事件
            * $frame 客户端发送消息的信息
+           * $frame->fd 客户端的唯一编号
+           * $frame->data 客户端发送消息的文本内容
+           *
+           * $server->push('客户端的唯一编号','消息内容(一般传递json字符)'); 服务器向指定的客户端发送消息
            */
           $ws->on('message', function (Server $server, Frame $frame)use ($ws) {
               \Log::info($ws->getClientInfo($frame->fd));#获取绑定的用户信息 记得linux开启storage/logs 写入权限
-              $server->push($frame->fd, $frame->fd);
+              $server->push($frame->fd, $frame->data);
               echo $frame->data;
           });
           # 用户路由事件
@@ -115,8 +119,12 @@ php artisan make:command Swoole     # 创建command类
                   }
               }
           });
-          # g
-          $ws->on('Close', function ($ws, $fd) {
+          /**
+           * 关闭事件：客户端断开连接调用的事件
+           * $server or $ws  websocket服务器
+           * $fd  客户端的唯一 
+           */
+          $ws->on('Close', function (Server $server, $fd) {
               echo "client-{$fd} is closed\n";
           });
           # 开启swoole
