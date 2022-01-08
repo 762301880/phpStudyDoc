@@ -1,4 +1,4 @@
-#  一、资料
+# 资料
 
 | 资料名称       | 资料地址                                         |
 | -------------- | ------------------------------------------------ |
@@ -6,9 +6,9 @@
 | swoole官方文档 | [链接](https://wiki.swoole.com/#/)               |
 | swoole在线测试 | [链接](http://coolaf.com/tool/chattest)          |
 
-# 二、laravel中使用swoole
+# laravel中使用swoole
 
-## 1.1 创建command
+## 创建command
 
 > [关于command命令可以查看官方文档](https://learnku.com/docs/laravel/8.x/artisan/9387#tinker)  
 
@@ -143,9 +143,7 @@ php artisan make:command Swoole     # 创建command类
    php artisan swoole &    
    ```
   
-  
-  
-  ## 1.2 控制器事件
+  ## 控制器事件
   
   > 直接调用此路由就可以传递给command/swoole.php	中request 事件
   >
@@ -159,4 +157,127 @@ php artisan make:command Swoole     # 创建command类
       }
   ```
   
+  # 以面向对象的方式使用websocket
   
+  > 创建**PushServer**类
+
+```php
+<?php
+
+class PushServer
+{
+    private static $instance; # 实例的意思
+    private static $server;
+    private $messageHandler; # 处理消息的对象
+
+    private function __construct()
+    {
+        # 创建websocket对象
+        self::$server = new Swoole\WebSocket\Server('0.0.0.0', '9502');
+        # 注册事件
+        self::$server->on('open', [$this, 'onOpen']);# 将当前类里面的onOpen方法作为open的事件处理函数
+        # message
+        self::$server->on('message', [$this, 'onMessage']);# 将当前类里面的onOpen方法作为open的事件处理函数
+        # onWorkerStart
+        /**
+         * 这里执行加载类只会实例化一次类,如果放在message等中实例化类则会每一次触发都会实例化一次类
+         */
+        self::$server->on('workerStart', [$this, 'onWorkerStart']);# 将当前类里面的onOpen方法作为open的事件处理函数
+        # close
+        self::$server->on('close', [$this, 'onClose']);# 将当前类里面的onOpen方法作为open的事件处理函数
+    }
+
+    #当客户端连接上之后要执行的方法
+    public function onOpen(\Swoole\Server $server, \Swoole\Http\Request $request)
+    {
+        echo $request->fd; # 打印客户端连接的唯一标识
+    }
+
+    # 当客户端向服务器发送消息时要执行的方法
+    public function onMessage(\Swoole\Server $server, \Swoole\WebSocket\Frame $frame)
+    {
+        self::$server->reload();//让其执行onWorkerStart 函数重新加载代码(热更新:这个时候不管你如何修改messageHandler类中的方法都不需要重启swoole)
+
+        // echo $frame->data; //打印客户端的消息(可以发送json数据过来)
+         $data=json_decode($frame->data,true);#将收到的json数据转化为数组
+        // 传输过来的数据例如  {"cmd":"login","data":"用户A"}}
+        if (method_exists($this->messageHandler,$data['cmd'])){
+             echo '调用对应方法';
+             call_user_func([$this->messageHandler,$data['cmd']],$frame->fd,$data);
+         }
+    }
+
+    # 客户端和服务器断开连接时执行的方法
+    public function onClose(\Swoole\Server $server, $fd)
+    {
+
+    }
+
+    public function onWorkerStart()
+    {
+        echo "onWorkerStart........";
+        require_once './MessageHandler.php';
+        $this->messageHandler = new MessageHandler();
+    }
+
+    public static function getInstance(): PushServer
+    {
+        if (!self::$instance instanceof self) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    public function start()
+    {
+        self::$server->start();
+    }
+}
+
+PushServer::getInstance()->start();
+```
+
+
+
+**创建MessageHandler类**
+
+```php
+<?php
+
+class MessageHandler
+{
+    /**
+     * @param integer $client_id 登录用户唯一编号
+     * @param array $data 登录的信息
+     */
+    public function login($client_id=null,$data=null)
+    {
+        echo '用户正在登录';
+        echo "用户唯一id是:".$client_id;
+        echo '456';
+        print_r($data);
+    }
+
+    public function logout()
+    {
+
+    }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
