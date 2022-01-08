@@ -122,7 +122,8 @@ php artisan make:command Swoole     # 创建command类
           /**
            * 关闭事件：客户端断开连接调用的事件
            * $server or $ws  websocket服务器
-           * $fd  客户端的唯一 
+           * $fd  客户端的唯一编号
+           * 不管是关闭客户端还是服务器自己断开。该函数都会执行
            */
           $ws->on('Close', function (Server $server, $fd) {
               echo "client-{$fd} is closed\n";
