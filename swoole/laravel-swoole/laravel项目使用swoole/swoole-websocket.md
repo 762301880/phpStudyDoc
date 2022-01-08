@@ -90,13 +90,17 @@ php artisan make:command Swoole     # 创建command类
           /**
            * $server 这个server就是指上面创建的websocket服务器
            * $request 指的是客户端,谁连接到我了,传输过来的信息
-           * $request- 指的是客户端的唯一编号
+           * $request->fd 指的是客户端的唯一编号
            */
           $ws->on('open', function (Server $server, Request $request) {
               $server->bind($request->fd,'401');# 绑定用户 第二个参数暂时写死
               echo "server: handshake success with fd{$request->fd}\n";
           });
-          # 用户发送消息事件
+          /**
+           * 用户发送消息事件
+           * 客户端向服务端发送消息时调用该事件
+           * $frame 客户端发送消息的信息
+           */
           $ws->on('message', function (Server $server, Frame $frame)use ($ws) {
               \Log::info($ws->getClientInfo($frame->fd));#获取绑定的用户信息 记得linux开启storage/logs 写入权限
               $server->push($frame->fd, $frame->fd);
