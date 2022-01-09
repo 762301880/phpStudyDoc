@@ -1,4 +1,4 @@
-[^author:姚留洋]
+​	[^author:姚留洋]
 
 [^created_at:2021/10/24]
 
@@ -107,7 +107,23 @@ yaoliuyang-PC
 
 
 
+## [显示当前进程信息](https://www.runoob.com/linux/linux-comm-ps.html)
 
+> 指令：**ps**
+>
+> 作用：主要查看服务器的进程信息
+>
+> 选项含义
+>
+> ​    -e:  等价于**-A** 表示列出全部的进程
+>
+> ​    -f:  显示全部的列
+
+**示例**
+
+```shell
+ps -ef | grep 进程关键字
+```
 
 
 
