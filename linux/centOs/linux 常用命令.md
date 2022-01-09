@@ -123,6 +123,21 @@ yaoliuyang-PC
 
 ```shell
 ps -ef | grep 进程关键字
+
+# ps -ef  
+
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 11:43 ?        00:00:05 /sbin/init splash
+root         2     0  0 11:43 ?        00:00:00 [kthreadd]
+
+# UID 该进程执行的用户id
+# PID 进程id
+# PPID 该进程的父级进程id,如果一个程序的父级进程找不到,该程序的进程称之为僵尸进程(没什么用了)
+# C  Cpu的占用率,其形式是百分数
+# STIME  Start_time,该进程的启动事件
+# TTY 终端设备,发起该进程的设备识别符号,如果显示“?”意思是不是由终端发起的进程,
+# TIME 进程的执行时间
+# CMD  进程对应的名称或者对应的路径
 ```
 
 
