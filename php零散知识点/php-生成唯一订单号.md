@@ -18,7 +18,10 @@
 > 自定义订单编号生成规则**日期+用户id+随机数字4位**
 
 ```php
-# 建议做成全局调用的函数 
+# 建议做成全局调用的函数
+/**
+ * $userId 如果用户有uuid 则建议q
+ */
 public function getOrderNo(){
         $date = date('YmdHis'); # 日期
         $userId=\Auth::user()->id; #用户id
