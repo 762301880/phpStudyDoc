@@ -57,6 +57,33 @@ model_has-permissions # 用户权限表，用户直接获取权限使用
 
 ## 2.2 使用
 
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+
+use App\Models\User;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
+class TestController extends Controller
+{
+    public function index()
+    {
+        # 创建角色 && 权限
+        $role = Role::create(['name' => '司令']);#创建一个司令角色
+        $permission = Permission::create(['name' => '胡作非为']);#添加权限
+        $user = User::find(1);
+        $user->assignRole("司令");#给用户分配权限
+        $user->givePermissionTo('胡作非为');#给用户分配权限
+        Permission::all();#得到全部的权限
+        $user->hasPermissionTo('胡作非为');#判断用户是否拥有一个权限
+
+    }
+}
+```
+
 
 
 
