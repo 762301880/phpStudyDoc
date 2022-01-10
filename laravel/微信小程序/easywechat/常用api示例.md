@@ -146,6 +146,79 @@ array:10 [
   "trade_type" => "NATIVE"
   "code_url" => "weixin://wxpay/bizpayurl?pr=MOw2JtFzz"
 ]
-# 直接用code_urls    
+# 直接用code_url生成二维码即可    
+```
+
+**支付成功回调通知**
+
+**测试1不推荐使用**
+
+> 测试一下传递的回调参数
+
+```shell
+   use EasyWeChat\Kernel\Support\XML;
+   public function notice(Request $request)
+    {
+        $res=XML::parse($request->getContent());
+        \Log::channel('wechat_pay_notice')->info($res);
+        
+        #$data = file_get_contents(‘php://input’); 可以将获取的数据写入日志中查看。
+     }
+ # 返回    
+[2022-01-10 14:39:48] local.INFO: array (
+  'appid' => 'wxbc238451ad42add0',
+  'bank_type' => 'OTHERS',
+  'cash_fee' => '1',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1601524050',
+  'nonce_str' => '61dbd495517b5',
+  'openid' => 'olKLd5Z8hu6gyTiOZ5jHHgUpmWis',
+  'out_trade_no' => '2015080612210',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '8DAC3AF8E36ED9EBCD10491A168B0863',
+  'time_end' => '20220110143942',
+  'total_fee' => '1',
+  'trade_type' => 'NATIVE',
+  'transaction_id' => '4200001320202201103302411424',
+)  
+```
+
+[**推荐使用测试通知**](https://easywechat.vercel.app/4.x/payment/notify.html#%E9%80%80%E6%AC%BE%E7%BB%93%E6%9E%9C%E9%80%9A%E7%9F%A5)
+
+```php
+        $response = $this->app->handleScannedNotify(function ($message, $fail, $alert){
+            // \Log::channel('wechat_pay_notice')->info('进不来啊进不来啊');
+           \Log::channel('wechat_pay_notice')->warning($message);
+            // \Log::channel('wechat_pay_notice')->error($fail);
+            // \Log::channel('wechat_pay_notice')->error($alert);
+            // 你的逻辑
+            //return true;
+            // 或者错误消息
+        });
+        $res=$response->send();
+        \Log::channel('wechat_pay_notice')->alert('测试通知');
+
+# 返回示例
+[2022-01-10 15:09:36] local.WARNING: array (
+  'appid' => 'wxbc238451ad42add0',
+  'bank_type' => 'OTHERS',
+  'cash_fee' => '1',
+  'fee_type' => 'CNY',
+  'is_subscribe' => 'N',
+  'mch_id' => '1601524050',
+  'nonce_str' => '61dbcc907d295',
+  'openid' => 'olKLd5Z8hu6gyTiOZ5jHHgUpmWis',
+  'out_trade_no' => '201508061225',
+  'result_code' => 'SUCCESS',
+  'return_code' => 'SUCCESS',
+  'sign' => '3436B4C83FE9E697239DD7E5A9E1516D',
+  'time_end' => '20220110140526',
+  'total_fee' => '1',
+  'trade_type' => 'NATIVE',
+  'transaction_id' => '4200001340202201105772953255',
+)  
+[2022-01-10 15:09:36] local.ALERT: 测试通知  
 ```
 
