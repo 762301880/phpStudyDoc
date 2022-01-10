@@ -9,7 +9,7 @@
 
 
 
-# 微信支付
+# [微信支付](https://easywechat.vercel.app/4.x/payment/)
 
 **配置支付参数**
 
