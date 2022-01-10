@@ -25,6 +25,7 @@ public function __construct()
     'key'                => 'key-for-signature',   // API 密钥(支付平台提供)
 
     // 如需使用敏感接口（如退款、发送红包等）需要配置 API 证书路径(登录商户平台下载 API 证书)
+    # 路径需要填写服务器或者本地保存的绝对路径 例如 /data/work/laravel/public/cert/apiclient_cert.pem
     'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！(支付平台提供)
     'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！(支付平台提供)
     'notify_url'         => '默认的订单回调地址',     // 你也可以在下单时单独设置来想覆盖它(支付成功或者失败回调地址)
