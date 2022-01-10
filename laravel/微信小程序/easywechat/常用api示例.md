@@ -113,3 +113,39 @@ $app->order->queryByTransactionId("微信订单号（transaction_id）");
 $app->order->close(商户系统内部的订单号（out_trade_no）);
 ```
 
+
+
+## [扫码支付](https://easywechat.vercel.app/4.x/payment/scan-pay.html#%E6%89%AB%E7%A0%81%E6%94%AF%E4%BB%98)
+
+### 先下单，生成订单后创建二维码
+
+> [文本生成二维码在线](https://cli.im/text)
+
+```php
+        $result = $this->app->order->unify([
+            'body' => '腾讯充值中心-QQ会员充值',
+            'out_trade_no' => '20150806125346asda',
+            'total_fee' =>1,
+            //'spbill_create_ip' => '123.12.12.123', // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
+           'notify_url' => 'http://42f4a70e.cpolar.io/api/notice', // 支付结果通知网址，如果不设置则会使用配置里的默认地址(换成自己的通知回调地址)
+            'trade_type' => 'NATIVE',
+            'product_id' =>789, // $message['product_id'] 则为生成二维码时的产品 ID(通俗的来说就是商品id)
+            'openid' => 'olKLd5Z8hu6gyTiOZ5jHHgUpmWis', //用户自己的openid
+        ]);
+        dd($result);
+# 返回示例  
+array:10 [
+  "return_code" => "SUCCESS"
+  "return_msg" => "OK"
+  "result_code" => "SUCCESS"
+  "mch_id" => "1601524050"
+  "appid" => "wxbc238451ad42add0"
+  "nonce_str" => "9TGxQYcWykrNwtCu"
+  "sign" => "36A36827923690F9F6680590C1C13203"
+  "prepay_id" => "wx1013402863376836d1c563469d01040000"
+  "trade_type" => "NATIVE"
+  "code_url" => "weixin://wxpay/bizpayurl?pr=MOw2JtFzz"
+]
+# 直接用code_urls    
+```
+
