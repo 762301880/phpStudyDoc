@@ -42,11 +42,11 @@
 
 
 
-## 资料
+# tymon/jwt-auth
 
 | name                       | url                                                          |
 | -------------------------- | ------------------------------------------------------------ |
-| 第三方博客                 | [link](https://learnku.com/articles/30342)                   |
+| 第三方博客                 | [link](https://learnku.com/articles/30342)   [link](http://www.45fan.com/article.php?aid=19121863245239341202671983) |
 | jwt-auth Wiki文档          | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
 | packagist项目地址          | [link](https://packagist.org/packages/tymon/jwt-auth)        |
 | jwt超详细解释              | [link](https://learnku.com/articles/17883)                   |
@@ -54,9 +54,7 @@
 | laravel-wikis-jwt认证详解  | [link](https://learnku.com/laravel/wikis/25704)              |
 | laravel学院扩展包-登陆认证 | [link](https://laravelacademy.org/post/3640)                 |
 
-
-
-# 使用实例
+## 使用实例
 
 ## 安装
 
@@ -268,9 +266,7 @@ auth()->user();
  ]
  ```
 
-
-
-# 多表认证日后补充
+## 多表认证
 
 如有需要[参考第三方博客](https://blog.csdn.net/qq_25991751/article/details/114574514)
 
@@ -307,9 +303,78 @@ Auth('admin')->attempt($request->all()); # 采用Auth的attempt验证 密码一�
 auth('admin')->user(); # 获取用户信息
 ```
 
+# [firebase/](http://packagist.p2hp.com/packages/firebase/)php-jwt(推荐使用)
 
+> 毕竟jwt官网排行第一的包所以推荐使用
 
-# 更多jwt包
+**资料**
 
-[jwt](http://packagist.p2hp.com/packages/firebase/php-jwt)
+| 名称                                                         | 地址                                                        |
+| ------------------------------------------------------------ | ----------------------------------------------------------- |
+| [firebase/](http://packagist.p2hp.com/packages/firebase/)php-jwt | [link](http://packagist.p2hp.com/packages/firebase/php-jwt) |
+| 第三方博客参考                                               | [link ](https://www.cnblogs.com/mg007/p/11293939.html)      |
+
+## 安装
+
+```php
+composer require firebase/php-jwt
+```
+
+## 代码示例
+
+**登录接口**
+
+> `iss`   token的发行者((issuer)是签发该证书的负责人)
+>
+> `sub`  token的题目  (Subject)是主体。
+>
+> `aud` token的客户 (Audience) Claim是指jwt的接受者，假如aud没有发现，则解析jwt时会抛出异常
+>
+> `exp`  经常使用的，以数字时间定义失效期，也就是当前时间以后的某个时间本token失效。 什么时候过期，这里是一个Unix时间戳，是否使用是可选的
+>
+> `nbf`定义在此时间之前，JWT不会接受处理。开始生效时间 如果当前时间在nbf里的时间之前，则Token不被接受；一般都会留一些余地，比如几分钟；是否使用是可选的；(Expiration Time指的是过期时间，假如超过过期时间，则会抛出异常)
+>
+> `iat` JWT发布时间，能用于决定JWT年龄 在什么时候签发的(UNIX时间)，是否使用是可选的(Not Before指的是开始日期，claim要求当前日期/时间必须在以后或等于在“nbf”声明中列出的日期/时间) (Issued At) Claim是指jwt的发行时间；
+>
+> `jti` JWT唯一标识. 能用于防止 JWT重复使用，一次只用一个token；如果签发的时候这个claim的值是“1”，验证的时候如果这个claim的值不是“1”就属于验证失败(JWT IDJWT提供了惟一的标识符，如果应用程序使用多个发行者，必须在值之间避免冲突，由不同的发行商制作。)
+
+```php
+use Illuminate\Http\Request;
+use Firebase\JWT\JWT;
+Public function authLogin(Request $request){
+      // 用户登录逻辑-q
+        $user = Admin::first();
+        $userId = $user->admin_id;
+        $modelName = $user->getTable();
+        $jwt = $this->getResponseJwtEncode($userId, $modelName);
+        return response()->json(['code' => '2000', 'msg' => 'success', 'data' => $jwt]);
+}
+
+ /**
+     * 返回jwt 加密信息
+     * $data 需要传递的数据
+     * @param integer $id 用户主键
+     * @param string $modelName 模型名称
+     */
+    public function getResponseJwtEncode(int $id, string $modelName)
+    {
+        $key = "example_key"; # 密钥可以自定义
+        $time = time();
+        $payload = array(
+            "iss" => "http://example.org", # 可以指定程序的域名
+            "aud" => "http://example.com",
+            "iat" => $time, # 程序的发布时间
+            "nbf" => $time, # token生效时间
+            "exp" => $time + 7200, # 过期时间两小时
+            'id' => $id,
+            'model_name' => $modelName
+        );
+        /*
+         * alg 签名算法 HS256
+         */
+        $jwt = JWT::encode($payload, $key, 'HS256');
+        return $jwt;
+    }
+
+```
 
