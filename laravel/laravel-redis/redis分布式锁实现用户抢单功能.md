@@ -68,15 +68,13 @@
 ```shell
        $name ='001';
         if (Stu::where('sname', $name)->first() == null) {
-            Stu::create(['sname' => $name]);
+           Stu::create(['sname' => $name]);
         } 
 ```
 
 ![1640238629(1).jpg](https://s2.loli.net/2021/12/23/Pj7sGnJSYDO53IX.png)
 
-### 解决方案
-
-##  利用mysql的悲观锁解决
+### 利用mysql的悲观锁解决
 
 > 记住悲观锁必须依赖于事务才可以执行
 
