@@ -164,7 +164,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return []; # 这里可以拼接返回信息例如(返回过期时间,用户id,m)  return ['exp'=>7200,'id'=>1,'model'=>$this->->getTable()]
     }
 }
 ```
@@ -342,7 +342,7 @@ composer require firebase/php-jwt
 use Illuminate\Http\Request;
 use Firebase\JWT\JWT;
 Public function authLogin(Request $request){
-      // 用户登录逻辑-q
+      // 用户登录逻辑-请自己补充
         $user = Admin::first();
         $userId = $user->admin_id;
         $modelName = $user->getTable();
