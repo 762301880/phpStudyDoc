@@ -113,6 +113,21 @@ CREATE TABLE `model_has_permissions` (
 
 ## 2.2 使用
 
+首先需要在对应需要设置权限的模型中添加`HasRoles` trait和设置 `$guard_name` 属性
+
+```php
+use Spatie\Permission\Traits\HasRoles;
+
+class User extends Authenticatable
+{
+    use HasRoles;
+    protected $guard_name = ['sanctum'];
+    ...
+}
+```
+
+常用代码示例
+
 ```php
 <?php
 
@@ -133,9 +148,8 @@ class TestController extends Controller
         $user = User::find(1);
         $user->assignRole("司令");#给用户分配权限
         $user->givePermissionTo('胡作非为');#给用户分配权限
-        Permission::all();#得到全部的权限
+        Permission::all();#得到全部的权限 
         $user->hasPermissionTo('胡作非为');#判断用户是否拥有一个权限
-
     }
 }
 ```
