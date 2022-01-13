@@ -16,10 +16,11 @@
 
 ## 资料
 
-| name                                       | url                                                      |
-| ------------------------------------------ | -------------------------------------------------------- |
-| redis-setnx(**SET** if **N**ot e**X**ists) | [link](https://www.runoob.com/redis/strings-setnx.html)  |
-| 第三方博客                                 | [link](https://www.cnblogs.com/jackzhuo/p/13678008.html) |
+| name                                                         | url                                                      |
+| ------------------------------------------------------------ | -------------------------------------------------------- |
+| redis-setnx(**SET** if **N**ot e**X**ists)                   | [link](https://www.runoob.com/redis/strings-setnx.html)  |
+| 第三方博客                                                   | [link](https://www.cnblogs.com/jackzhuo/p/13678008.html) |
+| laravel学院-基于 Redis 实现分布式锁及其在 Laravel 底层的实现源码 | [link](https://laravelacademy.org/post/22183)            |
 
 >***setnx解释***
 >
@@ -41,6 +42,52 @@
         if (!empty($lock) || $this->redis->get($key) <= time()) {
             # 逻辑操作
              $this->redis->del($key);
+        }
+```
+
+# [laravel-学院 redis底层分布式锁示例](https://laravelacademy.org/post/22183)
+
+# 自己研究的代码示例
+
+### 说明
+
+> 生活中并发的场景随处可见,抽奖，下单，签到，秒杀，都是那一瞬间并发量很大的情况
+>
+> 很可能会照成重复的情况,往往这种情况都是在读取剩余数量的时候判断那一瞬间很多人操作
+>
+> 会发生这种情况
+
+### 模拟并发
+
+> 举一个简单的**栗子**加入我们注册学生信息的时候不想要学生姓名重复,如果
+>
+> 重复则跳过执行,问题来了正常情况下我们是不会重复的 使用**jmeter**请求一下发现
+>
+> 会出现并发情况
+
+```shell
+       $name ='001';
+        if (Stu::where('sname', $name)->first() == null) {
+            Stu::create(['sname' => $name]);
+        } 
+```
+
+![1640238629(1).jpg](https://s2.loli.net/2021/12/23/Pj7sGnJSYDO53IX.png)
+
+### 解决方案
+
+##  利用mysql的悲观锁解决
+
+> 记住悲观锁必须依赖于事务才可以执行
+
+```shell
+       $name ='001';
+        DB::beginTransaction();
+        if (Stu::where('sname', $name)->lockForUpdate()->first() == null) {
+            Stu::create(['sname' => $name]);
+            DB::commit();
+        } else {
+            DB::rollBack();
         }
 ```
 
