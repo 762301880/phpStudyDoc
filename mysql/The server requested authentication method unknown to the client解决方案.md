@@ -7,7 +7,8 @@
 # [解决方案](https://blog.51cto.com/u_15102978/2639358)
 
 ```shell
-mysql - uroot - p
+# q
+mysql -uroot -p
 # 显示数据库
 mysql> show databases;
 # 选择 数据库
