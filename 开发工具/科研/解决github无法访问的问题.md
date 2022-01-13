@@ -29,6 +29,6 @@
 
 ```shell
 # 手动添加的github dns
-13.114.40.48   www.github.com
+13.114.40.48   www.github.com	
 ```
 
