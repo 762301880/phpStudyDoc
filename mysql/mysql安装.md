@@ -3,10 +3,10 @@
 [docker-mysql官网](https://registry.hub.docker.com/_/mysql)
 
 ```shell
-# 下载 默认下载得是最新版 8.*d
+# 下载 默认下载得是最新版 8.*的mysql
 docker pull mysql
 # 启动 -e MYSQL_ROOT_PASSWORD=指定密码
-docker run --name mysql -itd -p 3306:3306 -p 9702:9702 -v /data/mysql:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=yaoliuyang  容器id
+docker run --name mysql -itd -p 3306:3306 -p 9702:9702 -v /data/mysql:/etc/mysql -e MYSQL_ROOT_PASSWORD=yaoliuyang  容器id
 # 执行上一步直接远程连接即可 用户名是root
 ```
 
@@ -27,3 +27,10 @@ docker run --name mysql -itd -p 3306:3306 -p 9702:9702 -v /data/mysql:/etc/mysql
 default_authentication_plugin = mysql_native_password
 ```
 
+**docker创建mysql容器时挂载文件路径后无法启动已解决**
+
+```php
+# 在docker run中加入 --privileged=true  给容器加上特定权限
+
+docker run --name mysql -itd --privileged=true -p 3306:3306 -p 9702:9702 -v /data/mysql:/etc/mysql 
+-e MYSQL_ROOT_PASSWORD=yaoliuyang  容器id
