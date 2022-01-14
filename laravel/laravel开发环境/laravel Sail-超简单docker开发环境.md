@@ -49,15 +49,9 @@ Get started with: cd laravel_test && ./vendor/bin/sail up  # 出现这句代表�
 
 #进入项目
 cd laravel_test
-# 运行sailup-记着一定要安装docker-composer，运行sailup 可以启用docker 并生成一个隔离的运行环境
+# 运行sailup-记着一定要安装docker-composer，运行sailup 可以启用docker 并生成一个隔离的运行环境比如安装mysql啊等d
 ./vendor/bin/sail up
 
 
-```
-
-## [docker-composer安装](https://www.runoob.com/docker/docker-compose.html)
-
-```shell
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 
