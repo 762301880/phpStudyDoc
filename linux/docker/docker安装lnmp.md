@@ -113,7 +113,7 @@ service nginx reload
 docker pull nginx # 下载nginx
 # 启动nginx
 # 第一个是挂载是挂载配置文件  第二个挂载是挂载项目存放目录
-docker run --name mynginx -itd -p 8080:80 -v C:\etc\nginx\conf.d:/etc/nginx/conf.d/ -v C:\etc\www:/www 容器id
+    docker run --name mynginx -itd -p 8080:80 -v C:\etc\nginx\conf.d:/etc/nginx/conf.d/ -v C:\etc\www:/www 容器id
 ```
 
 ### 2.4.2 安装php
