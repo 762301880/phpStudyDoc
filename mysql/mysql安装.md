@@ -3,7 +3,7 @@
 [docker-mysql官网](https://registry.hub.docker.com/_/mysql)
 
 ```shell
-# 下载 
+# 下载 默认下载得是最新版 8.*d
 docker pull mysql
 # 启动 -e MYSQL_ROOT_PASSWORD=指定密码
 docker run --name mysql -itd -p 3306:3306 -p 9702:9702 -v /data/mysql:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=yaoliuyang  容器id
