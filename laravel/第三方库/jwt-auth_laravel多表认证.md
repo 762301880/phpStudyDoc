@@ -4,9 +4,21 @@
 
 > [此段说明截取第三方博客](https://laravelacademy.org/post/9794
 
+## 传统比较
+
+> session
+>
+> 最早期开发我们都会使用**session**存放在服务器端通过session访问用户数据(缺点集群无法共享)
+>
+> token
+>
+> Token+Redis  第一次登录之后生成token返回给前端并保存到session中(key为token value为用户id)然后以后前端就可以
+>
+> 携带token查询用户id 再DB查询数据库返回用户的详细信息（缺点依赖于Redis真实token存放value值）
+
 ### 什么是jwt
 
-> jwt单词代表的意思就是JSON Web Token。
+> **jwt**单词代表的意思就是**JSON Web Token**。
 >
 > 我们在做api请求的时候，通常要使用token，来验证是否这个请求能不能访问。
 >
