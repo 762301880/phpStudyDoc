@@ -1,6 +1,6 @@
-# 一、说明&资料
+# 说明&资料
 
-## 1.1 说明
+##  说明
 
 > 实际项目开发中我们经常会遇到对用户的某个权限进行管理比如
 >
@@ -8,7 +8,7 @@
 >
 > 自己搭建一个rbac权限服务很耗费时间精力，没有必要去造轮子
 
-## 1.2 资料
+## 资料
 
 | name              | linkUrl                                                      |
 | ----------------- | ------------------------------------------------------------ |
@@ -19,9 +19,9 @@
 | laravel-学院      | [link](https://learnku.com/articles/9842/user-role-permission-control-package-laravel-permission-usage-description) |
 | 原生-rbac权限管理 | [link](https://www.cnblogs.com/yaoliuyang/p/12710798.html)   |
 
-## 二、安装&使用
+## 安装
 
-## 2.1 composer安装
+**通过composer安装**
 
 > 在项目根目录执行
 
@@ -109,9 +109,7 @@ CREATE TABLE `model_has_permissions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
-
-
-## 2.2 使用
+# 使用
 
 首先需要在对应需要设置权限的模型中添加`HasRoles` trait和设置 `$guard_name` 属性
 
@@ -126,7 +124,7 @@ class User extends Authenticatable
 }
 ```
 
-常用代码示例
+## 常用代码示例
 
 ```php
 <?php
@@ -150,15 +148,18 @@ class TestController extends Controller
         $user->givePermissionTo('胡作非为');#给用户分配权限
         Permission::all();#得到全部的权限 
         $user->hasPermissionTo('胡作非为');#判断用户是否拥有一个权限
+        # 向用户添加权限
+        $user->givePermissionTo('edit articles');
+        # 通过角色添加权限
+        $user->assignRole('writer');
+        $role->givePermissionTo('edit articles');
+        # 因为所有的权限都会在Laravel 的 gatecan上注册，所以你可以通过 Laravel 的默认函数来检查用户是否有权限：
+        $user->can('edit articles');
     }
 }
 ```
 
-
-
-
-
-### blade模板鉴权
+## blade模板鉴权(现以分离开发 废弃)
 
 Blade 和角色
 
