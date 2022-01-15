@@ -39,7 +39,8 @@ php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvid
 - 发布迁移文件
 
 ```shell
-    php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"
+# 生成迁移文件，根据业务需要可以随意添加表字段
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="migrations"
 ```
 
 - 生成迁移文件，根据业务需要可以随意添加表字段
