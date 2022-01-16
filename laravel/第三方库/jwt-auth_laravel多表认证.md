@@ -14,7 +14,9 @@
 >
 > Token+Redis  第一次登录之后生成token返回给前端并保存到session中(key为token value为用户id)然后以后前端就可以
 >
-> 携带token查询用户id 再DB查询数据库返回用户的详细信息（缺点依赖于Redis真实token存放value值）
+> 携带token查询用户id 再DB查询数据库返回用户的详细信息,依赖于Redis真实token存放value值（缺点 每次都需要根据token查询真实内容
+>
+> 对服务器端的压力非常大）
 
 ### 什么是jwt
 
