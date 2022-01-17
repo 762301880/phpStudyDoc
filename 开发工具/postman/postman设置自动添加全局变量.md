@@ -15,3 +15,8 @@ console.log(response);
  pm.environment.set("api_token",response.data.jwtToken);
 ```
 
+**使用**
+
+> 使用的时候直接**引用变量即可**
+
+![1642391837(1).jpg](https://s2.loli.net/2022/01/17/Z1qCU72THmbIozg.png)
