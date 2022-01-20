@@ -135,7 +135,7 @@ docker restart 容器id
 > **不推荐使用 `git reset --hard` 这条命令会将现有代码也会保存在服务器上**
 
 ```shell
-cd /data/work/laravel_study &&  git stash && git pull && git stash clear
+cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git stash clear
 ```
 
 ![image-20211229152933074](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152933074.png)
@@ -150,5 +150,61 @@ cd /data/work/laravel_study &&  git stash && git pull && git stash clear
 
 ```shell
 /usr/share/jenkins/jenkins.war
+```
+
+
+
+
+
+# bug 解析
+
+**构建遇到:he following untracked working tree files would be overwritten by merg**
+
+> error: The following untracked working tree files would be overwritten by merge:
+> config/required_remote_url.php
+> Please move or remove them before you can merge.
+>
+> 错误:以下未跟踪的工作树文件将被合并覆盖:    配置/ required_remote_url.php   请在合并之前移动或删除它们。
+
+> bug复现   加入你本地创建了一个a文件  你先没有通过git 提交自动构建 直接 通过shell 等工具上传到远程服务器
+>
+> 会照成git没有这个文件的记录所以会报这种错误
+>
+> 我们只需要删除超前的文件即可
+
+```shell
+git clean -n
+// 是一次 clean 的演习, 告诉你哪些文件会被删除，不会真的删除
+ 
+git clean -f
+// 删除当前目录下所有没有 track 过的文件 f：强制运行
+// 不会删除 .gitignore 文件里面指定的文件夹和文件, 不管这些文件有没有被 track 过
+ 
+git clean -f <path>
+// 删除指定路径下的没有被 track 过的文件
+ 
+git clean -df
+ 
+// 删除当前目录下没有被 track 过的文件和文件夹
+ 
+git clean -xf
+ 
+// 删除当前目录下所有没有 track 过的文件.
+// 不管是否是 .gitignore 文件里面指定的文件夹和文件
+ 
+git clean 
+// 对于刚编译过的项目也非常有用
+// 如, 他能轻易删除掉编译后生成的 .o 和 .exe 等文件. 这个在打包要发布一个 release 的时候非常有用
+```
+
+**推荐构建脚本加上git clean -df 命令**
+
+> 记住这个命令**千万不要再本地使用会导致误删很多东西**
+
+```shell
+git clean -f
+    
+# 例
+cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git stash clear       
 ```
 
