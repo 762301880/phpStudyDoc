@@ -163,5 +163,83 @@ imagick
             $image->writeImage($destinationPath . $fileName);//保存到新路径    
 ```
 
+**代码实战**
 
+```php
+ public function uploadImage(Request $request)
+    {
+        try {
+            $file = $request->file('file');
+            if (empty($file)) {
+                throw new \ErrorException('上传图片不能为空');
+            }
+            # 验证上传图片格式
+            if (!in_array($file->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'bpm', 'gif', 'svg', 'webp'])) {
+                throw new \ErrorException('上传文件必须是 jpg、jpeg、png、bpm、gif、svg、webp 其中的一种');
+            }
+            # 验证上传图片大小
+            if (floor($file->getSize() / (1024 * 1024) > 10)) {
+                throw new \ErrorException('上传文件必须保持在10M以内');
+            }
+
+            $file_name = uniqid() . '@' . $file->getClientOriginalName(); # 定义上传图片得唯一名称
+            $uploadDirectory = '/uploads/' . date('Ymd');  #定义上传文件得路径
+            $savePath = public_path($uploadDirectory);  # 定义上传绝对路径
+            //文件路径如果不存在则自动创建 并赋予权限
+            if (!is_dir($savePath)) {
+                mkdir($savePath, 0777, true);
+            }
+            # 设置质量
+            $image = new \Imagick($file->path());
+            $image->setImageCompressionQuality(50);//设置图片压缩的质量
+            $image->writeImage($savePath . '/' . $file_name);//保存新的路径
+            # 缩放
+            $thumb_file_name = uniqid() . '@' . '-thumb' . $file->getClientOriginalName(); #定义缩放的名称
+            $image = new \Imagick($savePath . '/' . $file_name); # 实例化缩放的目标文件(这里必须是已经压缩过的图片)
+            $image->cropThumbnailImage($image->getImageWidth() * 0.5, $image->getImageHeight() * 0.5); # 缩放操作
+            $image->writeImage($savePath . '/' . $thumb_file_name);//保存新的路径
+            // die();
+            // # 上传图片逻辑
+            // $file_name = uniqid() . '@' . $file->getClientOriginalName();
+            // $uploadDirectory = '/uploads/' . date('Ymd');
+            // $savePath = public_path($uploadDirectory);
+            // $file->move($savePath . '/' . $file_name);
+            if (file_exists($savePath . '/' . $file_name)) {
+                $retData = [
+                    'url' => url('/api/backend' . $uploadDirectory . '/' . $file_name), # 压缩过后的图片url地址
+                    'relative_path' => $uploadDirectory . '/' . $file_name, # 压缩过后的图片的服务器相对地址
+                    'thumb_image_url' => url('/api/backend' . $savePath . '/' . $thumb_file_name), # 压缩并缩放图片的url 地址
+                    'thumb_relative_path' => $uploadDirectory . '/' . $thumb_file_name  # 压缩并缩放图片的相对地址
+                ];
+                return $this->success($retData, '图片上传成功');
+            }
+            return $this->failed('图片上传失败');
+        } catch (\ErrorException $exception) {
+            return $this->failed($exception->getMessage());
+        }
+    }
+```
+
+
+
+## bug解析
+
+## [Laravel上传文件时getRealPath()返回public文件夹](https://blog.csdn.net/lkisgeek/article/details/120224083)
+
+> 今天用**imageMagick**的时候发现**laravel的 $request->file('file')->getRealPath()**不管怎么传文件都会返回docker内部的项目目录**public**路径
+>
+> 无奈查询了一下这个函数用户的是**SPL**库,看了一下**php -m** 是有这个库的说明不是库的问题百度了一番发现是**php.ini**配置文件中的**upload_max_filesize** 限制比较小  于是我放开到**20M**,重启了一下php-fpm果然就可以返回我想要的临时文件
+
+```php
+find / -name php.ini
+vim /usr/local/php7.4.3/etc/php.ini    
+........
+upload_max_filesize = 20M       # 修改大小 并wq保存   
+........    
+netstat -anp | grep 9000        # 查看php-fpm进程
+tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      135/php-fpm: master
+kil  135  # 关闭php-fpm
+    
+/usr/local/php7.4.3/sbin/php-fpm  # 重启php-    
+```
 
