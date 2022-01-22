@@ -220,9 +220,7 @@ imagick
     }
 ```
 
-
-
-## bug解析
+# bug解析
 
 ## [Laravel上传文件时getRealPath()返回public文件夹](https://blog.csdn.net/lkisgeek/article/details/120224083)
 
@@ -240,6 +238,16 @@ netstat -anp | grep 9000        # 查看php-fpm进程
 tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      135/php-fpm: master
 kil  135  # 关闭php-fpm
     
-/usr/local/php7.4.3/sbin/php-fpm  # 重启php-    
+/usr/local/php7.4.3/sbin/php-fpm  # 重启php-fpm    
+```
+
+## [ImagickException: no decode delegate for this image format](https://blog.csdn.net/yangwenjie12/article/details/86644902?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&utm_relevant_index=1)
+
+> 这个应该是说了**此图像格式没有解码委托**
+
+**查看支持的格式**
+
+```php
+/usr/local/imagemagick/bin/convert   -list format  # 在显示的列表中查看有没有自己的格式
 ```
 
