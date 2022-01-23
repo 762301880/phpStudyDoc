@@ -8,7 +8,9 @@
 
 # 由于第一种情况已经满足我的需求了，如果日后有需要再补充第二种情况
 
-# 二、破解navicat
+[请下载上述官网提供的navicat 版本不然无法破解](https://rlds.tk/down.php)
+
+# 二、破解navicat(勿看没用了)
 
 ## 2.1 官方下载[中文版](http://www.navicat.com.cn/download/navicat-premium)
 
