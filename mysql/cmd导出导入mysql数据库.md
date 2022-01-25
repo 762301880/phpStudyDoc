@@ -39,7 +39,7 @@ Enter password: ******
 
 ```shell
 source `+你的sql表地址`
-例子
+#例子
 C:\Program Files\MySQL\MySQL Server 5.7\bin>mysql -uroot -p
 Enter password: ******
 Welcome to the MySQL monitor.  Commands end with ; or \g.
