@@ -1,4 +1,4 @@
-​	[^author:姚留洋]
+	[^author:姚留洋]
 
 [^created_at:2021/10/24]
 
@@ -79,7 +79,7 @@ $ hostname -f
 yaoliuyang-PC
 ```
 
-## 处理文件命令[^sed]
+## 处理文件命令:sed
 
 [sed命令详解](https://www.runoob.com/linux/linux-comm-sed.html)
 
