@@ -1,9 +1,9 @@
 # 资料
 
-| 名称           | 地址                                                |
-| -------------- | --------------------------------------------------- |
-| 第三方博客参考 | [link](https://segmentfault.com/a/1190000019822601) |
-|                |                                                     |
+| 名称           | 地址                                                         |
+| -------------- | ------------------------------------------------------------ |
+| 第三方博客参考 | [link](https://segmentfault.com/a/1190000019822601) [link](https://baijiahao.baidu.com/s?id=1657230179254124573&wfr=spider&for=pc) |
+|                |                                                              |
 
 
 
@@ -95,9 +95,20 @@ git push mirror
 **最后可以用命令查看一下远程同步的仓库**
 
 ```shell
-$ git remote -v
+git remote -v  # 查看远程仓库别名以及对应的仓库地址
 origin  git@github.com:762301880/项目名称.git (fetch)
 origin  git@github.com:762301880/项目名称.git (push)
 origin  git@gitee.com:yaolliuyang/项目名称.git (push)
+
+
+git remote # 查看已经设置的远程仓库别名列表
+origin
+
+git remote show origin # 查看别名更详细的地址
+* remote origin
+  Fetch URL: git@github.com:762301880/phpStudyDoc.git
+  Push  URL: git@github.com:762301880/phpStudyDoc.git
+  Push  URL: git@gitee.com:yaolliuyang/phpStudyDoc.git
+
 ```
 
