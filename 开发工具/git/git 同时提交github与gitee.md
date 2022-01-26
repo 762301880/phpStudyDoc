@@ -27,7 +27,9 @@
 
 ![image-20220126115024702](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220126115024702.png)
 
+## 设置**config**的两种方式
 
+**第一种方式**
 
 ```shell
 [core]
@@ -39,10 +41,16 @@
 	ignorecase = true
 [remote "origin"]
 	url = git@github.com:762301880/项目名称.git
-	url = git@gitee.com:yaolliuyang/项目名称.git # 赋值一份gitee的ssh git地址即可一般邮箱用的都是同一个所以
+	url = git@gitee.com:yaolliuyang/项目名称.git # 赋值一份gitee的ssh git地址即可一般邮箱用的都是同一个所以不用配置
 	fetch = +refs/heads/*:refs/remotes/origin/*
 [branch "main"]
 	remote = origin
 	merge = refs/heads/main
+```
+
+**第二种方式**
+
+```shell
+a
 ```
 
