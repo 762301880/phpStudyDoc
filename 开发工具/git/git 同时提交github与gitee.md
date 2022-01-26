@@ -92,3 +92,12 @@ git push mirror
 # 补充结束
 ```
 
+**最后可以用命令查看一下远程同步的仓库**
+
+```shell
+$ git remote -v
+origin  git@github.com:762301880/项目名称.git (fetch)
+origin  git@github.com:762301880/项目名称.git (push)
+origin  git@gitee.com:yaolliuyang/项目名称.git (push)
+```
+
