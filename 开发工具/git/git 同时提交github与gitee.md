@@ -89,6 +89,6 @@
 # 用这种方法需要推送2次
 git push origin
 git push mirror	
-# 补充j
+# 补充结束
 ```
 
