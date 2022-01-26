@@ -51,6 +51,44 @@
 **第二种方式**
 
 ```shell
-a
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = git@github.com:762301880/项目名称.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "origin"] 
+	url = git@gitee.com:yaolliuyang/项目名称.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+	
+# 补充开始
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = git@github.com:762301880/项目名称.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[remote "mirror"] 
+	url = git@gitee.com:yaolliuyang/项目名称.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	remote = mirror
+	merge = refs/heads/main	
+# 用这种方法需要推送2次
+git push origin
+git push mirror	
+# 补充j
 ```
 
