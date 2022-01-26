@@ -16,11 +16,11 @@
 
 ## 资料
 
-| name                                                         | url                                                      |
-| ------------------------------------------------------------ | -------------------------------------------------------- |
-| redis-setnx(**SET** if **N**ot e**X**ists)                   | [link](https://www.runoob.com/redis/strings-setnx.html)  |
-| 第三方博客                                                   | [link](https://www.cnblogs.com/jackzhuo/p/13678008.html) |
-| laravel学院-基于 Redis 实现分布式锁及其在 Laravel 底层的实现源码 | [link](https://laravelacademy.org/post/22183)            |
+| name                                                         | url                                                          |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| redis-setnx(**SET** if **N**ot e**X**ists)                   | [link](https://www.runoob.com/redis/strings-setnx.html)      |
+| 第三方博客                                                   | [link](https://www.cnblogs.com/jackzhuo/p/13678008.html)  [link](https://learnku.com/articles/57086) |
+| laravel学院-基于 Redis 实现分布式锁及其在 Laravel 底层的实现源码 | [link](https://laravelacademy.org/post/22183)                |
 
 >***setnx解释***
 >
