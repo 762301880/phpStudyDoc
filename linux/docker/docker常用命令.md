@@ -179,6 +179,15 @@ CONTAINER ID   IMAGE                                   COMMAND     CREATED      
 CONTAINER           CPU %               MEM USAGE / LIMIT       MEM %               NET I/O             BLOCK I/O           PIDS
 mysql               0.15%               369.6 MiB / 1.795 GiB   20.11%              1.19 MB / 844 kB    500 MB / 13.7 MB    38
 ...............
+
+
+# 同时查看多个 按名称和 id 在多个容器上运行。(多个容器名称或者idy)
+[root@VM-16-5-centos ~]# docker stats mysql jd laravel_study
+CONTAINER           CPU %               MEM USAGE / LIMIT       MEM %               NET I/O             BLOCK I/O           PIDS
+mysql               0.13%               369.6 MiB / 1.795 GiB   20.11%              4.19 MB / 2.9 MB    500 MB / 13.7 MB    38
+jd                  0.60%               377.4 MiB / 1.795 GiB   20.53%              0 B / 0 B           29.9 GB / 29.4 MB   164
+laravel_study       0.02%               52.26 MiB / 1.795 GiB   2.84%               11 MB / 9.61 MB     11.8 GB / 30.6 MB   18
+
 # 列名	描述
 CONTAINER ID 和 Name	容器的 ID 和名称
 CPU % 和 MEM %	容器正在使用的主机 CPU 和内存的百分比
