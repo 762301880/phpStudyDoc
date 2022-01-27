@@ -168,6 +168,28 @@ CONTAINER ID   IMAGE                                   COMMAND     CREATED      
 21cb792091da   hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"   23 hours ago   Exited (255) 8 minutes ago   0.0.0.0:9801->9801/tcp, :::9801->9801/tcp   local_hyperf_test    
 ```
 
+[**查看容器占用的内存**](https://www.php.cn/docker/446312.html)
+
+> 官方[stats命令详解](https://docs.docker.com/engine/reference/commandline/stats/)
+
+```dockerfile
+# docker stats [容器名称]
+[root@VM-16-5-centos ~]# docker stats mysql
+
+CONTAINER           CPU %               MEM USAGE / LIMIT       MEM %               NET I/O             BLOCK I/O           PIDS
+mysql               0.15%               369.6 MiB / 1.795 GiB   20.11%              1.19 MB / 844 kB    500 MB / 13.7 MB    38
+...............
+# 列名	描述
+CONTAINER ID 和 Name	容器的 ID 和名称
+CPU % 和 MEM %	容器正在使用的主机 CPU 和内存的百分比
+MEM USAGE / LIMIT	容器正在使用的总内存，以及允许使用的内存总量
+NET I/O	容器通过其网络接口发送和接收的数据量
+BLOCK I/O	容器从主机上的块设备读取和写入的数据量
+PIDs	容器创建的进程或线程数
+```
+
+
+
 ## 常用命令
 
 ### 查看日志命令
