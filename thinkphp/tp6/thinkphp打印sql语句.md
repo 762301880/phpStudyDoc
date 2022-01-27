@@ -2,6 +2,8 @@
 
 > 今天用thinkphp写项目的时候总是发现无法打印sql语句最终找到了解决方案			
 
+[**参考示例**](https://learnku.com/articles/38153)
+
 # 代码示例
 
 ```shell
