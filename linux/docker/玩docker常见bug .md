@@ -17,6 +17,8 @@ rm: can't remove 'laravel_study': Resource busy
 > **docker run -v /data/work/laravel:/data/work/laravel -p 9501:9501 -p 1997:80 -itd --entrypoint /bin/sh hyperf/hyperf:7.4-alpine-v3.11-swoole**
 >
 > 以上是我启动后-v 不小心指定的映射目录问题是 我只想在work下当作工作目录 看着下一级目录有点烦
+>
+> 原因是 -v 指定的目录不可以删除 
 
  **解决方案 放弃这个容器直接重新指定映射目录** 
 
