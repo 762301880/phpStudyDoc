@@ -58,7 +58,7 @@ tcp        0      0 127.0.0.1:9000          0.0.0.0:*               LISTEN      
 
 **如果是正常配置项目则创建127.0.0.1.conf** 即可外部访问的时候域名加自己映射的端口号
 
-# 对应nginx 配置
+# [对应nginx 配置](https://learnku.com/docs/laravel/8.x/deployment/9359#nginx)
 
 ```shell
 server {
