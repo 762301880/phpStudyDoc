@@ -212,3 +212,18 @@ git clean -f
 cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git stash clear       
 ```
 
+## Hook 成功执行但返回 HTTP 403 <html> <head> <meta http-equiv="Content-Type" 
+
+> 如下图所示测试jenkins钩子的时候发生403错误
+
+![image-20220214112340916](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220214112340916.png)
+
+
+
+**找到  系统管理-全局安全配置**
+
+![image-20220214112058200](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220214112058200.png)
+
+**放开授权策略**
+
+![image-20220214112203568](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220214112203568.png)
