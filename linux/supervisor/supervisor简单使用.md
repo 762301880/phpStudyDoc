@@ -40,9 +40,8 @@ cat supervisord.conf
 
 ···
 [include]
-files = /etc/supervisor.d/*.ini # 主要关注这一行这个是我们要添加配置的位置
+files = /etc/supervisor.d/*.ini # 主要关注这一行这个是我们要添加配置的位置,可见我们的配置文件都在supervisor.d下的*.ini
 ····
-
 
 # 添加配置
 touch /run/supervisord.conf
