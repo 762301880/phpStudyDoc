@@ -178,3 +178,18 @@ laravel_swoole: stopped
 laravel_swoole: started
 ```
 
+# 配合jenkins使用supervisor
+
+> 开发过程中我们使用jenkins自动上传代码的时候不想再容器内部手动执行**supervisorctl restart 配置名称** 
+>
+> 重启命令这个时候可以结合jenkins自动刷新
+
+**脚本**
+
+```shell
+docker exec laravel_study supervisorctl restart laravel_swoole
+```
+
+
+
+![image-20220113150753501](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220113150753501.png)
