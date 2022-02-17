@@ -24,7 +24,7 @@ class UpgradeRoleValidator
 {
     public static function verify(Request $request)
     {
-        self::customRules();#调用自定义验证规则只针对于5.4框架
+        self::customRules($request);#调用自定义验证规则只针对于5.4框架
         return Validator::make($request->all(), self::rules(), self::messages());
     }
    #自定义验证规则
@@ -48,15 +48,16 @@ class UpgradeRoleValidator
         ];
     }
 # 自定义验证规则
-    protected static function customRules()
+    protected static function customRules(Request $request)
     {
+        $user=$request->user(); # 获取当前用户
         # 这里必须要注意 is_club_member 自定义的验证规则名称一定不能为
         Validator::extend('is_club_member', function ($attribute, $value, $parameters, $validator) {
             return ClubMember::find($value) != null;
         });
          # 是否在club模型里 
-         Validator::extend('is_in_club', function ($attribute, $value, $parameters, $validator) {
-            return Club::find($value) != null;
+         Validator::extend('is_in_club', function ($attribute, $value, $parameters, $validator) use($user) {
+            return $user::find($value) != null;
         });
         return;
     }
