@@ -54,6 +54,10 @@ class UpgradeRoleValidator
         Validator::extend('is_club_member', function ($attribute, $value, $parameters, $validator) {
             return ClubMember::find($value) != null;
         });
+         # 是否在club模型里 
+         Validator::extend('is_in_club', function ($attribute, $value, $parameters, $validator) {
+            return Club::find($value) != null;
+        });
         return;
     }
 }
