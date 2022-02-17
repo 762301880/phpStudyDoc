@@ -83,6 +83,11 @@ return [
         ]);
         $redis->set('name','zhangsan'); 
         dd($redis->get('name'));
+    # 第二种使用
+       $redis = new Redis();
+        $redis->connect('192.168.40.250',6379);
+        $redis->set('name', 'zhangsan789764');
+        dd($redis->get('name'));
 ```
 
 #  bug
