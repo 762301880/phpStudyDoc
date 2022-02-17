@@ -30,7 +30,7 @@ if (!file_exists('getLastSql')) {
     {
         \think\facade\Db::listen(function($sql, $time, $explain){
             // 记录SQL
-            echo $sql. ' ['.$time.'s]';
+            echo $sql. "&nbsp &nbsp &nbsp &nbsp".' ['.$time.'s]';
             // 查看性能分析结果
             echo "<br><br>".$explain;
         });
@@ -46,7 +46,7 @@ CONNECT:[ UseTime:1.144147s ] mysql:host=81.69.231.252;port=3307;dbname=laravel_
 
 SHOW FULL COLUMNS FROM `stu` [0.064779s]
 
-SELECT * FROM `stu` LEFT JOIN `class_s` ON `class_s`.`id`=`stu`.`class_id` [0.063153s] # 这一行就是显示的原生sql语句用于
+SELECT * FROM `stu` LEFT JOIN `class_s` ON `class_s`.`id`=`stu`.`class_id` [0.063153s] # 这一行就是显示的原生sql语句用于调试
 
 ```
 
