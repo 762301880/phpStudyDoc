@@ -107,6 +107,110 @@ Route::get('test','你的控制器名/你需要访问的方法名');
 > 例如我们需要创建一个**demo**模块
 
 ```php
- php think build demo  # c
+ php think build demo  # 创建生成多应用demo模块
+# 生成大概以下目录     
+├─app 应用目录
+│  ├─demo              后台应用
+│  │  ├─controller      控制器目录
+│  │  ├─model           模型目录
+│  │  ├─view            视图目录
+│  │  ├─config          配置目录 # 此目录需要自己创建
+│  │  ├─route           路由目录 # 此目录需要自己创建 路由文件可以随意定义 例如 demo.php
+│  │  └─ ...            更多类库目录
+│
+├─public                WEB目录（对外访问目录）
+│  ├─admin.php          后台入口文件
+│  ├─index.php          入口文件
+│  ├─router.php         快速测试文件
+│  └─.htaccess          用于apache的重写
+│
+├─config                全局应用配置目录
+├─runtime               运行时目录
+│  ├─index              index应用运行时目录
+│  └─admin              admin应用运行时目录     
+```
+
+**大概生成的目录如下**
+
+> 默认里面只有一个**Index**控制器文件下面有一个**index**方法
+
+![image-20220218102957568](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220218102957568.png)
+
+**访问demo模块下面的index方法**
+
+> 我自己配置的虚拟域名是**www.thinkphp.com**, 
+
+> 如果访问报错
+>
+> Not Found
+>
+> The requested URL /demo/index/index was not found on this server.
+>
+> Additionally, a 404 Not Found error was encountered while trying to use an ErrorDocument to handle the request.
+>
+> 那是因为thinkphp默认暴露**index.php**你需要隐藏[参考资料](https://www.cnblogs.com/yaoliuyang/p/12410193.html)。或者直接**你的域名/index.php/demo/index控制器/index方法**访问
+>
+> ```shell
+> # 在public/.htaccess中配置添加
+> <IfModule mod_rewrite.c>
+> Options +FollowSymlinks -Multiviews
+> RewriteEngine On
+> RewriteCond %{REQUEST_FILENAME} !-d
+> RewriteCond %{REQUEST_FILENAME} !-f
+> RewriteRule ^(.*)$ index.php?/$1 [QSA,PT,L] # 核心就是在 index.php后加一个?隐藏的意思
+> </IfModule>
+> ```
+
+![image-20220218103136085](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220218103136085.png)
+
+**自定义控制器&方法**
+
+```php
+# 如上上图所示我们自定义Demo控制器类
+<?php
+
+
+namespace app\demo\controller;
+
+
+use app\BaseController;
+
+class Demo extends BaseController
+{
+    public function aaa()
+    {
+        return '我是demo控制器下面的aaa方法';
+    }
+}
+# 访问 http://www.thinkphp.com/demo/demo/aaa
+
+# 结果返回
+我是demo控制器下面的aaa方法
+```
+
+**路由访问**
+
+![image-20220218103855313](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220218103855313.png)
+
+> 自定义**route**文件夹 这里只设置一个闭包用于测试,直接访问**demo**模块下的**demo_test**路由即可访问
+
+![image-20220218103952781](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220218103952781.png)
+
+
+
+**路由指向控制器**
+
+```shell
+<?php
+
+use think\facade\Route;
+
+Route::any('demo_test','Demo/demo/aaa');
+
+# 直接访问
+http://www.thinkphp.com/demo/demo_test
+
+# 结果返回
+我是demo控制器下面的aaa方法
 ```
 
