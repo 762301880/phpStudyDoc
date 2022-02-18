@@ -68,7 +68,9 @@
 | laravel-wikis-jwt认证详解  | [link](https://learnku.com/laravel/wikis/25704)              |
 | laravel学院扩展包-登陆认证 | [link](https://laravelacademy.org/post/3640)                 |
 
-## [使用实例](https://learnku.com/articles/10885/full-use-of-jwt)
+## [使用实例](https://learnku.com/articles/10885/full-use-of-jwt)  
+
+[参考二](https://cloud.tencent.com/developer/article/1816522?from=15425)
 
 ## 安装
 
