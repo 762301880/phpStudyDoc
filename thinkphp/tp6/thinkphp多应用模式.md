@@ -96,3 +96,17 @@ Route::get('test','你的控制器名/你需要访问的方法名');
 你的虚拟域名/admin/test  # admin 是模块名 /test 是路由名
 ```
 
+
+
+# 多应用模式`api`使用实战
+
+## 创建模块
+
+**说明**
+
+> 例如我们需要创建一个**demo**模块
+
+```php
+ php think build demo  # c
+```
+
