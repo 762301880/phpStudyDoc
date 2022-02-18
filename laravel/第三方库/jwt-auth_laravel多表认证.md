@@ -2,7 +2,7 @@
 
 ## 说明
 
-> [此段说明截取第三方博客](https://laravelacademy.org/post/9794
+> [此段说明截取第三方博客](https://laravelacademy.org/post/9794)
 
 ## 传统比较
 
