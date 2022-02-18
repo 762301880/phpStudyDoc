@@ -205,7 +205,7 @@ class Demo extends BaseController
 
 use think\facade\Route;
 
-Route::any('demo_test','Demo/demo/aaa');
+Route::any('demo_test','Demo/aaa'); # 设置路由名称为demo_test   访问Demo控制器下面的aaaf
 
 # 直接访问
 http://www.thinkphp.com/demo/demo_test
