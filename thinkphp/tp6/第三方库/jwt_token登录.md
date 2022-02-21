@@ -56,3 +56,12 @@ Route::group('api/v1', function () {
 # 半个月内免登陆，这里就要使用到了refreshToken了，jwt设计思想很到位：设置发给前端的token一个有效期，比如2个小时，2个小时候前端发来的token就会失效，这个时候我们根据发来的token判断下，如果这个token在2个小时外，并在刷新token的有效期内（比如半个月内），那么我们在给前端返回数据的时候返回一个新token，前端接到这个token存储起来，当再次请求的时候，发送新的token，如此周而复始，只要你在半个月内没有间断去进入系统，那么完全不需要去进行登录的操作。
 ```
 
+# token无缝刷新
+
+**参考**
+
+| 名称           | 地址                                                         |
+| -------------- | ------------------------------------------------------------ |
+| 第三方博客参考 | [link](https://blog.csdn.net/weixin_39581652/article/details/110801338)  [link](https://blog.csdn.net/pyycsd/article/details/102803133?spm=1001.2101.3001.6650.11&utm_medium=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-11.wap_blog_relevant_default&depth_1-utm_source=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-11.wap_blog_relevant_default)  [link](https://blog.csdn.net/weixin_44347271/article/details/121721121?spm=1001.2101.3001.6650.3&utm_medium=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3.wap_blog_relevant_default&depth_1-utm_source=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3.wap_blog_relevant_default) |
+|                |                                                              |
+
