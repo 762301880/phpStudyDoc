@@ -70,7 +70,7 @@
 
 | name                       | url                                                          |
 | -------------------------- | ------------------------------------------------------------ |
-| 第三方博客                 | [link](https://learnku.com/articles/30342)   [link](http://www.45fan.com/article.php?aid=19121863245239341202671983) |
+| 第三方博客                 | [link](https://learnku.com/articles/30342)   [link ](http://www.45fan.com/article.php?aid=19121863245239341202671983) [link](https://learnku.com/articles/7264/using-jwt-auth-to-implement-api-user-authentication-and-painless-refresh-access-token) |
 | jwt-auth Wiki文档          | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
 | packagist项目地址          | [link](https://packagist.org/packages/tymon/jwt-auth)        |
 | jwt超详细解释              | [link](https://learnku.com/articles/17883)                   |
