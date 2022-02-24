@@ -7,6 +7,8 @@
 | ------------------------------------------ | ------------------------------------------------------------ |
 | 第三方博客                                 | [link](https://learnku.com/articles/49763)                   |
 | 阮一峰-全文搜索引擎 Elasticsearch 入门教程 | [link](http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html) |
+| 官方扩展文档                               | [link](https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/index.html) |
+| elasticsearch/elasticsearch-packagist      | [link](https://packagist.org/packages/elasticsearch/elasticsearch) |
 
 # windows 安装
 
