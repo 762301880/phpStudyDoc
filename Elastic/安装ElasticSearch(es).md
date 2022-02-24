@@ -43,3 +43,35 @@ http.port: 9700
 network.host: 0.0.0.0  #设成0.0.0.0让任何人都可以访问。线上服务不要这样设置，要设成具体的 IP。
 ```
 
+# docker安装elasticsearch
+
+**说明**
+
+> 推荐使用docker安装这些环境不会把本地的服务搞乱，主要是想怎么搞就怎么搞很是方便
+
+**安装**
+
+> 请在[docker官网下载](https://hub.docker.com/_/elasticsearch)  elasticsearch
+
+```php
+docker pull elasticsearch  # 拉取 elasticsearch 镜像
+
+# 启动镜像 更多具体的启动可以查看官网
+docker run -itd --name elasticsearch  -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  elasticsearch    
+    
+# 查看是否启动成功(浏览器打开 127.0.0.1:9200) 出现以下数据代表成功
+{
+  "name" : "0ZZDGyb",
+  "cluster_name" : "elasticsearch",
+  "cluster_uuid" : "n1o1hfbRSLWf9W0OSLewZA",
+  "version" : {
+    "number" : "5.6.12",
+    "build_hash" : "cfe3d9f",
+    "build_date" : "2018-09-10T20:12:43.732Z",
+    "build_snapshot" : false,
+    "lucene_version" : "6.6.1"
+  },
+  "tagline" : "You Know, for Search"
+}    
+```
+
