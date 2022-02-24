@@ -80,7 +80,7 @@
 
 ## [使用实例](https://learnku.com/articles/10885/full-use-of-jwt)  
 
-[参考二](https://cloud.tencent.com/developer/article/1816522?from=15425)
+[参考二](https://cloud.tencent.com/developer/article/1816522?from=15425)  [参考三](https://learnku.com/articles/10885/full-use-of-jwt)
 
 ## 安装
 
