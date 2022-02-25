@@ -37,6 +37,13 @@ class TestController extends Controller
 }
 
 # 调用test 控制器返回结果
-您的返回字符是:123 456 789
+您的返回字符是:123 456 789    
+```
+
+**call_user_func_array**
+
+```php
+# array方法是 call_user_func 的升级版 k
+echo call_user_func([TestController::class, 'retText'],[ 123, 456, 789]);
 ```
 
