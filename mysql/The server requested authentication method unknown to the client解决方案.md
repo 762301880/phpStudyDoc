@@ -7,7 +7,7 @@
 # [解决方案](https://blog.51cto.com/u_15102978/2639358)
 
 ```shell
-# q
+# 登录 记得手动输入密码
 mysql -uroot -p
 # 显示数据库
 mysql> show databases;
