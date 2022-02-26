@@ -98,6 +98,55 @@ class OrderResponse
 }
 ```
 
+**实战展示2**
+
+```php
+ //导出excel数据
+    public static function exportExcel($data)
+    {
+        $date = date('YmdHis');
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        // 批量赋值
+        $sheet->setCellValue('A1', '门店名称');
+        $sheet->setCellValue('B1', '加盟性质');
+        $sheet->setCellValue('C1', '省份城市');
+        $sheet->setCellValue('D1', '地址');
+        $sheet->setCellValue('E1', '开店时间');
+        $sheet->setCellValue('F1', '是否在线');
+        $sheet->setCellValue('G1', '负责人');
+        $sheet->setCellValue('H1', '联系电话');
+        # 构建新数据
+        if (!empty($data)) {
+            $sortData = [];//保存新数据的数组
+            foreach ($data as &$value) {
+                unset($value['id'], $value['img_ids']); //删除不需要的字段
+                # 构建新字段
+                $sortData['title'] = $value['title'];
+                $sortData['is_nature'] = $value['is_nature'];
+                $sortData['city_path_id'] = $value['city_path_id'];
+                $sortData['address'] = $value['address'];
+                $sortData['start_time'] = $value['start_time'];
+                $sortData['is_online'] = $value['is_online'] == 1 ? '在线' : "不在线";
+                $sortData['principal'] = $value['principal'];
+                $sortData['phone'] = $value['phone'];
+            }
+        }
+        $sheet->fromArray($sortData, null, 'A2');
+        $writer = new Xlsx($spreadsheet);
+        $exportFileName = '门店导出';
+        $directory='public/';
+        $savePath= "/static/export/" . "$exportFileName{$date}.xlsx";
+        $realPath =$directory.$savePath;
+        $saveFullPath = app()->getRootPath() . $realPath;//保存文件的路径
+        $writer->save($saveFullPath);
+        if (file_exists($saveFullPath)) { //如果文件存在返回文件地址(这里请忽略掉public目录)
+            return request()->domain() . '/static/export/' . "$exportFileName{$date}.xlsx";
+        }
+        return "";
+    }
+```
+
 # bug记录
 
 ##  导出 excel 文件结果集中为0 没有展示
