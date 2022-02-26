@@ -100,6 +100,8 @@ class OrderResponse
 
 **实战展示2**
 
+> 这里日后可以封装成 一个接口 直接传入需要导出的字段|文件名|数据 即可
+
 ```php
  //导出excel数据
     public static function exportExcel($data)
@@ -119,17 +121,17 @@ class OrderResponse
         # 构建新数据
         if (!empty($data)) {
             $sortData = [];//保存新数据的数组
-            foreach ($data as &$value) {
+            foreach ($data as $key=>&$value) {
                 unset($value['id'], $value['img_ids']); //删除不需要的字段
                 # 构建新字段
-                $sortData['title'] = $value['title'];
-                $sortData['is_nature'] = $value['is_nature'];
-                $sortData['city_path_id'] = $value['city_path_id'];
-                $sortData['address'] = $value['address'];
-                $sortData['start_time'] = $value['start_time'];
-                $sortData['is_online'] = $value['is_online'] == 1 ? '在线' : "不在线";
-                $sortData['principal'] = $value['principal'];
-                $sortData['phone'] = $value['phone'];
+                $sortData[$key]['title'] = $value['title'];
+                $sortData[$key]['is_nature'] = $value['is_nature'];
+                $sortData[$key]['city_path_id'] = $value['city_path_id'];
+                $sortData[$key]['address'] = $value['address'];
+                $sortData[$key]['start_time'] = $value['start_time'];
+                $sortData[$key]['is_online'] = $value['is_online'] == 1 ? '在线' : "不在线";
+                $sortData[$key]['principal'] = $value['principal'];
+                $sortData[$key]['phone'] = $value['phone'];
             }
         }
         $sheet->fromArray($sortData, null, 'A2');
