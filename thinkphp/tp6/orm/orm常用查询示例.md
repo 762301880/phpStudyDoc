@@ -45,12 +45,18 @@ $model->column('需要查询的字段');
 
 ```php
 # or 表示或者
-->where("order_state= 12 or order_state= 13")
+->where("order_state= 12 or order_state= 13");
 ```
 
 - 不等于
 
 ```php
-->where('order_state', '<>', '0')
+->where('order_state', '<>', '0');
+```
+
+- 获取单个属性值
+
+```php
+ ->value('price_one');
 ```
 
