@@ -7,7 +7,9 @@
 | 参考博客 | [https://blog.csdn.net/lunsunhuan1825/article/details/73467368] |
 |          |                                                              |
 
-# 代码示例
+# [代码示例](https://www.kancloud.cn/manual/thinkphp5_1/354004)
+
+[**参考1**](https://www.kancloud.cn/manual/thinkphp5_1/354085)  [**参考2**](https://www.kancloud.cn/manual/thinkphp5_1/354107)
 
 ```php
 EQ  = 等于

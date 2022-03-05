@@ -2,7 +2,7 @@
 
 > 记录一下常用的逻辑
 
-# 代码示例
+# [代码示例](https://www.kancloud.cn/cherals/tp51/1004184)
 
 - tp查询指定两列的值
 
