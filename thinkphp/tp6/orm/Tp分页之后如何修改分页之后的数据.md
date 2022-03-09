@@ -7,27 +7,53 @@
 # 逻辑代码示例
 
 ```php
-    public function index(Request $request)
+<?php
+
+namespace app\admin\service;
+
+use app\common\model\UsersModel;
+
+class UserService
+{
+    public function getUserList($data)
     {
-        //初始化item
-        if (input('item') == 'index') {
-            $this->setAdminCurItem('index');
-        } elseif (input('item') == 'bind') {
-            $this->setAdminCurItem('bind');
-        } else {
-            $this->setAdminCurItem('add');
-        }
-        //查询实例
-        $printersModel = PrintersModel::where(function ($query) use ($request) {
-            //查询打印机的类型
-            !empty($request->get('printer_type')) && $query->where('printer_type', $request->get('printer_type'));
-        })
-            ->paginate($request->get('pagesize'));
-        # 分页之后修改数据(记住不要再用等于号赋值)
-        $printersModel->getCollection()->map(function ($printersModel) {
-            $printersModel->printer_title = $this->getPrinterTitle($printersModel->printer_type)??"";//自定义返回打印机名称
+        $limit = !empty($data['limit']) ? $data['limit'] : 10;
+        $list = $this->getUserQuery($data)->paginate($limit)->each(function ($list) { # c
+           $list->header_img=$list->getHeaderImg(); //处理图片
+           $list->sex=$list->getSex();
         });
-        return view('printers/index', compact('printersModel'));
+        return $list;
     }
+
+    public function getUserQuery($data)
+    {
+
+        return UsersModel::where(function ($query) use ($data) {
+            $user_name = !empty($data['user_name']) ? $data['user_name'] : "";
+            $nick_name = !empty($data['nick_name']) ? $data['nick_name'] : "";
+            $phone = !empty($data['phone']) ? $data['phone'] : "";
+            $start_time = !empty($data['start_time']) ? $data['start_time'] : "";
+            $end_time = !empty($data['end_time']) ? $data['end_time'] : "";
+
+
+            if (!empty($user_name)) {
+                $query->where('user_name', 'like', "%$user_name%");
+            }
+            if (!empty($nick_name)) {
+                $query->where('nick_name', 'like', "%$nick_name%");
+            }
+            if (!empty($phone)) {
+                $query->where('phone', 'like', "%$phone%");
+            }
+            if (!empty($start_time) && !empty($end_time)) {
+                $start_time = strtotime($start_time);
+                $end_time = strtotime($end_time) + (86400 - 1); //时间查询构建最低时间+59小时59分钟59秒
+                $query->where('create_time', 'between', [$start_time, $end_time]);
+            }
+        })
+            ->order('id', 'DESC');
+    }
+
+}
 ```
 
