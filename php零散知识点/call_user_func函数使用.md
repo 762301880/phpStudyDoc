@@ -11,6 +11,7 @@
 | 名称                       | 地址                                                         |
 | -------------------------- | ------------------------------------------------------------ |
 | call_user_func php官方手册 | [link](https://www.php.net/manual/zh/function.call-user-func.php) |
+| 有空查看                   | [link](https://blog.csdn.net/weixin_33875839/article/details/94159380) |
 
 **call_user_func  代码示例**
 
