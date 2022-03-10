@@ -18,6 +18,14 @@ https://www.w3cschool.cn/weixinkaifawendang/
 https://blog.csdn.net/ljh101/article/details/108806075
 ```
 
+## [1.4 微信测试号申请](https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login)
+
+```shell
+https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
+```
+
+
+
 # 获取Access token
 
 - 官网`api`[地址](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html)
