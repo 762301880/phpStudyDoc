@@ -27,3 +27,41 @@ return UsersModel::where(function ($query) use ($data) {
         });
 ```
 
+> 携带关联数据并筛选字段
+
+```php
+    public function getAuntComment($data)
+    {
+        $limit = !empty($data['limit']) ? $data['limit'] : 10;
+        $list = AuntModel::where(['site_id' => $data['siteid'], 'delete_time' => 0])
+            ->with(['auntRanking' => function ($model) {
+                $model->field('*'); # 这里为什么这样写 为了以后约束字段 如果需要约束需要将 * 替换为需要关联的字段
+            }])
+            ->field('id,name')->paginate($limit);
+        return $list;
+    }
+# f
+     "data": [
+            {
+                "id": 100,
+                "name": "哈啦少",
+                "aunt_ranking": []
+            },
+            {
+                "id": 104,
+                "name": "扁鹊3333",
+                "aunt_ranking": [
+                    {
+                        "id": 81,
+                        "ranking": 0,
+                        "create_time": 1645252831,
+                        "remark": "212121",
+                        "spec_id_string": "180,28",
+                        "spec_name_string": "56天,砖石",
+                        "name": "21",
+                        "aunt_id": 104,
+                        "admin_id": 1
+                    }
+                   ];
+```
+
