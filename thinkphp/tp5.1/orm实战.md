@@ -74,6 +74,43 @@ return UsersModel::where(function ($query) use ($data) {
 > 反之返回符合条件的年龄段
 
 ```php
+// 刚开始想的处理方法-结果发现并不能h
+if (!empty($data['age_id'])){
+    $ageIds=explode(',',$data['age_id']); // 0,1,2,3,4,5
+    # 如果是有不限年龄查询直接返回空查询
+    if (in_array(1,$ageIds)){
+        $firstData=strtotime(date('Y-m-d',strtotime("-35 year")));
+        $endData=strtotime(date('Y-m-d'));
+        //$where[]=['aunt_basics.birth','LT',$data]; //35岁以下
+        $where[]=['aunt_basics.birth','between',[$firstData,$endData]];  //46-50岁
+
+    }
+    if (in_array(2,$ageIds)){
+        $firstData=strtotime(date('Y-m-d',strtotime("-36 year")));
+        $endData=strtotime(date('Y-m-d',strtotime("-40 year")));
+        $where[]=['aunt_basics.birth','between',[$firstData,$endData]];  //36-40岁
+    }
+    if (in_array(3,$ageIds)){
+        $firstData=strtotime(date('Y-m-d',strtotime("-41 year")));
+        $endData=strtotime(date('Y-m-d',strtotime("-45 year")));
+        $where[]=['aunt_basics.birth','between',[$firstData,$endData]];  //41-45岁
+    }
+    if (in_array(4,$ageIds)){
+        $firstData=strtotime(date('Y-m-d',strtotime("-46 year")));
+        $endData=strtotime(date('Y-m-d',strtotime("-50 year")));
+        $where[]=['aunt_basics.birth','between',[$firstData,$endData]];  //46-50岁
+    }
+    if (in_array(5,$ageIds)){
+        $data=strtotime(date('Y-m-d',strtotime("-50 year")));
+        $where[]=['aunt_basics.birth','ELT',$data]; // 50岁以上
+    }
+}
+
+
+
+
+
+# 最终解决版本
 # 因为数据库中的birth 保存为时间戳格式 所以需要转化,又有一点1970年之后无法转换年龄所以这里特殊处理
 $age = "(DATE_FORMAT(NOW(), '%Y') - (DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), INTERVAL pxs_aunt_basics.birth SECOND),'%Y')))";
         $res = AuntModel::leftJoin('pxs_aunt_basics', 'pxs_aunt_basics.aunt_id=pxs_aunt.id')
@@ -106,7 +143,7 @@ $age = "(DATE_FORMAT(NOW(), '%Y') - (DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), INTE
                 }
             })
             # 这里筛选为什么要放在之后,因为orWhere 执行是顺序执行的 如果先执行了这里的语句 例如第一条
-            # 所有不为零的阿姨那么之后再查orwhere 只能查询出不包含在where 条件之后的查询条件结果，
+            # 所有不为零的阿姨那么之后再查orwhere 只能查询出不包含在where 条件之后的查询条件结果，中的结果
             ->where('pxs_aunt.delete_time', 'eq', 0)  
             ->where('pxs_aunt_basics.id', 'neq', null) 
             ->where($param['where'])//这里是旧的查询日后还要修改
