@@ -1,4 +1,4 @@
-**基本查询日期实战**
+## **基本查询日期实战**
 
 ```php
 return UsersModel::where(function ($query) use ($data) {
@@ -27,7 +27,7 @@ return UsersModel::where(function ($query) use ($data) {
         });
 ```
 
-> 携带关联数据并筛选字段
+## 携带关联数据并筛选字段
 
 ```php
     public function getAuntComment($data)
@@ -63,5 +63,54 @@ return UsersModel::where(function ($query) use ($data) {
                         "admin_id": 1
                     }
                    ];
+```
+
+## 按照年龄区间查询(兼容多年龄)
+
+![1646904210(1).jpg](https://s2.loli.net/2022/03/10/kPRxuC6FBN4vLyX.png) ![1646904274(1).jpg](https://s2.loli.net/2022/03/10/sC7UeYmMfJrDVPX.png)
+
+> 遇到这么一个坑需求倒是不难是可以筛选不同的年龄段, 只要点了**不限** 不管点别的什么都是返回全部年龄段
+>
+> 反之返回符合条件的年龄段
+
+```php
+# 因为数据库中的birth 保存为时间戳格式 所以需要转化,又有一点1970年之后无法转换年龄所以这里特殊处理
+$age = "(DATE_FORMAT(NOW(), '%Y') - (DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), INTERVAL pxs_aunt_basics.birth SECOND),'%Y')))";
+        $res = AuntModel::leftJoin('pxs_aunt_basics', 'pxs_aunt_basics.aunt_id=pxs_aunt.id')
+            ->field('pxs_aunt.id,pxs_aunt.name,pxs_aunt.grade_name,pxs_aunt.grade_id,pxs_aunt.pj_id,'
+                .
+                "pxs_aunt_basics.img,pxs_aunt_basics.education_id,pxs_aunt_basics.waiter,pxs_aunt_basics.birth_place,
+            pxs_aunt_basics.birth,
+            $age as age,
+            pxs_aunt_basics.experience"
+            )
+            ->whereOr(function ($query) use ($age, $data) {
+                $ageIds = explode(',', $data['age_id']); // 0,1,2,3,4,5   前端传输过来的是数字类型 对应不同的年龄段
+                if (!empty($data['age_id'])) {
+                    # 如果是有不限年龄查询直接返回空查询
+                    if (in_array(1, $ageIds)&&!in_array(0,$ageIds)) {
+                        $query->whereOr("$age<35");
+                    }
+                    if (in_array(2, $ageIds)&&!in_array(0,$ageIds)) {
+                        $query->whereOr("$age between 36 and 40");
+                    }
+                    if (in_array(3, $ageIds)&&!in_array(0,$ageIds)) {
+                        $query->whereOr("$age between 41 and 45");
+                    }
+                    if (in_array(4, $ageIds)&&!in_array(0,$ageIds)) {
+                        $query->whereOr("$age between 46 and 50");
+                    }
+                    if (in_array(5, $ageIds)&&!in_array(0,$ageIds)) {
+                        $query->whereOr("$age>50");
+                    }
+                }
+            })
+            # 这里筛选为什么要放在之后,因为orWhere 执行是顺序执行的 如果先执行了这里的语句 例如第一条
+            # 所有不为零的阿姨那么之后再查orwhere 只能查询出不包含在where 条件之后的查询条件结果，
+            ->where('pxs_aunt.delete_time', 'eq', 0)  
+            ->where('pxs_aunt_basics.id', 'neq', null) 
+            ->where($param['where'])//这里是旧的查询日后还要修改
+            ->order($param['order'])
+            ->select();
 ```
 
