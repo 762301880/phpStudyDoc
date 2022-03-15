@@ -283,6 +283,21 @@ bin  games  include  lib  local  sbin  share  src
 docker cp 容器id:/etc/nginx/conf.d/ c:/      # 将容器内nginx的配置文件拷贝到本地 
 ```
 
+###  容器切换root用户权限
+
+
+
+```shell
+# 例如我有以下一个容器
+[root@VM-16-5-centos ~]# docker ps -a | grep jenkins
+57982f049fb4        46                                      "/sbin/tini -- /us..."   4 weeks ago         Up 19 minutes             0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp   jenkins
+# 当我正常进入的时候 可以看出此时s
+[root@VM-16-5-centos ~]# docker exec -it  57  /bin/bash
+jenkins@57982f049fb4:/$
+
+docker exec -it -u root 57982f049fb4 bash
+```
+
 
 
 
