@@ -283,7 +283,7 @@ bin  games  include  lib  local  sbin  share  src
 docker cp 容器id:/etc/nginx/conf.d/ c:/      # 将容器内nginx的配置文件拷贝到本地 
 ```
 
-### 将本地文件考入运行的docker容器内部
+### [将本地文件考入运行的docker容器内部](https://jingyan.baidu.com/article/a24b33cdc4220b19fe002bd1.html)
 
 > 今天需要升级jenkins的版本，百度搜索了一下是直接把war文件拷贝到容器内部就可以了
 
