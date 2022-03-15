@@ -283,19 +283,40 @@ bin  games  include  lib  local  sbin  share  src
 docker cp 容器id:/etc/nginx/conf.d/ c:/      # 将容器内nginx的配置文件拷贝到本地 
 ```
 
+### 将本地文件考入运行的docker容器内部
+
+> 今天需要升级jenkins的版本，百度搜索了一下是直接把war文件拷贝到容器内部就可以了
+
+```shell
+# 命令
+docker cp  本地文件路径   容器id:/容器内部路径
+
+# 演示
+[root@VM-16-5-centos ~]# echo test >> test.txt
+[root@VM-16-5-centos ~]# ls
+test.txt
+[root@VM-16-5-centos ~]# docker cp test.txt 57:/test.txt
+# 可以看出文件已经被我们从本地复制到容器内部
+[root@VM-16-5-centos ~]# docker exec -it 57 cat /test.txt
+test
+```
+
 ###  容器切换root用户权限
 
-
+> 今天使用docker cp 命令的时候 发现虽然文件拷贝到容器内部但是想删除容器内部的文件无法删除
+>
+> 因为有的容器内部默认的是普通用户所以百度查了一下有一个**-u** 命令可以切换用户为**root**
 
 ```shell
 # 例如我有以下一个容器
 [root@VM-16-5-centos ~]# docker ps -a | grep jenkins
 57982f049fb4        46                                      "/sbin/tini -- /us..."   4 weeks ago         Up 19 minutes             0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp   jenkins
-# 当我正常进入的时候 可以看出此时s
+# 当我正常进入的时候 可以看出此时是普通用户
 [root@VM-16-5-centos ~]# docker exec -it  57  /bin/bash
 jenkins@57982f049fb4:/$
-
-docker exec -it -u root 57982f049fb4 bash
+# 上一步记得退出容器后再次进入容器加上-u 命令  
+[root@VM-16-5-centos ~]# docker exec -it -u root 57982f049fb4 bash
+root@57982f049fb4:/#
 ```
 
 
