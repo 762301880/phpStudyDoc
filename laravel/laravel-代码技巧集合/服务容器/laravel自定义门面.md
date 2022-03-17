@@ -37,7 +37,9 @@
 
 ```php
 # 使用artisan 命令定义服务提供者 此命令会在app\Providers中
-php artisan  make:provider 自定义名称+ServiceProvider    
+php artisan  make:provider 自定义名称+ServiceProvider 
+
+# 创建完成之后其中会有两个内置的方法  1 boot 监听程序,2 register 定义绑定关系 可以绑定自定义的服务类
 ```
 
 ![image-20210812102554909](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210812102554909.png)
