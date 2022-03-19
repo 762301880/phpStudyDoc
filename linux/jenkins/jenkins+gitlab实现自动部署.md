@@ -34,9 +34,10 @@
 > 这里我找了个可以用的版本因为2.60.3 版本的死活缺少插件装了也没有，最新版本的安装gitlab 扩展提示jdk版本过高不支持
 
 ```shell
+# 指定jdkb
 docker pull jenkins/jenkins:latest-jdk8 
 
-# 推荐安装最新版本
+# 安装最新版本
 docker pull jenkins/jenkins:latest
 ```
 
