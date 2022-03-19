@@ -175,3 +175,30 @@ class OrderExcelResponse
 }
 ```
 
+# 补充
+
+>上述不是说了要做成可以封装的那种模式这里可以参考一下     https://www.cnblogs.com/laowangbk/p/13321398.html
+
+```php
+        $arr = [];
+        # 模拟赋值 测试传递名称专用 最大 701
+        for ($i = 0; $i <= 701; $i++) {
+            $arr[] = "名称" . $i;
+        }
+        # 模拟赋值字母
+//        for ($i = ord('a'); $i <= ord('z'); $i++) {
+//            $resData[] = strtoupper(chr($i)) . "$one";
+//        }
+        for ($i = 0; $i <= count($arr); $i++) {
+            $y = ($i / 26);
+            if ($y >= 1) {
+                $y = intval($y);
+                $yCode[] = chr($y + 64) . chr($i - $y * 26 + 65).'1';
+            } else {
+                $yCode[] = chr($i + 65).'1';
+            }
+
+        }
+        dd($yCode);
+```
+
