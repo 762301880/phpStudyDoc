@@ -177,7 +177,7 @@ class OrderExcelResponse
 
 # 补充
 
->上述不是说了要做成可以封装的那种模式这里可以参考一下     https://www.cnblogs.com/laowangbk/p/13321398.html
+>上述不是说了要做成可以封装的那种(一个函数 三个参数  需要传导出的名称列表，需要导出的数据，需要导出的excel名称)模式这里可以参考一下     https://www.cnblogs.com/laowangbk/p/13321398.html
 
 ```php
         $arr = [];
