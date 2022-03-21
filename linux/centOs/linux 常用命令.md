@@ -36,6 +36,10 @@ yaoliuyang@benben:~$ echo 追加文字 >> demo.txt
 yaoliuyang@benben:~$ cat demo.txt 
 测试覆盖文字2
 追加文字
+
+# 输出变量到文件    https://www.cnblogs.com/moonandstar08/p/7282203.html
+# 输出当前的时间到text文件中
+echo $(date "+%Y-%m-%d %X") >> text.txt
 ```
 
 ### 管道命令 
