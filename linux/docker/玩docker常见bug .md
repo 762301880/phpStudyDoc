@@ -28,3 +28,22 @@ rm: can't remove 'laravel_study': Resource busy
 
 
 
+# 容器内部时区与服务器不一致
+
+**参考资料**
+
+| 名称       | 地址                                                        |
+| ---------- | ----------------------------------------------------------- |
+| 第三方博客 | [link](https://www.cnblogs.com/double-dong/p/11533341.html) |
+
+**修改示例**
+
+```shell
+# 查询当前时区
+bash-5.0# date -R
+Mon, 21 Mar 2022 07:44:02 +0000
+# 复制相应的时区文件，替换系统时区文件； 如果容器内部没有这个文件可以到本地服务器对应目录下然后拷到容器内部替换
+bash-5.0# cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# 再次查询时区
+bash-5.0# date -R
+Mon, 21 Mar 2022 15:45:04 +0800
