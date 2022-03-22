@@ -12,6 +12,7 @@
 | ------------------------------ | ------------------------------------------------- |
 | gitee-laravels文档             | [link](https://gitee.com/zml956/laravel-s)        |
 | laravel学院-swoole从入门到实战 | [link](https://laravelacademy.org/post/9801.html) |
+| 第三方博客                     | [link](https://learnku.com/articles/35992)        |
 
 # 安装&使用
 
@@ -79,6 +80,8 @@ Speed up your Laravel/Lumen
    * 这样，Swoole 服务就被启动起来，监听本地的 5200 端口，如果有请求发送到这个端口，它就可以进行处理。
    * 此外 php bin/laravels 还支持其它命令对 LaravelS 进行管理：
    */
+# 监听ip 默认是127.0.0.1 推荐修改为0.0.0.0(r)
+'listen_ip' => env('LARAVELS_LISTEN_IP', '0.0.0.0'),
 # 端口可以在config\laravels.php中的进行修改
 'listen_port' => env('LARAVELS_LISTEN_PORT', 5200),# 修改laravels监听启动端口    
 ```
