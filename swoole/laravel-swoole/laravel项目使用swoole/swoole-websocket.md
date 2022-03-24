@@ -1,10 +1,11 @@
 # 资料
 
-| 资料名称       | 资料地址                                         |
-| -------------- | ------------------------------------------------ |
-| swoole入门指引 | [链接](https://wiki.swoole.com/wiki/page/1.html) |
-| swoole官方文档 | [链接](https://wiki.swoole.com/#/)               |
-| swoole在线测试 | [链接](http://coolaf.com/tool/chattest)          |
+| 资料名称       | 资料地址                                             |
+| -------------- | ---------------------------------------------------- |
+| swoole入门指引 | [链接](https://wiki.swoole.com/wiki/page/1.html)     |
+| swoole官方文档 | [链接](https://wiki.swoole.com/#/)                   |
+| swoole在线测试 | [链接](http://coolaf.com/tool/chattest)              |
+| 第三方博客参考 | [链接](https://www.cnblogs.com/phpk/p/10930481.html) |
 
 # laravel中使用swoole
 
@@ -85,7 +86,7 @@ php artisan make:command Swoole     # 创建command类
               'heartbeat_idle_time' => 600, // 表示一个连接如果600秒内未向服务器发送任何数据，此连接将被强制关闭
               'heartbeat_check_interval' => 60,  // 表示每60秒遍历一次
           ]);
-          //$this->ws->on('open', [$this, 'open']);
+          //$this->ws->on('open', [$this, 'open']);  # 参数二可以采用闭包方式访问 数组中第一个参数表示 类对象 参数二表示 类方法
           # 用户连接事件
           /**
            * $server 这个server就是指上面创建的websocket服务器
