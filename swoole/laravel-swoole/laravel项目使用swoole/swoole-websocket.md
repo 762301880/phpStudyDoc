@@ -1,11 +1,11 @@
 # 资料
 
-| 资料名称       | 资料地址                                             |
-| -------------- | ---------------------------------------------------- |
-| swoole入门指引 | [链接](https://wiki.swoole.com/wiki/page/1.html)     |
-| swoole官方文档 | [链接](https://wiki.swoole.com/#/)                   |
-| swoole在线测试 | [链接](http://coolaf.com/tool/chattest)              |
-| 第三方博客参考 | [链接](https://www.cnblogs.com/phpk/p/10930481.html) |
+| 资料名称       | 资料地址                                                     |
+| -------------- | ------------------------------------------------------------ |
+| swoole入门指引 | [链接](https://wiki.swoole.com/wiki/page/1.html)             |
+| swoole官方文档 | [链接](https://wiki.swoole.com/#/)                           |
+| swoole在线测试 | [链接](http://coolaf.com/tool/chattest)                      |
+| 第三方博客参考 | [链接](https://www.cnblogs.com/phpk/p/10930481.html) [链接](http://www.phpbloger.com/article/421.html) |
 
 # laravel中使用swoole
 
