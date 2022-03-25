@@ -135,7 +135,7 @@ docker restart 容器id
 
 **创建gitlab访问 令牌**
 
-> 去****
+> 去**gitlab**点击右上角的**头像**-**Preferences**-**Access Tokens**
 
 ![1648198709(1).jpg](https://s2.loli.net/2022/03/25/Q42xTme8IvCEnDL.png)
 
@@ -144,6 +144,20 @@ docker restart 容器id
 > 这里记得自己复制一下令牌，别搞丢了就行
 
 ![1648198799(1).jpg](https://s2.loli.net/2022/03/25/ayRl1LItD3TbqMi.png)
+
+**配置gitlab链接**
+
+![1648203061(1).jpg](https://s2.loli.net/2022/03/25/fLek9lEnqjUbO3P.png)
+
+**流水线配置**
+
+> 选择自己的gitlab配置
+
+![1648203176(1).jpg](https://s2.loli.net/2022/03/25/QGLF7KdyhisSEav.png)
+
+> 记住对应的源码管理要关闭
+
+![1648203248(1).jpg](https://s2.loli.net/2022/03/25/5a2QU4xjEfg6mLV.png)
 
 ### 添加构建
 
