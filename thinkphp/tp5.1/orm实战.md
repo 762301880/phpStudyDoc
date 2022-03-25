@@ -151,3 +151,34 @@ $age = "(DATE_FORMAT(NOW(), '%Y') - (DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), INTE
             ->select();
 ```
 
+##  随机获取两条数据
+
+> 利用mysql 的**order by Rand()** 方法随机排序，在加上**limit**约束条数即可实现需求
+
+**参考资料**
+
+| 名称           | 地址                                                   |
+| -------------- | ------------------------------------------------------ |
+| 第三方博客参考 | [link](https://www.cnblogs.com/fps2tao/p/9041204.html) |
+
+**代码示例**
+
+> tp可以利用**orderRand()**方法实现需求
+
+```php
+ /**
+     * 返回随机的文章
+     * @param int $article_id 当前的文章id为了不予当前的时间重合
+     * @param int $num 需要展示的条数
+     */
+    protected function getRandArticle($article_id, $num)
+    {
+        if (empty($article_id)) return [];
+        return ArticleModel::where('id', 'NEQ', $article_id)
+            ->orderRand()
+            ->limit($num)
+            ->field(['id', 'title', 'img', 'view_count', 'is_recommend', 'create_time', 'update_time', 'status', 'seo_des', 'seo_keyword', 'seo_title'])
+            ->select();
+    }
+```
+
