@@ -103,29 +103,57 @@ docker restart 容器id
 
 ![1640570777(1).jpg](https://s2.loli.net/2021/12/27/9yaLbzjECZteSKk.png)
 
-**添加服务器地址密码**
+## **添加服务器地址密码**
 
-- 下载ssh插件 第一次下载应该有一个叫做ssh
+**下载ssh插件 SSH plugin**
 
 ![image-20211229152002472](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152002472.png)
 
-- 配置ssh
+**配置ssh**
 
 ![image-20211229151814397](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229151814397.png)
 
 ## 新建任务
 
+### **新建任务名称**
+
 ![image-20211229152239564](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152239564.png)
+
+### 添加git 信息
+
+> 可以直接选择用户名&密码的形式(**不推荐这样使用**)
 
 ![image-20211229152416670](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152416670.png)
 
+#### 第二种方式(token方式)
+
+> 用户名密码不是很安全建议采用apitoken形式，请在**jenkins下载 GitLab Plugin**插件、
+
+**下载插件**
+
+![1648198573(1).jpg](https://s2.loli.net/2022/03/25/1rvQJBXhYewOAiG.png)
+
+**创建gitlab访问 令牌**
+
+> 去****
+
+![1648198709(1).jpg](https://s2.loli.net/2022/03/25/Q42xTme8IvCEnDL.png)
+
+**创建后返回的访问令牌**
+
+> 这里记得自己复制一下令牌，别搞丢了就行
+
+![1648198799(1).jpg](https://s2.loli.net/2022/03/25/ayRl1LItD3TbqMi.png)
+
+### 添加构建
+
 ![image-20211229152524274](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152524274.png)
 
-**添加钩子**
+### **添加钩子**
 
 ![image-20211229152635739](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152635739.png)
 
-**添加钩子**
+**配置gitlab钩子**
 
 ![image-20211229152754135](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152754135.png)
 
