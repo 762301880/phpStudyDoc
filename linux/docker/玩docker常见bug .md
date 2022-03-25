@@ -47,3 +47,51 @@ bash-5.0# cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 # 再次查询时区
 bash-5.0# date -R
 Mon, 21 Mar 2022 15:45:04 +0800
+
+```
+
+# 容器内部定时任务无法启用的问题
+
+**参考资料**
+
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| 第三方博客 | [link](https://blog.csdn.net/weixin_53357266/article/details/118016035) |
+
+**解决方案**
+
+```shell
+# 查看进程位置
+bash-5.0# find / -name *cron\*
+/etc/crontabs
+/root/.composer/cache/repo/https---repo.packagist.org/provider-dragonmantank~cron-expression.json
+/root/.composer/cache/repo/https---repo.packagist.org/provider-dragonmantank~cron-expression~dev.json
+/usr/share/vim/vim82/syntax/crontab.vim
+/usr/sbin/crond   # 这个就是进程启动的目录
+/usr/bin/crontab 
+/run/crond.reboot
+/run/crond.pid
+/var/spool/cron
+/var/spool/cron/crontabs
+/data/work/vendor/dragonmantank/cron-expression
+
+# 容器内启动定时任务  这里记住不能多次启动不然就会像下面一样可以开启多个定时任务进程(例如同时开了三个账号给同一个人发信息)
+bash-5.0# crond
+# 查看启动的定时任务进程
+bash-5.0# ps aux|grep cron
+  546 root      0:00 crond
+  550 root      0:00 crond
+  554 root      0:00 crond
+  556 root      0:00 grep cron
+  # 杀死多余的进程 kill 进程号
+  kill 546
+```
+
+
+
+
+
+
+
+
+
