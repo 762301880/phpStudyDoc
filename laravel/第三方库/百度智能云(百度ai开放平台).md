@@ -159,17 +159,21 @@ class TestController extends Controller
 {
     public function upload(Request $request)
     {
+        $data = '';
         if (!$request->isMethod('post')) {
-            return response()->json(['msg'=>'必须是post请求','data'=>[],'code'=>5000]);
+            return response()->json(['msg' => '必须是post请求', 'data' => [], 'code' => 5000]);
         }
         $token = $this->getAccessToken();
-        $url = 'https://aip.baidubce.com/rest/2.0/image-process/v1/colourize?access_token=' . $token;
+        $url = 'https://aip.baidubce.com/rest/2.0/image-process/v1/selfie_anime?access_token=' . $token;
         $img = base64_encode($request->file('file')->get()); # 获取bese64加密图片
         $bodys = array(
             'image' => $img
         );
         $res = json_decode($this->request_post($url, $bodys), true);
-        dd($res['image']);
+        if (!empty($res)) { # 拼接返回 base64格式图片
+            $data = 'data:image/jpg;base64,' . $res['image'];
+        }
+        dd($data);
     }
 
     function request_post($url = '', $param = '')
@@ -194,13 +198,15 @@ class TestController extends Controller
         curl_close($curl);
         return $data;
     }
+
     # 获取access_token
     protected function getAccessToken()
     {
-        $API_Key = "****************";#你的$API_Key
-        $Secret_Key = "****************";#你的$Secret_Key
+        $API_Key = "***********";#你的$API_Key
+        $Secret_Key = "***********";;#你的$Secret_Key
         $api = "https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={$API_Key}&client_secret={$Secret_Key}";
-        $data = Http::post($api)->json();
+        $data = file_get_contents($api);
+        $data = json_decode($data, true);
         return $data['access_token'];
     }
 }
