@@ -79,6 +79,7 @@ return [
             'port' => $redis_port,
             'connectTimeout' => 2.5,
             'auth' => ['phpredis', 'phpredis'],
+            'password'=>'如果有密码需要设置密码',
             'ssl' => ['verify_peer' => false],
         ]);
         $redis->set('name','zhangsan'); 
