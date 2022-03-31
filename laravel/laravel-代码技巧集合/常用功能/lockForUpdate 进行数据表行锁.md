@@ -18,6 +18,7 @@
 | Laravel 事务中 使用 悲观锁 小结                         | [link](https://learnku.com/articles/36846)                   |
 | MySQL悲观锁Laravel的实现                                | [link](https://www.jianshu.com/p/3048f3ebf761?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation) |
 | PHP 高并发情况的简单模拟,thinkphp                       | [link](https://www.jianshu.com/p/a41e41834d88)               |
+| 第三方博客                                              | [link](https://learnku.com/articles/44383)                   |
 
 ​	
 
