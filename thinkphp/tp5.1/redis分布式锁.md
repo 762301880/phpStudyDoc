@@ -3,7 +3,7 @@
 | 名称               | 地址                                                         |
 | ------------------ | ------------------------------------------------------------ |
 | 模拟并发第三方博客 | [link](https://www.jianshu.com/p/a41e41834d88)               |
-| 分布式锁第三方博客 | [link](https://segmentfault.com/a/1190000019138071) [link](https://learnku.com/articles/42440) |
+| 分布式锁第三方博客 | [link](https://segmentfault.com/a/1190000019138071) [link](https://learnku.com/articles/42440) [link](https://www.yanghaihua.com/content/2020-08-09/1098.shtml) |
 | 第三方库           | [link](https://github.com/ar414-com/php-redis-lock)          |
 
 # 模拟并发
