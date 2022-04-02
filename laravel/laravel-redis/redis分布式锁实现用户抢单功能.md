@@ -21,7 +21,7 @@
 | redis-setnx(**SET** if **N**ot e**X**ists)                   | [link](https://www.runoob.com/redis/strings-setnx.html)      |
 | 第三方博客                                                   | [link](https://www.cnblogs.com/jackzhuo/p/13678008.html)  [link](https://learnku.com/articles/57086) |
 | laravel学院-基于 Redis 实现分布式锁及其在 Laravel 底层的实现源码 | [link](https://laravelacademy.org/post/22183)                |
-| 新版redis set命令实现分布式锁                                | [link](https://segmentfault.com/a/1190000019138071)          |
+| 新版redis set命令实现分布式锁                                | [link](https://segmentfault.com/a/1190000019138071) [link](https://learnku.com/laravel/t/47073?order_by=created_at) |
 
 >***setnx解释***
 >
@@ -87,6 +87,96 @@
             DB::commit();
         } else {
             DB::rollBack();
+        }
+```
+
+# laravel 分布式锁
+
+```php
+<?php
+
+
+namespace app\admin\controller;
+
+
+class Lock
+{
+    protected $redis;
+    protected $lockId; //记录加锁的客户端的id
+
+    public function __construct($redis)
+    {
+        $this->redis = $redis;
+    }
+
+    /**
+     * 加锁
+     * @param string $scene 业务场景
+     * @param int $expire 锁过期时间
+     * @param int $retry 等待尝试时间
+     * @param int $sleep 等待时间
+     * @return false
+     */
+    public function lock($scene = "seckill", $expire = 5, $retry = 10, $sleep = 10000)
+    {
+        //同一个时刻只能有一个用户持有锁,并且不能出现死锁
+        $res = false;
+        while ($retry-- > 0) { # 尝试次数
+            $value = session_create_id();//生成不重复的字符串(唯一的值)
+            $res = Redis::set('key', 'value', 'NX', 'EX', 10); //上锁成功修改返回结果
+            #$res = $this->redis->set($scene, $value,['NX','EX'=>$expire]); //上锁成功修改返回结果
+            var_dump('requestKey='.$value);
+            if ($res) {
+                $this->lockId[$scene] = $value; //记录当前请求的key
+                //加锁成功了
+                break;//跳出
+            }
+            echo "尝试获取锁" . PHP_EOL;
+            usleep($sleep);//睡眠
+        }
+        return $res;
+    }
+
+    /**
+     * 删除锁
+     * @param $scene
+     * @return mixed
+     */
+    public function unLock($scene)
+    {
+        //能够删除自己的锁，而不应该删除别人的锁
+        $id = $this->lockId[$scene];//当前请求记录value值
+        if (isset($id)) {
+            $value = $this->redis->get($scene); //先取出当前数据库当中记录的锁,从数据库当中取出来的
+            var_dump('redisKey='.$value, 'requestKey='.$id);
+            //从redis当中获取的id跟当前请求记录的id,是否是同一个
+            if ($id == $value) {
+                return $this->redis->del($scene);//删除锁
+            }
+        }
+        return false;
+    }
+}
+```
+
+**使用示例**
+
+```php
+        $lock = new Lock($this->_redis);
+        $scene = 'seckill';
+        //如果加锁成功,某个业务只允许一个用户操作
+        if ($lock->lock($scene, 5)) {//加锁
+            var_dump("执行业务逻辑");
+            $countModel = Count::where('id', 1)->find();
+            $count = $countModel->value('count');
+            if ($count > 0) {
+                $bool = DecrementCount::create(['count_decrement_id' => $count--]);
+                if ($bool) {
+                    --$countModel->count;
+                    $countModel->save();
+                    $lock->unLock($scene);
+                }
+            }
         }
 ```
 
