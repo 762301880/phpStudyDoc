@@ -287,7 +287,7 @@ class Lock
         $res = false;
         while ($retry-- > 0) { # 尝试次数
             $value = session_create_id();//生成不重复的字符串(唯一的值)
-            $this->redis->set($scene, $value, 'NX', 'EX', $expire);
+           $res= $this->redis->set($scene, $value, 'NX', 'EX', $expire);
             //$res = $this->redis->setnx($scene, $value); //上锁成功修改返回结果
             #$res = $this->redis->set($scene, $value,['NX','EX'=>$expire]); //上锁成功修改返回结果
             var_dump('requestKey=' . $value);
