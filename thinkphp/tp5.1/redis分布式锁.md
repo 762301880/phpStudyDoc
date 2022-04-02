@@ -73,6 +73,22 @@ CREATE TABLE `decrement_count` (
 
 ![1648709150(1).jpg](https://s2.loli.net/2022/03/31/YGbTep5c3o4Qawk.png)
 
+**查询是否有重复的列**
+
+```mysql
+SELECT COALESCE
+	( count_decrement_id, '总数' ) count_decrement_id,
+	COUNT( count_decrement_id ) AS id 
+FROM
+	`decrement_count` 
+GROUP BY
+	count_decrement_id WITH ROLLUP 
+HAVING
+	id > 1
+```
+
+
+
 **解决方案- mysql 悲观锁**
 
 > 利用mysql的悲观锁实现解决并发，这里就不演示了亲测很多次都可以保持数据的一致性
