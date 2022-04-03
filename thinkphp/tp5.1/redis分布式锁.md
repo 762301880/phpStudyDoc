@@ -328,6 +328,9 @@ class Lock
 # 拓展 删除锁使用lua脚本实现原子化删除 
 
     /**
+     * redis 嵌入lua优势
+     * 减少网络开销：不使用Lua的代码需要向Redis发送多次请而脚本只需一次即可，减少网络传输
+     * 原子操作：Redis将整个脚本作为一个原子执行，无需担心并发，也就无需事务；复用：脚本会永久保存Redis中，具他客户端可继续使用。
      * https://learnku.com/articles/15825/redis-distributed-lock-solution
      * 删除锁
      * @param $scene
