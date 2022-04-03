@@ -324,6 +324,29 @@ class Lock
         return false;
     }
 }
+
+# 拓展 删除锁使用lua脚本实现原子化删除 
+
+    /**
+     * https://learnku.com/articles/15825/redis-distributed-lock-solution
+     * 删除锁
+     * @param $scene
+     * @return mixed
+     */
+    public function unLock($scene)
+    {
+        $id = $this->lockId[$scene];//当前请求记录value值
+        $script = <<<LUA
+local key=KEYS[1]
+local value=ARGV[1]
+if(redis.call('get',key)==value)
+then
+return redis.call('del',key)
+end
+LUA;
+        //redis中嵌入lua脚本
+ return $this->redis->eval($script, 1, $scene, $id);
+    }
 ```
 
 **使用**
