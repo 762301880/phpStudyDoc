@@ -1,4 +1,4 @@
-# [获取access_token](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu)
+# 	[获取access_token](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu)
 
 > 通过API Key和Secret Key获取的access_token,参考“[Access Token获取](https://ai.baidu.com/ai-doc/REFERENCE/Ck3dwjhhu)”, 调用API时必须在URL中带上access_token参数,需要调用百度api开放平台的接口很多地方都需要这个鉴权,所以这个可以当作一个全局的函数以便全局调用
 
@@ -211,6 +211,49 @@ class TestController extends Controller
     }
 }
 
+```
+
+##  人物动漫风格化
+
+### 代码示例
+
+```php
+public function imageConversionAnime(Request $request)
+    {
+        $data = '';
+        if (!$request->isMethod('post')) {
+            return response()->json(['msg' => '必须是post请求', 'data' => [], 'code' => 5000]);
+        }
+        $token = $this->getImageConversionAnimeAccessToken();
+        $url = 'https://aip.baidubce.com/rest/2.0/image-process/v1/selfie_anime?access_token=' . $token;
+        $img = $request->file('file');
+        $fileName = date('YmdHis');
+        $imgBase64 = base64_encode($img->get()); # 获取bese64加密图片
+        $imageSuffix = $img->getClientOriginalExtension();//图片后缀
+        $bodys = array(
+            'image' => $imgBase64
+        );
+        $res = json_decode($this->request_post($url, $bodys), true);
+//        if (!empty($res)) { # 拼接返回 base64格式图片
+//            $data = 'data:image/jpg;base64,' . $res['image'];
+//        }
+//        return $this->success('动漫风格化转化成功', $data);
+    # 写入到文件
+        $img = base64_decode($res['image']);
+        $filePath = public_path("$fileName." . $imageSuffix);
+        file_put_contents($filePath, $img);
+    }
+
+    # 获取access_token
+    protected function getImageConversionAnimeAccessToken()
+    {
+        $API_Key = "***************";#你的$API_Key
+        $Secret_Key = "***************";#你的$Secret_Key
+        $api = "https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={$API_Key}&client_secret={$Secret_Key}";
+        $data = file_get_contents($api);
+        $data = json_decode($data, true);
+        return $data['access_token'];
+    }
 ```
 
 # 文字识别
