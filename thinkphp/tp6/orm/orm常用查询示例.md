@@ -60,3 +60,9 @@ $model->column('需要查询的字段');
  ->value('price_one');
 ```
 
+- 模糊查询
+
+```php
+ $query->where('order_number', 'like', "%{$order_number}%");
+```
+
