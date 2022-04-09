@@ -36,7 +36,7 @@ public function __construct()
     'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！(支付平台提供)
     'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！(支付平台提供)
     'notify_url'         => '默认的订单回调地址',     // 你也可以在下单时单独设置来想覆盖它(支付成功或者失败回调地址)
-      //'sandbox' => true, 开启沙箱支付(设置为 false 或注释则关闭沙箱模式)
+      //'sandbox' => true, 开启沙箱支付(设置为 false 或注释则关闭沙箱模式) 沙箱支付请设置金额为1
 ];
 $this->app = Factory::payment($config);
 // 判断当前是否为沙箱模式：
