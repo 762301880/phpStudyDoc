@@ -36,7 +36,7 @@ public function __construct()
     'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！(支付平台提供)
     'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！(支付平台提供)
     'notify_url'         => '默认的订单回调地址',     // 你也可以在下单时单独设置来想覆盖它(支付成功或者失败回调地址)
-      //'sandbox' => true, 开启沙箱支付(设置为 false 或注释则关闭沙箱模式) 沙箱支付请设置金额为1
+      //'sandbox' => true, 开启沙箱支付(设置为 false 或注释则关闭沙箱模式) 沙箱支付请设置金额为101
 ];
 $this->app = Factory::payment($config);
 // 判断当前是否为沙箱模式：
@@ -222,3 +222,8 @@ array:10 [
 [2022-01-10 15:09:36] local.ALERT: 测试通知  
 ```
 
+# bug解析
+
+## [无法将输入源“/body/xml/total_fee”映射到目标字段“标价金额”中，此字段需要一个合法的 64 位有符号整数](https://genjiejie.blog.csdn.net/article/details/116932411?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&utm_relevant_index=1)
+
+> 微信支付是以分为单位假如你计算出来的价格是**50** 那么支付的时候价格就是**0.5** 所以你支付的价格要*100才是真实价格
