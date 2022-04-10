@@ -1,14 +1,3 @@
-#   资料
-
-| 名称           | 地址                                       |
-| -------------- | ------------------------------------------ |
-| easywechat官网 | [链接](https://easywechat.vercel.app/6.x/) |
-|                |                                            |
-
-
-
-
-
 # [微信支付](https://easywechat.vercel.app/4.x/payment/)
 
 > **1扫码支付**
@@ -25,7 +14,8 @@
 
 | 名称             | 地址                                                         |
 | ---------------- | ------------------------------------------------------------ |
-| 第三方博客       | [link](https://segmentfault.com/a/1190000016177743)          |
+| easywechat官网   | [链接](https://easywechat.vercel.app/6.x/)                   |
+| 第三方博客       | [link](https://segmentfault.com/a/1190000016177743) [link](https://learnku.com/articles/8613/wechat-small-programs-pay-api-configuration-under-laravel) |
 | 微信支付官方文档 | [link](https://pay.weixin.qq.com/static/product/product_intro.shtml?name=jsapi) |
 
 ​	**配置支付参数**
