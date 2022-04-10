@@ -238,8 +238,94 @@ array:10 [
 [2022-01-10 15:09:36] local.ALERT: 测试通知  
 ```
 
+## [处理支付结果通知](https://www.easywechat.com/4.x/payment/notify.html)
+
+> 我们创建订单->提交到微信服务器
+>
+> notify_url (通知/回调地址) 告诉微信服务器,订单的状态编号,请通过这个地址告诉我
+>
+> http://domain.com/notify/wechat/order 没有会话状态的,也就是说没有 session cookie(因为这是通过微信服务器请求过来的不是通过用户的手机浏览器请求过来的)
+>
+> A商户(10018)  http://domain.com/notify/wechat/order/10018   （注意传惨不可以 ?shanghuid=10018,形式传递）
+
+**资料**
+
+| 名称                          | 地址                                                         |
+| ----------------------------- | ------------------------------------------------------------ |
+| easywechat-通知               | [link](https://www.easywechat.com/4.x/payment/notify.html#%E6%94%AF%E4%BB%98%E7%BB%93%E6%9E%9C%E9%80%9A%E7%9F%A5) |
+| 微信支付官方文档-通知返回参数 | [link](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml) |
+
+[**代码示例**](https://www.easywechat.com/4.x/payment/notify.html#%E6%94%AF%E4%BB%98%E7%BB%93%E6%9E%9C%E9%80%9A%E7%9F%A5)
+
+```php
+use EasyWeChat\Factory;
+
+$config = [
+    // 必要配置
+    'app_id'             => 'xxxx',
+    'mch_id'             => 'your-mch-id',
+    'key'                => 'key-for-signature',   // API v2 密钥 (注意: 是v2密钥 是v2密钥 是v2密钥)
+
+    // 如需使用敏感接口（如退款、发送红包等）需要配置 API 证书路径(登录商户平台下载 API 证书)
+    'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
+    'key_path'           => 'path/to/your/key',      // XXX: 绝对路径！！！！
+
+    'notify_url'         => '默认的订单回调地址',     // 你也可以在下单时单独设置来想覆盖它
+];
+
+$app = Factory::payment($config);
+
+# 通知处理 付款状态
+$response = $app->handlePaidNotify(function ($message, $fail) {
+    // 你的逻辑
+    
+    return true;
+    // 或者错误消息
+    $fail('Order not exists.');
+});
+
+$response->send(); // Laravel 里请使用：return $response;
+```
+
+通常我们的处理逻辑大概是下面这样（**以下只是伪代码**）：
+
+```php
+$response = $app->handlePaidNotify(function($message, $fail){
+    // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
+    $order = 查询订单($message['out_trade_no']);
+
+    if (!$order || $order->paid_at) { // 如果订单不存在 或者 订单已经支付过了
+        return true; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
+    }
+    ///////////// <- 建议在这里调用微信的【订单查询】接口查一下该笔订单的情况，确认是已经支付 /////////////
+    if ($message['return_code'] === 'SUCCESS') { // return_code 表示通信状态，不代表支付状态
+        // 用户是否支付成功
+        if (array_get($message, 'result_code') === 'SUCCESS') {
+            $order->paid_at = time(); // 更新支付时间为当前时间
+            $order->status = 'paid';
+        // 用户支付失败
+        } elseif (array_get($message, 'result_code') === 'FAIL') {
+            $order->status = 'paid_fail';
+        }
+    } else {
+        return $fail('通信失败，请稍后再通知我');
+    }
+    $order->save(); // 保存订单
+    return true; // 返回处理完成
+});
+$response->send(); // return $response;
+```
+
+
+
+
+
 ## bug解析
 
 ### [无法将输入源“/body/xml/total_fee”映射到目标字段“标价金额”中，此字段需要一个合法的 64 位有符号整数](https://genjiejie.blog.csdn.net/article/details/116932411?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&utm_relevant_index=1)
 
 > 微信支付是以分为单位假如你计算出来的价格是**50** 那么支付的时候价格就是**0.5** 所以你支付的价格要*100才是真实价格
+
+## 问题
+
+### 只要调起支付同一个订单号2小时内只要没有支付成功都可以重复调起支付,两小时后会失效问题
