@@ -247,6 +247,10 @@ array:10 [
 > http://domain.com/notify/wechat/order 没有会话状态的,也就是说没有 session cookie(因为这是通过微信服务器请求过来的不是通过用户的手机浏览器请求过来的)
 >
 > A商户(10018)  http://domain.com/notify/wechat/order/10018   （注意传惨不可以 ?shanghuid=10018,形式传递）
+>
+> **注意**
+>
+> 不同的通知请注册不同的通知地址(例如退款是一个,支付成功是一个)
 
 **资料**
 
