@@ -11,6 +11,16 @@
 
 # [微信支付](https://easywechat.vercel.app/4.x/payment/)
 
+> **1扫码支付**
+>
+> 根据商品信息生成二维码-> 贴到某个位置->用户扫码->wechat(到达微信)->notyfy(通知你会携带openid+商品信息)
+>
+> ->下单+微信创建订单->返回给微信(prepay_id)->付款
+>
+> **2其他支付**
+>
+> 网站下单->创建微信订单->微信prepay_id->呼起支付(JSSDK,APP)->付款->notify
+
 **参考资料**
 
 | 名称             | 地址                                                         |
@@ -116,12 +126,6 @@ $app->order->close(商户系统内部的订单号（out_trade_no）);
 
 
 ## [扫码支付](https://easywechat.vercel.app/4.x/payment/scan-pay.html#%E6%89%AB%E7%A0%81%E6%94%AF%E4%BB%98)
-
-> **支付流程**
->
-> 根据商品信息生成二维码-> 贴到某个位置->用户扫码->wechat(到达微信)->notyfy(通知你会携带openid+商品信息)
->
-> ->下单->返回给微信(prepay_id)->付款
 
 ### 先下单，生成订单后创建二维码
 
