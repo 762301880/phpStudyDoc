@@ -66,3 +66,16 @@ $model->column('需要查询的字段');
  $query->where('order_number', 'like', "%{$order_number}%");
 ```
 
+- [一个字段查询多个字段](https://www.runoob.com/mysql/mysql-functions.html)
+
+> 先合并多个字段然后再一起查询
+
+![1649667832(1).jpg](https://s2.loli.net/2022/04/11/FM6cNWa3lgRIxB4.png)
+
+```php
+//三合一查询(流水号/支付账号/支付单号)
+ if (!empty($text)) { //todo 未写完
+     $query->where("CONCAT(serial_number,transaction_id) like '%$text%'");
+ }
+```
+
