@@ -341,13 +341,15 @@ $response->send(); // return $response;
 
 **代码示例**
 
+> 数组中的参数具体可以参考 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
+
 **根据微信订单号退款**
 
 ```php
 # 参数分别为：微信订单号(微信自己的订单号不是我们自定义的订单号)、商户退款单号(可以自定义)、订单金额(一定要以支付金额为准)、退款金额、其他参数
 $result = $app->refund->byTransactionId('4200001382202204107379924807', '456456478798', 1, 1, [
             // 可在此处传入其他参数，详细参数见微信支付文档
-            'refund_desc' => 'asd',
+            'refund_desc' => 'asd', # 退款原因
         ]);
 ```
 
@@ -360,7 +362,8 @@ $app->refund->byOutTradeNumber(string $number, string $refundNumber, int $totalF
 // Example:
 $result = $app->refund->byOutTradeNumber('out-trade-no-xxx', 'refund-no-xxx', 20000, 1000, [
     // 可在此处传入其他参数，详细参数见微信支付文档
-    'refund_desc' => '退运费',
+    'refund_desc' => '退运费', # 退款原因
 ]);
 ```
 
+![1649817302(1).jpg](https://s2.loli.net/2022/04/13/vXah2yfmHU538Ae.png)
