@@ -342,12 +342,16 @@ $response->send(); // return $response;
 **代码示例**
 
 > 数组中的参数具体可以参考 https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4
+>
+> **注意事项**
+>
+> 订单金额&退款金额要*100 因为微信是以分为单位
 
 **根据微信订单号退款**
 
 ```php
-# 参数分别为：微信订单号(微信自己的订单号不是我们自定义的订单号)、商户退款单号(可以自定义)、订单金额(一定要以支付金额为准)、退款金额、其他参数
-$result = $app->refund->byTransactionId('4200001382202204107379924807', '456456478798', 1, 1, [
+# 参数分别为：微信订单号(微信自己的订单号不是我们自定义的订单号)、商户退款单号(可以自定义)、订单金额(一定要以支付金额为准)*100、退款金额*100、其他参数
+$result = $app->refund->byTransactionId('4200001382202204107379924807', '456456478798', 1*100, 1*100, [
             // 可在此处传入其他参数，详细参数见微信支付文档
             'refund_desc' => 'asd', # 退款原因
         ]);
@@ -360,7 +364,7 @@ $result = $app->refund->byTransactionId('4200001382202204107379924807', '4564564
 $app->refund->byOutTradeNumber(string $number, string $refundNumber, int $totalFee, int $refundFee, array $config = []);
 
 // Example:
-$result = $app->refund->byOutTradeNumber('out-trade-no-xxx', 'refund-no-xxx', 20000, 1000, [
+$result = $app->refund->byOutTradeNumber('out-trade-no-xxx', 'refund-no-xxx', 20000*100, 1000*100, [
     // 可在此处传入其他参数，详细参数见微信支付文档
     'refund_desc' => '退运费', # 退款原因
 ]);
