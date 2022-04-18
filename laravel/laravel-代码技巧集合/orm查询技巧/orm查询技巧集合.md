@@ -16,3 +16,4 @@
             ->paginate($request->input('limit', 999));
 ```
 
+# [leftjoin多条件查询](https://www.jianshu.com/p/ed5af6051059)
