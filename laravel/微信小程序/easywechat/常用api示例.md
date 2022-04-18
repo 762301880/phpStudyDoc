@@ -376,7 +376,7 @@ $app->refund->byOutTradeNumber(string $number, string $refundNumber, int $totalF
 // Example:
 $result = $app->refund->byOutTradeNumber('out-trade-no-xxx', 'refund-no-xxx', 20000*100, 1000*100, [
     // 可在此处传入其他参数，详细参数见微信支付文档
-    'refund_desc' => '退运费', # 退款原因
+    'refund_desc' => '退运费', # 退款原因(string 80 字数不能过长)
 ]);
 ```
 
