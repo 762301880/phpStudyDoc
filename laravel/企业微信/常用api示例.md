@@ -136,6 +136,7 @@ public function sendMessage($agentid)
     {
         $apiUrl = "https://qyapi.weixin.qq.com/cgi-bin/media/upload?access_token={$this->getAccessToken()}&type={$type}";
         $file_name = uniqid() . request()->file('media')->getClientOriginalName();//设置唯一的上传图片
+
         $path = public_path('/');//设置上传路径
         $absolute_path_file = $path . '/' . $file_name;//图片全路径,绝对路径
         request()->file('media')->move($path, $file_name);//转移文件到public目录下
@@ -155,6 +156,9 @@ public function sendMessage($agentid)
             $josn = array('media' => '@' . realpath($file_name));
         }
         $ret = $this->https_request($apiUrl, $josn);
+        if (!empty($ret['errmsg'])&&$ret['errmsg']=="ok"&&$ret['errcode']==0){
+            unlink($absolute_path_file); # 删除临时文件
+        }
         return $ret;
     }
  public function https_request($url, $data = null)
