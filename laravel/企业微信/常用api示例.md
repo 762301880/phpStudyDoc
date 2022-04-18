@@ -125,3 +125,37 @@ public function sendMessage($agentid)
     }
 ```
 
+# [素材管理](https://developer.work.weixin.qq.com/document/path/90253)
+
+## [上传临时素材](https://developer.work.weixin.qq.com/document/path/90253)
+
+**代码示例**
+
+```php
+    public function temporaryMaterial($type = 'image')
+    {
+        $apiUrl = "https://qyapi.weixin.qq.com/cgi-bin/media/upload?access_token={$this->getAccessToken()}&type={$type}";
+        $file_name = uniqid() . request()->file('media')->getClientOriginalName();//设置唯一的上传图片
+        $path = public_path('/');//设置上传路径
+        $absolute_path_file = $path . '/' . $file_name;//图片全路径,绝对路径
+        request()->file('media')->move($path, $file_name);//转移文件到public目录下
+        //判断文件是否存在
+        if (!file_exists($absolute_path_file)) {
+            return response()->json([
+                'msg' => '文件没有上传成功',
+                'data' => [],
+                'code' => '5000'
+            ]);
+        }
+        if (class_exists('\CURLFile')) {
+            $josn = array( # php5.6以上使用
+                'media' => new \CURLFile(realpath($file_name))
+            );
+        } else { # php 5.6以下使用
+            $josn = array('media' => '@' . realpath($file_name));
+        }
+        $ret = $this->https_request($apiUrl, $josn);
+        return $ret;
+    }
+```
+
