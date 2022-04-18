@@ -157,5 +157,21 @@ public function sendMessage($agentid)
         $ret = $this->https_request($apiUrl, $josn);
         return $ret;
     }
+ public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); //禁止 cURL 验证对等证书
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); //是否检测服务器的域名与证书上的是否一致
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        $error = curl_error($curl);
+        curl_close($curl);
+        return json_decode($output, true);
+    }
 ```
 
