@@ -318,6 +318,59 @@ $response = $app->handlePaidNotify(function($message, $fail){
 $response->send(); // return $response;
 ```
 
+**实例**
+
+```php
+
+    public function setPaymentNoticeCallback(array $data)
+    {
+        $response = $this->app->handlePaidNotify(function ($message, $fail) {
+            $orderRes = $this->app->order->queryByOutTradeNumber($message['out_trade_no']);
+            Log::info(['message' => '查询订单编号' . $message['out_trade_no'] . '回调记录', 'res' => $orderRes]);
+            if ($orderRes['result_code'] == 'SUCCESS' && $orderRes['trade_state'] != "SUCCESS") { # 如果查询订单没有支付不进行以下操作(为了防止别人伪造回调请求)
+                Log::error('订单未支付,非法调用异步回调');
+                return true;
+            }
+            // 你的逻辑
+            Log::info('微信订单回调记录:' . json_encode($message));
+            $order_number = !empty($message['out_trade_no']) ? $message['out_trade_no'] : "";
+            Db::startTrans();
+            $orderPaymentModel = OrderPaymentModel::where(['order_number' => $order_number])->lock(true)->find();
+            $orderModel = OrderModel::where('id', $orderPaymentModel->order_id)->find();
+            //如果订单状态已经是已支付状态直接返回成功
+            if (!empty($order_number) && $orderPaymentModel->status == OrderPaymentModel::STATUS_YES_PAY) {
+                Log::info('该订单已经支付完毕,' . '支付单id:' . $orderPaymentModel->id . ',支付单类型:' . $orderPaymentModel->type);
+                return true;
+            }
+
+            #修改支付单支付状态
+            $updateOrderPaymentData = [
+                'pay_type' => OrderPaymentModel::PAY_TYPE_WECHAT,//微信支付
+                'transaction_id' => $message['transaction_id'],//商户单
+                'all_text' => $message //所有回调
+            ];
+            $orderPaymentModelBool = $this->updateOrderPaymentModelPaymentStatus($orderPaymentModel, $updateOrderPaymentData);
+            # 修改订单模型支付状态
+            $updateOrderData = ['payment_price' => $orderPaymentModel->payment_price];//支付金额
+            $updateOrderModelBool = $this->updateOrderModelPaymentStatus($orderModel, $updateOrderData);
+            # 如果支付单&订单模型对应状态修改成功
+            if ($orderPaymentModelBool && $updateOrderModelBool) {
+                # 如果当前的订单是尾款或者全款的情况下添加可以评论信息
+                if ($orderPaymentModel->type == OrderPaymentModel::TYPE_TAIL_PAYMENT || $orderPaymentModel->type == OrderPaymentModel::TYPE_TAIL_FULL_PAYMENT) {
+                    $bool = (new EvaluationService())->addEvaluation($orderPaymentModel->order_id);
+                }
+                Db::commit();
+                return true;
+            }
+            Db::rollback();
+            // 或者错误消息
+            $fail('Order not exists.');
+        });
+
+        $response->send(); // Laravel 里请使用：return $response;
+    }
+```
+
 
 
 
