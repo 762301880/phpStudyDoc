@@ -1,3 +1,5 @@
+
+
 #  说明
 
 > 本人已经玩过jenkins了只不过那时候一知半解的实现了自动构建
@@ -257,7 +259,11 @@ cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git sta
 
 ## Hook 成功执行但返回 HTTP 403 <html> <head> <meta http-equiv="Content-Type" 
 
+> jenkins配置完毕但是再怎么推送都无法自动构建,怀疑是钩子的问题然后测试了一下发现无法测试成功，正常因该是200
+>
 > 如下图所示测试jenkins钩子的时候发生403错误
+
+![1650936648(1).jpg](https://s2.loli.net/2022/04/26/4i32EamkISozdf6.png)
 
 ![image-20220214112340916](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220214112340916.png)
 
