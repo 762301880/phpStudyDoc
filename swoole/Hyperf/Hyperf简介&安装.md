@@ -53,7 +53,7 @@ C:\Users\Administrator> docker run -itd -p 9501:9501 --name=myphp  -v c:\etc\www
 -p      # 本地端口映射服务器端口
 --name  # 定义容器的名称
 -v      # 本地文件挂载到容器内的文件,此文件用于存放项目地址 
-# 例 b
+# 例子
  docker run -itd -p 9501:9501 --name=local_hyperf  -v C:\etc\www\hyperf:/www   7d0
 ```
 
@@ -119,7 +119,8 @@ message	"Hello Hyperf."
 
 ```php
 # 下载并运行 hyperf/hyperf 镜像，并将镜像内的项目目录绑定到宿主机的 /tmp/skeleton 目录
-docker run -v /tmp/skeleton:/hyperf-skeleton -p 9501:9501 -it --name 自定义名称 --entrypoint /bin/sh hyperf/hyperf:7.4-alpine-v3.11-swoole
+docker run -v /tmp/skeleton:/hyperf-skeleton -p 9501:9501 -itd --name 自定义名称 --entrypoint /bin/sh hyperf/hyperf:7.4-alpine-v3.11-swoole
+
     
 # 将 Composer 镜像设置为阿里云镜像，加速国内下载速度
 composer config -g repo.packagist composer https://mirrors.aliyun.com/composer
