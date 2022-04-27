@@ -87,7 +87,7 @@ http {
         ##
 
         include /etc/nginx/conf.d/*.conf;   #  例如 127.0.0.1.conf 配置文件
-        include /etc/nginx/sites-enabled/*;
+        include /etc/nginx/sites-enabled/*; # sites-enabled 意为已开启的网站
 }
 
 
