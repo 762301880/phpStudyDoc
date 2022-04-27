@@ -86,7 +86,7 @@ http {
         # Virtual Host Configs
         ##
 
-        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/conf.d/*.conf;   #  例如 127.0.0.1.conf 配置文件
         include /etc/nginx/sites-enabled/*;
 }
 
