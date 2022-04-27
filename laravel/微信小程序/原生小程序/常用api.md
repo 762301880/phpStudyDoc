@@ -31,7 +31,32 @@
     }
 ```
 
+## 统一调用请求
 
+```php
+/**
+ * http请求
+ * @param $str
+ * @return string
+ */
+if (!function_exists('http_request')) {
+    function http_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); //禁止 cURL 验证对等证书
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); //是否检测服务器的域名与证书上的是否一致
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+}
+```
 
 # [小程序码](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html)
 
@@ -157,9 +182,50 @@ public function getMiniAccessToken()
     }
 ```
 
+# [URL Scheme](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)
 
+## [generate](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)
 
+> 获取小程序 scheme 码，适用于短信、邮件、外部网页、微信内等拉起小程序的业务场景。目前仅针对国内非个人主体的小程序开放，详见[获取 URL scheme](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-scheme.html)。
 
+**代码示例**
+
+```php
+    /**
+     *获取小程序 scheme 码
+     */
+    public function getSchemeCode(array $data)
+    {
+        $path = !empty($data['path']) ? $data['path'] : "";
+        $accessToken = $this->getAccessToken();
+        $url = "https://api.weixin.qq.com/wxa/generatescheme?access_token={$accessToken}";
+        $postData = [
+            'jump_wxa' => [
+                'path' => $path,//跳转到的目标小程序信息
+                'query' => '',
+                'env_version' => '',
+            ],
+            'expire_type' => 0,//到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
+            'expire_time' => 60 * 60 * 24 * 30,//到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
+        ];
+        $res = http_request($url, json_encode($postData));
+        $res = json_decode($res, true);
+        if (!empty($res) && $res['errcode'] == 0 && $res['errmsg'] == 'ok') {
+            return $res['openlink'];
+        }
+        throw new SystemException($res);
+    }
+```
+
+**返回示例**
+
+```php
+{
+    "code": 200,
+    "msg": "小程序scheme码返回成功",
+    "data": "weixin://dl/business/?t=BZB2WNmiqqb"
+}
+```
 
 
 
