@@ -184,8 +184,12 @@ public function getMiniAccessToken()
 
 # [URL Scheme](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)
 
-## [generate](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)
+## [generate](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)(打开小程序的跳转链接)
 
+> [**作用**](https://zhuanlan.zhihu.com/p/342447284)
+>
+> > 可以用于给前端H5跳转小程序(scheme码是啥，可以理解为一个打开小程序的跳转链接)
+>
 > 获取小程序 scheme 码，适用于短信、邮件、外部网页、微信内等拉起小程序的业务场景。目前仅针对国内非个人主体的小程序开放，详见[获取 URL scheme](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-scheme.html)。
 
 **代码示例**
@@ -206,7 +210,7 @@ public function getMiniAccessToken()
                 'env_version' => '',
             ],
             'expire_type' => 0,//到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
-            'expire_time' => 60 * 60 * 24 * 30,//到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
+            'expire_time' => 60 * 60 * 24 * 30,
         ];
         $res = http_request($url, json_encode($postData));
         $res = json_decode($res, true);
