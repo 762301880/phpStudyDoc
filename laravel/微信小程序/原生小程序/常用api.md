@@ -192,6 +192,10 @@ public function getMiniAccessToken()
 >
 > 获取小程序 scheme 码，适用于短信、邮件、外部网页、微信内等拉起小程序的业务场景。目前仅针对国内非个人主体的小程序开放，详见[获取 URL scheme](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-scheme.html)。
 
+**效果示例**
+
+<img src="https://s2.loli.net/2022/04/28/VxAsHUEIJ5OD3wb.gif" alt="Screenshot_2022_0428_085826.gif" style="zoom:50%;" />
+
 **代码示例**
 
 ```php
