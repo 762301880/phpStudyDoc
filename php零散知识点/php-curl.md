@@ -67,6 +67,7 @@ public function request_post($url = '', $post_data = array())
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
         curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
         curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);//提交的参数
+        //curl_setopt($curl, CURLOPT_COOKIE, $cookie); # 设置cook
         $data = curl_exec($ch);//运行curl
         curl_close($ch);
         return $data;
