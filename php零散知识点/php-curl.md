@@ -52,19 +52,17 @@ CURLOPT_SSL_VERIFYPEER  //false 禁止 cURL 验证对等证书（peer's certific
 
 ```php
 # post请求
-public function request_post($url = '', $post_data =[],$data=[])
-    {
-        //if (empty($url) || empty($post_data)) {
-        //    return false;
-        //}
-        $cookie=!empty($data['cookie'])?$data['cookie']:"";
-        $postUrl = $url;
+    public function curl_request_post($url = '', $post_data = [], $data = [])
+     {
+        $cookie = !empty($data['cookie']) ? $data['cookie'] : "";
         $ch = curl_init();//初始化curl
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); //禁止 cURL 验证对等证书
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); //是否检测服务器的域名与证书上的是否一致
-        curl_setopt($ch, CURLOPT_URL, $postUrl);//抓取指定网页
-        curl_setopt($ch, CURLOPT_HEADER, 0);//设置header param:1 
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);//在尝试连接时等待的秒数。设置为0，则无限等待
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json;charset=utf-8'));
+        curl_setopt($ch, CURLOPT_URL, $url);//需要获取的 URL 地址
+        curl_setopt($ch, CURLOPT_HEADER, 0);//设置header param:1
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //禁止 cURL 验证对等证书
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); //是否检测服务器的域名与证书上的是否一致
         if (!empty($post_data)) { # 如果提交的参数请求不为空
             curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);//提交的参数
@@ -77,12 +75,12 @@ public function request_post($url = '', $post_data =[],$data=[])
         return $data;
     }
     # get请求
-    public function request_get($url)
+    public function curl_request_get($url)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_NOBODY, 0);                //只取body头
+        curl_setopt($ch, CURLOPT_NOBODY, 0); //只取body头
         if (!empty($data)) {
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
