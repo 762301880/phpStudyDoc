@@ -52,24 +52,29 @@ CURLOPT_SSL_VERIFYPEER  //false 禁止 cURL 验证对等证书（peer's certific
 
 ```php
 # post请求
-public function request_post($url = '', $post_data = array())
+public function request_post($url = '', $post_data =[],$data=[])
     {
-        if (empty($url) || empty($post_data)) {
-            return false;
-        }
+        //if (empty($url) || empty($post_data)) {
+        //    return false;
+        //}
+        $cookie=!empty($data['cookie'])?$data['cookie']:"";
         $postUrl = $url;
         $curlPost = $post_data;
         $ch = curl_init();//初始化curl
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); //禁止 cURL 验证对等证书
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); //是否检测服务器的域名与证书上的是否一致
         curl_setopt($ch, CURLOPT_URL, $postUrl);//抓取指定网页
-        curl_setopt($ch, CURLOPT_HEADER, 0);//设置header param:1 f
+        curl_setopt($ch, CURLOPT_HEADER, 0);//设置header param:1 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
-        curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);//提交的参数
-        //curl_setopt($curl, CURLOPT_COOKIE, $cookie); # 设置cook
+        if (!empty($post_data)) { # 如果提交的参数请求不为空
+            curl_setopt($curl, CURLOPT_POST, 1);//post提交方式
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);//提交的参数
+        }
+        if (!empty($cookie)) { # 如果有cookie传递cookie
+            curl_setopt($curl, CURLOPT_COOKIE, $cookie);
+        }
         $data = curl_exec($ch);//运行curl
-        curl_close($ch);
+        curl_close($ch); # 关闭curl请求
         return $data;
     }
     # get请求
