@@ -112,6 +112,10 @@ if (!empty($data['age_id'])){
 
 # 最终解决版本
 # 因为数据库中的birth 保存为时间戳格式 所以需要转化,又有一点1970年之后无法转换年龄所以这里特殊处理
+/**
+ * 优化 使用IF函数处理年龄为空的情况
+ * $age = "IF(pxs_aunt_basics.birth IS NULL,0,(DATE_FORMAT(NOW(), '%Y') - (DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), INTERVAL  *             pxs_aunt_basics.birth SECOND),'%Y'))))";
+ */
 $age = "(DATE_FORMAT(NOW(), '%Y') - (DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), INTERVAL pxs_aunt_basics.birth SECOND),'%Y')))";
         $res = AuntModel::leftJoin('pxs_aunt_basics', 'pxs_aunt_basics.aunt_id=pxs_aunt.id')
             ->field('pxs_aunt.id,pxs_aunt.name,pxs_aunt.grade_name,pxs_aunt.grade_id,pxs_aunt.pj_id,'
