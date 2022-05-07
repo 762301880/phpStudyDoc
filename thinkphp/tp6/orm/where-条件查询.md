@@ -4,8 +4,8 @@
 
 | name     | url                                                          |
 | -------- | ------------------------------------------------------------ |
-| 参考博客 | [https://blog.csdn.net/lunsunhuan1825/article/details/73467368]   [link](https://www.jb51.net/article/110112.htm) |
-|          |                                                              |
+| 参考博客 | [link][https://blog.csdn.net/lunsunhuan1825/article/details/73467368]   [link](https://www.jb51.net/article/110112.htm) |
+| 时间查询 | [link](https://www.kancloud.cn/manual/thinkphp5_1/354029)    |
 
 # [代码示例](https://www.kancloud.cn/manual/thinkphp5_1/354004)
 
