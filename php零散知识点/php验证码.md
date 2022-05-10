@@ -32,10 +32,10 @@ $obj = new Vif();
 # 4、调用验证码类库：将两组图片随机打乱合并成一组新数据
 $img_list = $obj->MergeImg($yes_list, $no_list, $find['vt_title']);
 # 缓存验证码key(key可以随机生成),value=验证码对应id(对应类别的id:md5加密) 过期时间15秒
-$randNum=$this->randNum;
+$captcha_key=$this->randNum;
 \Cache::set($randNum,md5('正确的id'),15)
 # 返回结果 类别,验证码key(用于前端直接传递key查询缓存获取结果,这里相当于不用session去判断用户)    
-return compact('find','验证码key:randNum','合并的全部图片')
+return compact('find','captcha_key','合并的全部图片')
 # 验证
 /**
  * 将用户选择的图片三张(或者别的数量)id&返回的类别id加以查询如果正确(数量&选择的类别图片正确) session或者缓存比较如果正确然后可以下一步
