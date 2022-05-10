@@ -31,10 +31,42 @@ $no_list  = $model->field('vi_id, vi_url')->where('vt_id','NEQ',$find['vt_id'])-
 $obj = new Vif();
 # 4、调用验证码类库：将两组图片随机打乱合并成一组新数据
 $img_list = $obj->MergeImg($yes_list, $no_list, $find['vt_title']);
-return compact('find','合并的图片')
+# 缓存验证码key(key可以随机生成),value=验证码对应id(对应类别的id:md5加密) 过期时间15秒
+$randNum=$this->randNum;
+\Cache::set($randNum,md5('正确的id'),15)
+# 返回结果 类别,验证码key(用于前端直接传递key查询缓存获取结果,这里相当于不用session去判断用户)    
+return compact('find','验证码key:randNum','合并的全部图片')
 # 验证
 /**
- * 将用户选择的图片三张(或者别的数量)id&返回的类别id加以查询如果正确(数量&选择的类别图片正确) session比较如果正确然后可以下一步
+ * 将用户选择的图片三张(或者别的数量)id&返回的类别id加以查询如果正确(数量&选择的类别图片正确) session或者缓存比较如果正确然后可以下一步
  */
+```
+
+**随机生成不重复的key**
+
+> 为了更快速查询可以加上**类别**当作缓存前缀
+
+```php
+# 示例-uuid当作key  
+public function randNum($type=null)
+    {
+        mt_srand((double)microtime() * 10000);
+        $charid = strtolower(md5(uniqid(rand(), true)));
+        $hyphen = '-';
+        $uuidV4 =
+            substr($charid, 0, 8) . $hyphen .
+            substr($charid, 8, 4) . $hyphen .
+            substr($charid, 12, 4) . $hyphen .
+            substr($charid, 16, 4) . $hyphen .
+            substr($charid, 20, 12);
+        return $uuidV4;
+    }
+# 示例-2
+public function randNum($type=null){
+  /**
+   * 唯一id+随机数
+   */
+  return uniqid('ver_id',false).rand(0000,9999);
+}
 ```
 
