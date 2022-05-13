@@ -13,6 +13,9 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+//        return $this->getUserInfo('张三', '男', function ($name, $sex) {
+//            var_dump($name, $sex);
+//        });
         return $this->getUserInfo('张三', '男', [$this, 'cccc']);
     }
 
