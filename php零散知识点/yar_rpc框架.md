@@ -1,11 +1,13 @@
 # 资料
 
-| 名称 | 地址 |
-| ---- | ---- |
-|      |      |
-|      |      |
+| 名称                        | 地址                                                         |
+| --------------------------- | ------------------------------------------------------------ |
+| php-yar官方文档，github说明 | [link](https://www.php.net/manual/zh/book.yar.php) [link](https://github.com/laruence/yar) |
+| 第三方博客                  | [link](https://www.laruence.com/2012/09/15/2779.html)  [link](https://blog.csdn.net/gaitiangai/article/details/105821340) [link](https://www.kancloud.cn/a173512/php_note/1690781) |
 
+**说明**
 
+> RPC是远程过程调用（Remote Procedure Call）的缩写形式,**Yar**是一个轻量级的并行的[RPC](https://baike.baidu.com/item/%E8%BF%9C%E7%A8%8B%E8%BF%87%E7%A8%8B%E8%B0%83%E7%94%A8/7854346?fromtitle=RPC&fromid=609861&fr=aladdin)框架，也是一个PHP扩展，
 
 # 安装
 
@@ -53,6 +55,36 @@ C:\Users >php -m
 yar
 ****
 [Zend Modules]
+# or php --ri yar
+C:\Users >php --ri yar
+
+yar
+    
+yar support => enabled
+Version => 2.2.1
+
+Directive => Local Value => Master Value
+yar.packager => php => php
+yar.transport => curl => curl
+yar.debug => Off => Off
+yar.expose_info => On => On
+yar.connect_timeout => 1000 => 1000
+yar.timeout => 5000 => 5000
+yar.content_type => application/octet-stream => application/octet-stream    
+```
+
+# 项目中使用实例
+
+```php
+
+```
+
+## 补充
+
+**判断扩展是否存在**
+
+```php
+extension_loaded('yar');  # 判断yar扩展是否存在返回 bool类型
 ```
 
 
