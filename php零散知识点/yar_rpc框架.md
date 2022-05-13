@@ -84,7 +84,49 @@ yar.content_type => application/octet-stream => application/octet-stream
 # 项目中使用实例
 
 ```php
+# 项目A-服务端
 
+class API
+{
+    /**
+     * the doc info will be generated automatically into service info page.
+     * @params
+     * @return
+     */
+    public function test($name)
+    {
+        return $name;
+
+    }
+
+    public function test2()
+    {
+        return 'test2';
+    }
+
+}
+$service = new Yar_Server(new API());
+$service->handle();
+# 项目B-客户端(调用输出 张三)
+/**
+ * 串行化调用
+ */
+$client = new \Yar_Client("http://www.cs.com/phpinfo.php");
+return $client->test('张三');
+/**
+ * 并行的服务调用
+ */
+$url = "http://www.cs.com/phpinfo.php";
+\Yar_Concurrent_Client::call("$url", "test", array("parameters"), [$this,'callBack'] );
+\Yar_Concurrent_Client::call("$url", "test", array("parameters"), [$this,'callBack']);
+\Yar_Concurrent_Client::call("$url", "test", array("parameters"), [$this,'callBack']);
+\Yar_Concurrent_Client::call("$url", "test", array("parameters"), [$this,'callBack']);
+\Yar_Concurrent_Client::loop(); //send
+
+public function callBack($retval, $callinfo)
+ {
+   var_dump($retval);
+ }
 ```
 
 ## 补充
