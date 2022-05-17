@@ -3,7 +3,7 @@
 | 名称                        | 地址                                                         |
 | --------------------------- | ------------------------------------------------------------ |
 | php-yar官方文档，github说明 | [link](https://www.php.net/manual/zh/book.yar.php) [link](https://github.com/laruence/yar) |
-| 第三方博客                  | [link](https://www.laruence.com/2012/09/15/2779.html)  [link](https://blog.csdn.net/gaitiangai/article/details/105821340) [link](https://www.kancloud.cn/a173512/php_note/1690781) |
+| 第三方博客                  | [link](https://www.laruence.com/2012/09/15/2779.html)  [link](https://blog.csdn.net/gaitiangai/article/details/105821340) [link](https://www.kancloud.cn/a173512/php_note/1690781) [link](http://www.9ong.com/032021/php%E5%87%BD%E6%95%B0%E5%8F%82%E8%80%8333-%E4%B8%80%E6%AC%A1%E6%B8%85%E6%A5%9Arpc%E6%A1%86%E6%9E%B6yar.html#github%E5%AE%98%E6%96%B9%E5%9C%B0%E5%9D%80%E5%8F%8A%E9%B8%9F%E5%93%A5%E5%85%B3%E4%BA%8Eyar%E7%9A%84%E6%96%87%E7%AB%A0) [link](https://www.codercto.com/a/69081.html) |
 
 **说明**
 
@@ -105,7 +105,7 @@ class API
     }
 
 }
-$service = new Yar_Server(new API());
+$service = new \Yar_Server(new API());
 $service->handle();
 # 项目B-客户端(调用输出 张三)
 /**
@@ -128,6 +128,27 @@ public function callBack($retval, $callinfo)
    var_dump($retval);
  }
 ```
+
+**laravel项目中使用实例**
+
+```php
+# 1. 封装servers服务层调用父类 自动注册当前服务类,提供给外部调用的方法不要写在控制器层面,写在server中
+class YarService 
+{
+    public function __construct()
+    {
+        //判断扩展是否存在
+        //实例化Yar_Server
+        $server = new \Yar_Server($this);
+        // 启动server
+        $server->handle();
+    }
+} 
+# 关于 yar_client 返回数据打印 可以用 printer  var_dump 等函数打印返回空白的数据
+return $client->test('张三');
+```
+
+
 
 ## 补充
 
