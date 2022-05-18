@@ -180,7 +180,23 @@ laravel_swoole: stopped
 laravel_swoole: started
 ```
 
-# 配合jenkins使用supervisor
+## 报错 **unix:///run/supervisord.sock refused connection**
+
+**参考资料**
+
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| 第三方博客 | [link](https://blog.csdn.net/qq422431474/article/details/106713757) |
+
+**解决方案**
+
+```shell
+supervisord -c /etc/supervisord.conf   # 启动supervisord并使用配置
+```
+
+
+
+# 配合**jenkins**使用**supervisor**
 
 > 开发过程中我们使用jenkins自动上传代码的时候不想再容器内部手动执行**supervisorctl restart 配置名称** 
 >
