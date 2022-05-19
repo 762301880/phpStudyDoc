@@ -205,7 +205,7 @@ supervisord -c /etc/supervisord.conf   # 启动supervisord并使用配置
 **脚本**
 
 ```shell
-docker exec laravel_study supervisorctl restart laravel_swoole
+docker exec -it laravel_study supervisorctl restart laravel_swoole
 ```
 
 

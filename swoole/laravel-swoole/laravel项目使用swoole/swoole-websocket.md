@@ -3,7 +3,7 @@
 | 资料名称       | 资料地址                                                     |
 | -------------- | ------------------------------------------------------------ |
 | swoole入门指引 | [链接](https://wiki.swoole.com/wiki/page/1.html)             |
-| swoole官方文档 | [链接](https://wiki.swoole.com/#/)                           |
+| swoole官方文档 | [链接](https://wiki.swoole.com/#/)  [旧版文档](https://wiki.swoole.com/wiki/page/987.html) |
 | swoole在线测试 | [链接](http://coolaf.com/tool/chattest)                      |
 | 第三方博客参考 | [链接](https://www.cnblogs.com/phpk/p/10930481.html) [链接](http://www.phpbloger.com/article/421.html) [链接](https://segmentfault.com/a/1190000019639051)  [链接](https://wenku.baidu.com/view/05535668e75c3b3567ec102de2bd960590c6d90e.html) [链接](https://learnku.com/articles/19448) |
 

@@ -91,13 +91,34 @@ phpize  ./configure --with-php-config=/usr/local/php7.4.3/bin/php-config
 make && sudo make install
 ```
 
-- 如果报错
+[**swoole官网编译教学**](https://wiki.swoole.com/#/environment)
+
+> --enable-openssl 启用 `SSL` 支持，启用 `SSL` 支持 还有更多编译参数最好都加上尤其是**openssl**
+
+```shell
+mkdir -p ~/build && \
+cd ~/build && \
+rm -rf ./swoole-src && \
+curl -o ./tmp/swoole.tar.gz https://github.com/swoole/swoole-src/archive/master.tar.gz -L && \
+tar zxvf ./tmp/swoole.tar.gz && \
+mv swoole-src* swoole-src && \
+cd swoole-src && \
+phpize && \
+./configure \
+--enable-openssl \
+--enable-http2 && \
+make && sudo make install
+```
+
+
+
+**如果报错**
 
 ```shell
 make: *** 没有指明目标并且找不到 makefile。 停止。#  此时需要检查一下有没有安装 gcc g++
 ```
 
-- 如果报错
+**如果报错**
 
 ```shell
 # configure: error: Cannot find php-config. Please use --with-php-config=PATH
