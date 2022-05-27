@@ -44,12 +44,12 @@
 > 如果不想从网络中找字体可以使用windows系统字体在[^C:\Windows\Fonts]目录下
 
 ```php
-$dst_path = 'dst.jpg'; # 这里传入图片的相对路径或者绝对路径地址
+$dst_path = __DIR__.'dst.jpg'; # 这里传入图片的相对路径或者绝对路径地址
 //创建图片的实例
 $dst = imagecreatefromstring(file_get_contents($dst_path));
 
 //打上文字
-$font = './simsun.ttc';//字体路径
+$font = __DIR__.'/simsun.ttc';//字体路径
 
 $black = imagecolorallocate($dst, 0x00, 0x00, 0x00);//字体颜色
 imagefttext($dst, 13, 0, 20, 20, $black, $font, '快乐编程');
