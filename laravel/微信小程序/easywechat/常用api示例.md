@@ -1,5 +1,7 @@
 # [微信支付](https://easywechat.vercel.app/4.x/payment/)
 
+**介绍**
+
 > **1扫码支付**
 >
 > 根据商品信息生成二维码-> 贴到某个位置->用户扫码->wechat(到达微信)->notyfy(通知你会携带openid+商品信息)
@@ -18,7 +20,7 @@
 | 第三方博客       | [link](https://segmentfault.com/a/1190000016177743) [link](https://learnku.com/articles/8613/wechat-small-programs-pay-api-configuration-under-laravel) |
 | 微信支付官方文档 | [link](https://pay.weixin.qq.com/static/product/product_intro.shtml?name=jsapi) |
 
-​	**配置支付参数**
+## **支付参数配置介绍**
 
 ```php
 use EasyWeChat\Factory;
@@ -38,13 +40,13 @@ public function __construct()
     'notify_url'         => '默认的订单回调地址',     // 你也可以在下单时单独设置来想覆盖它(支付成功或者失败回调地址)
       //'sandbox' => true, 开启沙箱支付(设置为 false 或注释则关闭沙箱模式) 沙箱支付请设置金额为101
 ];
-$this->app = Factory::payment($config);
+$this->app = Factory::payment($config); 
 // 判断当前是否为沙箱模式：
 //bool $app->inSandbox();
  }
 ```
 
-**调用支付**
+## **调用支付**
 
 > ## 统一下单H5 支付，公众号支付，扫码支付，支付中签约，全部都是用这个接口下单
 
@@ -53,13 +55,13 @@ $this->app = Factory::payment($config);
         $orderInfo=[
             'body' => '腾讯充值中心-QQ会员充值',
             'out_trade_no' => '20150806125346asd',
-            'total_fee' => 1,
+            'total_fee' => 1 * 100, # 微信的 价格都是以分做单位所以价格要乘100
             //'spbill_create_ip' => '123.12.12.123', // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
             'notify_url' => 'https://pay.weixin.qq.com/wxpay/pay.action', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
             'trade_type' => 'JSAPI', // 请对应换成你的支付方式对应的值类型
-            'openid' => 'olKLd5blEKZ5PzqdDi9aoSbdJiYI', //用户自己的openid
+            'openid' => 'olKLd5blEKZ5PzqdDi9aoSbdJiYI', //用户自己的openid-小程序的填小程序,公众号的填公众号
         ];
-        $result = $app->order->unify($orderInfo);
+        $result = $app->order->unify($orderInfo); # 调起支付
 # 返回示例
 // array:9 [
 //   "return_code" => "SUCCESS"
@@ -72,6 +74,46 @@ $this->app = Factory::payment($config);
 //   "prepay_id" => "wx10095416710776f540e6a978ba64660000"
 //   "trade_type" => "JSAPI"
 // ]
+```
+
+**实例**
+
+```php
+ public function payment(array $data)
+    {
+        $bool = false;
+        $body = !empty($data['body']) ? $data['body'] : "";//订单标题
+        $order_number = !empty($data['order_number']) ? $data['order_number'] : "";//订单编号
+        $payment_price = !empty($data['payment_price']) ? $data['payment_price'] : "";//价格
+        $openId = !empty($data['openId']) ? $data['openId'] : "";//用户openid
+        # 设置支付信息
+        $result = $this->app->order->unify([
+            'body' => $body,
+            'out_trade_no' => '45655555555555555555555',
+            'total_fee' => $payment_price * 100,
+            //'spbill_create_ip' => '123.12.12.123', // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
+            'notify_url' => request()->domain() . '/api/order_payment_notice_callback', // 支付结果通知网址，如果不设置则会使用配置里的默认地址(换成自己的通知回调地址)
+            'trade_type' => 'JSAPI',
+            'openid' => $openId, //用户自己的openid
+        ]);
+        if ($result['return_code'] == "SUCCESS" && $result['result_code'] == 'FAIL') { # 输出报错原因
+            $res = $result['err_code_des'];
+            Log::error('调用支付报错:' . '订单编号:' . $order_number . '错误原因:' . json_encode($res));
+            return compact('bool', 'res');
+        }
+        //成功后调用
+        $bool = true;
+        $res = [ //封装js返回给前端
+            'appId' => $this->config['app_id'],
+            'timeStamp' => time(),
+            'nonceStr' => $result['nonce_str'],
+            'package' => 'prepay_id=' . $result['prepay_id'],
+            'signType' => 'MD5',
+        ];
+        $res['paySign'] = generate_sign($res, $this->config['key']);
+        //dd((new \EasyWeChat\Payment\Jssdk\Client($this->app))->appConfig( $result['prepay_id']));  # 这一步等于上面的js封装
+        return compact('bool', 'res');
+    }
 ```
 
 ## 查询订单
@@ -154,48 +196,6 @@ array:10 [
 ]
 # 直接用code_url生成二维码即可    
 ```
-
-## 下单支付
-
-```php
- public function payment(array $data)
-    {
-        $bool = false;
-        $body = !empty($data['body']) ? $data['body'] : "";//订单标题
-        $order_number = !empty($data['order_number']) ? $data['order_number'] : "";//订单编号
-        $payment_price = !empty($data['payment_price']) ? $data['payment_price'] : "";//价格
-        $openId = !empty($data['openId']) ? $data['openId'] : "";//用户openid
-        # 设置支付信息
-        $result = $this->app->order->unify([
-            'body' => $body,
-            'out_trade_no' => '45655555555555555555555',
-            'total_fee' => $payment_price * 100,
-            //'spbill_create_ip' => '123.12.12.123', // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
-            'notify_url' => request()->domain() . '/api/order_payment_notice_callback', // 支付结果通知网址，如果不设置则会使用配置里的默认地址(换成自己的通知回调地址)
-            'trade_type' => 'JSAPI',
-            'openid' => $openId, //用户自己的openid
-        ]);
-        if ($result['return_code'] == "SUCCESS" && $result['result_code'] == 'FAIL') { # 输出报错原因
-            $res = $result['err_code_des'];
-            Log::error('调用支付报错:' . '订单编号:' . $order_number . '错误原因:' . json_encode($res));
-            return compact('bool', 'res');
-        }
-        //成功后调用
-        $bool = true;
-        $res = [ //封装js返回给前端
-            'appId' => $this->config['app_id'],
-            'timeStamp' => time(),
-            'nonceStr' => $result['nonce_str'],
-            'package' => 'prepay_id=' . $result['prepay_id'],
-            'signType' => 'MD5',
-        ];
-        $res['paySign'] = generate_sign($res, $this->config['key']);
-        //dd((new \EasyWeChat\Payment\Jssdk\Client($this->app))->appConfig( $result['prepay_id']));  # 这一步等于上面的js封装
-        return compact('bool', 'res');
-    }
-```
-
-
 
 ## 公众号支付
 
