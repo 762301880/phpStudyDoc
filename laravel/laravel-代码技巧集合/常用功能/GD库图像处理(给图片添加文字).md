@@ -58,20 +58,20 @@ list($dst_w, $dst_h, $dst_type) = getimagesize($dst_path);
 switch ($dst_type) {
     case 1://GIF
         header('Content-Type: image/gif'); # 输出gif图像到浏览器
-        imagegif($dst);
+        imagegif($dst);  # 两个参数写第一个是浏览器输出图片  第二个是保存到本地
         break;
     case 2://JPG
         header('Content-Type: image/jpeg'); # 输出jpeg图像到浏览器
-        imagejpeg($dst);
+        imagejpeg($dst); # 两个参数写第一个是浏览器输出图片  第二个是保存到本地
         break;
     case 3://PNG
         header('Content-Type: image/png'); # 输出png图像到浏览器
-        imagepng($dst);
+        imagepng($dst); # 两个参数写第一个是浏览器输出图片  第二个是保存到本地
         break;
     default:
         break;
 }
-imagedestroy($dst);
+imagedestroy($dst); # 上面的switch是创建图片  这里是销毁图片
 ```
 
 **laravel中使用示例**
@@ -133,7 +133,7 @@ class TestController extends Controller
             default:
                 break;
         }
-        imagedestroy($dst);
+        imagedestroy($dst); # 销毁图片
     }
 }
 
