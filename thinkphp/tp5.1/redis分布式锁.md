@@ -67,11 +67,11 @@ CREATE TABLE `decrement_count` (
 >
 > 却基本上都是错误的并发
 
-![1648709063(1).jpg](https://s2.loli.net/2022/03/31/Ytce6Dp25ykZKO4.png)
+![1648709063(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/Ytce6Dp25ykZKO4.png)
 
 
 
-![1648709150(1).jpg](https://s2.loli.net/2022/03/31/YGbTep5c3o4Qawk.png)
+![1648709150(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/YGbTep5c3o4Qawk.png)
 
 **查询是否有重复的列**
 
@@ -130,7 +130,7 @@ if ($this->_redis->get('num') < 1) {
 
 
 
-![1648543719(1).jpg](https://s2.loli.net/2022/03/29/7pwlNQmIhi4OsjY.png)
+![1648543719(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/7pwlNQmIhi4OsjY.png)
 
 
 

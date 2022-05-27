@@ -1,8 +1,8 @@
 # 资料
 
-| 名称       | 地址                                            |
-| ---------- | ----------------------------------------------- |
-| PicGo-文档 | [link](https://picgo.github.io/PicGo-Core-Doc/) |
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| PicGo-文档 | [link](https://picgo.github.io/PicGo-Core-Doc/)  [link](https://picgo.github.io/PicGo-Doc/zh/guide/config.html#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C%E9%A2%84%E8%A7%88) |
 
 
 
