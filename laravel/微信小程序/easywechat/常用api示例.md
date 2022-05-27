@@ -413,33 +413,6 @@ $response->send(); // return $response;
     }
 ```
 
-
-
-
-
-## bug解析
-
-### [无法将输入源“/body/xml/total_fee”映射到目标字段“标价金额”中，此字段需要一个合法的 64 位有符号整数](https://genjiejie.blog.csdn.net/article/details/116932411?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&utm_relevant_index=1)
-
-> 微信支付是以分为单位假如你计算出来的价格是**50** 那么支付的时候价格就是**0.5** 所以你支付的价格要*100才是真实价格
-
-## 问题
-
-### 只要调起支付同一个订单号2小时内只要没有支付成功都可以重复调起支付,两小时后会失效问题（201 商户订单号重复）
-
->**201复现**
->
->1. 调起支付后没有进行支付(退出支付),然后进行改价或者别的信息等操作订单信息与上次订单id信息提交不一致
->2. 调起支付后没有进行支付(退出支付)，两小时后再次支付(过期)
->
->**微信取消支付再二次/多次支付及201商户订单号重复解决思路**
->
->最简单解决办法:再次支付请求统一下单接口时，务必保持待支付的订单号（即商户订单号，out_trade_no），商品描述字段(即商品描述，body)和上次请求的内容一致(比如:参数数量，我是附加数据参数(即附加数据，attach)第一次没有,第二次添加了,两次提交的参数不一致,导致的订单号重复)。另外，如果价格改变，也不能重复提交，只能重新生成订单号，重新向微信发起支付请求…
->
->https://blog.csdn.net/weixin_42506139/article/details/120843958
->
->https://developers.weixin.qq.com/community/pay/doc/0002c42c090428c026ac6deff5b800?jumpto=comment&commentid=000ce409f7cbd0002eac2031153c
-
 ## [退款](https://www.easywechat.com/4.x/payment/refund.html#%E7%94%B3%E8%AF%B7%E9%80%80%E6%AC%BE)
 
 **资料**
@@ -481,3 +454,29 @@ $result = $app->refund->byOutTradeNumber('out-trade-no-xxx', 'refund-no-xxx', 20
 ```
 
 ![1649817302(1).jpg](https://s2.loli.net/2022/04/13/vXah2yfmHU538Ae.png)
+
+
+
+## bug解析
+
+### [无法将输入源“/body/xml/total_fee”映射到目标字段“标价金额”中，此字段需要一个合法的 64 位有符号整数](https://genjiejie.blog.csdn.net/article/details/116932411?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1.pc_relevant_default&utm_relevant_index=1)
+
+> 微信支付是以分为单位假如你计算出来的价格是**50** 那么支付的时候价格就是**0.5** 所以你支付的价格要*100才是真实价格
+
+## 问题
+
+### 只要调起支付同一个订单号2小时内只要没有支付成功都可以重复调起支付,两小时后会失效问题（201 商户订单号重复）
+
+>**201复现**
+>
+>1. 调起支付后没有进行支付(退出支付),然后进行改价或者别的信息等操作订单信息与上次订单id信息提交不一致
+>2. 调起支付后没有进行支付(退出支付)，两小时后再次支付(过期)
+>
+>**微信取消支付再二次/多次支付及201商户订单号重复解决思路**
+>
+>最简单解决办法:再次支付请求统一下单接口时，务必保持待支付的订单号（即商户订单号，out_trade_no），商品描述字段(即商品描述，body)和上次请求的内容一致(比如:参数数量，我是附加数据参数(即附加数据，attach)第一次没有,第二次添加了,两次提交的参数不一致,导致的订单号重复)。另外，如果价格改变，也不能重复提交，只能重新生成订单号，重新向微信发起支付请求…
+>
+>https://blog.csdn.net/weixin_42506139/article/details/120843958
+>
+>https://developers.weixin.qq.com/community/pay/doc/0002c42c090428c026ac6deff5b800?jumpto=comment&commentid=000ce409f7cbd0002eac2031153c
+
