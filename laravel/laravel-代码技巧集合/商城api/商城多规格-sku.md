@@ -10,7 +10,7 @@
 
 | 名称       | 地址                                                         |
 | ---------- | ------------------------------------------------------------ |
-| 第三方博客 | [link ](https://segmentfault.com/q/1010000005347571/a-1020000005347916) [link](https://www.kancloud.cn/xiak/php-node/248550) [link](https://cloud.tencent.com/developer/article/1464655) |
+| 第三方博客 | [link ](https://segmentfault.com/q/1010000005347571/a-1020000005347916) [link](https://www.kancloud.cn/xiak/php-node/248550) [link](https://cloud.tencent.com/developer/article/1464655) [link](https://zhuanlan.zhihu.com/p/138756697) |
 | sku介绍    | [link](https://baike.baidu.com/item/%E6%9C%80%E5%B0%8F%E5%AD%98%E8%B4%A7%E5%8D%95%E4%BD%8D/892217?fromtitle=SKU&fromid=5016808&fr=aladdin) [link](https://wenku.baidu.com/view/2fadb6062c60ddccda38376baf1ffc4fff47e273.html) |
 
 **多规格示例图片**

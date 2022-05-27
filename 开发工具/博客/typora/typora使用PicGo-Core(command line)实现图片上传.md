@@ -6,14 +6,17 @@
 
 
 
-# 设置
+# Typora设置PicGo命令插件
 
-* 打开导航栏的 `文件-偏好设置-图像`
-* `记得使用时候必须下载或更新PicGo-Core(command line)`
+> 打开导航栏的 **文件-偏好设置-图像**
+>
+> 记得使用时候必须**下载或更新**PicGo-Core(command line)
 
 ![image-20210429170919057](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210429170919057.png)
 
-* 打开配置文件设置
+## [阿里云上传配置](https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#picbed-aliyun)
+
+> 打开配置文件设置
 
 ```shell
 {
@@ -36,5 +39,17 @@
 
 
 
+##  [SM.MS 上传配置](https://blog.csdn.net/netceor/article/details/119705826)
 
+```php
+{
+  "picBed": {
+    "current": "smms",
+    "smms": {
+      "token": ""   //你的smms_token
+    }
+  },
+  "picgoPlugins": {}
+}
+```
 
