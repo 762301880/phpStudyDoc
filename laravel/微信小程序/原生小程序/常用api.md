@@ -214,7 +214,7 @@ public function getMiniAccessToken()
                 'env_version' => '',
             ],
             'expire_type' => 0,//到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
-            'expire_time' => 60 * 60 * 24 * 30,
+            'expire_time' => strtotime("+11 month"),
         ];
         $res = http_request($url, json_encode($postData));
         $res = json_decode($res, true);
@@ -234,6 +234,16 @@ public function getMiniAccessToken()
     "data": "weixin://dl/business/?t=BZB2WNmiqqb"
 }
 ```
+
+## bug
+
+## **"errcode" => 85401 "errmsg" => "time limit between 1min and 1year rid: xxxxxxxxxxx**
+
+> 由报错原因我们可以看出**时间限制在1分钟到1年之间** 所以如果**expireType==0**的情况下**expireTime 设置为Unix时间戳格式(全是数字的那种格式)** 
+>
+> 转化出来的时间必须大于当前时间1分钟或者一年之间  推荐修改为   **'expire_time' => strtotime("+11 month")**
+
+![image-20220528111412584](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220528111412584.png)
 
 
 
