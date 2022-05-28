@@ -35,7 +35,9 @@
 # [方法二](https://zhuanlan.zhihu.com/p/272741266)
 
 ```php
-sudo vi /etc/hosts
+sudo vi /etc/hosts  # linux hosts未知
+    
+C:\Windows\System32\drivers\etc    # windowsgithub位置
     
 #添加    
 # GitHub Start 
