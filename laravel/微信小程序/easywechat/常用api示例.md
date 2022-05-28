@@ -480,3 +480,21 @@ $result = $app->refund->byOutTradeNumber('out-trade-no-xxx', 'refund-no-xxx', 20
 >
 >https://developers.weixin.qq.com/community/pay/doc/0002c42c090428c026ac6deff5b800?jumpto=comment&commentid=000ce409f7cbd0002eac2031153c
 
+**后期发现上诉问题解决了但是本地开发环境调起支付之后，测试服小程序那边无法调起(201错误)，反之测试服小程序先调起本地开发就无法调起支付**
+
+> 由于订单id那边我做了**2小时过期处理**所以不会存在订单编号错误问题,价格只有后台才可以改价,但是改价之后我也会修改订单编号
+>
+> 所以问题只会出现在**notify_url** 这一段，由于**tp5**中我采用了动态获取域名(**request()->domain()**)所以初步怀疑是这个问题导致 开发测试环境提交信息不一致，手动修改域名一致情况下果然两边都可以请求**通**所以不是什么大问题
+
+```php
+ $result = $this->app->order->unify([
+            'body' => $body,
+            'out_trade_no' => $order_number,
+            'total_fee' => $payment_price * 100,
+            //'spbill_create_ip' => '123.12.12.123', // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
+            'notify_url' => request()->domain() . '/api/order_payment_notice_callback', // 支付结果通知网址，如果不设置则会使用配置里的默认地址(换成自己的通知回调地址)
+            'trade_type' => 'JSAPI',
+            'openid' => $openId, //用户自己的openid
+        ]);
+```
+
