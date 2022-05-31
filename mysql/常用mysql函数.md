@@ -23,9 +23,9 @@ SELECT DATE_FORMAT(NOW(), '%Y') FROM DUAL ;
 
 **资料**
 
-| 名称       | 地址                                           |
-| ---------- | ---------------------------------------------- |
-| 第三方博客 | [link](https://www.yisu.com/zixun/693352.html) |
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| 第三方博客 | [link](https://www.yisu.com/zixun/693352.html) [link](https://blog.csdn.net/qq_28466271/article/details/102503137) [link](https://9iphp.com/web/php/laravel-get-column-data-type.html) |
 
 **说明**
 
@@ -35,5 +35,30 @@ SELECT DATE_FORMAT(NOW(), '%Y') FROM DUAL ;
 
 ```php
 select COLUMN_NAME from information_schema.COLUMNS where table_name = '具体表名'
+
+    # thinkphp  TABLE_SCHEMA="数据库名称",TABLE_NAME="数据库下的表名称"
+    $res=Db::query("SELECT COLUMN_NAME FROM information_schema.columns WHERE TABLE_SCHEMA='laravel_study' AND TABLE_NAME='stu'");
+    $columbs=array_column($res,"COLUMN_NAME");
+    dd($columbs); # 返回对应字段名称
+```
+
+**自定义orm封装**
+
+> **使用**:可以放在**orm模型**中或者写一个**trait**模型继承使用
+
+```php
+# thinkphp 
+    /**
+     * 返回所有的字段名称
+     * 缺点必须有一条记录才可以 需要排除的字段
+     * @param array $exceptField
+     * @return array
+     */
+    public static function getFieldNames($exceptField = [])
+    {
+        $selfModel = self::field($exceptField, true)->find();
+        $selfModel = !empty($selfModel) ? $selfModel->toArray() : [];
+        return array_keys($selfModel);
+    }
 ```
 
