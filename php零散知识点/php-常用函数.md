@@ -25,3 +25,18 @@ echo abs(8).PHP_EOL;
 8
 ```
 
+[**php控制台输入输出**](https://blog.csdn.net/weixin_34377065/article/details/92143298?utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~aggregatepage~first_rank_ecpm_v1~rank_v31_ecpm-1-92143298-null-null.pc_agg_new_rank&utm_term=php+%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BE%93%E5%85%A5&spm=1000.2123.3001.4430)
+
+```php
+# echo.php
+<?php
+fwrite(STDOUT, "请输入消息："); 
+$msg = trim(fgets(STDIN)); 
+echo $msg;
+
+# 终端使用
+$ php echo.php
+请输入消息：123
+123
+```
+
