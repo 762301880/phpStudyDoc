@@ -15,7 +15,9 @@ SELECT DATE_FORMAT(NOW(), '%Y') FROM DUAL ;
 
 [**查询表中的字段**](https://blog.csdn.net/Knight_Key/article/details/122565171)
 
-> 查询的是数据库**information_schema**数据库中的**COLUMNS**表
+> 查询的是数据库**information_schema**数据库中的**COLUMNS**表,这个在框架中基本无法使用
+>
+> 因为框架配置具体到了数据库
 
 ```php
 select COLUMN_NAME from information_schema.COLUMNS where table_name = '具体表名'
