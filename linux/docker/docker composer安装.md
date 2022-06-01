@@ -5,7 +5,7 @@
 | 名称                  | 地址                                                         |
 | --------------------- | ------------------------------------------------------------ |
 | docker官网compose安装 | [link ](https://docs.docker.com/compose/install/)  [国内镜像安装](https://get.daocloud.io/) |
-|                       |                                                              |
+| 第三方博客            | [link](https://yeasy.gitbook.io/docker_practice/compose/install) |
 
 **linux安装**
 
