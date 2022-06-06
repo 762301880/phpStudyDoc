@@ -1,11 +1,13 @@
-#  说明
+# mysql
+
+## 说明
 
 > 今天在容器内部使用了**swoole**,但是使用**PDO扩展**连接本地mysql发现报错
 >
 > ` Uncaught PDOException: SQLSTATE[HY000] [2002] Connection refused in /data/swoole/Mysql.php:160
 > Stack trace:` **连接拒绝**错误
 
-# [解决方案](https://blog.csdn.net/ouyang_zhen/article/details/117362728)
+## [解决方案](https://blog.csdn.net/ouyang_zhen/article/details/117362728)
 
 **先看代码**
 
@@ -150,3 +152,74 @@ Query OK, 0 rows affected (0.00 sec)
 > 找到环境变量设置，在**系统变量**-**Path**变量中添加mysql环境变量指向mysql安装的**bin**目录即可
 
 ![image-20220605105636303](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220605105636303.png)
+
+# redis 
+
+## **设置本地redis可以远程连接**
+
+> 由于本人使用的是**phpstudy**集成开发环境所以这里找到redis目录**D:\phpstudy_pro\Extensions\redis3.0.504**
+>
+> 文件打开**redis.conf**，然后把**bind 127.0.0.1 改为 bind 0.0.0.0**，最后重启**redis**
+
+```shell
+# bind 127.0.0.1 改为 bind 0.0.0.0
+bind 0.0.0.0
+port 6379
+timeout 65
+maxclients 10000
+databases 16
+maxmemory 1048576000
+```
+
+## **swoole携程redis代码使用示例**
+
+**连接本地redis示例**
+
+```php
+<?php
+
+use Swoole\Coroutine\Redis;
+use function Swoole\Coroutine\run;
+
+class RedisTest
+{
+    public function __construct()
+    {
+
+        run(function () {
+            $redis = new Redis();
+            $redis->connect('172.19.0.1', 6379); # 这里的ip地址修改为本地ip地址不知道的可以终端ipconfig命令查询
+            $val = $redis->get('name');
+            echo $val . PHP_EOL;
+        });
+    }
+}
+new RedisTest();
+```
+
+**连接远程redis示例**
+
+```php
+<?php
+
+use Swoole\Coroutine\Redis;
+use function Swoole\Coroutine\run;
+
+class RedisTest
+{
+    public function __construct()
+    {
+
+        run(function () {
+            $redis = new Redis();
+            $redis->connect('3.81.36.161', 13822);
+            $redis->auth('*********'); # 你的redis服务器密码
+            $val = $redis->get('name');
+            echo $val . PHP_EOL;
+        });
+    }
+}
+
+new RedisTest();
+```
+
