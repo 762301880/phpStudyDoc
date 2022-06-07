@@ -1,4 +1,6 @@
-# 说明
+# **说明&&资料**
+
+**说明**
 
 > 无意中从网上看到有那种可以将微信收款码还有支付宝收款码合二为一的功能，原理我看懂了一点点但是
 >
@@ -12,14 +14,13 @@
 >
 > https://cloud.tencent.com/developer/article/1193215
 
-# 资料
+**资料**
 
 | 名称                        | 地址                                                         |
 | --------------------------- | ------------------------------------------------------------ |
 | phpqrcode官网      类库下载 | [link ](http://phpqrcode.sourceforge.net/)  [download](https://sourceforge.net/projects/phpqrcode/files/) |
-|                             |                                                              |
 
-# 使用
+# **使用示例**
 
 > 本文全部以**laravel**为案例，去使用phpqrcode
 >
