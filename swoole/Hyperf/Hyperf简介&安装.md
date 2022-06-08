@@ -46,7 +46,7 @@ composer create-project hyperf/hyperf-skeleton  + 项目名称
 
 ```php
 # 下载并运行 hyperf/hyperf 镜像，并将镜像内的项目目录绑定到宿主机的 /tmp/skeleton 目录
-docker run -itd  -v /tmp/skeleton:/hyperf-skeleton -p 9501:9501  --name 自定义名称 --entrypoint /bin/sh hyperf/hyperf:7.4-alpine-v3.11-swoole
+docker run -itd  -v /tmp/skeleton:/hyperf-skeleton -p 9501:9501 -p 2021:80 --restart=always  --name 自定义名称 --entrypoint /bin/sh hyperf/hyperf:7.4-alpine-v3.11-swoole
 
 # 将 Composer 镜像设置为阿里云镜像，加速国内下载速度
 composer config -g repo.packagist composer https://mirrors.aliyun.com/composer
