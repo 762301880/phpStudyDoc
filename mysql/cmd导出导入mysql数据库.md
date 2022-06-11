@@ -72,3 +72,26 @@ mysql> use laravel_study; # 使用数据库
 mysql> source d:/laravel_study.sql # 导入sql
 ```
 
+#  小案例
+
+## 备份数据库
+
+**参考资料**
+
+| 名称       | 地址                                            |
+| ---------- | ----------------------------------------------- |
+| 第三方博客 | [link](https://www.shuzhiduo.com/A/Ae5RR3X25Q/) |
+
+**编写定时任务脚本**
+
+> 需要保存的目录需要自己保存并记录
+
+```php
+# 编写定时任务
+mysqldump -u数据库用户名 -p数据库密码 要导出的数据库 > /data/mysql/要导出的数据库_$(date +%Y%m%d_%H%M%S).sql >> /dev/null 2>&1
+# 例子
+mysqldump -uroot -p123456 mysql > /data/mysql/mysql_$(date +%Y%m%d_%H%M%S).sql >> /dev/null 2>&1
+```
+
+
+
