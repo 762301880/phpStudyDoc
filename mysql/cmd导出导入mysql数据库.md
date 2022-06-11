@@ -78,9 +78,9 @@ mysql> source d:/laravel_study.sql # 导入sql
 
 **参考资料**
 
-| 名称       | 地址                                            |
-| ---------- | ----------------------------------------------- |
-| 第三方博客 | [link](https://www.shuzhiduo.com/A/Ae5RR3X25Q/) |
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| 第三方博客 | [link](https://www.shuzhiduo.com/A/Ae5RR3X25Q/)  [link](https://www.jb51.net/article/222493.htm) |
 
 **编写定时任务脚本**
 
