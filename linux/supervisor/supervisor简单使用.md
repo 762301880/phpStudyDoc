@@ -53,21 +53,30 @@ mkdir /etc/supervisor.d && chmod -R 777 /etc/supervisor.d # 创建配置文件�
 
 # 创建配置文件
 vim /etc/supervisor.d/文件名称.ini # 例如 vim /etc/supervisor.d/laravel_study_socket.ini
-
-# 文件中加入
+#********************************配置文件开始位置***************************************文件中加入
 [program:laravel_study_socket]
-process_name=%(program_name)s_%(process_num)02d  # 进程名，当下面的numprocs为多个的时候，才需要。否则默认
+# 进程名，当下面的numprocs为多个的时候,才需要。否则默认
+process_name=%(program_name)s_%(process_num)02d  
+# 需要执行的命令
 command=php /data/work/laravel_study/artisan swoole
-autostart=true   # true表示supervisord启动时自动启动
-autorestart=true  # 是否自动重启
-user=root # 修改为当前登录的用户 可以用 whoami 命令查询
-numprocs=3 #启动这个程序的多个实例，如果numprocs>1，则process_name的表达式必须包含%(process_num)s，默认是1
-redirect_stderr=true #如果为true，则stderr的日志会被写入stdout日志文件中  默认为false，非必须设置
-stdout_logfile=/data/logs/worker.log # 日志保存位置 可以自定义
-stopwaitsecs=3600 # 停止等待秒数
+# true表示supervisord启动时自动启动
+autostart=true  
+# 是否自动重启
+autorestart=true  
+# 修改为当前登录的用户 可以用 whoami 命令查询
+user=root 
+#启动这个程序的多个实例，如果numprocs>1,则process_name的表达式必须包含%(process_num)s,默认是1
+numprocs=3 
+#如果为true,则stderr的日志会被写入stdout日志文件中  默认为false,非必须设置
+redirect_stderr=true 
+# 日志保存位置 可以自定义
+stdout_logfile=/data/logs/worker.log 
+ # 停止等待秒数
+stopwaitsecs=3600
+#********************************配置文件结束位置***************************************
 
 
-# 关键如果修改了配置文件需要 https://blog.csdn.net/wangjianwanxiao/article/details/51007354
+# 关键问题如果修改了配置文件需要重启配置文件 https://blog.csdn.net/wangjianwanxiao/article/details/51007354
 supervisorctl reload  # 重载配置文件
 # 如果重启完报错 https://blog.csdn.net/xwd127429/article/details/106103653
 error: <class 'xmlrpc.client.Fault'>, <Fault 6: 'SHUTDOWN_STATE'>: file: /usr/lib/python3.8/xmlrpc/client.py line: 655
@@ -120,7 +129,8 @@ process_name=%(program_name)s_%(process_num)02d
 command=php /data/work/laravel_study/artisan swoole
 autostart=true
 autorestart=true
-user=root # 修改为当前登录的用户 可以用 whoami 命令查询
+# 修改为当前登录的用户 可以用 whoami 命令查询
+user=root 
 numprocs=8
 redirect_stderr=true
 stdout_logfile=/home/forge/app.com/worker.log 
