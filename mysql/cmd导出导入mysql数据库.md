@@ -89,8 +89,8 @@ mysql> source d:/laravel_study.sql # 导入sql
 ```php
 # 编写定时任务
 mysqldump -u数据库用户名 -p数据库密码 要导出的数据库 > /data/mysql/要导出的数据库_$(date +%Y%m%d_%H%M%S).sql >> /dev/null 2>&1
-# 例子
-mysqldump -uroot -p123456 mysql > /data/mysql/mysql_$(date +%Y%m%d_%H%M%S).sql >> /dev/null 2>&1
+# 例子  备份今天的数据库并删除三天前的数据库备份
+mysqldump -uroot -p123456 mysql > /data/mysql/mysql_$(date +%Y%m%d_%H%M%S).sql >> /dev/null 2>&1 && cd /data/mysql/ && rm -rf mysql_$(date -d "3 day ago"  +%Y%m%d).sql
 ```
 
 
