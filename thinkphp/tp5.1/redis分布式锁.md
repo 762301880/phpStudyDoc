@@ -409,3 +409,48 @@ class Demo
 }
 ```
 
+# 使用redis事务实现秒杀
+
+**参考代码**
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
+
+
+class TestController extends Controller
+{
+    protected $redis;
+
+    public function __construct()
+    {
+        $this->redis = Redis::connection()->client();
+    }
+
+    public function test(Request $request)
+    {
+        $this->redis->watch('sales');//乐观锁,监视作用
+        $sales = $this->redis->get('sales');
+        $store = 100;//总库存
+        if ($sales >= $store) {
+            exit('秒杀结束');
+        }
+        $this->redis->multi();//开启redis事务
+        $this->redis->incr('sales');//销量+1
+        $res = $this->redis->exec();//提交事务
+        if ($res) {
+            //成功
+            //写库 更新库存操作
+        }
+        if (!$res) {
+            //失败操作
+            \Log::info('秒杀失败');
+            exit('秒杀失败');
+        }
+    }
+}
