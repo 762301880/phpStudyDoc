@@ -66,6 +66,16 @@ cat redis.conf | grep daemonize # 查询是否修改
 netstat -anp |grep 6379
 ```
 
+# windows安装redis
+
+> 如果我们使用的是**phpstudy**这种集成开发环境自带的就有redis,开启之后我们只需要配置系统环境变量即可在终端中使用
+>
+> **配置环境变量**
+>
+> 找到右键此电脑找到环境变量,在系统变量中添加**redis目录位置** `例如` **D:\phpstudy_pro\Extensions\redis3.0.504**
+>
+> 然后终端中使用**redis-cli**即可再终端中使用
+
 # 云redis
 
 > 今天无意中找到一款云redis
