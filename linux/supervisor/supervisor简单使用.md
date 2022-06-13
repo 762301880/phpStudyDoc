@@ -6,13 +6,13 @@
 
 # 资料
 
-| 名称                             | 链接                                                         |
-| -------------------------------- | ------------------------------------------------------------ |
-| Supervisor-官方文档              | [链接](http://www.supervisord.org/index.html)                |
-| hyperf-Supervisor                | [链接](https://hyperf.wiki/2.2/#/zh-cn/tutorial/supervisor)  |
-| laravel supervisor介绍           | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#e45763) |
-| 书栈(守护进程二三事与Supervisor) | [link](https://www.bookstack.cn/read/swoole_study/%E7%95%AA%E5%A4%96%EF%BC%9A%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E4%BA%8C%E4%B8%89%E4%BA%8B%E4%B8%8ESupervisor.md) |
-| 第三方博客参考                   | [链接](https://www.jianshu.com/p/0036e8e6b882) [链接](https://www.cnblogs.com/yezigege/p/13530850.html) [链接](https://blog.51cto.com/lixcto/1539136) [链接](https://www.cnblogs.com/zhoujinyi/p/6073705.html) [链接](https://www.it610.com/article/1305823479957852160.htm) |
+| 名称                                   | 链接                                                         |
+| -------------------------------------- | ------------------------------------------------------------ |
+| Supervisor-官方文档  第三方中文文档-RD | [链接](http://www.supervisord.org/index.html)  [链接](https://www.rddoc.com/doc/Supervisor/3.3.1/zh/#api-documentation) |
+| hyperf-Supervisor                      | [链接](https://hyperf.wiki/2.2/#/zh-cn/tutorial/supervisor)  |
+| laravel supervisor介绍                 | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#e45763) |
+| 书栈(守护进程二三事与Supervisor)       | [链接](https://www.bookstack.cn/read/swoole_study/%E7%95%AA%E5%A4%96%EF%BC%9A%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E4%BA%8C%E4%B8%89%E4%BA%8B%E4%B8%8ESupervisor.md) |
+| 第三方博客参考                         | [链接](https://www.jianshu.com/p/0036e8e6b882) [链接](https://www.cnblogs.com/yezigege/p/13530850.html) [链接](https://blog.51cto.com/lixcto/1539136) [链接](https://www.cnblogs.com/zhoujinyi/p/6073705.html)  [链接](https://blog.csdn.net/weixin_37008947/article/details/108107216) |
 
 # 安装
 
@@ -65,6 +65,8 @@ autostart=true
 autorestart=true  
 # 修改为当前登录的用户 可以用 whoami 命令查询
 user=root 
+# 启动后，程序需要保持运行以考虑启动成功（将进程从 STARTING 状态移动到 RUNNING 状态）的总秒数。设置为 0 以指示程序不需要保持运行任何特定的时间量。
+startsecs=0
 #启动这个程序的多个实例，如果numprocs>1,则process_name的表达式必须包含%(process_num)s,默认是1
 numprocs=3 
 #如果为true,则stderr的日志会被写入stdout日志文件中  默认为false,非必须设置
@@ -135,6 +137,7 @@ process_name=%(program_name)s_%(process_num)02d
 command=php /data/work/laravel_study/artisan swoole
 autostart=true
 autorestart=true
+startsecs=0
 # 修改为当前登录的用户 可以用 whoami 命令查询
 user=root 
 numprocs=8
@@ -184,6 +187,7 @@ process_name=%(program_name)s
 command=php /data/work/laravel_study/artisan swoole
 autostart=true
 autorestart=true
+startsecs=0
 user=root
 #numprocs=1
 redirect_stderr=true
@@ -208,6 +212,22 @@ laravel_swoole: started
 
 ```shell
 supervisord -c /etc/supervisord.conf   # 启动supervisord并使用配置
+```
+
+## 使用supervisorctl命令结果发现`FATAL Exited too quickly (process log may have details)`
+
+**参考资料**
+
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| 第三方博客 | [link](https://blog.csdn.net/weixin_44439488/article/details/115378194) |
+
+**解决方案**
+
+```php
+# 配置文件中添加
+//.........
+startsecs=0 
 ```
 
 
