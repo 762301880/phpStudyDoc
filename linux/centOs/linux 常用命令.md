@@ -144,6 +144,18 @@ root         2     0  0 11:43 ?        00:00:00 [kthreadd]
 # CMD  进程对应的名称或者对应的路径
 ```
 
+## vim命令
+
+```shell
+# 光标操作
+gg  #跳转到首行(小写)
+G   # 跳转到末行(shift +g  或者 CapsLock +g)
+shift + ^ # shift + 最上排的数字6 跳转到一行的开始(正则表达式开始)
+shift + $ # shift + 最上排的数字4 跳转到一行的末尾(正则表达式结束)
+ctrl+b(before)  or pageup# 向上 翻屏
+ctrl+f()  or pagedown# 向下 翻屏
+```
+
 
 
 
