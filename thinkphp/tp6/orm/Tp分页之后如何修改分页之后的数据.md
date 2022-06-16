@@ -18,10 +18,19 @@ class UserService
     public function getUserList($data)
     {
         $limit = !empty($data['limit']) ? $data['limit'] : 10;
-        $list = $this->getUserQuery($data)->paginate($limit)->each(function ($list) { # c
+        # 1 循环处理
+        $list = $this->getUserQuery($data)->paginate($limit)->each(function ($list) {
            $list->header_img=$list->getHeaderImg(); //处理图片
            $list->sex=$list->getSex();
         });
+        # 2 或者得到结果集之后映射处理数据
+        $list = $this->getUserQuery($data)->paginate($limit);
+        $res->getCollection()->map(function ($list) {
+           $list->header_img=$list->getHeaderImg(); //处理图片
+           $list->sex=$list->getSex();
+           return $list; # map方法批量处理要return;
+        }
+        # 最终返回    
         return $list;
     }
 
