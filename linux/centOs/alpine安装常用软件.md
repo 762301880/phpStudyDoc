@@ -4,12 +4,12 @@
 | --------------- | ------------------------------------ |
 | alpine-官方网站 | [link](https://www.alpinelinux.org/) |
 
-#  php扩展
+#  alipine-php扩展
 
 ##  安装php-mysqli扩展
 
 ```php
-# 安装php-mysqli扩展
+# 安装php-mysqli扩展     apk add php7-mysqli
 /**
  * 查询扩展
  */
