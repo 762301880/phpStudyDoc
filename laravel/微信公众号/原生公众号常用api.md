@@ -21,7 +21,7 @@ https://blog.csdn.net/ljh101/article/details/108806075
 ## [1.4 微信测试号申请](https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login)
 
 ```shell
-https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
+    https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login
 ```
 
 
