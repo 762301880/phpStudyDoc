@@ -23,7 +23,7 @@ class UserService
            $list->header_img=$list->getHeaderImg(); //处理图片
            $list->sex=$list->getSex();
         });
-        # 2 或者得到结果集之后映射处理数据
+        # 2 或者得到结果集之后,map回调处理数据
         $list = $this->getUserQuery($data)->paginate($limit);
         $res->getCollection()->map(function ($list) {
            $list->header_img=$list->getHeaderImg(); //处理图片
