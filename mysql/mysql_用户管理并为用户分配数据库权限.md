@@ -22,5 +22,7 @@
 ```php
  create  user  '用户名'@'ip地址'  identified by  '密码';
  grant select, insert, update, delete on 数据库名称.* to 用户名@'ip地址'; # 设置所有权限
+
+ FLUSH PRIVILEGES; #刷新权限
 ```
 
