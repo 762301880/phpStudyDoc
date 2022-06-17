@@ -253,7 +253,37 @@ n+←/→        # 以当前光标为准像左/右移动移动n字符(数字+左
 :set nonu # 取消显示行号
 ```
 
+**使用vim打开多个文件,在末行模式下进行切换文件 **
 
+```php
+# 打开多个文件命令
+vim 文件路径1 文件路径2 文件路径3 作用:同时打开多个文件 # 会默认打开文件1  例 vim demo01.txt demo.txt
+# 查看当前已经打开的文件名称: ":files"
+:files 
+# 例    
+:files
+  1 %a   "demo01.txt"                   line 17        
+  2      "demo.txt"                     line 0
+# %a 的位置有2中显示可能 
+ %a : a=active,表示当前正在打开的文件
+ #  ： 井号表示上一个打开的文件   
+
+# 切换文件
+/**
+ * 1.如果需要指定切换文件的名称,则可以输入: ":open 需要打开的文件名称"
+ */
+ :open demo.txt
+ // 打开之后再次查看可以看出我们上一个文件是 demo01.txt  当前活动文件是 demo.txt   
+ :files
+  1 #    "demo01.txt"                   line 17
+  2 %a   "demo.txt"                     line 23
+ 
+/**
+ * 2.可以通过其它命令来切换上一个/下一个文件
+ */   
+:bn      # 切换到下一个文件  back next
+:bp      # 切换到上一个文件  back prev(prev表示 Previous 以前的)  
+```
 
 
 
