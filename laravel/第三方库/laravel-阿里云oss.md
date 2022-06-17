@@ -40,9 +40,9 @@ class OssController extends Controller
 {
     use ApplyResponseLayout;
 
-    protected $accessKeyId = "LTAI4FqTWQmMztMtGzTX44Pr";
-    protected $accessKeySecret = "ju1WFs5eX2nEVFSshb43myWuXWCSwj";
-    protected $endpoint = "http://oss-cn-beijing.aliyuncs.com";
+    protected $accessKeyId = "<yourAccessKeyId>";
+    protected $accessKeySecret = "<yourAccessKeySecret>";
+    protected $endpoint = "http://oss-cn-hangzhou.aliyuncs.com"; # 对照表 https://help.aliyun.com/document_detail/31837.html
 
     public function upload(Request $request)
     {
