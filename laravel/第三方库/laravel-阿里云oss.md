@@ -47,7 +47,6 @@ class OssController extends Controller
     public function upload(Request $request)
     {
         $file = $request->file('img');
-        //$path      = $file->getPath() . '/' . $file->getFilename();//得到文件主机上的地址
         $file_name = $file->getClientOriginalName();//上传的文件名称
         $bucket = 'yaoliuyang-test-oss'; //bucket名称
         $object = $file_name;
@@ -62,7 +61,52 @@ class OssController extends Controller
     }
 }
 
+# uploadFile() 方法上传
+public function upload(Request $request)
+    {
+        $file = $request->file('img');
+        $path      = $file->getPath() . '/' . $file->getFilename();//得到文件主机上的地址
+        $file_name = $file->getClientOriginalName();//上传的文件名称
+        $bucket = 'yaoliuyang-test-oss'; //bucket名称
+        $object = $file_name;
+        try {
+            $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+            $res = $ossClient->uploadFile($bucket, $object, $path);
+            dd($res);
+        } catch (OssException $exception) {
+            return $this->error($exception->getMessage());
+        }
+    }
 ```
 
 
 
+### 储存空间
+
+[**创建存储空间:bucket**](https://help.aliyun.com/document_detail/32102.html)
+
+```php
+ $file = $request->file('img');
+        $path      = $file->getPath() . '/' . $file->getFilename();//得到文件主机上的地址
+        $file_name = $file->getClientOriginalName();//上传的文件名称
+        $bucket = 'examplebucket'; //bucket名称不能与网络重复
+        $object = $file_name;
+        try {
+            $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+            $options = array(
+                OssClient::OSS_STORAGE => OssClient::OSS_STORAGE_IA
+            );
+            // 设置Bucket的读写权限为公共读，默认是私有读写。
+            $res=$ossClient->createBucket($bucket, OssClient::OSS_ACL_TYPE_PUBLIC_READ, $options);
+            dd($res);
+        } catch (OssException $exception) {
+            return $this->error($exception->getMessage());
+        }
+```
+
+[**列出所有的储存空间:bucket**](https://help.aliyun.com/document_detail/146332.html)
+
+```php
+$ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+$res = $ossClient->listBuckets()->getBucketList();
+```
