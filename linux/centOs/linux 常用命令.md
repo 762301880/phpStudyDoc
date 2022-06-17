@@ -87,7 +87,7 @@ yaoliuyang-PC
 
 [sed命令详解](https://www.runoob.com/linux/linux-comm-sed.html)
 
-## 替换文件中的字符
+### 替换文件中的字符
 
 > 假如现在有一个文件a.txt，如下图所示我想将 www.baidu.com 修改为 www.aliyun.com
 
