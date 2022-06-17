@@ -23,5 +23,46 @@
 composer require aliyuncs/oss-sdk-php
 ```
 
-# 日后有空的时候再研究
+## 代码示例
+
+###  上传示例
+
+```php
+<?php
+namespace App\Http\Controllers;
+
+use App\Traits\ApplyResponseLayout;
+use Illuminate\Http\Request;
+use OSS\Core\OssException;
+use OSS\OssClient;
+
+class OssController extends Controller
+{
+    use ApplyResponseLayout;
+
+    protected $accessKeyId = "LTAI4FqTWQmMztMtGzTX44Pr";
+    protected $accessKeySecret = "ju1WFs5eX2nEVFSshb43myWuXWCSwj";
+    protected $endpoint = "http://oss-cn-beijing.aliyuncs.com";
+
+    public function upload(Request $request)
+    {
+        $file = $request->file('img');
+        //$path      = $file->getPath() . '/' . $file->getFilename();//得到文件主机上的地址
+        $file_name = $file->getClientOriginalName();//上传的文件名称
+        $bucket = 'yaoliuyang-test-oss'; //bucket名称
+        $object = $file_name;
+        $content = $file->getContent();
+        try {
+            $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+            $res = $ossClient->putObject($bucket, $object, $content);
+            dd($res);
+        } catch (OssException $exception) {
+            return $this->error($exception->getMessage());
+        }
+    }
+}
+
+```
+
+
 
