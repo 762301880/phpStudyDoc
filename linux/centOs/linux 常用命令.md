@@ -151,6 +151,7 @@ root         2     0  0 11:43 ?        00:00:00 [kthreadd]
 | 名称         | 地址                                                |
 | ------------ | --------------------------------------------------- |
 | 菜鸟教程-vim | [link](https://www.runoob.com/linux/linux-vim.html) |
+| vim-中文官网 | [link](http://vimcdoc.sourceforge.net/)             |
 
 ### **常用命令示例**
 
