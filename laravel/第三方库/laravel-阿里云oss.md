@@ -122,3 +122,20 @@ public function upload(Request $request)
 $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
 $res = $ossClient->listBuckets()->getBucketList();
 ```
+
+# 问题示例
+
+##  oss配置生命周期未生效原因
+
+[**参考资料**](https://help.aliyun.com/document_detail/326351.html)
+
+>## 详细信息
+>
+>生命周期规则创建后的24小时内，OSS会加载规则。规则加载完成后，OSS会在每天的北京时间`8:00`开始执行规则，并在随后的24小时内执行完毕。Object的最后修改时间与生命周期规则开始执行时间（8:00）必须间隔24小时以上，请在耐心等待。例如生命周期规则为Object上传1天后删除，则2020年7月20日上传的文件删除时间如下：
+>
+>- 北京时间8:00前上传的文件会在2020年7月21日8:00开始删除，并在7月22日8:00前删除完毕。
+>- 北京时间8:00后上传的文件会在2020年7月22日8:00开始删除，并在7月23日8:00前删除完毕。
+>
+>如果在48小时后，生命周期规则还是未生效，请参见[生命周期配置示例](https://help.aliyun.com/document_detail/160576.htm)，检查生命周期规则配置是否正确。
+>
+>> **注意**：更新生命周期规则会中止当天的生命周期任务，请不要频繁更新生命周期规则。
