@@ -106,7 +106,7 @@ public function upload(Request $request)
         try {
             $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
             $options = array(
-                OssClient::OSS_STORAGE => OssClient::OSS_STORAGE_IA
+               # OssClient::OSS_STORAGE => OssClient::OSS_STORAGE_IA # 这里是设置低频访问类型(文件保存30天),默认是标准类型
             );
             // 设置Bucket的读写权限为公共读，默认是私有读写。
             $res=$ossClient->createBucket($bucket, OssClient::OSS_ACL_TYPE_PUBLIC_READ, $options);
