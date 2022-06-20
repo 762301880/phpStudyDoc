@@ -129,7 +129,7 @@ $res = $ossClient->listBuckets()->getBucketList();
 
 **需要删除的图片**
 
-> 由图片可见我们需要删除的图片未知在**temp零时目录下**
+> 由图片可见我们需要删除的图片未知在**temp临时目录下**
 
 ![1655685898492.jpg](https://s2.loli.net/2022/06/20/1R3UpWJQor6eG28.png)
 
