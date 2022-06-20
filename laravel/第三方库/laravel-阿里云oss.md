@@ -125,6 +125,26 @@ $res = $ossClient->listBuckets()->getBucketList();
 
 # 问题示例
 
+## oss配置生命周期
+
+**需要删除的图片**
+
+> 由图片可见我们需要删除的图片未知在**temp零时目录下**
+
+![1655685898492.jpg](https://s2.loli.net/2022/06/20/1R3UpWJQor6eG28.png)
+
+**配置生命周日**
+
+> 点击左侧导航栏的**基础设置-生命周期** <font color="color=#dddd00">**创建规则**</font>  配置匹配的前缀(**可以通过点击图片查看链接查看前缀**),然后设置**文件过期策略删除**即可
+
+![1655685309610.jpg](https://s2.loli.net/2022/06/20/lgOmPr7GVqCNYFs.png)
+
+
+
+
+
+
+
 ##  oss配置生命周期未生效原因
 
 [**参考资料**](https://help.aliyun.com/document_detail/326351.html)
@@ -138,4 +158,4 @@ $res = $ossClient->listBuckets()->getBucketList();
 >
 >如果在48小时后，生命周期规则还是未生效，请参见[生命周期配置示例](https://help.aliyun.com/document_detail/160576.htm)，检查生命周期规则配置是否正确。
 >
->> **注意**：更新生命周期规则会中止当天的生命周期任务，请不要频繁更新生命周期规则。
+>> **注意**：更新生命周期规则会中止当天的生命周期任务，请不要频繁更新生命周期规则。##
