@@ -57,3 +57,12 @@
 > 点击导航栏的**file->settings->Tools->Terminal** 将 一下标记的地方修改为你git安装目录 **bin**目录下面的**bash.exe**然后重启phpstorm即可
 
 ![1645685051(1).jpg](https://s2.loli.net/2022/02/24/qxPtJphZOEvIViw.png)
+
+#  快捷键
+
+```php
+# 折叠&取消折叠方法  https://www.cnblogs.com/kevin-yang123/p/10138633.html
+`Ctrl`+`Shift`+`-`    //折叠方法
+`Ctrl`+`Shift`+`+`    //取消折叠方法    
+```
+
