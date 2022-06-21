@@ -73,3 +73,8 @@ return [
 
 ```
 
+
+
+# thinkphp5
+
+> 目前找到的方法是在**项目\thinkphp\library\think\db\Query.php** 中的**paginate** 方法最后rerurn 修改为自定义类
