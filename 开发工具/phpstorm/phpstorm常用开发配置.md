@@ -1,8 +1,9 @@
 # 资料
 
-| 说明                                 | 地址                                                       |
-| ------------------------------------ | ---------------------------------------------------------- |
-| 更多配置请查阅玩转 PhpStorm 系列教程 | [link](https://laravelacademy.org/books/phpstorm-tutorial) |
+| 说明                                 | 地址                                                         |
+| ------------------------------------ | ------------------------------------------------------------ |
+| 更多配置请查阅玩转 PhpStorm 系列教程 | [link](https://laravelacademy.org/books/phpstorm-tutorial)   |
+| 第三方博客                           | [php storm手册](https://www.kancloud.cn/ervinhua/phpstorm/441649) |
 
 
 
