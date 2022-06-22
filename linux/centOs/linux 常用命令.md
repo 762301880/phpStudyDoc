@@ -396,5 +396,56 @@ Swap file ".demo.txt.swp" already exists!
  rm -rf .demo.txt.swp   //删除交换    
 ```
 
+## 别名机制(创建自己的linux命令)
+
+> **作用:**相当于创建一些属于自己的自定义命令
+>
+> **例如:** 在`windows`下有`cls`命令,在Linux下可能因为没有这个命令而不习惯清屏,现在可以通过别名机制来解决
+>
+> 这个问题,可以自己创造出`cls`命令
+>
+> ###  别名机制依靠一个别名<font color='red'>映射</font>文件(当前用户家目录下):  ~/.bashrc
+>
+> > 像是一个连线题左右映射,左边可以关联右边,右边可以关联左边
+>
+> ```php
+> 绿绿的        花朵
+> 青青的        草地
+> 蓝蓝的        天空    
+> ```
+
+```php
+# 1. 编辑 .bashrc 手动添加命令(编辑之后wq保存,重新登录当前用户账户生效:退出shell重新登录)
+vim ~/.bashrc
+# 添加开始--------------------
+
+# .bashrc
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+# 手动添加映射内容 cls命令
+alias cls='clear'
+
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi  
+    
+# 添加结束--------------------    
+    
+#--------------------------------------------end-------------------------------------------------------------- 
+
+    
+```
+
+
+
+
+
+
+
 
 
