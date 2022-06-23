@@ -186,3 +186,9 @@ $age = "(DATE_FORMAT(NOW(), '%Y') - (DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), INTE
     }
 ```
 
+## 多合一字段查询
+
+```php
+ if (!empty($text)) $query->where("CONCAT(字段一,字段二,字段三,字段N) like '%$text%'");
+```
+
