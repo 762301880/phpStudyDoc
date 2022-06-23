@@ -405,7 +405,7 @@ Swap file ".demo.txt.swp" already exists!
  rm -rf .demo.txt.swp   //删除交换    
 ```
 
-## 别名机制(创建自己的linux命令)
+## [别名机制](https://www.runoob.com/linux/linux-comm-alias.html)(创建自己的linux命令)
 
 > **作用:**相当于创建一些属于自己的自定义命令
 >
@@ -447,6 +447,21 @@ fi
     
 #--------------------------------------------end--------------------------------------------------------------     
 ```
+
+[**使用alias命令添加操作别名**](https://www.coonote.com/linux/linux-cmd-alias.html)
+
+ ```shell
+ # 语法
+ alias(选项)(参数)
+ # 选项
+ -p：打印已经设置的命令别名。
+ # 设置别名
+ alias 新的命令='原命令 -选项/参数' # 例子 alias cls='clear'
+ # 删除别名
+ unalias 别名名称
+ ```
+
+
 
 ## linux自有服务
 
