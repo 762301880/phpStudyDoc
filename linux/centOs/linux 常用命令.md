@@ -808,6 +808,17 @@ functions  mst  netconsole  network  README
 # 重启网卡
 [root@VM-16-5-centos ~]# /etc/init.d/network restart
 Restarting network (via systemctl):                        [  确定  ]
+#----------------------------------------------------------------------------------------------------
+
+# 扩展:如果修改网卡的配置文件,但是配置文件的目录层次很深,此时可以在浅的目录中创建一个快捷方式,方便以后去查找
+
+ln -s
+
+ln -s 
+
+[root@VM-16-5-centos ~]# ln -s /etc/sysconfig/network-scripts/ifcfg-eth0 ~/ifcfg-eth0
+[root@VM-16-5-centos ~]# ls
+ifcfg-eth0
 ```
 
 
