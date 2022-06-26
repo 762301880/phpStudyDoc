@@ -657,23 +657,124 @@ yaoliuyang:x:1001:1001::/home/yaoliuyang:/bin/bash
 
 > ​       每个用户都有一个用户组,系统可以对一个用户组中的所有用户进行集中管理,不同<font color='green'>Linux</font>系统对用户组的规定有所不同,
 >
-> 如**linux**下的用户属于它同名的用户组,这个用户组在创建用户时同时创建
+> 如**linux**下的用户属于它同名的用户组,<font color='red'>这个用户组在创建用户时同时创建</font>
 >
-> ​       用户组的管理涉及用户组的添加,删除和修改.组的增加,删除和修改实际上就是对<font color='red'>/etc/group</font>文件的更新
+> ​           用户组的管理涉及用户组的添加,删除和修改.组的增加,删除和修改实际上就是对<font color='red'>/etc/group</font>文件的更新
+
+**/etc/group**文件结构
+
+> ## **结构**
+>
+> <font color='yellow'>用户组名:密码:用户组ID:组内用户</font> 
+>
+> **密码**: X表示占位符,虽然用户可以设置密码,但是绝大部分的情况下不设置密码
+>
+> 组内用户名:表示附加组是该组的用户名称;
+
+```php
+# cat /etc/group
+........
+sudo:x:27:yaoliuyang
+yaoliuyang:x:1000:     
+mysql:x:127:
+uuidd:x:128:
+saned:x:129:
+.......
+```
+
+
 
 #### 用户组的添加
 
 ```shell
 # 常用语法:
-groupadd 
+groupadd [-选项][组名]
 
 # 参数说明
--g：指定新建工作组的 id；
+-g：指定新建工作组的 id； # 类似用户添加里的'-u',-g表示选择自己设置一个自定义的用户组ID数字,如果自己不指定,则默认从500之后递增;
 -r：创建系统工作组，系统工作组的组 ID 小于 500；
 -K：覆盖配置文件 /etc/login.defs；
 -o：允许添加组 ID 号不唯一的工作组。
 -f,--force: 如果指定的组已经存在，此选项将失明了仅以成功状态退出。当与 -g 一起使用，并且指定的 GID_MIN 已经存在时，选择另一个唯一的 GID（即 -g 关闭）。
 ```
+
+**案例**
+
+```shell
+# 使用groupadd指令创建一个新的用户组,命名为Administrators
+[root@VM-16-5-centos ~]# groupadd Administrators
+# 查看创建的用户组
+[root@VM-16-5-centos ~]# tail -1 /etc/group
+Administrators:x:1001:
+```
+
+#### [用户组的编辑](https://www.runoob.com/linux/linux-comm-groupmod.html)
+
+**groupmod 语法**
+
+```shell
+常用语法: groupmod 选项 用户组名
+
+常用选项:
+ -g   <群组识别码> 　设置欲使用的群组识别码。 # 类似用户添加里的'-u',-g表示选择自己设置一个自定义的用户组ID数字;
+ -o 　重复使用群组识别码。
+ -n   <新群组名称> 　设置欲使用的群组名称。# 类似于用户修改"-l",表示设置新的用户组的命令
+ 
+ # groupmod -h
+ 选项:
+  -g, --gid GID                 将组 ID 改为 GID
+  -h, --help                    显示此帮助信息并推出
+  -n, --new-name NEW_GROUP      改名为 NEW_GROUP
+  -o, --non-unique              允许使用重复的 GID
+  -p, --password PASSWORD       将密码更改为(加密过的) PASSWORD
+  -R, --root CHROOT_DIR         chroot 到的目录
+  -P, --prefix PREFIX_DIR       prefix directory where are located the /etc/* files
+```
+
+**案例**
+
+```shell
+# 案例一  修改Administrators用户组,将组ID从1001改成1002,将名称改为admins
+
+# 查看对应的用户组
+[root@VM-16-5-centos ~]# tail -1 /etc/group
+Administrators:x:1001:
+# 修改
+[root@VM-16-5-centos ~]# groupmod -g 1002 -n admins Administrators
+# 再次查看已修改的用户组
+[root@VM-16-5-centos ~]# tail -1 /etc/group
+admins:x:1002:
+#-------------------------案例一结束----------------------------------------
+```
+
+#### 用户组的删除
+
+```shell
+groupdel [群组名称]
+
+# 案例 删除admins用户组	
+[root@VM-16-5-centos ~]# tail -2 /etc/group
+dockerroot:x:991:
+admins:x:1002:
+
+[root@VM-16-5-centos ~]# groupdel admins
+
+[root@VM-16-5-centos ~]# tail -2 /etc/group
+cgred:x:992:
+dockerroot:x:991:
+
+# 注意:当如果需要删除一个组,但是这个组是某个用户的主组时,则不允许删除;如果确实需要删除,则先从组内移出所有用户
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
