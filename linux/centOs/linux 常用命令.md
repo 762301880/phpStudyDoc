@@ -768,7 +768,47 @@ dockerroot:x:991:
 
 
 
+## 网络设置
 
+> 首先知道网卡配置文件位置:**/etc/sysconfig/network-scripts/** <font color='yellow'>目录下全是网卡配置文件</font>
+
+```shell
+[root@VM-16-5-centos ~]# ls /etc/sysconfig/network-scripts/
+ifcfg-eth0  ifdown-bnep  ifdown-ipv6  ifdown-ppp     ifdown-Team      ifup          ifup-eth   ifup-isdn   ifup-post    ifup-sit       ifup-tunnel       network-functions
+ifcfg-lo    ifdown-eth   ifdown-isdn  ifdown-routes  ifdown-TeamPort  ifup-aliases  ifup-ippp  ifup-plip   ifup-ppp     ifup-Team      ifup-wireless     network-functions-ipv6
+ifdown      ifdown-ippp  ifdown-post  ifdown-sit     ifdown-tunnel    ifup-bnep     ifup-ipv6  ifup-plusb  ifup-routes  ifup-TeamPort  init.ipv6-global  route6-eth0
+# 这两个就是网卡配置文件(对应 ifconfig)
+ifcfg-eth0  ifcfg-lo
+
+# 在目录中网卡的配置文件命名格式:ifcfg-网卡名称
+[root@VM-16-5-centos ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0 
+# Created by cloud-init on instance boot automatically, do not edit.
+#
+BOOTPROTO=dhcp                 # 地址的分配方式,DHCP表示动态主机分配协议 
+DEVICE=eth0
+HWADDR=52:54:00:15:2e:ef       # 硬件地址,MAC地址 
+ONBOOT=yes                     # 是否开机启动
+PERSISTENT_DHCLIENT=yes
+TYPE=Ethernet                      
+USERCTL=no
+#-----------------------------------------------------------------------------------------------------
+# 如果后续需要重启网卡怎么去操作呢?
+
+# 1.service network restart (不推荐使用)
+
+[root@VM-16-5-centos ~]# service network restart
+Restarting network (via systemctl):                        [  OK  ]
+
+# 2. 此处的重启网卡命令还可以使用(强烈推荐):    /etc/init.d/network restart
+
+在有的分支版本中可能没有service命令快速操作服务,但是有一个共性的目录:/etc/init.d  这个目录中访着很多对服务的快捷方式
+
+[root@VM-16-5-centos ~]# ls /etc/init.d/
+functions  mst  netconsole  network  README
+# 重启网卡
+[root@VM-16-5-centos ~]# /etc/init.d/network restart
+Restarting network (via systemctl):                        [  确定  ]
+```
 
 
 
