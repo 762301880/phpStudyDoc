@@ -900,7 +900,21 @@ ln -s  原始文件路径  快件方式的路径
 ifcfg-eth0
 ```
 
+**扩展:如何重启单个网卡**
 
+```shell
+# 停止某个网卡
+[root@VM-16-5-centos ~]# ifdown -h
+用法：ifdown <设备名:网卡名>
+
+# 开启某个网卡
+[root@VM-16-5-centos ~]# ifup -h
+用法：ifup <设备名:网卡名>
+
+# 例子:需要停止-启动(重启) eth0网卡,则可以输入
+ifdown eth0
+ifup eth0
+```
 
 
 
