@@ -609,7 +609,7 @@ fi
 > NETWORKING=yes
 > HOSTNAME=你的主机名称    # 如果存在这个则需要修改  例如 HOSTNAME=yaoliuyang
 > 
-> # 修改linux服务器的host文件,将yaoliuyang指向本地(设置FQDN)
+> # 修改linux服务器的host文件,将yaoliuyang指向本地(设置FQDN),不舍设置FQDN会怎么样(很多开源服务器软件例如Apache则无法启动或者出现报错,方便记忆看到主机名对其作用有一个初步判断,如果不设置则会影响本地的域名的解析(本地访问))
 > /etc/hosts
 > echo 127.0.0.1 yaoliuyang >> /etc/hosts
 > ```
