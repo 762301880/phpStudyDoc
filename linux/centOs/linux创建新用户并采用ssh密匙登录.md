@@ -57,3 +57,11 @@ AuthorizedKeysFile   .ssh/authorized_keys     #公钥的保存位置(对应用�
 systemctl restart sshd
 ```
 
+# 扩展补充
+
+## 通过ssh命令+私钥文件登录服务器
+
+```shell
+ssh -i ~/.ssh/id_rsa  用户名@服务器公网地址
+```
+
