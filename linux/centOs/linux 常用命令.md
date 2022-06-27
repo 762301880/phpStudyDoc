@@ -587,6 +587,37 @@ fi
 >
 > 图形模式设置永久命令模式(将**/etc/inittab**文件中的**initdefault**值设置成3,然后重启操作系统(init 6 命令可以重启))
 
+### 设置主机名
+
+> hostname  # 查看主机名
+> hostname  -f  # DQDN(全限定域名)
+>
+> #### 临时设置主机名(立竿见影) -重启服务器失效
+>
+> ```shell
+> hostname	设置的主机名
+> su          # 命令可以查看刷新效果
+> ```
+>
+> ### 永久设置主机名(需要重启生效)
+>
+> ```shell
+> # 查看对应配置文件
+> [root@VM-16-5-centos ~]# cat /etc/sysconfig/network
+> # Created by cloud-init on instance boot automatically, do not edit.
+> #
+> NETWORKING=yes
+> HOSTNAME=你的主机名称    # 如果存在这个则需要修改  例如 HOSTNAME=yaoliuyang
+> 
+> # 修改linux服务器的host文件,将yaoliuyang指向本地(设置FQDN)
+> /etc/hosts
+> echo 127.0.0.1 yaoliuyang >> /etc/hosts
+> ```
+>
+> 
+
+
+
 ## 用户于用户组管理(重点)
 
 >    Linux 系统是一个多用户多任务的操作系统,任何一个要使用系统资源的用户,都必须首先向系统管理员申请一个账号,
@@ -915,8 +946,6 @@ ifcfg-eth0
 ifdown eth0 (慎用,最好下面的命令连着一起用,不然直接断网只能 总后台重启)
 ifup eth0
 ```
-
-
 
 
 
