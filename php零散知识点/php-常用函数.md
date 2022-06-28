@@ -40,3 +40,36 @@ $ php echo.php
 123
 ```
 
+**DateTime 操作时间**
+
+**说明**
+
+> 我们可以利用**DateTime **类计算两个日期的差集
+
+**参考资料**
+
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| 第三方博客 | [link](https://blog.csdn.net/u014158869/article/details/87885478) |
+
+**代码示例**
+
+```php
+  /**
+     * 获取已服务时长
+     * 超过一个月以上刚开始四天之内算一个月
+     */
+    protected function getServiceTime(OrderModel $orderModel)
+    {
+        $to_door_time = !empty($orderModel->to_door_time) ? $orderModel->to_door_time : "";//上户日期
+        //$to_door_time = date('Y-m-d H:i:s', strtotime('+1 month')); //测试写死到店时间
+        $currentDateTime = date('Y-m-d H:i:s');
+        $to_door_time = new \DateTime($to_door_time);
+        $currentDateTime = new \DateTime($currentDateTime);
+        $m = $to_door_time->diff($currentDateTime)->m;//超过的月份
+        $currentDay = date('d');//当前的天数
+        $addMonth = $currentDay > self::MORE_THAN_DAY ? 1 : 0;
+        return $m + $addMonth;
+    }
+```
+
