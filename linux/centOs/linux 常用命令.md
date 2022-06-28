@@ -548,7 +548,7 @@ fi
 
 > 自有服务,即不需要用户独立去安装软件的服务,而是当系统安装好就可以直接使用的服务(内置)
 
-### 运行模式
+### 运行模式(运行级别)
 
 > 运行模式也可以称之为<font color='red'>运行级别</font>
 >
@@ -995,7 +995,45 @@ chkconfig --level  连在一起的启动级别(12:1和2)  服务名  开/关(on/
 
 
 
+## ntp服务:设置同步时间管理
 
+>作用:**ntp**主要作用于对<font color='red'>计算机的时间同步管理操作</font>
+>
+>时间是对服务器来说是很重要的,一般很多网站都需要读取服务器事件来记录相关信息,如果时间不准,则
+>
+>可能造成很大的影响
+
+**资料**
+
+| 名称              | 地址                               |
+| ----------------- | ---------------------------------- |
+| 中国ntp服务器节点 | [link](http://www.ntp.org.cn/pool) |
+
+**扩展补充**
+
+> [alipine时间同步](https://www.csdn.net/tags/MtzaIgwsMjQ0MzMtYmxvZwO0O0OO0O0O.html)
+>
+>  linux 安装**ntpdate**  `yum install ntpdate`
+
+```shell
+# 例如我docker 容器里面的时间不准确
+bash-5.0# date "+%Y-%m-%d %H-%M-%S"
+2022-06-28 14-06-30
+#------------------------------------------------------
+# 同步服务器时间方式有两个:一次性同步(手动同步),通过服务自动同步
+
+## 一次性同步(简单:不推荐因为是一次性的)  ntpdate 地址
+ntpdate  120.25.115.20
+
+## 设置事件同步服务  
+#查看进程 ps -ef | grep ntpd
+服务名: ntpd
+# 启动服务 service ntpd start 或 /etc/init.d/ntpd start
+
+# 设置开机启动
+chkconfig --list
+chkconfig --level  35  network on
+```
 
 
 
