@@ -614,7 +614,144 @@ fi
 > echo 127.0.0.1 yaoliuyang >> /etc/hosts
 > ```
 >
-> 
+
+### [chkconfig:配置设置开机启动项](https://www.runoob.com/linux/linux-comm-chkconfig.html)
+
+> 作用:作用相当于windows下**安全卫士**，**电脑管家**之内的安全辅助工具提供**开机启动项**的管理服务。
+>
+> 在linux下不是所有的软件安装完成之后都有开机启动服务,有的可能需要自己去添加.除此之外还可以查看和删除
+
+
+
+```shell
+#------------------------------------基本命令-------------------------------------------------------------------
+使用方法: chkconfig [--list] [--type <type>] [name]
+         chkconfig --add <name>  # 添加开机启动
+         chkconfig --del <name>  # 删除开机启动
+         chkconfig --override <name>
+         chkconfig [--level <levels>] [--type <type>] <name> <on|off|reset|resetpriorities>  # 设置服务某个级别开机启动
+
+#-------------------------------------查询开机启动------------------------------------------------------------------
+
+# 开机启动服务查询(其中0-6表示各个启动级别，例如以network为例,其中3级别为开(on),则其表示在3启动形式下默认开机启动，5对应的也是关闭,则表示其在左面环境下也是开机启动)
+[root@VM-16-5-centos ~]# chkconfig --list
+.......
+network        	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+.......
+
+# 或者
+[root@VM-16-5-centos ~]# chkconfig --list | grep network
+network        	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+
+#----------------------------------------删除开机启动---------------------------------------------------------------
+# 删除开机启动
+chkconfig --del <name>
+# 例如
+[root@VM-16-5-centos ~]# chkconfig --del network
+
+#------------------------------------------添加开机自动启动-------------------------------------------------------------
+# 说明:并不是电脑所有安装的软件都有服务名称 service start <服务名称>
+[root@VM-16-5-centos ~]# chkconfig --add <name>    【必须要保证服务正常运行,才可以添加】  默认加完之后所有级别全是关闭状态
+
+
+#-------------------------------设置服务某个级别开机启动------------------------------------------------------------------------
+chkconfig --level  连在一起的启动级别(12:1和2)  服务名  开/关(on/off)
+# 例子:设置network 1和2级别开机启动 
+[root@VM-16-5-centos ~]# chkconfig --level  12  network on
+
+# 例子:设置network 5级别开机关闭 
+[root@VM-16-5-centos ~]# chkconfig --level  5  network off
+```
+
+
+
+### ntp服务:设置同步时间管理
+
+>作用:**ntp**主要作用于对<font color='red'>计算机的时间同步管理操作</font>
+>
+>时间是对服务器来说是很重要的,一般很多网站都需要读取服务器事件来记录相关信息,如果时间不准,则
+>
+>可能造成很大的影响
+
+**资料**
+
+| 名称              | 地址                               |
+| ----------------- | ---------------------------------- |
+| 中国ntp服务器节点 | [link](http://www.ntp.org.cn/pool) |
+
+**扩展补充**
+
+> [alipine时间同步](https://www.csdn.net/tags/MtzaIgwsMjQ0MzMtYmxvZwO0O0OO0O0O.html)
+>
+> linux 安装**ntpdate**  `yum install ntpdate`
+
+```shell
+# 例如我docker 容器里面的时间不准确
+bash-5.0# date "+%Y-%m-%d %H-%M-%S"
+2022-06-28 14-06-30
+#------------------------------------------------------
+# 同步服务器时间方式有两个:一次性同步(手动同步),通过服务自动同步
+
+## 一次性同步(简单:不推荐因为是一次性的)  ntpdate 地址
+ntpdate  120.25.115.20
+
+## 设置事件同步服务  
+#查看进程 ps -ef | grep ntpd
+服务名: ntpd
+# 启动服务 service ntpd start 或 /etc/init.d/ntpd start
+
+# 设置开机启动
+chkconfig --list
+chkconfig --level  35  network on
+```
+
+
+
+### 防火墙服务
+
+> 防火墙: 防范一些网络攻击.有<font color='red'>软件防火墙</font> 硬件防火墙之分
+>
+> 防火墙选择让请求通过，从而保证网络安全性
+>
+> [iptables](https://wenku.baidu.com/view/ec06bbf9a68da0116c175f0e7cd184254b351b1d.html)
+
+```shell
+# 在当前的centos6.5中防火墙有一个名称:iptables 【7.x中默认使用的事firewalld】  
+#  ps -ef | grep iptables                           查看进程
+# chkconfig  --list | grep iptables                 查看是否开机启动
+
+# iptables 服务 启动/重启/停止
+service iptables start/restart/stop           
+/etc/init.d/iptables start/restart/stop           
+
+#查看iptables状态(防火墙状态)
+service iptables status  # 如果iptables没有启动,则提示服务没启动,则显示防火墙的相关的规则信息
+
+# iptables 查看规则命令 
+iptables -L -n       # 含义 -L 表示列出规则  -n表示将单词表达形式改成数字显示
+
+# 简单设置防火墙
+例如,需要设置运行80端口通过防火墙,则规则可以用以下的命令来设置
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT  # 允许访问80端口
+
+iptables #主命令
+-A add   #添加规则(z)
+INPUT    # 进站请求 【出战 OUTPUT】
+-p protocol  # 指定协议(icmp/tcp/udp)
+--dport  # 指定端口号
+-j  # 指定行为结果,允许(accept)/禁止(reject)
+
+# 添加完成之后需要保存上一步设置防火墙操作(重要)
+iptables save  # /etc/init.d/iptables save
+
+#---------------------7.x防火墙操作--------------------------------
+centos7.0  filewalld  # filewalld 防火墙的意思 d表示守护进程   
+
+```
+
+
+
+
 
 
 
@@ -947,93 +1084,11 @@ ifdown eth0 (慎用,最好下面的命令连着一起用,不然直接断网只�
 ifup eth0
 ```
 
-## [chkconfig:配置设置开机启动项](https://www.runoob.com/linux/linux-comm-chkconfig.html)
-
-> 作用:作用相当于windows下**安全卫士**，**电脑管家**之内的安全辅助工具提供**开机启动项**的管理服务。
->
-> 在linux下不是所有的软件安装完成之后都有开机启动服务,有的可能需要自己去添加.除此之外还可以查看和删除
-
-```shell
-#------------------------------------基本命令-------------------------------------------------------------------
-使用方法: chkconfig [--list] [--type <type>] [name]
-         chkconfig --add <name>  # 添加开机启动
-         chkconfig --del <name>  # 删除开机启动
-         chkconfig --override <name>
-         chkconfig [--level <levels>] [--type <type>] <name> <on|off|reset|resetpriorities>  # 设置服务某个级别开机启动
-
-#-------------------------------------查询开机启动------------------------------------------------------------------
-
-# 开机启动服务查询(其中0-6表示各个启动级别，例如以network为例,其中3级别为开(on),则其表示在3启动形式下默认开机启动，5对应的也是关闭,则表示其在左面环境下也是开机启动)
-[root@VM-16-5-centos ~]# chkconfig --list
-.......
-network        	0:off	1:off	2:on	3:on	4:on	5:on	6:off
-.......
-
-# 或者
-[root@VM-16-5-centos ~]# chkconfig --list | grep network
-network        	0:off	1:off	2:on	3:on	4:on	5:on	6:off
-
-#----------------------------------------删除开机启动---------------------------------------------------------------
-# 删除开机启动
-chkconfig --del <name>
-# 例如
-[root@VM-16-5-centos ~]# chkconfig --del network
-
-#------------------------------------------添加开机自动启动-------------------------------------------------------------
-# 说明:并不是电脑所有安装的软件都有服务名称 service start <服务名称>
-[root@VM-16-5-centos ~]# chkconfig --add <name>    【必须要保证服务正常运行,才可以添加】  默认加完之后所有级别全是关闭状态
-
-
-#-------------------------------设置服务某个级别开机启动------------------------------------------------------------------------
-chkconfig --level  连在一起的启动级别(12:1和2)  服务名  开/关(on/off)
-# 例子:设置network 1和2级别开机启动 
-[root@VM-16-5-centos ~]# chkconfig --level  12  network on
-
-# 例子:设置network 5级别开机关闭 
-[root@VM-16-5-centos ~]# chkconfig --level  5  network off
-```
 
 
 
-## ntp服务:设置同步时间管理
 
->作用:**ntp**主要作用于对<font color='red'>计算机的时间同步管理操作</font>
->
->时间是对服务器来说是很重要的,一般很多网站都需要读取服务器事件来记录相关信息,如果时间不准,则
->
->可能造成很大的影响
 
-**资料**
-
-| 名称              | 地址                               |
-| ----------------- | ---------------------------------- |
-| 中国ntp服务器节点 | [link](http://www.ntp.org.cn/pool) |
-
-**扩展补充**
-
-> [alipine时间同步](https://www.csdn.net/tags/MtzaIgwsMjQ0MzMtYmxvZwO0O0OO0O0O.html)
->
->  linux 安装**ntpdate**  `yum install ntpdate`
-
-```shell
-# 例如我docker 容器里面的时间不准确
-bash-5.0# date "+%Y-%m-%d %H-%M-%S"
-2022-06-28 14-06-30
-#------------------------------------------------------
-# 同步服务器时间方式有两个:一次性同步(手动同步),通过服务自动同步
-
-## 一次性同步(简单:不推荐因为是一次性的)  ntpdate 地址
-ntpdate  120.25.115.20
-
-## 设置事件同步服务  
-#查看进程 ps -ef | grep ntpd
-服务名: ntpd
-# 启动服务 service ntpd start 或 /etc/init.d/ntpd start
-
-# 设置开机启动
-chkconfig --list
-chkconfig --level  35  network on
-```
 
 
 
