@@ -32,9 +32,9 @@ rm: can't remove 'laravel_study': Resource busy
 
 **参考资料**
 
-| 名称       | 地址                                                        |
-| ---------- | ----------------------------------------------------------- |
-| 第三方博客 | [link](https://www.cnblogs.com/double-dong/p/11533341.html) |
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| 第三方博客 | [link](https://www.cnblogs.com/double-dong/p/11533341.html) [link](https://m.php.cn/article/486823.html) |
 
 **修改示例**
 
