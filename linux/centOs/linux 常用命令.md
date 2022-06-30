@@ -1157,7 +1157,7 @@ See crontab(1) for more information
 >
 > 身份各有 <font color='red'>read,write,execute</font>等权限
 
-**权限介绍**
+### **权限介绍**
 
 > 什么是权限?
 >
@@ -1181,7 +1181,7 @@ See crontab(1) for more information
 
 
 
-**身份介绍**
+### **身份介绍**
 
 > <font color='red'>**Owner**</font>身份(文件所有者)
 >
