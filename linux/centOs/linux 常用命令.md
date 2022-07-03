@@ -1299,6 +1299,23 @@ operator 的符号模式表:
 | `s`  | setuid/gid   | 当文件被执行时，根据who参数指定的用户类型设置文件的setuid或者setgid权限 |
 | `t`  | 粘贴位       | 设置粘贴位，只有超级用户可以设置该位，只有文件所有者u可以使用该位 |
 
+#### 数字形式
+
+**八进制语法**
+
+> chmod命令可以使用八进制数来指定权限。文件或目录的权限位是由9个权限位来控制，每三位为一组，它们分别是文件所有者（User）的读、写、执行，用户组（Group）的读、写、执行以及其它用户（Other）的读、写、执行。历史上，文件权限被放在一个比特掩码中，掩码中指定的比特位设为1，用来说明一个类具有相应的优先级。
+
+| #    | 权限           | rwx  | 二进制 |
+| :--- | :------------- | :--- | :----- |
+| 7    | 读 + 写 + 执行 | rwx  | 111    |
+| 6    | 读 + 写        | rw-  | 110    |
+| 5    | 读 + 执行      | r-x  | 101    |
+| 4    | 只读           | r--  | 100    |
+| 3    | 写 + 执行      | -wx  | 011    |
+| 2    | 只写           | -w-  | 010    |
+| 1    | 只执行         | --x  | 001    |
+| 0    | 无             | ---  | 000    |
+
 
 
 #### **案例**
@@ -1321,17 +1338,100 @@ operator 的符号模式表:
 [root@VM-16-5-centos ~]# chmod a=---                       # 设置全部没有权限 a= 所有
 ```
 
+### 属主与属组设置
+
+> 属主:所属的用户(文件的主人) 
+>
+> 属组:所属的用户组
+>
+> ## 例
+>
+> [root@VM-16-5-centos ~]# ll
+> 总用量 0
+> -rw------- 1 yaoliuyang yaoliuyang 0 6月  30 21:28 a.txt       
+>
+> 第一个  yaoliuyang 代表属主(文件或文件夹属于的主人)
+>
+> 第二个 yaoliuyang 代表属组(文件或文件夹属于那个用户组)
+>
+> 这两个信息是文档创建的时候会使用创建者的信息(用户名,用户所属的<font color='red'>主组</font>名称)
+>
+> <font color='yellow'>如果说有时候去删除某个用户,则该用户对应的文档的属主和属组信息就需要修改</font>
+
+#### chown(**change owner**）
+
+> 命令用于设置文件所有者和文件关联组的命令
+>
+> **作用**: 更改文档的所属用户
+>
+> **语法**:chown username 文档路径
+>
+> **参数** :
+>
+> - user : 新的文件拥有者的使用者 ID
+> - group : 新的文件拥有者的使用者组(group)
+> - -c : 显示更改的部分的信息
+> - -f : 忽略错误信息
+> - -h :修复符号链接
+> - -v : 显示详细的处理信息
+> - -R : 处理指定目录以及其子目录下的所有文件(<font color='red'>如果是文件请用大R递归指定文件夹下的文件或目录,看情况使用如果需要递归请自行加上参数</font>)       
+> - --help : 显示辅助说明
+> - --version : 显示版本
+
+**示例**
+
+```shell
+# 更改文件所属主&所属组       
+chown  所属主名称:所属组名称  文件名称
+
+[root@VM-16-5-centos ~]# ll
+总用量 0
+-rw------- 1 yaoliuyang yaoliuyang 0 6月  30 21:28 a.txt
+[root@VM-16-5-centos ~]# chown root:root a.txt 
+[root@VM-16-5-centos ~]# ll
+总用量 0
+-rw------- 1 root root 0 6月  30 21:28 a.txt
 
 
+# 只更改所属主
+chown 所属主名称 a.txt 
+[root@VM-16-5-centos ~]# ll
+总用量 0
+-rw------- 1 yaoliuyang yaoliuyang 0 6月  30 21:28 a.txt
+[root@VM-16-5-centos ~]# chown root a.txt 
+[root@VM-16-5-centos ~]# ll
+总用量 0
+-rw------- 1 root yaoliuyang 0 6月  30 21:28 a.txt
 
+# 只更改所属组
+chown :所属组名称 a.txt 
+[root@VM-16-5-centos ~]# ll
+总用量 0
+-rw------- 1 root yaoliuyang 0 6月  30 21:28 a.txt
+[root@VM-16-5-centos ~]# chown :root a.txt 
+[root@VM-16-5-centos ~]# ll
+总用量 0
+-rw------- 1 root root 0 6月  30 21:28 a.txt
+```
 
+#### **chgrp**(change group)
 
+> 作用:更改文档的所属用户组
+>
+> 语法:chgrp -R username(用户组名称) 文档的路径
 
+**案例**
 
-
-
-
-
+```shell
+# 更改用户的所属组
+[root@VM-16-5-centos ~]# ll
+总用量 0
+-rw------- 1 root root 0 6月  30 21:28 a.txt
+[root@VM-16-5-centos ~]# chgrp yaoliuyang a.txt 
+[root@VM-16-5-centos ~]# ll
+总用量 0
+-rw------- 1 root yaoliuyang 0 6月  30 21:28 a.txt
+```
 
 
 
