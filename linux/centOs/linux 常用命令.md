@@ -1467,7 +1467,7 @@ shitft + g  (或大G) 跳转到末行添加
 
 ...
 ## 自定义新增用户权限
-yaoliuyang    ALL=(ALL)     /usr/sbin/useradd,/usr/bin/passwd [A-Za-z]*,!/usr/bin/passwd root,/usr/bin/docker
+yaoliuyang    ALL=(ALL)     /usr/sbin/useradd,!/usr/bin/passwd,/usr/bin/passwd [A-Za-z]*,!/usr/bin/passwd root,/usr/bin/docker
 ...
 
 # 切换用户
@@ -1482,7 +1482,7 @@ CONTAINER ID        IMAGE                                   COMMAND             
 b9a921d5e83c        hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"           3 weeks ago         Up 3 days           0.0.0.0:9505->9505/tcp, 0.0.0.0:2022->80/tcp   php_demo
 
 # 禁止普通用户更改root密码 ！表示禁止
-## /usr/bin/passwd [A-Za-z]*,!/usr/bin/passwd root      # 然后匹配正则用户，最后再禁止root用户
+## !/usr/bin/passwd,/usr/bin/passwd [A-Za-z]*,!/usr/bin/passwd root      # 先禁止(!)所有用户，然后匹配正则用户，最后再禁止root用户
 [yaoliuyang@VM-16-5-centos /]$ sudo passwd root
 [sudo] yaoliuyang 的密码：
 对不起，用户 yaoliuyang 无权以 root 的身份在 VM-16-5-centos 上执行 /bin/passwd root。
