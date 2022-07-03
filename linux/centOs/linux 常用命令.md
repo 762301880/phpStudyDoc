@@ -1433,9 +1433,43 @@ chown :所属组名称 a.txt
 -rw------- 1 root yaoliuyang 0 6月  30 21:28 a.txt
 ```
 
+## 扩展:
 
+### 问题:**reboot,shutdown,init,halt,user**管理,在普通用户身份上都是操作不了,但是有些特殊情况下有需要有执行权限。有不可能让**root**用户把自己的密码告诉普通用户，这个问题该怎么解决
 
+> 该问题是可以被解决的，可以使用**sudo**(switch user do) 命令来进行权限设置。sudo 可以让管理员(root)用户事先定义某些特殊命令谁可以执行。
+>
+> <font color='yellow'>sudo 中是没有除root之外用户的规则,要想使用规则先配置sudo</font>
+>
+> **配置文件位置**<font color='red'>/etc/sudoers</font>
 
+```shell
+# 配置 sudo 文件 请使用 visudo 命令,打开之后其使用方法和vim一致
+
+visudo     # 改命令直接编辑配置/etc/sudoers文件
+...
+root    ALL=(ALL)       ALL
+...
+root 表示用户名,如果是用户组则可以写成"%组名"
+ALL：表示允许登录的主机(地址白名单)
+(ALL):表示以谁的身份执行,ALL表示root身份
+All: 最后面的那个ALL,可以执行的命令,多个命令可以使用"," 分割
+```
+
+####  **新增权限示例**
+
+```shell
+visudo
+shitft + g  (或大G) 跳转到末行添加
+
+## 案例:本身yaoliuyang用户不能执行添加用户，要求使用sudo配置，将其设置为可以添加用户,并且可以修改密码(但是不能修改root用户密码)
+# 注意:在写sudo规则的时候不建议写直接形式的命令，而是写命令的完整路径路径可以使用which命令(语法:which 指令名称)来查看,或者直接vim命令模式下执行外部名 :!which useradd
+
+...
+## 自定义新增用户权限
+yaoliuyang    ALL=(ALL)     /usr/sbin/useradd,/usr/bin/passwd,/usr/bin/docker
+...
+```
 
 
 
