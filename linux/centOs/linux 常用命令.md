@@ -1358,7 +1358,7 @@ operator 的符号模式表:
 >
 > <font color='yellow'>如果说有时候去删除某个用户,则该用户对应的文档的属主和属组信息就需要修改</font>
 
-#### chown(**change owner**）
+#### chown(**change owner**）掌握
 
 > 命令用于设置文件所有者和文件关联组的命令
 >
@@ -1414,7 +1414,7 @@ chown :所属组名称 a.txt
 -rw------- 1 root root 0 6月  30 21:28 a.txt
 ```
 
-#### **chgrp**(change group)
+#### **chgrp**(change group) 了解
 
 > 作用:更改文档的所属用户组
 >
