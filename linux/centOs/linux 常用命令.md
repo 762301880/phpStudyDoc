@@ -1488,9 +1488,19 @@ b9a921d5e83c        hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"           
 对不起，用户 yaoliuyang 无权以 root 的身份在 VM-16-5-centos 上执行 /bin/passwd root。
 ```
 
+#### **补充:在普通用户下怎么查看自己具有那些特殊权限呢?**
 
+> **sudo -l**   
+>
+> sudo 不是任何Linux分支都有的命令，常见centos与ubuntu都存在sudo命令。
 
+```shell
+[yaoliuyang@VM-16-5-centos /]$ sudo -l
 
+用户 yaoliuyang 可以在 VM-16-5-centos 上运行以下命令：
+    (ALL) /usr/sbin/useradd, /usr/bin/passwd [A-Za-z]*, !/usr/bin/passwd root, /usr/bin/docker
+
+```
 
 
 
