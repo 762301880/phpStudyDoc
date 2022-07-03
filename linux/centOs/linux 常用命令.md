@@ -1469,6 +1469,18 @@ shitft + g  (或大G) 跳转到末行添加
 ## 自定义新增用户权限
 yaoliuyang    ALL=(ALL)     /usr/sbin/useradd,/usr/bin/passwd,/usr/bin/docker
 ...
+
+# 切换用户
+[root@VM-16-5-centos ~]# su yaoliuyang
+# 正常执行命令报错没有权限
+[yaoliuyang@VM-16-5-centos /]$ docker ps -a
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.26/containers/json?all=1: dial unix /var/run/docker.sock: connect: permission denied
+# 加上sudo命令执行（第一次需要输入当前用户密码进行确认的操作，有效期五分钟）
+[yaoliuyang@VM-16-5-centos /]$ sudo docker ps -a
+CONTAINER ID        IMAGE                                   COMMAND             CREATED             STATUS              PORTS                                          NAMES
+9412b4c5028d        hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"           3 weeks ago         Up 3 days           0.0.0.0:9501->9501/tcp, 0.0.0.0:1997->80/tcp   laravel_study
+b9a921d5e83c        hyperf/hyperf:7.4-alpine-v3.11-swoole   "/bin/sh"           3 weeks ago         Up 3 days           0.0.0.0:9505->9505/tcp, 0.0.0.0:2022->80/tcp   php_demo
+
 ```
 
 
