@@ -813,7 +813,7 @@ centos7.0  filewalld  # filewalld 防火墙的意思 d表示守护进程
      useradd -g 501 -G 500 -u 666 lisi
 ```
 
-#### 修改用户
+#### [修改用户:usermod](https://www.runoob.com/linux/linux-comm-usermod.html)
 
 > **usermod(user modify)** 用户编辑
 
@@ -843,6 +843,21 @@ usermod -g 500 -G 501 yaoliuyang     # 修改yaoliuyang用户组为500,附加组
 # 案例二
 # 修改yaoliuyang 用户用户名,修改为 yaokun
 usermod -l yaokun(新用户名) yaoliuyang(旧用户名) 
+# ----------------------------------------------------------------------------
+# 案例三  修改　修改用户登入后所使用的shell 例如 /sbin/nologin 禁止用户登录
+[root@VM-16-5-centos ~]# cat /etc/passwd
+apache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin
+yaoliuyang:x:1000:1000::/home/yaoliuyang:/bin/bash
+
+[root@VM-16-5-centos ~]# useradd test
+
+[root@VM-16-5-centos ~]# tail -1 /etc/passwd
+test:x:1001:1001::/home/test:/bin/bash
+# 修改shel
+[root@VM-16-5-centos ~]# usermod -s /sbin/nologin test
+
+[root@VM-16-5-centos ~]# tail -1 /etc/passwd
+test:x:1001:1001::/home/test:/sbin/nologin
 ```
 
 ####  [设置密码](https://www.runoob.com/linux/linux-comm-passwd.html)

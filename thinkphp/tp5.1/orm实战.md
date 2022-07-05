@@ -192,3 +192,24 @@ $age = "(DATE_FORMAT(NOW(), '%Y') - (DATE_FORMAT(DATE_ADD(FROM_UNIXTIME(0), INTE
  if (!empty($text)) $query->where("CONCAT(字段一,字段二,字段三,字段N) like '%$text%'");
 ```
 
+## 统一修改自动过滤数据库不存在的字段信息
+
+> 在添加数据时往往不能确定接收的数据完全一一对应数据库字段的数据
+> 接收的数据可能会有很多,且包括不是数据库字段的数据
+> 这个时候就需要让程序自动过滤下非数据库字段的数据
+>
+> 在 TP5 中 提供了一个DB类 `strict(false)`可以自动过滤非数据库字段的数据
+
+### 参考资料
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 技术博客 | [link](https://www.csdn.net/tags/NtDaIg5sNTc3MDUtYmxvZwO0O0OO0O0O.html) |
+
+### 代码示例
+
+```php
+$order_edit_json_arr = json_decode($order_apply_refund->order_edit_json, true)?? []; //还原字段
+$isUpdateOrder = OrderModel::where('id', $orderId)->strict(false)->update($order_edit_json_arr);
+```
+
