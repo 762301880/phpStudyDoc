@@ -151,8 +151,42 @@ alias rm='/usr/local/src/disable_rm.sh'     # 重新添加rm别名指向脚本
 # 创建 a.txt 文件 && b目录
 [root@VM-16-5-centos ~]# touch a.txt && mkdir b && ls
 a.txt  b
-# 删除文件&m
+# 删除文件&目录并查看
 [root@VM-16-5-centos ~]# rm -f a.txt  && rm -rf b && ls
 [root@VM-16-5-centos ~]# 
+```
+
+# 注意事项
+
+### [定义变量之间左右不要有<font color='red'>空格</font>](https://blog.csdn.net/xbnlkdbxl/article/details/52945608?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-1-52945608-blog-89491253.pc_relevant_aa&spm=1001.2101.3001.4242.2&utm_relevant_index=4)
+
+**例子**
+
+> 其实在定义shell脚本的变量时在变量名和等号之间是不允许有空格的，而我写的是you_name和=之间有空格，所以系统默认为，you_name是一个命令，所以系统找不到这个命令
+
+```shell
+# 定义a.sh
+[root@VM-16-5-centos src]# vim a.sh 
+
+#!/bin/bash
+
+you_name= “zhangsan”
+echo $you_name
+# 设置可执行权限
+[root@VM-16-5-centos src]# chmod +x a.sh
+# 输出示例
+[root@VM-16-5-centos src]# ./a.sh 
+./a.sh: line 3: $'\342\200\234zhangsan\342\200\235': command not found
+
+#-------------------------修改后------------------------
+# 删除等于号之间的空格
+[root@VM-16-5-centos src]# cat a.sh 
+#!/bin/bash
+you_name=“zhangsan”
+echo $you_name
+
+# 输出示例
+[root@VM-16-5-centos src]# ./a.sh 
+“zhangsan”
 ```
 
