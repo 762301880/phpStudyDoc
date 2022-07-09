@@ -234,3 +234,100 @@ or
   //
 @endif
 ```
+
+#  实战讲解示例
+
+## 创建权限
+
+> 利用**[laravel-数据填充](https://learnku.com/docs/laravel/8.x/seeding/9404)** 功能填充对应的权限
+
+```shell
+# 这里只简单的演示添加权限数据信息,例如用户创建角色什么的可以自行添加
+
+# 创建填充类
+php artisan make:seeder CreatePermission
+
+....
+public function run()
+    {
+       Permission::create([
+           ['guard_name' => '登录', 'name' => 'auth.login'],
+           ['guard_name' => '商品列表', 'name' => 'order.goods']
+       ]);
+    }
+.......
+
+# 用户角色表等等等等(记得用户表默认创建一个超级管理员用户也是填充添加)
+
+# 最后 利用 数据填充自带的 DatabaseSeeder表统一添加填充
+/**
+ * 执行数据库填充
+ *
+ * @return void
+ */
+public function run()
+{
+    $this->call([
+        CreatePermission::class,
+        Xxxxx::class,
+        Xxxxx::class,
+    ]);
+}
+```
+
+
+
+
+
+## 鉴权中间件
+
+> 记得**注册中间件**
+
+```shell
+# 创建中间件
+php artisan make:middleware CheckPermission
+
+# handle方法中添加返回 
+public function handle(Request $request, Closure $next)
+    {
+        $userModel= User::find(id); # 这里写死我们可以用登录校验中间件获取用户实例;
+        $request_url_name=$request->route()->getName(); # 获取当前路由请求名称 即  ->name('xxx.xxx')
+        if (!$userModel->can($request_url_name)){  #记得模型中添加 use HasRoles; 后可以使用can方法校验是否拥有权限 
+            return response()->json(['code'=>403,'message'=>'no_permission']);
+        }
+        return $next($request);
+    }
+```
+
+
+
+
+
+```shell
+//用户登录
+Route::group(['prefix' => 'auth'], function () {
+    Route::any('register', [\App\Http\Controllers\UserAuthController::class, 'register'])->name('auth.register'); //用户注册
+    Route::any('login', [\App\Http\Controllers\UserAuthController::class, 'login'])->name('auth.login'); //用户登录
+    Route::get('test', [\App\Http\Controllers\UserAuthController::class, 'test'])->name('auth.test')->middleware('auth:api'); //测试jwt路由
+});
+# 商品相关路由
+  Route::group(['prefix' => 'order', ['middleware' => ['auth:api', 'bind']]], function ($api) {
+    //分类列表
+    Route::get('category', [\App\Http\Controllers\CategoryController::class,'index'])->name('order.category');
+    // 商品列表
+    Route::get('goods', [\App\Http\Controllers\GoodsController::class,'list'])->name('order.goods');
+});
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
