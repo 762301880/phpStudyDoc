@@ -94,6 +94,28 @@ docker run --name mysql -itd --privileged=true -p 3306:3306 -p 9702:9702 -v /dat
 
 
 
+**创建my.ini文件**
+
+```shell
+[mysql]
+# 设置3306端口
+prot=3306
+character-set-server=utf8
+
+# 创建新表时将使用的默认存储引擎
+default-storage-engine=INNODB
+
+[mysql]
+# 设置mysql客户端默认字符串
+default-charcter-set=utf8
+[client]
+# 设置mysql客户端连接服务端时默认使用的端口
+port=3306
+default-character-set=utf8
+```
+
+
+
 待补充因为感觉现在用不上这玩意
 
 # [linux安装mysql](https://www.w3cschool.cn/mysql/mysql-install.html)
