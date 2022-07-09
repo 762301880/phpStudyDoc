@@ -26,6 +26,7 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 docker-compose --version
 
+#----------------------------------t----------------------------------------
 
 # 以上下载很慢可以用国内的镜像(你可以通过修改URL中的版本，可以自定义您的需要的版本。)
 
