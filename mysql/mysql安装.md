@@ -64,3 +64,36 @@ Query OK, 0 rows affected (0.02 sec)
 
 docker run --name mysql -itd --privileged=true -p 3306:3306 -p 9702:9702 -v /data/mysql:/etc/mysql 
 -e MYSQL_ROOT_PASSWORD=yaoliuyang  容器id
+
+```
+
+
+
+# 压缩包形式安装mysql
+
+## 资料
+
+| 名称                     | 地址                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| mysql官方下载地址        | [link](https://downloads.mysql.com/archives/community/)      |
+| 清华大学开源镜像站-mysql | [link](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/)  [点击下载](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/mysql-5.7.36-winx64.zip) |
+
+## windows-压缩包安装
+
+> 官网下载[mysql](https://downloads.mysql.com/archives/community/)版本,这里下载**64位**压缩版本,最好是**5.7版本**
+>
+> 由于官网下载速度很慢所以我们到开源镜像站下载,**[清华大学开源镜像站-mysql](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/)**
+
+![image-20220709150956479](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220709150956479.png)
+
+**解压软件包**
+
+> 解压后的目录
+
+![image-20220709152617916](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220709152617916.png)
+
+
+
+待补充因为感觉现在用不上这玩意
+
+# [linux安装mysql](https://www.w3cschool.cn/mysql/mysql-install.html)
