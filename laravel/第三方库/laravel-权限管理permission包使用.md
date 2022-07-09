@@ -250,10 +250,24 @@ php artisan make:seeder CreatePermission
 ....
 public function run()
     {
-       Permission::create([
-           ['guard_name' => '登录', 'name' => 'auth.login'],
-           ['guard_name' => '商品列表', 'name' => 'order.goods']
-       ]);
+       
+        // 重置角色和权限缓存
+        app()['cache']->forget('spatie.permission.cache'); # 清理缓存
+
+        // 创建权限
+        Permission::create(['name' => 'auth.login','guard_name'=>'api','cn_name'=>'用户登录']); # 用户登录权限
+        Permission::create(['name' => 'order.goods','guard_name'=>'api','cn_name'=>'商品列表']);
+        ...
+
+        // 创建角色并分配创建的权限
+
+        $role = Role::create(['name' => 'super-admin','cn_name'=>'超级管理员']);
+        .....
+
+        $role = Role::create(['name' => 'moderator']);
+        # 给角色授权
+        $role->givePermissionTo(['auth.login', 'order.goods']);# 一个一个写入权限(不推荐) 
+        $role->givePermissionTo(Permission::all()); # 全部默认写入
     }
 .......
 
