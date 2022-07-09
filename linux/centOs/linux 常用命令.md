@@ -488,6 +488,8 @@ Swap file ".demo.txt.swp" already exists!
 
 ## [别名机制](https://www.runoob.com/linux/linux-comm-alias.html)(创建自己的linux命令)
 
+> <font color='red'>注意：创建别名之后重新进入终端生效</font>
+>
 > **作用:**相当于创建一些属于自己的自定义命令
 >
 > **例如:** 在`windows`下有`cls`命令,在Linux下可能因为没有这个命令而不习惯清屏,现在可以通过别名机制来解决
