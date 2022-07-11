@@ -214,3 +214,30 @@ http://www.thinkphp.com/demo/demo_test
 我是demo控制器下面的aaa方法
 ```
 
+
+
+
+
+# bug解析
+
+## 初次使用多应用模式出现<font color='red'>No input file specified.</font>
+
+[**参考资料**](https://blog.csdn.net/weixin_41965172/article/details/104369354) 
+
+**解决方案**
+
+```shell
+
+# 你的项目\public\.htaccess
+
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks -Multiviews
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  #   RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]  修改为   RewriteRule ^(.*)$ index.php [L,E=PATH_INFO:$1]
+  RewriteRule ^(.*)$ index.php [L,E=PATH_INFO:$1]
+</IfModule>
+```
+
