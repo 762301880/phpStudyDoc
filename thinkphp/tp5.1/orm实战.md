@@ -229,3 +229,41 @@ public function getStatusTextAttr($value,$data)
     }
 ```
 
+**实战示例**
+
+> **说明** 这里有一个**坑**就是<font color='red'>如果需要调用别的变量中的方法需要赛选字段的时候带入别的变量</font>
+
+```shell
+
+# 代码调用
+   public function queryOrderNumber($order_number)
+    {
+        $orderModelQuery = OrderModel::where('order_number', 'like', "%{$order_number}%");
+        $list = $orderModelQuery->field([
+            "id", "order_number", "service_id", "service_name",
+            "user_name", "phone", "to_door_address", "city_path_id"
+        ])->find();
+
+        if (empty($list)) throw new SystemException("订单编号或者订单为空");
+        return $list;
+    }
+# 模型中的获取器
+    public function getCityPathIdTextAttr()
+    {
+        $city_path_id = $this->city_path_id ?? "";
+        if (empty($city_path_id)) return "";
+        return AddressModel::getInstance()->getCityPathName($city_path_id, '');
+    }
+
+    /**
+     * 返回序列化之后的详细地址(包括保洁|保姆提交后的具体地址)
+     * @return mixed|string
+     */
+    public function getToDoorAddressAttr($value)
+    {
+        $city_path_id_text = $this->getCityPathIdTextAttr() ?? "";
+        if (empty($city_path_id_text)) return $value;
+        return $city_path_id_text . '' . $value;
+    }
+```
+
