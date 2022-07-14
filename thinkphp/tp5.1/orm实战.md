@@ -267,3 +267,13 @@ public function getStatusTextAttr($value,$data)
     }
 ```
 
+# thinkphp 插入批量数据
+
+**代码示例**
+
+```shell
+  $data=[['aunt_id'=>123,'service_id'=>456],['aunt_id'=>123,'service_id'=>456]];
+  $auntServiceModel= new  AuntServiceModel();
+  dd($auntServiceModel->saveAll($data));
+```
+
