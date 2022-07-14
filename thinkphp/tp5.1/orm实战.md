@@ -213,3 +213,19 @@ $order_edit_json_arr = json_decode($order_apply_refund->order_edit_json, true)??
 $isUpdateOrder = OrderModel::where('id', $orderId)->strict(false)->update($order_edit_json_arr);
 ```
 
+# [获取器](https://www.kancloud.cn/manual/thinkphp5_1/354046)
+
+> 开发过程中我们经常需要对模型中的某个字段进行**特殊处理**,例如改变或序列化某个值的结果
+
+```php
+# 模型中定义获取器
+/**
+ * value 就是status 这个值本身,data整个模型的数据
+ */
+public function getStatusTextAttr($value,$data)
+    {
+        $status = [-1=>'删除',0=>'禁用',1=>'正常',2=>'待审核'];
+        return $status[$data['status']];
+    }
+```
+
