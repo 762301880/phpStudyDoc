@@ -279,10 +279,32 @@ public function getStatusTextAttr($value,$data)
 
 ## 关联查询如何设置别名&&（日后统一的后台列表&详情查询）
 
-**实战**
+### **对应数据表**
+
+> 预约服务表
+
+![image-20220715150216733](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220715150216733.png)
+
+> 预约服阿姨表
+
+![image-20220715150232580](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220715150232580.png)
+
+### 需求
+
+**列表页**
+
+![image-20220715150409832](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220715150409832.png)
+
+**详情页**
+
+![image-20220715150444325](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220715150444325.png)
+
+
+
+### **实战代码**
 
 ```shell
- public function getOrderReserveListOrDetails($data)
+public function getOrderReserveListOrDetails($data)
     {
         $id = $data['id'] ?? "";
         $export = $data['export'] ?? "";
@@ -291,7 +313,7 @@ public function getStatusTextAttr($value,$data)
         # 返回详情
         if (!empty($id)) {
             $details = $this->getOrderServiceReserveQuery($data)->with('orderReserveAunts')->find();
-            // $this->appendRetOrderReserveListOrDetailsText($details);
+            $this->appendRetOrderReserveListOrDetailsText($details);
             return $details;
         }
         # 返回列表
@@ -300,23 +322,23 @@ public function getStatusTextAttr($value,$data)
             ->order('id', 'DESC')
             ->field("reserve.*, ifnull(aunts.aunt_name,'-') as input_aunt_name ,aunts.id as aunts_id")
             ->paginate($limit);
-//        $list->getCollection()->map(function ($list) {
-//            //$this->appendRetOrderReserveListOrDetailsText($list);
-//            return $list;
-//        });
+        $list->getCollection()->map(function ($list) {
+            $this->appendRetOrderReserveListOrDetailsText($list);
+            return $list;
+        });
         PaginateService::appendBackstageResponseData($list);
         return $list;
     }
 
-//    /**
-//     * 添加扩展字段返回
-//     * @param $data
-//     */
-//    protected function appendRetOrderReserveListOrDetailsText(OrderServiceReserveModel $reserveModel)
-//    {
-//        if (empty($reserveModel)) return [];
-//        $reserveModel->order_reserve_aunts = ;
-//    }
+    /**
+     * 添加扩展字段返回
+     * @param $data
+     */
+    protected function appendRetOrderReserveListOrDetailsText(OrderServiceReserveModel $reserveModel)
+    {
+        if (empty($reserveModel)) return [];
+        $reserveModel->serialize_time_interval = $reserveModel->start_time . '~' . $reserveModel->end_time;
+    }
 
     /**
      * 公用查询
@@ -350,8 +372,8 @@ public function getStatusTextAttr($value,$data)
             });
         # 不是详情的话添加关联查询
         if (empty($data['id'])) {
-            $noConditionOne = OrderReserveAuntModel::STATUS_INAPPROPRIATE;
-            $noConditionTwo = OrderReserveAuntModel::STATUS_SCHEDULE_CONFLICT;
+            $noConditionOne = OrderReserveAuntModel::STATUS_INAPPROPRIATE; //排除条件1
+            $noConditionTwo = OrderReserveAuntModel::STATUS_SCHEDULE_CONFLICT; //查询条件二
             $query->leftJoin('pxs_order_reserve_aunts aunts', "aunts.order_service_reserve_id=reserve.id and aunts.status != {$noConditionOne} and aunts.status !={$noConditionTwo}");
         }
         return $query;
