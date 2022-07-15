@@ -378,5 +378,23 @@ public function getOrderReserveListOrDetails($data)
         }
         return $query;
     }
+    
+# 列表调用
+    public function index(Request $request)
+    {
+        $data = $request->only([
+            'page', 'limit', 'reservation_number', 'id', 'user_name', 'user_phone',
+            'aunt_name', 'service_id', 'start_time', 'end_time',
+            'reserve_start_time', 'end_start_time', 'export'
+        ]);
+        $res = $this->orderReserveService->getOrderReserveListOrDetails($data);
+        //导出列表
+        if (!empty($data['export']) && $data['export'] == true) {
+            $data = $res['list'];
+            return OrderServiceReserveModel::exportOrderServiceReserve($data);
+        }
+        $retText = !empty($id) ? "详情" : "列表";
+        return $this->resSuccess($res, "服务订单{$retText}返回成功");
+    }
 ```
 
