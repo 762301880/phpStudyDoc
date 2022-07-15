@@ -213,7 +213,7 @@ $order_edit_json_arr = json_decode($order_apply_refund->order_edit_json, true)??
 $isUpdateOrder = OrderModel::where('id', $orderId)->strict(false)->update($order_edit_json_arr);
 ```
 
-# [获取器](https://www.kancloud.cn/manual/thinkphp5_1/354046)
+## [获取器](https://www.kancloud.cn/manual/thinkphp5_1/354046)
 
 > 开发过程中我们经常需要对模型中的某个字段进行**特殊处理**,例如改变或序列化某个值的结果
 
@@ -267,7 +267,7 @@ public function getStatusTextAttr($value,$data)
     }
 ```
 
-# thinkphp 插入批量数据
+## thinkphp 插入批量数据
 
 **代码示例**
 
@@ -275,5 +275,86 @@ public function getStatusTextAttr($value,$data)
   $data=[['aunt_id'=>123,'service_id'=>456],['aunt_id'=>123,'service_id'=>456]];
   $auntServiceModel= new  AuntServiceModel();
   dd($auntServiceModel->saveAll($data));
+```
+
+## 关联查询如何设置别名
+
+**实战**
+
+```shell
+ public function getOrderReserveListOrDetails($data)
+    {
+        $id = $data['id'] ?? "";
+        $export = $data['export'] ?? "";
+        $limit = !empty($data['limit']) ? $data['limit'] : 10;
+        if (!empty($export) && $export == true) $limit = $this->getOrderServiceReserveQuery($data)::count() + 1;//因为下标从0开始导出所以要+1
+        # 返回详情
+        if (!empty($id)) {
+            $details = $this->getOrderServiceReserveQuery($data)->with('orderReserveAunts')->find();
+            // $this->appendRetOrderReserveListOrDetailsText($details);
+            return $details;
+        }
+        # 返回列表
+        //getLastSql();
+        $list = $this->getOrderServiceReserveQuery($data)
+            ->order('id', 'DESC')
+            ->field("reserve.*, ifnull(aunts.aunt_name,'-') as input_aunt_name ,aunts.id as aunts_id")
+            ->paginate($limit);
+//        $list->getCollection()->map(function ($list) {
+//            //$this->appendRetOrderReserveListOrDetailsText($list);
+//            return $list;
+//        });
+        PaginateService::appendBackstageResponseData($list);
+        return $list;
+    }
+
+//    /**
+//     * 添加扩展字段返回
+//     * @param $data
+//     */
+//    protected function appendRetOrderReserveListOrDetailsText(OrderServiceReserveModel $reserveModel)
+//    {
+//        if (empty($reserveModel)) return [];
+//        $reserveModel->order_reserve_aunts = ;
+//    }
+
+    /**
+     * 公用查询
+     * @param $data
+     */
+    public function getOrderServiceReserveQuery($data)
+    {
+        $query = OrderServiceReserveModel::alias("reserve")
+            ->where(function ($query) use ($data) {
+                # 查询条件
+                $reservation_number = $data['reservation_number'] ?? "";
+                $id = $data['id'] ?? "";
+                $user_name = $data['user_name'] ?? "";
+                $user_phone = $data['user_phone'] ?? "";
+                $aunt_name = $data['aunt_name'] ?? "";
+                $service_id = $data['service_id'] ?? "";
+                $start_time = $data['start_time'] ?? "";
+                $end_time = $data['end_time'] ?? "";
+                $reserve_start_time = $data['reserve_start_time'] ?? "";
+                $end_start_time = $data['end_start_time'] ?? "";
+                # 筛选
+                if (!empty($reservation_number)) $query->where('reserve.reservation_number', 'like', "%{$reservation_number}%");
+                if (!empty($id)) $query->where('reserve.id', $id);
+                if (!empty($user_name)) $query->where('reserve.user_name', 'like', "%{$user_name}%");
+                if (!empty($user_phone)) $query->where('reserve.user_phone', 'like', "%{$user_phone}%");
+                if (!empty($service_id)) $query->where('reserve.service_id', $service_id);
+                if (!empty($aunt_name)) $query->where('aunts.aunt_name', 'like', "%{$aunt_name}%");
+                //日期查询
+                if (!empty($start_time) && !empty($end_time)) $query->whereBetween('reserve.create_time', [$start_time . ' 00:00:00', $end_time . ' 23:59:59']);
+                if (!empty($reserve_start_time) && !empty($end_start_time)) $query->whereBetween('reserve.reservation_time', [$reserve_start_time, $end_start_time]);
+            });
+        # 不是详情的话添加关联查询
+        if (empty($data['id'])) {
+            $noConditionOne = OrderReserveAuntModel::STATUS_INAPPROPRIATE;
+            $noConditionTwo = OrderReserveAuntModel::STATUS_SCHEDULE_CONFLICT;
+            $query->leftJoin('pxs_order_reserve_aunts aunts', "aunts.order_service_reserve_id=reserve.id and aunts.status != {$noConditionOne} and aunts.status !={$noConditionTwo}");
+        }
+        return $query;
+    }
 ```
 
