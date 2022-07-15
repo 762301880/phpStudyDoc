@@ -277,7 +277,7 @@ public function getStatusTextAttr($value,$data)
   dd($auntServiceModel->saveAll($data));
 ```
 
-## 关联查询如何设置别名
+## 关联查询如何设置别名&&（日后统一的后台列表&详情查询）
 
 **实战**
 
