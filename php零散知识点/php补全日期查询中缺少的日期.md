@@ -47,3 +47,15 @@ print_r($newData);
         return $collection;
 ```
 
+# [计算时间是上午还是下午](https://blog.csdn.net/weixin_39771260/article/details/115148038)
+
+
+
+**示例**
+
+```php
+$hours=date('H');# 自动获取当前的小时
+if($hours >= 7 && $Datetime =< 12) return "上午";
+if($hours >= 12 && $Datetime =< 18) return "x";
+```
+
