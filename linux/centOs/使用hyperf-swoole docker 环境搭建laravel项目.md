@@ -9,7 +9,7 @@
 ```shell
 # 启动并下载镜像 这里解释一下为什么设置了两个端口  第一个端口用于使用swoole  第二个端口用于访问项目
 
-docker run -v /data/work/:/data/work/ -p 9501:9501 -p 1997:80 --restart=always --name "laravel_study" -itd --entrypoint /bin/sh hyperf/hyperf:7.4-alpine-v3.11-swoole
+docker run -v /data/work/项目名称:/data/work/项目名称 -p 9501:9501 -p 1997:80 --restart=always --name "laravel_study" -itd --entrypoint /bin/sh hyperf/hyperf:7.4-alpine-v3.11-swoole
 
 # 进入容器之后修改镜像源 https://developer.aliyun.com/mirror/alpine?spm=a2c6h.13651102.0.0.3e221b11a7F6xt
 
