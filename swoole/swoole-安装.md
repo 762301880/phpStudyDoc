@@ -1,4 +1,4 @@
-#  [安装swoole](https://wiki.swoole.com/wiki/page/6.html)
+#  [linux 安装swoole](https://wiki.swoole.com/wiki/page/6.html)
 
 **资料**
 
@@ -7,7 +7,7 @@
 | 官网安装文档     | [link](https://wiki.swoole.com/#/environment)           |
 | 官网安装视频教程 | [link](https://course.swoole-cloud.com/course-video/23) |
 
-# 编译安装
+## 编译安装
 
 **官网介绍**
 
@@ -155,7 +155,7 @@ swoole # 显示出的扩展有swoole即可
 ...
 ```
 
-# pecl安装
+## pecl安装
 
 **资料**
 
@@ -189,4 +189,80 @@ extension=swoole.so
 ```
 
 - 保存并退出，在终端运行 `php -m`，如果看到扩展里包含 `swoole`，说明安装启用成功。
+
+# windows安装swoole
+
+**参考资料**
+
+| 名称     | 地址                                                      |
+| -------- | --------------------------------------------------------- |
+| 网络博客 | [link](https://mp.weixin.qq.com/s/7t8yUUnpY4Ld6kNEPTdYig) |
+| 下载地址 | [link](https://github.com/swoole/swoole-src/releases)     |
+
+## 下载win版本
+
+**wget 下载**
+
+```shell
+# wget 下载
+wget https://github.com/swoole/swoole-src/releases/download/v4.8.11/swoole-cli-v4.8.11-cygwin64.zip
+```
+
+[**github下载**](https://github.com/swoole/swoole-src/releases)
+
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220720162305723.png" alt="image-20220720162305723" style="zoom:50%;" />
+
+
+
+## 安装(解压并配置环境变量)
+
+**将项目解压到喜欢的目录**
+
+```shell
+D:\Program Files\swoole-cli-v4.8.11-cygwin64
+
+# 目录下的文件为
+D:\Program Files\swoole-cli-v4.8.11-cygwin64>tree
+文件夹 PATH 列表
+卷序列号为 E069-D42F
+D:.
+├─bin
+├─etc
+│  └─pki
+│      ├─ca-trust
+│      │  ├─extracted
+│      │  │  ├─edk2
+│      │  │  ├─java
+│      │  │  ├─openssl
+│      │  │  └─pem
+│      │  └─source
+│      │      ├─anchors
+│      │      └─blacklist
+│      ├─nssdb
+│      └─tls
+│          ├─certs
+│          ├─misc
+│          └─private
+└─tmp
+```
+
+**配置环境变量**
+
+> 将解压后的文件夹/bin目录配置到系统的Path环境变量中。
+>
+> 
+
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220720162744600.png" alt="image-20220720162744600" style="zoom:50%;" />
+
+## 测试使用
+
+```shell
+# 查询版本
+C:\Users\铺先生技术研发中心>swoole-cli -v
+Swoole 4.8.11 (cli) (built: Jul  8 2022 18:57:30) (NTS)
+# 查询支持的php扩展
+C:\Users\铺先生技术研发中心>swoole-cli -m
+[PHP Modules]
+........
+```
 
