@@ -196,27 +196,48 @@ public function getMiniAccessToken()
 
 <img src="https://s2.loli.net/2022/04/28/VxAsHUEIJ5OD3wb.gif" alt="Screenshot_2022_0428_085826.gif" style="zoom:50%;" />
 
+**页面参数查询**
+
+> **注意这里页面参数可以图片中示例中去取**,<font color="red">注意测试的只能跳线上小程序如果携带参数请携带线上参数</font>
+
+![](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220721143908645.png)
+
 **代码示例**
 
 ```php
-    /**
+   # 控制器
+    public function schemeCode(Request $request)
+    {
+        try {
+            $data=$request->only(['path','query']);
+            if (empty($data['path']))throw new SystemException('小程序页面路径不能为空');
+            $res = $this->miniProgram->getSchemeCode($data);
+            return $this->resSuccess($res, '小程序scheme码返回成功');
+        } catch (SystemException $systemException) {
+            return $this->resError($systemException->getMessage());
+        }
+
+    }
+
+   /**
      *获取小程序 scheme 码
      */
     public function getSchemeCode(array $data)
     {
-        $path = !empty($data['path']) ? $data['path'] : "";
+        $path = $data['path'] ?? "";
+        $query = $data['query'] ?? ""; //携带参数
         $accessToken = $this->getAccessToken();
         $url = "https://api.weixin.qq.com/wxa/generatescheme?access_token={$accessToken}";
         $postData = [
             'jump_wxa' => [
                 'path' => $path,//跳转到的目标小程序信息
-                'query' => '',
+                'query' => $query,
                 'env_version' => '',
             ],
             'expire_type' => 0,//到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
-            'expire_time' => strtotime("+11 month"),
+            'expire_time' => strtotime("+11 month"),//到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
         ];
-        $res = http_request($url, json_encode($postData));
+        $res = request_post($url, json_encode($postData));
         $res = json_decode($res, true);
         if (!empty($res) && $res['errcode'] == 0 && $res['errmsg'] == 'ok') {
             return $res['openlink'];
@@ -235,9 +256,9 @@ public function getMiniAccessToken()
 }
 ```
 
-## bug
+## bug解析
 
-## **"errcode" => 85401 "errmsg" => "time limit between 1min and 1year rid: xxxxxxxxxxx**
+### **"errcode" => 85401 "errmsg" => "time limit between 1min and 1year rid: xxxxxxxxxxx**
 
 > 由报错原因我们可以看出**时间限制在1分钟到1年之间** 所以如果**expireType==0**的情况下**expireTime 设置为Unix时间戳格式(全是数字的那种格式)** 
 >
@@ -247,7 +268,13 @@ public function getMiniAccessToken()
 
 
 
+###  携带参数问题
 
+> <font color='red'> 注意测试的只能跳线上小程序如果携带参数请携带线上参数</font>
+>
+> 参数使用**query**  传递字符 例子**id=940**
+
+![image-20220721144301942](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220721144301942.png)
 
 
 
