@@ -53,7 +53,7 @@ docker pull jenkins/jenkins:latest
 
 ```shell
 mkdir /var/jenkins && chown -R 1000 /var/jenkins/ # 这一步不执行端口都无法显示出来
-docker run  -itd -p 8080:8080 -p 50000:50000 --name jenkins	  -v /var/jenkins:/var/jenkins_home 镜像id
+docker run  -itd -p 8080:8080 -p 50000:50000 --restart=always  --name jenkins  -v /var/jenkins:/var/jenkins_home 镜像id
 ```
 
 **打开jenkins**
