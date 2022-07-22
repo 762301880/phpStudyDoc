@@ -82,3 +82,12 @@ exit
 # 最后重新打开jenkins外网地址完成升级
 ```
 
+#  jenkins重启
+
+> 地址+restart  
+
+```shell
+# 例子
+http://81.69.231.252:8080/restart
+```
+
