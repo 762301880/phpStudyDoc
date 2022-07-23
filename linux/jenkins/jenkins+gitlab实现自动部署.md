@@ -70,6 +70,10 @@ docker exec -it  容器id /bin/bash
 # 查看密码
 jenkins@37b124ebf446:/$ cat /var/jenkins_home/secrets/initialAdminPassword
 11ac1d04bf5d4932a85c1d7788cc76b7
+
+
+# 或者直接外部查看密码
+ docker exec -it jenkins(容器名称)  cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 **安装建议的插件**
