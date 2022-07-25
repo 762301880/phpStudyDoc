@@ -91,3 +91,14 @@ exit
 http://81.69.231.252:8080/restart
 ```
 
+#  初始用户admin密码
+
+> 初始用户admin是没有密码的，可以用初始界面的密码进行登录,然后再设置中修改密码
+
+```shell
+# 查看初始密码
+docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+```
+
+
+
