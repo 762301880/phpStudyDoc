@@ -214,7 +214,41 @@ cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git sta
 
 
 
+## 凭据管理<font color='yellow'>SSH Username with private key</font>
 
+> **说明**
+>
+> 关于这个为什么我一定要单独记录一下,因为这个我踩坑好几天了，一直以为这个ssh是用来远程连接
+>
+> 服务器使用的,最后发现是用来连接**git仓库拉取拉取代**码用的
+
+**资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://javalib.blog.csdn.net/article/details/124416957?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1-124416957-blog-111944479.pc_relevant_multi_platform_whitelistv2_exp180w&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1-124416957-blog-111944479.pc_relevant_multi_platform_whitelistv2_exp180w&utm_relevant_index=1) |
+
+###  示例
+
+**添加ssh凭证**
+
+> SSH Username with password：SSH 账号和密钥，免密登录的方式。
+>
+> 描述:添加表述内容
+>
+> username:一般是gitlab账号邮箱
+>
+> privateKey:是同上传到**git仓库上的私钥** 这里的私钥不是文件形式是以**-----BEGIN OPENSSH PRIVATE KEY-----  开始     -----END OPENSSH PRIVATE KEY----- 结束** 的全部字符（ **cat ~/.ssh/id_rsa** 命令查询私钥复制即可） 
+
+![image-20220726133817478](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220726133817478.png)
+
+**使用**
+
+> 源码管理种使用
+>
+> **Credentials**证书,配置即可连接git
+
+![image-20220726134418036](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220726134418036.png)
 
 # bug 解析
 
