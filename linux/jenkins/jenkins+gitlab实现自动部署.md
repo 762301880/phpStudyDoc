@@ -110,6 +110,8 @@ docker restart 容器id
 
 ## **添加服务器地址密码**
 
+> 调试日志 **/var/log/secure** 记录用户登录日志
+
 **下载ssh插件 SSH plugin**
 
 ![image-20211229152002472](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152002472.png)
