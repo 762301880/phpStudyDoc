@@ -118,6 +118,12 @@ docker restart 容器id
 
 ![image-20211229151814397](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229151814397.png)
 
+**第一种添加服务器账户&密码的方法**
+
+> 这种方式是可以但是不是我想要的所以做保留**类型为:**<font color='red'>Username with password</font>
+
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220726105101549.png" alt="image-20220726105101549" style="zoom:50%;" />
+
 ## 新建任务
 
 ### **新建任务名称**
