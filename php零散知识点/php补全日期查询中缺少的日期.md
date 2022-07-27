@@ -59,3 +59,57 @@ if($hours >= 7 && $Datetime =< 12) return "上午";
 if($hours >= 12 && $Datetime =< 18) return "x";
 ```
 
+# **PHP计算两个日期相差几个月多余几天**
+
+**参考资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://download.csdn.net/download/lingyun820/34652556?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7EPaid-1-34652556-blog-116123766.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7EPaid-1-34652556-blog-116123766.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=2) |
+
+
+
+**参考的代码示例**
+
+```shell
+<?php
+//计算两个日期相差几个月多余几天
+function getMonthAndDay($date1, $date2)
+{
+    $datestart = date('Y-m-d', strtotime($date1)); //讲日期转化为年月日格式
+    if (strtotime($datestart) > strtotime($date2)) { //判断第一日期是否大于第二日期 如果成立转换位置
+        $tmp = $date2;
+        $date2 = $datestart;
+        $datestart = $tmp;
+    }
+    list($Y1, $m1, $d1) = explode('-', $datestart); //日期一年月日
+    list($Y2, $m2, $d2) = explode('-', $date2);//日期二年月日
+    $Y = $Y2 - $Y1;
+    $m = $m2 - $m1;
+    $d = $d2 - $d1;
+    if ($d < 0) {
+        $d += (int)date('t', strtotime("-1 month $date2"));
+        $m--;
+    }
+    if ($m < 0) {
+        $m += 12;
+        $Y--;
+    }
+    $res['month'] = 0;
+    if ($Y == 0) {
+        $res['month'] = $m;
+        $res['day'] = $d;
+        return $res;
+    } elseif ($Y == 0 && $m == 0) {
+        $res['day'] = $d;
+        return $res;
+    } else {
+        $res['month'] = $m + $Y * 12;
+        $res['day'] = $d;
+        return $res;
+    }
+}
+
+print_r(getMonthAndDay('2022-05-26', '2022-07-27'));
+```
+
