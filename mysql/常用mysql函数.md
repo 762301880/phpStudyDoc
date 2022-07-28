@@ -62,3 +62,30 @@ select COLUMN_NAME from information_schema.COLUMNS where table_name = '具体表
     }
 ```
 
+## 替换字段的部分内容
+
+**参考资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/qq_42640067/article/details/118070848) |
+
+**说明**
+
+> **核心思想**
+>
+> 利用mysql的**REPLACE**函数做替换字符
+>
+> ```mysql
+> REPLACE(s,s1,s2)	将字符串 s2 替代字符串 s 中的字符串 s1	
+> 将字符串 abc 中的字符 a 替换为字符 x：    SELECT REPLACE('abc','a','x') --xbc
+> ```
+
+![image-20220728113847340](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220728113847340.png)
+
+**代码示例**
+
+```shell
+UPDATE "表名" SET "需要修改的字段名称" = REPLACE ( "需要修改的字段名称", "需要修改的文字(例如:咨询)", "修改后的文字(例如:询问)" ) WHERE cate = "表名"
+```
+
