@@ -68,5 +68,6 @@ source ~/.bashrc
 ```shell
 # 直接终端输入命令phpstorm即可
 yaoliuyang@yaoliuyang-PC:~$ phpstorm
+[1] 21823
 ```
 
