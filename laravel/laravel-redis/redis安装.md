@@ -103,3 +103,16 @@ REDIS_PASSWORD='********' # 自定义的密码
 REDIS_PORT=13822
 ```
 
+**用ip地址连接**
+
+> <font color='red'>上一步的域名:redis-13822.c258.us-east-1-4.ec2.cloud.redislabs.com</font>
+>
+> 可以用ping 命令测试出ip地址然后讲上一步的域名替换为ip地址连接
+
+```shell
+[root@VM-16-5-centos plugins]# ping redis-13822.c258.us-east-1-4.ec2.cloud.redislabs.com
+PING redis-13822.c258.us-east-1-4.ec2.cloud.redislabs.com (3.81.36.161) 56(84) bytes of data.
+
+# 3.81.36.161
+```
+
