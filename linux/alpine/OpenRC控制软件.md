@@ -47,3 +47,17 @@ rc-service --list
 # 或
 rc-service --list | grep -i nginx
 ```
+
+## 查看服务列表
+
+执行以下命令：
+
+```shell
+rc-status --list
+```
+
+可以使用rc命令更改运行级别：
+
+```shell
+rc {runlevel}``# rc boot``# rc default``# rc shutdown
+```
