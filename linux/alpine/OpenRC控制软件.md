@@ -59,5 +59,9 @@ rc-status --list
 可以使用rc命令更改运行级别：
 
 ```shell
-rc {runlevel}``# rc boot``# rc default``# rc shutdown
+rc {runlevel}
+# 更改级别
+rc boot
+rc default
+rc shutdown
 ```
