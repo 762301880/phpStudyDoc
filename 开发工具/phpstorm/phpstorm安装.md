@@ -16,12 +16,12 @@
 # 下载jdk
 wget https://repo.huaweicloud.com/java/jdk/8u151-b12/jdk-8u151-linux-x64.tar.gz
 # 移动并解压
-tar -zxvf jdk-8u151-linux-x64.tar -C  /usr/local
+tar -zxvf jdk-8u151-linux-x64.tar.gz -C /usr/local/
 # ------------配置环境变量---------------
 # 打开文件
 vim /etc/profile
 # 设置环境变量-以下全部需要添加到/etc/profile文件夹内
- JAVA_HOME=/usr/local/jdk解压的文件夹
+ JAVA_HOME=/usr/local/jdk解压的文件夹       # 例子 /usr/local/jdk1.8.0_151
  PATH=$JAVA_HOME/bin:$PATH
  CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib.tools.jar
  export JAVA_HOME CLASSPATH PATH
