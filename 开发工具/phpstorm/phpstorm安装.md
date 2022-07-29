@@ -48,7 +48,7 @@ format.sh  fsnotifier  fsnotifier64  idea.properties  inspect.sh  libdbm64.so  l
 # phpstorm.sh        我们只需要关注这个shell脚本即可
 ```
 
-**设置别名命令启动**
+### **设置别名命令启动**
 
 > **>> /dev/null 2>&1 **      表示启动屏蔽输出
 >
@@ -69,5 +69,33 @@ source ~/.bashrc
 # 直接终端输入命令phpstorm即可
 yaoliuyang@yaoliuyang-PC:~$ phpstorm
 [1] 21823
+```
+
+### **创建桌面图标启动**
+
+**参考资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/wfk2975019671/article/details/107641756?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1-107641756-blog-82495099.pc_relevant_multi_platform_whitelistv1_exp2&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1-107641756-blog-82495099.pc_relevant_multi_platform_whitelistv1_exp2&utm_relevant_index=1) |
+
+**示例**
+
+> **Exec**执行的shell脚本地址
+>
+> **Icon** 指向图标地址
+
+```shell
+[Desktop Entry]
+Type=Application
+Version=2020.3
+GenericName=Phpstorm2020
+Name=phpstorm
+Comment=phpstorm ide
+Exec="/home/yaoliuyang/Documents/myapp/PhpStorm-2020.3.3/PhpStorm-203.7717.64/bin/phpstorm.sh"
+Icon=/home/yaoliuyang/Documents/myapp/PhpStorm-2020.3.3/PhpStorm-203.7717.64/bin/phpstorm.svg
+Terminal=false
+Categories=Development;IDE;
+StartupNotify=true
 ```
 
