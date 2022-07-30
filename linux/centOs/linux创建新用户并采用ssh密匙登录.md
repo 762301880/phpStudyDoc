@@ -53,8 +53,14 @@ AuthorizedKeysFile   .ssh/authorized_keys     #公钥的保存位置(对应用�
 
 ## **重启sshd**生效配置
 
+> 三种重启方法
+
 ```shell
 systemctl restart sshd
+
+systemctl restart sshd.service
+
+/etc/init.d/sshd restart
 ```
 
 # 扩展补充
