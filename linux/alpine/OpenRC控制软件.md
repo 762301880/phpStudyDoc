@@ -65,3 +65,10 @@ rc boot
 rc default
 rc shutdown
 ```
+
+## 启用/停止/重启服务
+
+```shell
+rc-service Service名 start/stop/restart
+```
+
