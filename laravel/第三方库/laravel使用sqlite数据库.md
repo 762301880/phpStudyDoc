@@ -43,11 +43,54 @@
 
 ## 安装sqlite3扩展
 
+**资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [菜鸟教程-sqlite安装](https://www.runoob.com/sqlite/sqlite-installation.html) |
+
 ### alpine安装扩展
 
 ```shell
 apk add sqlite3  # 安装sqlite3扩展
 apk add php-sqlite3 # 安装php扩展
+```
+
+### windows安装扩展
+
+[**首先去sqlite官网下载sqlite3**](https://www.sqlite.org/download.html)
+
+> - 您需要下载 **sqlite-tools-win32-\*.zip** 和 **sqlite-dll-win32-\*.zip** 压缩文件。
+
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220802152316674.png" alt="image-20220802152316674" style="zoom: 67%;" />
+
+**配置环境变量**
+
+```shell
+# 将下载的 sqlite-tools-win32-x86-3390200.zip  sqlite-dll-win32-x86-3390200.zip 解压到喜欢的目录
+# 例如创建文件夹 D:\Program Files\sqlite3，并在此文件夹下解压上面两个压缩文件，将得到 sqlite3.def、sqlite3.dll 和 sqlite3.exe 文件。
+```
+
+配置环境变量
+
+> 添加 `D:\Program Files\sqlite3`到 **PATH** 环境变量，最后在命令提示符下，使用 **sqlite3** 命令，将显示如下结果。
+
+```shell
+D:\>sqlite3
+SQLite version 3.27.2 2019-02-25 16:06:06
+Enter ".help" for usage hints.
+Connected to a transient in-memory database.
+Use ".open FILENAME" to reopen on a persistent database.
+sqlite>
+```
+
+**配置php  sqlite扩展**
+
+> 将**sqlite3.dll**文件复制到php扩展目录例如**D:\phpstudy_pro\Extensions\php\php7.4.3nts\ext**目录下
+
+```shell
+# 修改php.ini文件
+extension=pdo_sqlite     # 找到这一行取消注释
 ```
 
 
@@ -118,3 +161,21 @@ sqlite3    # sqlite3驱动
 [Zend Modules]
 Zend OPcache
 ```
+
+**windows处理**
+
+**配置php  sqlite扩展**
+
+> 将**sqlite3.dll**文件复制到php扩展目录例如**D:\phpstudy_pro\Extensions\php\php7.4.3nts\ext**目录下
+>
+> ```shell
+> 修改php.ini文件
+> extension=pdo_sqlite     # 找到这一行取消注释
+> ```
+
+
+
+
+
+
+
