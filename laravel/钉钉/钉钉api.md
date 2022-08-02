@@ -71,7 +71,7 @@ public function send(Request $request)
 
 | 名称     | 地址                                                         |
 | -------- | ------------------------------------------------------------ |
-| 网络博客 | [link](https://blog.csdn.net/u013727805/article/details/120383024) |
+| 网络博客 | [link](https://blog.csdn.net/u013727805/article/details/120383024) [link](https://www.dingtalk.com/qidian/help-detail-1060801925.html) |
 
 [点击跳转地址](https://oa.dingtalk.com/contacts.htm#/contacts?_k=k119su)
 
