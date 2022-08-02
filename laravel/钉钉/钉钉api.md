@@ -69,9 +69,10 @@ public function send(Request $request)
 
 **参考资料**
 
-| 名称     | 地址                                                         |
-| -------- | ------------------------------------------------------------ |
-| 网络博客 | [link](https://blog.csdn.net/u013727805/article/details/120383024) [link](https://www.dingtalk.com/qidian/help-detail-1060801925.html) |
+| 名称         | 地址                                                         |
+| ------------ | ------------------------------------------------------------ |
+| 网络博客     | [link](https://blog.csdn.net/u013727805/article/details/120383024) [link](https://www.dingtalk.com/qidian/help-detail-1060801925.html) |
+| 钉钉官方文档 | [link](https://open.dingtalk.com/document/orgapp-server/query-the-list-of-department-userids) |
 
 [点击跳转地址](https://oa.dingtalk.com/contacts.htm#/contacts?_k=k119su)
 
