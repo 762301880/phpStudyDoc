@@ -22,7 +22,7 @@
 >
 > 把`timestamp+"\n"+`密钥当做签名字符串，使用HmacSHA256算法计算签名，然后进行Base64 encode，最后再把签名参数再进行urlEncode，得到最终的签名（需要使用UTF-8字符集）。
 
-```shell
+```php
 public function send(Request $request)
     {
         $url = '你的Webhook';
@@ -36,6 +36,11 @@ public function send(Request $request)
             'text' => [
                 'content' => '这是需要发送的内容',
             ],
+             //具体通知到用户
+            'at' => [
+                //"atMobiles" => ['17538397579'],
+                "atUserIds" => ['226504530523064108'],//userid
+            ]
         ];
         $url = "{$url}&timestamp={$time}&sign={$sign}";
         $res=$this->request_by_curl($url,$msg);
@@ -58,3 +63,18 @@ public function send(Request $request)
     }
 ```
 
+# 扩展补充
+
+## 钉钉查看员工UserId
+
+**参考资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/u013727805/article/details/120383024) |
+
+[点击跳转地址](https://oa.dingtalk.com/contacts.htm#/contacts?_k=k119su)
+
+> 点击部门人员，右侧弹出的信息旁边有用户id
+
+![image-20220802104448667](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220802104448667.png)
