@@ -1412,15 +1412,25 @@ $json = [
 [第四步：拉取用户信息(需scope为 snsapi_userinfo)](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#3)
 
 ```php
-public function webpageGetUserinfo()
+public function webpageGetUserinfo($access_token,$openid)
     {
-        # token是上一步通过code换取网页授权access_token
-        $access_token ="52_INujcySpf8pdHb4r5uOzNQts9RBVc2irh2lj-lvVqA8EXX3Tx1Fyg9DEhdqwNiBWfutPrBvc8uSmePZiR5X0Tw";
-        $openid="o7wV86RHxGwlG_y8fo5-SHd_muZo";
-        $url="https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang=zh_CN";
-        $res = json_decode(file_get_contents($url), true);
+        # token是上一步通过code换取网页授权access_token  里面的token还有 openid
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang=zh_CN";
+        $res = json_decode(file_get_contents($url), true)
         dd($res);
     }
+# 返回示例
+array:9 [
+  "openid" => "o7wV86RHxGwlG_y8fo5-SHd_muZo"
+  "nickname" => "毒药"
+  "sex" => 0
+  "language" => ""
+  "city" => ""
+  "province" => ""
+  "country" => ""
+  "headimgurl" => "https://thirdwx.qlogo.cn/mmopen/vi_32/5ibQvCg79gytEmEXQV9PBdqqk0R5rEGe4CjhqZcjOcHayiaFiaaGkG8ncATQ8H05d12icpeUajK4PoibKEQIkMPNIqA/132"
+  "privilege" => []
+]
 ```
 
 [附：检验授权凭证（access_token）是否有效](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#4)
