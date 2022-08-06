@@ -38,12 +38,17 @@ https://blog.csdn.net/ljh101/article/details/108806075
    use Illuminate\Support\Facades\Config;
    use Illuminate\Support\Facades\Http;
    use Illuminate\Support\Facades\Cache;
-   # 依赖注入以便全局使用
+     # 依赖注入以便全局使用
     private $accessToken;
+    private $appId;
+    private $appSecret;
+
     public function __construct()
     {
+        $this->appId = Config::get('wechat.official_account.default.app_id');
+        $this->appSecret = Config::get('wechat.official_account.default.secret');
         $this->accessToken = $this->getAccessToken();
-    } 
+    }
     /**
      * 获取公众号的token
      * @return mixed
@@ -51,29 +56,20 @@ https://blog.csdn.net/ljh101/article/details/108806075
      */
     public function getAccessToken()
     {
-        /***************************公共参数*************************************/
-        # 调用config下面的配置 app_id、secret
-        $appID = Config::get('wechat.official_account.default.app_id');
-        $appSECRET = Config::get('wechat.official_account.default.secret');
-        
          /***************************推荐写法*************************************/
-        if (Cache::has('access_token') != false) {
-            //如果缓存存在直接返回缓存中的token
-            return Cache::get('access_token');
-        }
+       //如果缓存存在直接返回缓存中的token
+        if (Cache::has('access_token') != false) return Cache::get('access_token');
         //反之执行缓存
-        $data = json_decode(file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appID&secret=$appSECRET"), true);
-        if (isset($data['access_token'])) {
-            //设置缓存过期时间2小时
-            Cache::put('access_token', $data['access_token'], 60 * 60 * 2);
-        }
+        $data = json_decode(file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appId}&secret={$this->appSecret}"), true);
+        //设置缓存过期时间2小时
+        if (isset($data['access_token'])) Cache::put('access_token', $data['access_token'], 60 * 60 * 2);
         return $data['access_token'];
         
         /*********************************原生写法*****************************************/
         # 或者原生写法
         $appID = "*******************";
         $appSECRET = "*******************";
-        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$appID}&secret={$appSECRET}";
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appId}&secret={$this->appSecret}";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
