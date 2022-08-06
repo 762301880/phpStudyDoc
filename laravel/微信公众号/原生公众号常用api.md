@@ -1376,7 +1376,8 @@ $json = [
 ```php
   public function webpageAuthorization()
     {
-        $appId = "wxba84ad7629bcaded";
+        $appId = $this->appId;
+        # 需要跳转的授权地址
         $redirectUri = urlencode("http://81.69.231.252:1997/api/official_account/webpage_get_access_token");
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appId}&redirect_uri={$redirectUri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         return $url;
@@ -1386,23 +1387,22 @@ $json = [
 ### [第二步：通过code换取网页授权access_token](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#1)
 
 ```php
-public function webpageGetAccessToken(Request $request)
+    public function webpageGetAccessToken(Request $request)
     {
         $expirationTime = 3600 * 2;//过期时间2小时
         $key = 'webPageAccessToken';
         # 如果不为空直接返回缓存token
         $webPageAccessToken = \Cache::get($key);
-        if (!empty($webPageAccessToken)) {
-            return $webPageAccessToken;
-        }
+        if (!empty($webPageAccessToken)) return $webPageAccessToken;
+
         $code = $request->input('code');//填写第一步获取的code参数
-        $appId = "wxba84ad7629bcaded";
-        $appSecret = "add912ac66a10eced3969e6a0170af85";
-        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$appId}&secret={$appSecret}&code={$code}&grant_type=authorization_code";
+        Log::debug("code值为:" . $code);
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->appId}&secret={$this->appSecret}&code={$code}&grant_type=authorization_code";
         $res = json_decode(file_get_contents($url), true);
-        $accessToken = $res['access_token'];
+        $accessToken = $res;
         #保存一份到缓存
         \Cache::set($key, $accessToken, $expirationTime);
+        Log::debug('accessToken为:' . $accessToken);
         return $accessToken;
     }
 ```
@@ -1414,6 +1414,7 @@ public function webpageGetAccessToken(Request $request)
 ```php
 public function webpageGetUserinfo()
     {
+        # token是上一步通过code换取网页授权access_token
         $access_token ="52_INujcySpf8pdHb4r5uOzNQts9RBVc2irh2lj-lvVqA8EXX3Tx1Fyg9DEhdqwNiBWfutPrBvc8uSmePZiR5X0Tw";
         $openid="o7wV86RHxGwlG_y8fo5-SHd_muZo";
         $url="https://api.weixin.qq.com/sns/userinfo?access_token={$access_token}&openid={$openid}&lang=zh_CN";
