@@ -2,7 +2,7 @@
 
  
 
-1.得到字符串的个数
+## 得到字符串的个数
 
 > 举个栗子： 如果我们想得到 `我爱你`这三个字的个数
 
@@ -15,12 +15,21 @@ mb_strlen() 函数
        # 输出 3
 ```
 
-2. [复制字符的个数](http://c.biancheng.net/view/6146.html)
+## [复制字符的个数](http://c.biancheng.net/view/6146.html)
 
 > 重复一个字符串 参数1 需要重复的字符，参数2 需要重复的个数
 
 ```php
 str_repeat(0, 3);//自动填充0
 # 输出 000
+```
+
+## 删除指定的字符
+
+```shell
+$value="/v2/order/list.html";
+$newText=str_replace('.html','',$value);
+# 输出
+"/v2/order/list"
 ```
 
