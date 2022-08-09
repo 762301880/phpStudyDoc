@@ -1,21 +1,17 @@
-#  说明&&资料&&安装
+#  说明
 
-## [说明](https://baike.baidu.com/item/rabbitmq/9372144?fr=aladdin)
+## [概述](https://baike.baidu.com/item/rabbitmq/9372144?fr=aladdin)
 
 > RabbitMQ 是实现高级消息队列协议 (AMQP) 的开源消息代理软件（有时称为面向消息的中间件）。RabbitMQ 服务器是用 Erlang 编程语言编写的，并建立在 Open Telecom Platform 框架上，用于集群和故障转移。与代理交互的客户端库可用于所有主要编程语言。
 
-
-
-## 资料
+# 资料
 
 | 名称          | 地址                                       |
 | ------------- | ------------------------------------------ |
 | 第三方博客    | [link](https://learnku.com/articles/43080) |
 | rabbitmq-官网 | [link](https://www.rabbitmq.com/)          |
 
-
-
-## 安装
+# 安装
 
 ## docker安装RabbitMQ
 
@@ -28,7 +24,8 @@
 **安装**
 
 ```shell
-
+docker pull rabbitmq    # 拉取镜像
+docker run -itd --hostname my-rabbit  --name rabbit -p 15672:15672 -p 5673:5672 rabbitmq
 ```
 
 # 实战
