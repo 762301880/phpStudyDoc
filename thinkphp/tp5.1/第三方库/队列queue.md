@@ -162,3 +162,63 @@ $job` 是任务名
 两种，具体的可选参数可以输入命令加 --help 查看
 
 > 可配合supervisor使用，保证进程常驻
+
+# 实战示例
+
+## 使用
+
+### 定义队列
+
+> jurisdiction可以看上面的示例
+
+###  调用队列
+
+```shell
+ $arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+ Queue::push(Job1::class, ['arr' => $arr]);  # 任意地方调用队列任务 传递参数一只能是类路径(不是那种实例化的类)
+ echo 'ok';
+```
+
+## supervisor配置
+
+**参考**
+
+| 名称                        | 地址                                                         |
+| --------------------------- | ------------------------------------------------------------ |
+| laravel-队列 supervisor配置 | [link](https://learnku.com/docs/laravel/8.x/queues/9398#e45763) |
+
+**个人配置示例**
+
+> 创建**send_notice.ini**配置文件 创建位置`/etc/supervisord.d`
+
+```shell
+[program:send_notice]
+process_name=%(program_name)s_%(process_num)02d
+command=php  /www/wwwroot/home_train/think queue:work --daemon
+autostart=true
+autorestart=true
+startsecs=0
+# 修改为当前登录的用户 可以用 whoami 命令查询
+user=root 
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/etc/supervisord.d/log/send_notice.log #日志地址(目录需要自定义不会自动创建)
+stopwaitsecs=3600
+```
+
+### **Linux环境 tp5.1 Could not open input file: think**
+
+**参考资料**
+
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| 第三方博客 | [link](https://blog.csdn.net/weixin_41406041/article/details/100571601?spm=1001.2101.3001.6650.6&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-6-100571601-blog-113943124.pc_relevant_multi_platform_whitelistv1&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-6-100571601-blog-113943124.pc_relevant_multi_platform_whitelistv1&utm_relevant_index=9) |
+
+**解决方案**
+
+```shell
+# 采用work进程
+#command=php  /www/wwwroot/home_train/think queue:listen 废弃
+command=php  /www/wwwroot/home_train/think queue:work --daemon
+```
+
