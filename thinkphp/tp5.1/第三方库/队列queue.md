@@ -222,3 +222,17 @@ stopwaitsecs=3600
 command=php  /www/wwwroot/home_train/think queue:work --daemon
 ```
 
+# 扩展补充
+
+## 杀掉队列进程
+
+```shell
+# 查询进程  找到COMMAND 等于自己设置的命令
+[root@PXS-TEST ~]# ps -aux
+......
+php /www/wwwroot/home_train/think queue:work --daemon
+......
+# kill掉对应的PID即可
+kill PID 
+```
+
