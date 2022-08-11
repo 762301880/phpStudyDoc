@@ -60,7 +60,7 @@ if (!function_exists('http_request')) {
 
 # [小程序码](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html)
 
-## [createQRCode](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html) 创建小程序二维码
+## [createQRCode](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html) 创建小程序二维码(有数量限制)
 
 **代码示例**
 
@@ -110,6 +110,63 @@ if (!function_exists('http_request')) {
         return $data;
     }
 ```
+
+## getUnlimited获取小程序二维码(不限制数量)
+
+```php
+    /**
+     * 生成小程序码
+     * @param array $data
+     * @throws SystemException
+     */
+    public function getQRCode(array $data)
+    {
+        $path = $data['path'] ?? "";
+        $query = $data['query'] ?? "";
+        $width = !empty($data['width']) ? $data['width'] : 430;
+        if (empty($path)) throw new SystemException("路径不能为空");
+        if (empty($query)) throw new SystemException("查询参数不能为空");
+        if ($width < 280) throw new SystemException("宽度最小280px");
+        if ($width > 1280) throw new SystemException("宽度最大1280px");
+        $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={$this->accessToken}";
+        $data = [
+            'scene' => $query,
+            'width' => $width,
+            'page' => $path,
+            'check_path' => true,
+        ];
+        $key = md5($query . $width . $path);
+        $retData = Cache::get($key);
+        if (!empty($retData)) return $retData;
+        $res = request_post($url, json_encode($data));
+        $image_base64 = base64_encode($res);
+        Cache::set($key, $image_base64, 60 * 60 * 2);
+        return $image_base64;
+    }
+# 调用
+ public function qrCode(Request $request)
+    {
+        try {
+            $data = $request->only(['path', 'query', 'width']);
+            $res = $this->miniProgram->getQRCode($data);
+            return $this->resSuccess($res, '小程序二维码返回成功');
+        } catch (SystemException $systemException) {
+            return $this->resError($systemException->getMessage());
+        }
+    }
+```
+
+**前端如何获取二维码携带的参数内容/场景scene值**
+
+> 自我推测就
+
+- 资料
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/qq_25102811/article/details/110198152?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-110198152-blog-113602872.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-110198152-blog-113602872.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=1)  [link](https://blog.csdn.net/weixin_42728646/article/details/113602872?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-113602872-blog-106052423.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-113602872-blog-106052423.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=1) |
+
+
 
 # 手机号
 
