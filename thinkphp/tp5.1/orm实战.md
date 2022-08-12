@@ -269,6 +269,12 @@ public function getStatusTextAttr($value,$data)
 
 ## thinkphp 插入批量数据
 
+**资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/tongkongyu/article/details/119939190) |
+
 **代码示例**
 
 ```shell
