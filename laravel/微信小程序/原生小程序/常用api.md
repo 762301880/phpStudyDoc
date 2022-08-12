@@ -158,7 +158,7 @@ if (!function_exists('http_request')) {
 
 **前端如何获取二维码携带的参数内容/场景scene值**
 
-> 自我推测就
+> 如下如箭头所标记的值传递给 前端之后**需要前端自行处理**
 
 - 资料
 
@@ -166,7 +166,7 @@ if (!function_exists('http_request')) {
 | -------- | ------------------------------------------------------------ |
 | 网络博客 | [link](https://blog.csdn.net/qq_25102811/article/details/110198152?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-110198152-blog-113602872.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-110198152-blog-113602872.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=1)  [link](https://blog.csdn.net/weixin_42728646/article/details/113602872?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-113602872-blog-106052423.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-113602872-blog-106052423.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=1) |
 
-
+![image-20220812155446400](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220812155446400.png)
 
 # 手机号
 
