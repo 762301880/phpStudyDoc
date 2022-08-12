@@ -1389,11 +1389,11 @@ $json = [
 ```php
     public function webpageGetAccessToken(Request $request)
     {
-        $expirationTime = 3600 * 2;//过期时间2小时
-        $key = 'webPageAccessToken';
+        //$expirationTime = 3600 * 2;//过期时间2小时
+        //$key = 'webPageAccessToken';
         # 如果不为空直接返回缓存token
-        $webPageAccessToken = \Cache::get($key);
-        if (!empty($webPageAccessToken)) return $webPageAccessToken;
+        //$webPageAccessToken = \Cache::get($key);
+        //if (!empty($webPageAccessToken)) return $webPageAccessToken;
 
         $code = $request->input('code');//填写第一步获取的code参数
         Log::debug("code值为:" . $code);
@@ -1401,10 +1401,11 @@ $json = [
         $res = json_decode(file_get_contents($url), true);
         $accessToken = $res;
         #保存一份到缓存
-        \Cache::set($key, $accessToken, $expirationTime);
+        //\Cache::set($key, $accessToken, $expirationTime);
         Log::debug('accessToken为:' . $accessToken);
         return $accessToken;
     }
+# 注意这里不能用缓存 因为code过期时间只有五分钟且唯一，如果开头用了缓存,下一个用户进来不管code是什么都会预先走到缓存里缓存两小时还没有过期所以必定会返回上一个用户的token信息好家伙 2022年8月12日因为这个问题排查了好几个小时特此记录
 ```
 
 [ 第三步：刷新access_token（如果需要）](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#2)
