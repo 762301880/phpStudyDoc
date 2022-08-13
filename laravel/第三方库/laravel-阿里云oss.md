@@ -159,3 +159,40 @@ $res = $ossClient->listBuckets()->getBucketList();
 >如果在48小时后，生命周期规则还是未生效，请参见[生命周期配置示例](https://help.aliyun.com/document_detail/160576.htm)，检查生命周期规则配置是否正确。
 >
 >> **注意**：更新生命周期规则会中止当天的生命周期任务，请不要频繁更新生命周期规则。##
+
+
+
+# [跨域资源共享](https://help.aliyun.com/document_detail/32110.html)
+
+```php
+   $corsConfig = new CorsConfig();
+   $rule = new CorsRule();
+
+
+ // 设置允许跨域请求的响应头。AllowedHeader可以设置多个，每个AllowedHeader中最多只能使用一个通配符星号（*）。
+// 建议无特殊需求时设置AllowedHeader为星号（*）。
+        $rule->addAllowedHeader("*");
+// 设置允许用户从应用程序中访问的响应头。ExposeHeader可以设置多个，ExposeHeader中不支持使用通配符星号（*）。
+        $rule->addExposeHeader("x-oss-header");
+
+// 设置AllowedOrigin为星号（*）时，表示允许所有域的来源。
+        $rule->addAllowedOrigin("*");
+// 设置允许的跨域请求方法。
+        $rule->addAllowedMethod("GET");
+        $rule->addAllowedMethod("POST");
+        $rule->addAllowedMethod("PUT");
+        $rule->addAllowedMethod("DELETE");
+        $rule->addAllowedMethod("HEAD");
+// 设置浏览器对特定资源的预取（OPTIONS）请求返回结果的缓存时间，单位为秒。
+        $rule->setMaxAgeSeconds(0);
+        
+// 每个Bucket最多支持添加10条规则。
+        $corsConfig->addRule($rule);
+        $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
+        // 已存在的规则将被覆盖。
+        $res = $ossClient->putBucketCors($bucket, $corsConfig);
+        dd($res);
+```
+
+
+
