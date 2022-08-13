@@ -2,7 +2,7 @@
 
 | 名称           | 地址                                                         |
 | -------------- | ------------------------------------------------------------ |
-| 第三方博客参考 | [link ](https://blog.csdn.net/will5451/article/details/80434174)  [link](https://www.jianshu.com/p/9ceebfb6ade0) |
+| 第三方博客参考 | [link ](https://blog.csdn.net/will5451/article/details/80434174)  [link](https://www.jianshu.com/p/9ceebfb6ade0)  [link](http://t.zoukankan.com/myvic-p-9373710.html) |
 | github官方文档 | [link](https://github.com/top-think/think-queue/tree/2.0)    |
 
 #  安装&使用
