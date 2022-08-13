@@ -422,6 +422,12 @@ public function getOrderReserveListOrDetails($data)
 >
 > 不到500毫秒
 
+**参考资料**
+
+| 名称 | 地址                                        |
+| ---- | ------------------------------------------- |
+| 博客 | [link](https://icode.best/i/90833040058234) |
+
 **原始逻辑**
 
 ```php
