@@ -412,3 +412,114 @@ public function getOrderReserveListOrDetails($data)
 | ---- | --------------------------------------- |
 | 博客 | [link](https://blog.thinkphp.cn/843679) |
 
+### 批量插入前端不要在循环体中重复查询数据库
+
+> 例如以下代码 注释的位置是我采用**foreach**循环处理数据,经过本地测试循环100遍会有十几秒的处理时间,
+>
+> 所以我们将不必要的数据库查询(**业务逻辑一致的条件**)抽离出来,生成预约编号不是一样的所以不能抽离,经
+>
+> 测试抽离后的代码一次性插入执行只要三秒,主要是生成预约编号消耗了大量的时间,如果再抽离预约编号只需要
+>
+> 不到500毫秒
+
+**原始逻辑**
+
+```php
+        Db::startTrans();
+        foreach ($reserve_times as $element) {
+            $reservation_time = $element['reservation_time'] ?? "";
+            $start_time = $element['start_time'] ?? "";
+            $end_time = $element['end_time'] ?? "";
+            $auntModel = AuntModel::get($aunt_id);
+            $orderServiceReserve = OrderServiceReserveModel::updateOrCreate(['id' => $id]);
+            if (!$id) $orderServiceReserve->reservation_number = OrderServiceReserveModel::generatereServationNumber();//生成预约编号
+            $orderModel = OrderModel::where('id', $order_id)->find();
+            $orderServiceReserve->user_name = $orderModel->user_name ?? "";
+            $orderServiceReserve->order_id = $order_id;
+            $orderServiceReserve->user_phone = $orderModel->phone ?? "";
+            $orderServiceReserve->service_name = $orderModel->service_name ?? "";
+            $orderServiceReserve->service_id = $orderModel->service_id ?? 0;
+            $orderServiceReserve->to_door_address = $orderModel->to_door_address ?? "";
+            $orderServiceReserve->reservation_time = $reservation_time;
+            $orderServiceReserve->start_time = $start_time;
+            $orderServiceReserve->end_time = $end_time;
+            $orderServiceReserve->hours = $orderModel->hours ?? 0;
+            $orderServiceReserve->aunt_name = $auntModel->name ?? "";
+            $orderServiceReserve->aunt_id = $auntModel->id ?? 0;
+            $orderServiceReserve->status = OrderServiceReserveModel::STATUS_STAY_SERVICE;
+            $orderServiceReserve->is_fixed_aunt = $is_fixed_aunt;
+            $orderServiceReserve->residence_area = $orderModel->residence_area ?? "";
+            $orderServiceReserve->remark = ""; //特殊需求默认为空
+            if ($orderServiceReserve->save()) {
+                Log::info("小程序预约记录:预约成功,用户:" . $orderModel->user_name . "预约成功,订单id:" . $order_id . ",预约时间:" . date('Y-m-d H:i:s'));
+                Queue::push(SendOrderReserveNoticeJob::class, ['order_service_reserve_id' => $orderServiceReserve->id]);//推送模板消息
+                continue;
+            }
+            Db::rollback();
+            return false;
+        }
+        Db::commit();
+        return true;
+```
+
+**优化后的逻辑**
+
+```php
+ $reserve_times = $data['reserve_times'] ?? "";
+        $order_id = $data['order_id'] ?? "";
+        $is_fixed_aunt = $data['is_fixed_aunt'] ?? "";
+        $aunt_id = $data['aunt_id'] ?? "";
+        $id = $data['id'] ?? "";
+
+        $auntModel = AuntModel::get($aunt_id);
+        $orderModel = OrderModel::where('id', $order_id)->find();
+        $data = array_map(function ($list) use ($auntModel, $order_id, $is_fixed_aunt, $orderModel) {
+            unset($list['serialize_time_text']);
+            $list['reservation_number'] = OrderServiceReserveModel::generatereServationNumber();//生成预约编号
+            $list['user_name'] = $orderModel->user_name ?? "";
+            $list['order_id'] = $order_id;
+            $list['user_phone'] = $orderModel->phone ?? "";
+            $list['service_name'] = $orderModel->service_name ?? "";
+            $list['service_id'] = $orderModel->service_id ?? 0;
+            $list['to_door_address'] = $orderModel->to_door_address ?? "";
+            $list['hours'] = $orderModel->hours ?? 0;
+            $list['aunt_name'] = $auntModel->name ?? "";
+            $list['aunt_id'] = $auntModel->id ?? 0;
+            $list['status'] = OrderServiceReserveModel::STATUS_STAY_SERVICE;
+            $list['is_fixed_aunt'] = $is_fixed_aunt;
+            $list['residence_area'] = $orderModel->residence_area ?? "";
+            $list['remark'] = ""; //特殊需求默认为空
+            return $list;
+        }, $reserve_times);
+        Db::startTrans();
+        $orderServiceReserve = new OrderServiceReserveModel();
+        $collections=$orderServiceReserve->saveAll($data);
+        $ids=$collections->column('id');
+        if (!$orderServiceReserve->saveAll($data)) {
+            Db::rollback();
+            return false;
+        }
+        Db::commit();
+        return true;
+```
+
+**生成预约编号**
+
+```php
+    /**
+     * 规则RS+年月日+000000~999999；
+     * 生成预约编号
+     */
+    public static function generatereServationNumber()
+    {
+        $serialNumber = 'RS' . date('Ymd') . rand(000000, 999999);
+        //避免重复生成 去数据库再次查询一遍
+        if (self::whereIn('reservation_number', (array)$serialNumber)->find() != null) {
+            return self::generatereServationNumber();
+        }
+        return $serialNumber;
+    }
+```
+
+
+
