@@ -171,12 +171,128 @@ $job` 是任务名
 
 > jurisdiction可以看上面的示例
 
-###  调用队列
+###  生产队列
 
-```shell
- $arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
- Queue::push(Job1::class, ['arr' => $arr]);  # 任意地方调用队列任务 传递参数一只能是类路径(不是那种实例化的类)
- echo 'ok';
+```php
+    /**
+     * 后台创建预约订单
+     * @param $data
+     */
+    public function createOrderServiceReserve($data)
+    {
+
+        $order_number = $data['order_number'] ?? "";
+        $remark = $data['remark'] ?? "";
+        $is_fixed_aunt = $data['is_fixed_aunt'] ?? "";
+        $reserve_times = $data['reserve_times'] ?? "";
+        $reservation_time = !empty($reserve_times) ? $reserve_times['reservation_time'] : "";
+        $start_time = !empty($reserve_times) ? $reserve_times['start_time'] : "";
+        $end_time = !empty($reserve_times) ? $reserve_times['end_time'] : "";
+        $aunt_id = $data['aunt_id'] ?? "";
+        $auntModel = AuntModel::get($aunt_id);
+        Db::startTrans();
+        $orderServiceReserve = new OrderServiceReserveModel();
+        $orderServiceReserve->reservation_number = OrderServiceReserveModel::generatereServationNumber();//生成预约编号
+        $orderModelInfo = $this->queryOrderNumber($order_number);
+        if ($orderModelInfo->status == OrderModel::STATUS_PENDING_PAYMENT) throw new SystemException("待支付的订单不可以添加预约");
+        $orderServiceReserve->user_name = $orderModelInfo->user_name ?? "";
+        $orderServiceReserve->order_id = $orderModelInfo->id;
+        $orderServiceReserve->user_phone = $orderModelInfo->phone ?? "";
+        $orderServiceReserve->service_name = $orderModelInfo->service_name ?? "";
+        $orderServiceReserve->service_id = $orderModelInfo->service_id ?? 0;
+        $orderServiceReserve->to_door_address = $orderModelInfo->to_door_address ?? "";
+        $orderServiceReserve->reservation_time = $reservation_time;
+        $orderServiceReserve->start_time = $start_time;
+        $orderServiceReserve->end_time = $end_time;
+        $orderServiceReserve->hours = $orderModelInfo->hours ?? 0;
+        $orderServiceReserve->aunt_name = $auntModel->name ?? "";
+        $orderServiceReserve->aunt_id = $auntModel->id ?? 0;
+        $orderServiceReserve->residence_area = $orderModelInfo->residence_area ?? "";
+        if (!empty($auntModel)) {
+            $orderServiceReserve->aunt_name = !empty($auntModel) ? $auntModel->name : "";
+            $orderServiceReserve->aunt_id = !empty($auntModel) ? $auntModel->id : 0;
+        }
+        $orderServiceReserve->status = OrderServiceReserveModel::STATUS_STAY_SERVICE;
+        $orderServiceReserve->is_fixed_aunt = $is_fixed_aunt;
+        $orderServiceReserve->remark = $remark;
+        if (!$orderServiceReserve->save()) {
+            Db::rollback();
+            return false;
+        }
+        # 添加阿姨相关
+        $data['order_service_reserve_id'] = $orderServiceReserve->id;
+        $this->addOrderReserveAunts(OrderModel::get($orderModelInfo->id), $data);
+        Db::commit();
+        Queue::push(SendOrderReserveNoticeJob::class, ['order_service_reserve_id' => $orderServiceReserve->id],'reserve_notice');//推送模板消息
+        return true;
+    }
+```
+
+
+
+###  消费队列
+
+```php
+<?php
+
+
+namespace app\common\job;
+
+
+use app\admin\model\AdminModel;
+use app\common\model\OrderServiceReserveModel;
+use app\common\service\OfficialAccountService;
+use app\common\service\OfficialAccountTemplateService;
+use think\Db;
+use think\facade\Log;
+use think\queue\Job;
+
+class SendOrderReserveNoticeJob
+{
+    public function fire(Job $job, $data)
+    {
+        $orderServiceReserve_id = $data['order_service_reserve_id'] ?? 0;
+        Log::info("发送预约通知队列,预约主键:" . json_encode($orderServiceReserve_id) . date('Y-m-d H:i:s'));
+        Db::startTrans();
+        # 加锁预防队列执行过快并发情况导致查询预约为空删除了队列导致队列未执行全
+        $orderServiceReserveModel = OrderServiceReserveModel::lock(true)->get($orderServiceReserve_id);
+        if (empty($orderServiceReserveModel)) {
+            Log::info("预约信息为空中断本次预约:" . json_encode($orderServiceReserveModel));
+            $job->delete();
+        }
+        $openidS = $this->getOpenidS();
+        foreach ($openidS as $value) {
+            $this->sendTemplateNotice($orderServiceReserveModel, $value);
+        }
+        Db::commit();
+        //如果任务执行成功后 记得删除任务，不然这个任务会重复执行，直到达到最大重试次数后失败后，执行failed方法
+        $job->delete();
+    }
+
+    /**
+     * 发送模板通知
+     * @param OrderServiceReserveModel $orderServiceReserveModel
+     * @param $openId
+     * @return bool
+     */
+    public function sendTemplateNotice(OrderServiceReserveModel $orderServiceReserveModel, $openId)
+    {
+        $template = OfficialAccountTemplateService::getNewOrderNotice($orderServiceReserveModel, $openId);
+        Log::info("已获取模板信息:" . json_encode($template));
+        $bool = (new OfficialAccountService())->sendTemplateMessage($template);
+        Log::info("发送模板信息成功");
+        return $bool;
+    }
+
+    public function getOpenidS()
+    {
+        $openIds = AdminModel::where(['status' => AdminModel::STATUS_ENABLE])
+            ->where("official_account_openid", 'NEQ', "")
+            ->column('official_account_openid');
+        Log::debug("已获取的openid列表:" . json_encode($openIds));
+        return $openIds;
+    }
+}
 ```
 
 ## supervisor配置
@@ -194,7 +310,8 @@ $job` 是任务名
 ```shell
 [program:send_notice]
 process_name=%(program_name)s_%(process_num)02d
-command=php  /www/wwwroot/home_train/think queue:work --daemon
+# --queue reserve_notice  监听指定的队列
+command=php  /www/wwwroot/home_train/think queue:work --daemon --queue reserve_notice     
 autostart=true
 autorestart=true
 startsecs=0

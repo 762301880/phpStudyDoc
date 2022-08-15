@@ -10,6 +10,7 @@
 | ---------------- | ------------------------------------------------------------ |
 | laravel-队列     | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#introduction) |
 | 消息队列实战教程 | [链接](https://laravelacademy.org/books/laravel-queue-action) |
+| 网络博客         | [链接](https://www.lmonkey.com/t/OxLP7nVye)                  |
 
 # 二、配置
 
