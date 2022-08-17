@@ -34,7 +34,7 @@ public function sign(Request $request)
      $isCreate=false;
      $isNull=UserSocietySign::whereDate('created_at',Carbon::now()->toDate())
          ->where('user_id',$request->user_id)
-         ->first();       
+         ->first();       //日后记得加锁防止并发-如果已签到并返回已签到判断
      if($isNull==null){
         $userSocietySign=new UserSocietySign();
         $userSocietySign->user_id=$request->user_id;
