@@ -389,6 +389,25 @@ class Demo
 
     public function test()
     {
+        
+        
+# 悲观锁-原始写法        
+//        Db::startTrans();
+//        $countModel = Count::where('id', 1)->lock(true)->find();
+//        $count = $countModel->value('count');
+//        if ($count > 0) {
+//            $value = $count--;
+//            $bool = DecrementCount::create(['count_decrement_id' => $value]);
+//            if ($bool) {
+//                --$countModel->count;
+//                $countModel->save();
+//            }
+//        }
+//        Db::commit();
+        
+        
+        
+        
         $lock = new Lock($this->_redis);
         $scene = 'seckill';
         //如果加锁成功,某个业务只允许一个用户操作
@@ -454,3 +473,5 @@ class TestController extends Controller
         }
     }
 }
+
+```

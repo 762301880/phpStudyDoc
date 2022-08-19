@@ -22,6 +22,7 @@
 | 第三方博客                                                   | [link](https://www.cnblogs.com/jackzhuo/p/13678008.html)  [link](https://learnku.com/articles/57086) |
 | laravel学院-基于 Redis 实现分布式锁及其在 Laravel 底层的实现源码 | [link](https://laravelacademy.org/post/22183)                |
 | 新版redis set命令实现分布式锁                                | [link](https://segmentfault.com/a/1190000019138071) [link](https://learnku.com/laravel/t/47073?order_by=created_at) |
+| 小米信息部分布式锁参考                                       | [link](https://xiaomi-info.github.io/2019/12/17/redis-distributed-lock/) |
 
 >***setnx解释***
 >
