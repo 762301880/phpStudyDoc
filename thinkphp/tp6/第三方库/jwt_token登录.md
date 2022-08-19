@@ -62,8 +62,8 @@ Route::group('api/v1', function () {
 
 | 名称           | 地址                                                         |
 | -------------- | ------------------------------------------------------------ |
-| 第三方博客参考 | [link](https://blog.csdn.net/weixin_39581652/article/details/110801338)  [link](https://blog.csdn.net/pyycsd/article/details/102803133?spm=1001.2101.3001.6650.11&utm_medium=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-11.wap_blog_relevant_default&depth_1-utm_source=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-11.wap_blog_relevant_default)  [link](https://blog.csdn.net/weixin_44347271/article/details/121721121?spm=1001.2101.3001.6650.3&utm_medium=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3.wap_blog_relevant_default&depth_1-utm_source=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3.wap_blog_relevant_default) |
-|                |                                                              |
+| 第三方博客参考 | [link](https://blog.csdn.net/weixin_39581652/article/details/110801338)  [link](https://blog.csdn.net/pyycsd/article/details/102803133?spm=1001.2101.3001.6650.11&utm_medium=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-11.wap_blog_relevant_default&depth_1-utm_source=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-11.wap_blog_relevant_default)  [link](https://blog.csdn.net/weixin_44347271/article/details/121721121?spm=1001.2101.3001.6650.3&utm_medium=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3.wap_blog_relevant_default&depth_1-utm_source=distribute.wap_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3.wap_blog_relevant_default)   [link](http://www.cxybb.com/article/desky/114640840) |
+| jwt过期方案    | [link](https://cloud.tencent.com/developer/article/2001607)  |
 
 > 看laravel那边的框架 旧token是存本地文件缓存叫做黑名单 刷新token的时候设置的旧黑名单
 

@@ -57,13 +57,23 @@ https://blog.csdn.net/ljh101/article/details/108806075
     public function getAccessToken()
     {
          /***************************推荐写法*************************************/
-       //如果缓存存在直接返回缓存中的token
-        if (Cache::has('access_token') != false) return Cache::get('access_token');
+       $appId = $this->appId;
+        $appSecret = $this->appSecret;
+        $key = 'official_account_access_token';     # 记住这里的换成key不可以是access_token为了防止与小程序的缓存accessToken重合
+        //如果缓存存在直接返回缓存中的token
+        if (!empty(Cache::get($key))) {
+            Log::debug('内存中的token为:' . Cache::get($key));
+            return Cache::get($key);
+        }
         //反之执行缓存
-        $data = json_decode(file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appId}&secret={$this->appSecret}"), true);
-        //设置缓存过期时间2小时
-        if (isset($data['access_token'])) Cache::put('access_token', $data['access_token'], 60 * 60 * 2);
-        return $data['access_token'];
+        Log::info('开始请求小程序accessToken');
+        $data = json_decode(file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$appSecret"), true);
+        $accessToken = $data['access_token'] ?? "";
+        Log::info('获取小程序accessToken成功:' . json_encode($data) . ',当前accessToken' . $accessToken);
+        //设置缓存过期时间2小时-五分钟
+        if (!empty($accessToken)) Cache::set($key, $accessToken, (60 * 60 * 2 - 60 * 5));
+        return $accessToken;
+        
         
         /*********************************原生写法*****************************************/
         # 或者原生写法
