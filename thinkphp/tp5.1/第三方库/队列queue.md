@@ -254,8 +254,7 @@ class SendOrderReserveNoticeJob
         $orderServiceReserve_id = $data['order_service_reserve_id'] ?? 0;
         Log::info("发送预约通知队列,预约主键:" . json_encode($orderServiceReserve_id) . date('Y-m-d H:i:s'));
         Db::startTrans();
-        # 加锁预防队列执行过快并发情况导致查询预约为空删除了队列导致队列未执行全(锁需要事务提交才算加锁)  
-        # 有个问题这里有时候测试服会显示mysql服务丢失,推测有可能是因为死锁的原因。所以如果日后有情况考虑 usleep();函数延迟毫秒处理
+        # 加锁预防队列执行过快并发情况导致查询预约为空删除了队列导致队列未执行全
         $orderServiceReserveModel = OrderServiceReserveModel::lock(true)->get($orderServiceReserve_id);
         if (empty($orderServiceReserveModel)) {
             Log::info("预约信息为空中断本次预约:" . json_encode($orderServiceReserveModel));
