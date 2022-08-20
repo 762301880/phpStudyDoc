@@ -52,6 +52,7 @@ CREATE TABLE `decrement_count` (
 ```php
         $countModel = Count::where('id', 1)->find();
         $count = $countModel->value('count');
+        //sleep(1);   加上sleep 延迟并发效果更佳优秀
         if ($count > 0) {
             $bool = DecrementCount::create(['count_decrement_id' => $count--]);
             if ($bool) {
