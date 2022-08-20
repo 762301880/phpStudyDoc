@@ -396,3 +396,16 @@ show global variables like '%timeout';  # 查看连接超时命令
 ...
 ```
 
+### 模拟 MySQL server has gone away
+
+**windows模拟**
+
+>  进程启动的过程中 没有开启thinkphp5的断线重连(修改为true)
+>
+> **此电脑右键--管理(下面图中的标记打错字了)--服务和应用程序--服务(找到mysql服务右键重启)**
+
+![image-20220820135548878](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220820135548878.png)
+
+> 重启之后就可以看见**正在执行的队列报错**
+
+![image-20220820140308715](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220820140308715.png)
