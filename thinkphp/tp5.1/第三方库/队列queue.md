@@ -368,7 +368,7 @@ kill PID
 | 名称                                     | 地址                                                         |
 | ---------------------------------------- | ------------------------------------------------------------ |
 | 博客                                     | [link](https://blog.csdn.net/thepatterraining/article/details/108360179)  [link](https://blog.csdn.net/weixin_33914982/article/details/113317790?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-113317790-blog-108360179.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-113317790-blog-108360179.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=4) |
-| mysql排查-server has gone away  参考资料 | [link](https://blog.csdn.net/LXLXLJLJ/article/details/117739733)  [link](https://icode.best/i/47197145210746) |
+| mysql排查-server has gone away  参考资料 | [link](https://blog.csdn.net/LXLXLJLJ/article/details/117739733)  [link](https://icode.best/i/47197145210746)  [link](https://blog.csdn.net/weixin_36002881/article/details/113236404) |
 
 ```shell
 MySQL服务宕机了 （因为已经重启 所以排除）
@@ -377,6 +377,14 @@ Mysql 链接超时 ，在某个mysql长连接的很久没有新的请求，达�
 ```
 
 > 就是说mysql 8个小时没有数据请求就自动关闭了连接,而队列由于常驻进程所以一直采用的是上一次的连接导致无法连接成功
+
+```shell
+show global variables like '%timeout';  # 查看连接超时命令
+```
+
+
+
+![image-20220820112512031](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220820112512031.png)
 
 **解决方案**
 
