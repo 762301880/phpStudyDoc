@@ -358,3 +358,33 @@ kill PID
 > 坑啊,这两天在做队列相关发现了一个坑，就是队列怎么执行每次都少了好多(**忘记了redis监听队列测试服已经处于监听，然后本地想着调试写入日志就本地也开了监听**)，一直以为是循环中请求队列并发导致
 >
 > 最后无意中发现把本地监听停了之后,队列还在执行，这时候恍然大悟，原来测试服的队列还在监听着reids中写入的任务
+
+# bug解决
+
+## 队列导致MySQL server has gone away
+
+**参考资料**
+
+| 名称                                     | 地址                                                         |
+| ---------------------------------------- | ------------------------------------------------------------ |
+| 博客                                     | [link](https://blog.csdn.net/thepatterraining/article/details/108360179)  [link](https://blog.csdn.net/weixin_33914982/article/details/113317790?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-113317790-blog-108360179.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-113317790-blog-108360179.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=4) |
+| mysql排查-server has gone away  参考资料 | [link](https://blog.csdn.net/LXLXLJLJ/article/details/117739733)  [link](https://icode.best/i/47197145210746) |
+
+```shell
+MySQL服务宕机了 （因为已经重启 所以排除）
+Mysql的链接进程被主动kill掉。（这个也排除了 因为无人操作）
+Mysql 链接超时 ，在某个mysql长连接的很久没有新的请求，达到了server端的timeout，被server强行关闭，此后再通过这个connection发起查询时，就会报错 server has gone away。（经过排查是属于这种）
+```
+
+> 就是说mysql 8个小时没有数据请求就自动关闭了连接,而队列由于常驻进程所以一直采用的是上一次的连接导致无法连接成功
+
+**解决方案**
+
+> 找到**项目目录\config\database.php**
+
+```php
+....
+'break_reconnect' => true,  // 是否需要断线重连 修改为true
+...
+```
+
