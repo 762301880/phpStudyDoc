@@ -72,3 +72,23 @@ rc shutdown
 rc-service Service名 start/stop/restart
 ```
 
+##  补充
+
+### 开启openrc日志
+
+> 编辑**/etc/rc.conf** 配置文件
+
+```shell
+# vim /etc/rc.conf
+
+# rc_logger launches a logging daemon to log the entire rc process to
+# /var/log/rc.log
+# NOTE: Linux systems require the devfs service to be started before
+# logging can take place and as such cannot log the sysinit runlevel.
+rc_logger="YES" # 取消注释修改为YES
+
+# Through rc_log_path you can specify a custom log file.
+# The default value is: /var/log/rc.log
+rc_log_path="/var/log/rc.log" # 取消注释
+```
+
