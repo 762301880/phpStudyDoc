@@ -49,6 +49,8 @@
     {
         try {
             if (empty(request()->param("appsecret"))) throw new SystemException('密钥不能为空');
+            $secret = config('wechat.wechat_xcx.appsecret');# 获取配置文件中的secret
+            if (request()->param('appsecret') != $secret) throw new SystemException("非法请求");
             $res = $this->miniProgram->getAccessToken();
             return $this->resSuccess($res, "accessToken返回成功");
         } catch (SystemException $systemException) {
@@ -72,7 +74,6 @@
     public function getAccessToken()
     {
         if (env('APP_ENV') == 'dev') {  # 如果是测试服的小程序直接调用线上返回
-            if (request()->param('appsecret') != $this->secret) throw new SystemException("非法请求");
             $url = "https://api.jiazhengserve.com/api/get_mini_program_access_token";
             $data = ["appsecret" => $this->secret];
             $res = json_decode(request_post($url, $data));
