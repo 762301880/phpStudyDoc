@@ -39,6 +39,67 @@
     }
 ```
 
+**解决测试调用token线上token失效问题**
+
+```shell
+# 创建公用路由
+ Route::post('get_mini_program_access_token', 'MiniProgram/getDevAccessToken');//解决测试服获取小程序access_token问题
+# 对应控制器
+ public function getDevAccessToken(Request $request)
+    {
+        try {
+            if (empty(request()->param("appsecret"))) throw new SystemException('密钥不能为空');
+            $res = $this->miniProgram->getAccessToken();
+            return $this->resSuccess($res, "accessToken返回成功");
+        } catch (SystemException $systemException) {
+            return $this->resError($systemException->getMessage());
+        }
+    }
+    
+  # 对应方法
+  class MiniProgramService
+{
+    protected $accessToken;
+
+    public function __construct()
+    {
+        $this->appId = config('wechat.wechat_xcx.appid');# 获取配置文件中的appId
+        $this->secret = config('wechat.wechat_xcx.appsecret');# 获取配置文件中的secret
+        # 一定要放在最后调用
+        $this->accessToken = $this->getAccessToken();
+    }
+
+    public function getAccessToken()
+    {
+        if (env('APP_ENV') == 'dev') {  # 如果是测试服的小程序直接调用线上返回
+            if (request()->param('appsecret') != $this->secret) throw new SystemException("非法请求");
+            $url = "https://api.jiazhengserve.com/api/get_mini_program_access_token";
+            $data = ["appsecret" => $this->secret];
+            $res = json_decode(request_post($url, $data));
+            return $res->data;
+        }
+        # 正常逻辑
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={$this->appId}&secret={$this->secret}";
+        $key = 'mini_program_access_token';//缓存小程序key
+        $expiration_time = 3600;//过期时间
+
+        $accessToken = Cache::get($key);
+        if (!empty($accessToken)) {
+            return $accessToken;
+        }
+        $res = json_decode(file_get_contents($url), true);# 使用http客户端调用
+        if (!empty($res['errcode'])) {
+            Log::info("请求小程序accesstoken:" . json_encode($res));
+            throw new SystemException('请求异常');
+        }
+        Cache::set($key, $res['access_token'], $expiration_time); //保存缓存
+        return $res['access_token'];
+    }
+}
+```
+
+
+
 ## 统一调用请求
 
 ```php
