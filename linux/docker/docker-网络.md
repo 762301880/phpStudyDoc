@@ -115,6 +115,210 @@ PING 172.17.0.5 (172.17.0.5) 56(84) bytes of data.
 >
 > 所有的容器不指定网络的情况下,都是docker0路由的,docker会给我们的容器分配一个默认的可用ip
 
+# 自定义网络
+
+```shell
+[root@VM-16-5-centos ~]# docker network --help
+
+Usage:  docker network COMMAND
+
+Manage networks
+
+Options:
+      --help   Print usage
+
+Commands:
+  connect     Connect a container to a network  #将容器连接到网络
+  create      Create a network # 创建网络
+  disconnect  Disconnect a container from a network # 断开容器与网络的连接
+  inspect     Display detailed information on one or more networks # 显示一个或多个网络的详细信息
+  ls          List networks                  # 网络列表
+  prune       Remove all unused networks       # 删除所有未使用的网络
+  rm          Remove one or more networks       #rm移除一个或多个网络
+
+Run 'docker network COMMAND --help' for more information on a command.
+#-----------------------------
+# 查看所有的docker网络列表
+
+[root@VM-16-5-centos ~]# docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+51354af29e83        bridge              bridge              local
+2ff22bd34a38        host                host                local
+6072e5fef379        none                null                local
+#-----------------------------
+# 网络模式
+bridge(默认)  : 桥接 docker 搭桥(自己搭建也使用bridge模式)
+none         : 不配置网络
+host         : 和宿主机共享网络
+container    : 容器内可以网络联通!(用的少！局限很大)
+# =============测试===================
+# 我们直接启动的命令  --net bridge  而这个就是我们的docker01
+[root@VM-16-5-centos ~]# docker run -d -P --name tomcat01  b8
+[root@VM-16-5-centos ~]# docker run -d -P --name tomcat01 --net bridge tomcat  b8
+# 上面两个是相等的  --net bridge 是默认创建的
+
+# docker0特点:默认,域名不能访问, --link 可以打通连接
+
+# 我们可以自定义一个网络!
+[root@VM-16-5-centos ~]# docker network create --help
+
+Usage:  docker network create [OPTIONS] NETWORK
+
+Create a network
+
+Options:
+      --attachable             Enable manual container attachment
+      --aux-address map        Auxiliary IPv4 or IPv6 addresses used by Network driver (default map[])
+  -d, --driver string          Driver to manage the Network (default "bridge")
+      --gateway stringSlice    IPv4 or IPv6 Gateway for the master subnet
+      --help                   Print usage
+      --internal               Restrict external access to the network
+      --ip-range stringSlice   Allocate container ip from a sub-range
+      --ipam-driver string     IP Address Management Driver (default "default")
+      --ipam-opt map           Set IPAM driver specific options (default map[])
+      --ipv6                   Enable IPv6 networking
+      --label list             Set metadata on a network (default [])
+  -o, --opt map                Set driver specific options (default map[])
+      --subnet stringSlice     Subnet in CIDR format that represents a network segment
+# ---------------------------------
+[root@VM-16-5-centos ~]# docker network create --driver bridge --subnet 192.168.0.0/16 --gateway 192.168.0.1 mynet
+28efdb5a5f68162183fff88bda77888a1c368d3e336919be04b4d4a8b3700ae9
+
+创建了一个网络 mynet ,--subnet是他的子网,
+# 查看创建的网络
+[root@VM-16-5-centos ~]# docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+51354af29e83        bridge              bridge              local
+2ff22bd34a38        host                host                local
+28efdb5a5f68        mynet               bridge              local
+6072e5fef379        none                null                local
+
+
+# 查看自定义网络的详细信息-我们自己的网络就创建好了
+
+[root@VM-16-5-centos ~]# docker network inspect mynet
+[
+    {
+        "Name": "mynet",
+        "Id": "28efdb5a5f68162183fff88bda77888a1c368d3e336919be04b4d4a8b3700ae9",
+        "Created": "2022-08-29T20:32:35.707417304+08:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "192.168.0.0/16",
+                    "Gateway": "192.168.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Containers": {},
+        "Options": {},
+        "Labels": {}
+    }
+]
+#============================
+# 启动一个容器并绑定自定义网络
+[root@VM-16-5-centos ~]# docker run -d -P --name tomcat-net-01  --net mynet  b8
+f2f49914c83dea308e42839e3ddba928f5b313134286c9742b2558b720c78143
+# tomcat02
+[root@VM-16-5-centos ~]# docker run -d -P --name tomcat-net-02  --net mynet  b8
+194d832fb4144b2d7871fb236dc3f20213f1609442330975f6d63b3b3a408367
+#================================
+
+#再次查看网络
+[root@VM-16-5-centos ~]# docker network inspect mynet
+[
+    {
+        "Name": "mynet",
+        "Id": "28efdb5a5f68162183fff88bda77888a1c368d3e336919be04b4d4a8b3700ae9",
+        "Created": "2022-08-29T20:32:35.707417304+08:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "192.168.0.0/16",
+                    "Gateway": "192.168.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Containers": {
+            "194d832fb4144b2d7871fb236dc3f20213f1609442330975f6d63b3b3a408367": {
+                "Name": "tomcat-net-02", 
+                "EndpointID": "c2d216be4e7b8e75ec56c867b10a5afd3dabb37c6b774c5a69139cea41014f55",
+                "MacAddress": "02:42:c0:a8:00:03",
+                "IPv4Address": "192.168.0.3/16",
+                "IPv6Address": ""
+            },
+            "f2f49914c83dea308e42839e3ddba928f5b313134286c9742b2558b720c78143": {
+                "Name": "tomcat-net-01",
+                "EndpointID": "de56c70758fcf122c9612105b76295177a99077070242867e6277aec94e3cea8",
+                "MacAddress": "02:42:c0:a8:00:02",
+                "IPv4Address": "192.168.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+#//
+
+[root@VM-16-5-centos ~]# docker ps -a
+CONTAINER ID        IMAGE                                   COMMAND                  CREATED             STATUS              PORTS                                              NAMES
+194d832fb414        b8                                      "catalina.sh run"        24 minutes ago      Up 24 minutes       0.0.0.0:32777->8080/tcp                            tomcat-net-02
+f2f49914c83d        b8                                      "catalina.sh run"        25 minutes ago      Up 25 minutes       0.0.0.0:32776->8080/tcp                            tomcat-net-01
+
+# 再次测试ping连接
+[root@VM-16-5-centos ~]# docker exec tomcat-net-02 ping 192.168.0.3
+PING 192.168.0.3 (192.168.0.3): 56 data bytes
+64 bytes from 192.168.0.3: icmp_seq=0 ttl=64 time=0.056 ms
+
+# 现在可以不用 --link也可以ping名字了
+[root@VM-16-5-centos ~]# docker exec tomcat-net-02 ping tomcat-net-01
+PING tomcat-net-01 (192.168.0.2): 56 data bytes
+64 bytes from 192.168.0.2: icmp_seq=0 ttl=64 time=0.064 ms
+64 bytes from 192.168.0.2: icmp_seq=1 ttl=64 time=0.061 ms
+
+我们自定义的docker网络都已经帮我们维护好了对应关系,推荐我们平时这样使用网络！
+
+好处：
+
+redis-不同的集群使用不同的网络,保证我们的集群是安全和健康的
+
+mysql-不同的集群使用不同的网络,保证我们的集群是安全和健康的
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+
+
 
 
 
