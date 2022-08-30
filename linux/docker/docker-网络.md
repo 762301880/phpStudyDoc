@@ -1,3 +1,11 @@
+# 资料
+
+| 名称                     | 地址                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| Docker-从入门到实战-网络 | [link](https://yeasy.gitbook.io/docker_practice/underly/network) |
+
+
+
 # Docker 网络
 
 ## 理解docker网络(Docker0)
@@ -299,29 +307,109 @@ PING tomcat-net-01 (192.168.0.2): 56 data bytes
 redis-不同的集群使用不同的网络,保证我们的集群是安全和健康的
 
 mysql-不同的集群使用不同的网络,保证我们的集群是安全和健康的
+```
 
+## 网络连通(连接一个网络到一个容器)
 
+```shell
+# 默认docker0网络
+[root@VM-16-5-centos ~]# docker run -d -P --name tomcat01 b8
+21be63ddeb2f950196998ac5d7fd9604637a1e3a1f06cb7bdc5cbae939e0ef56
+[root@VM-16-5-centos ~]# docker run -d -P --name tomcat02 b8
+d1ad26ce450d9a4c457a4f6d2322b60dbf2e62f303eea7786c0ea3164814a862
+# 测试tomcat01 ping  tomcat-net-02  网段不同 不可能ping通
+[root@VM-16-5-centos ~]# docker exec -it tomcat01 ping tomcat-net-02
+ping: unknown host
 
+# 打通命令  利用 docker network connect
 
+[root@VM-16-5-centos ~]# docker network --help
+Commands:
+  connect     Connect a container to a network       # 将容器连接到网络
+# 查看connect 命令
+[root@VM-16-5-centos ~]# docker network connect --help
 
+Usage:	docker network connect [OPTIONS] NETWORK CONTAINER    # [选项] NETWORK(网络) CONTAINER(容器名)
 
+Connect a container to a network
 
+Options:
+      --alias stringSlice           Add network-scoped alias for the container      # 为容器添加网络范围的别名
+      --help                        Print usage       # 帮助 打印使用
+      --ip string                   IP Address        # ip string ip地址
+      --ip6 string                  IPv6 Address      # ip6 string IPv6地址
+      --link list                   Add link to another container (default [])     # 添加到另一个容器的链接(默认[])
+      --link-local-ip stringSlice   Add a link-local address for the container     # 为容器添加一个链路本地地址 
+# ===============================
 
+# 测试打通  tomcat01 到 --mynet
+[root@VM-16-5-centos ~]# docker network connect mynet tomcat01
 
+# 连通之后就是将tomcat01防到了mynet网络下
+# 一个容器两个ip地址   阿里云服务器  公网ip 私网ip
+[root@VM-16-5-centos ~]# docker inspect mynet
+[
+    {
+        "Name": "mynet",
+        "Id": "28efdb5a5f68162183fff88bda77888a1c368d3e336919be04b4d4a8b3700ae9",
+        "Created": "2022-08-29T20:32:35.707417304+08:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "192.168.0.0/16",
+                    "Gateway": "192.168.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Containers": {
+            "194d832fb4144b2d7871fb236dc3f20213f1609442330975f6d63b3b3a408367": {
+                "Name": "tomcat-net-02",
+                "EndpointID": "c2d216be4e7b8e75ec56c867b10a5afd3dabb37c6b774c5a69139cea41014f55",
+                "MacAddress": "02:42:c0:a8:00:03",
+                "IPv4Address": "192.168.0.3/16",
+                "IPv6Address": ""
+            },
+            "21be63ddeb2f950196998ac5d7fd9604637a1e3a1f06cb7bdc5cbae939e0ef56": {
+                "Name": "tomcat01",  # 可以查看网络已经连接了进来
+                "EndpointID": "b505e683f8b05aa7801b51c92c202d6207ec0391710aa88084a87123500efdf8",
+                "MacAddress": "02:42:c0:a8:00:04",
+                "IPv4Address": "192.168.0.4/16",
+                "IPv6Address": ""
+            },
+            "f2f49914c83dea308e42839e3ddba928f5b313134286c9742b2558b720c78143": {
+                "Name": "tomcat-net-01",
+                "EndpointID": "de56c70758fcf122c9612105b76295177a99077070242867e6277aec94e3cea8",
+                "MacAddress": "02:42:c0:a8:00:02",
+                "IPv4Address": "192.168.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
 
+# 再次ping网络
+[root@VM-16-5-centos ~]# docker exec -it tomcat01 ping tomcat-net-02
+PING tomcat-net-02 (192.168.0.3): 56 data bytes
+64 bytes from 192.168.0.3: icmp_seq=0 ttl=64 time=0.073 ms
+# 02 是依旧打不通的
+[root@VM-16-5-centos ~]# docker exec -it tomcat02 ping tomcat-net-02
+ping: unknown host
 
-
-
-
-
-
+# 结论: 假设要跨网络操作别人,就需要使用docker network connect 连通
 ```
 
 
 
-
-
-
+# 实战-redis集群
 
 
 
