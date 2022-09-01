@@ -1,4 +1,28 @@
-## [docker-composer安装](https://www.runoob.com/docker/docker-compose.html)
+# 简介
+
+> docker
+>
+> DockerFile build run 手动操作，单个容器
+>
+> 微服务,100个微服务! 依赖关系
+>
+> Docker Compose 来轻松高效的管理容器。定义和运行多个容器。
+>
+> 使用 Compose 基本上是一个三步过程：
+>
+> 1. 定义您的应用程序的环境，`Dockerfile`以便可以在任何地方复制它。
+> 2. 定义构成您的应用程序的服务，`docker-compose.yml` 以便它们可以在隔离环境中一起运行。
+> 3. 运行`docker compose up`，[Docker compose 命令](https://docs.docker.com/compose/#compose-v2-and-the-new-docker-compose-command)启动并运行您的整个应用程序。您也可以`docker-compose up`使用 Compose Standalone（`docker-compose`二进制）运行。
+
+## **资料**
+
+| 名称           | 地址                                     |
+| -------------- | ---------------------------------------- |
+| docker-compose | [link](https://docs.docker.com/compose/) |
+
+
+
+# [docker-compose安装](https://www.runoob.com/docker/docker-compose.html)
 
 **资料**
 
@@ -7,7 +31,7 @@
 | docker官网compose安装 | [link ](https://docs.docker.com/compose/install/)  [国内镜像安装](https://get.daocloud.io/) |
 | 第三方博客            | [link](https://yeasy.gitbook.io/docker_practice/compose/install) |
 
-**linux安装**
+## **linux安装**
 
 ```shell
 # 运行以下命令以下载 Docker Compose 的当前稳定版本
@@ -33,4 +57,6 @@ docker-compose --version
 curl -L https://get.daocloud.io/docker/compose/releases/download/v2.2.3/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ```
+
+# compose实战
 
