@@ -97,3 +97,37 @@ volumes:
   logvolume01: {}
 ```
 
+[**官方docker-compose案例**](https://docs.docker.com/compose/gettingstarted/)
+
+> 1. 应用 app.py
+>
+> 2. Dockerfile应用打包为镜像(单机玩具)
+>
+> 3. docker-compose.yaml文件(定义整个服务,需要的环境,web,redis...)   完整的上线服务
+>
+> 4. 启动compose项目(docker-compose up)
+>
+> 流程:
+>
+> 1. 创建网络
+> 2. 执行docker-compose.yaml
+> 3. 启动服务
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
