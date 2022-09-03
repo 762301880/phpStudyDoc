@@ -112,6 +112,28 @@ volumes:
 > 1. 创建网络
 > 2. 执行docker-compose.yaml
 > 3. 启动服务
+>
+> Docker-compose yaml
+>
+> Creating composetest_web_1 ..done
+>
+> Creating composetest_redis_1 ..done
+
+1. 文件名 composetest
+2. 服务
+
+```shell
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+  redis:
+    image: "redis:alpine"
+```
+
+自动创建默认规则
 
 
 
