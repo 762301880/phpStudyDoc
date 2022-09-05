@@ -199,16 +199,20 @@ if (!function_exists('http_request')) {
         if ($width < 280) throw new SystemException("宽度最小280px");
         if ($width > 1280) throw new SystemException("宽度最大1280px");
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={$this->accessToken}";
+        $check_path = env('APP_ENV') != 'dev' ? true : false;//是否判断路径
+        $envVersion = env('APP_ENV') != 'dev' ? 'release' : 'trial'; //设置自动跳转版本
         $data = [
             'scene' => $query,
             'width' => $width,
             'page' => $path,
-            'check_path' => true,
+            'check_path' => $check_path,//是否判断路径
+            'env_version' => $envVersion //设置自动跳转版本
         ];
         $key = md5($query . $width . $path);
         $retData = Cache::get($key);
         if (!empty($retData)) return $retData;
         $res = request_post($url, json_encode($data));
+        Log::info("获取小程序码:" . json_encode($res));
         $image_base64 = base64_encode($res);
         Cache::set($key, $image_base64, 60 * 60 * 2);
         return $image_base64;
