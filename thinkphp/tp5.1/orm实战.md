@@ -527,5 +527,14 @@ public function getOrderReserveListOrDetails($data)
     }
 ```
 
+## where 条件日期转化查询
+
+```php
+ $spellGroupUsersModels = SpellGroupUsersModel::whereRaw("unix_timestamp(end_time) <= $thisTime")       # 用原始查询并转化
+            ->where('status', 'EQ', SpellGroupUsersModel::STATUS_IN_SPELL_GROUP)
+            ->where('parent_id', SpellGroupUsersModel::PARENT_ID_DEFAULT)
+            ->select();
+```
+
 
 
