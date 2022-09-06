@@ -83,3 +83,36 @@ array:10 [▼
 ]
 ```
 
+#  [创建&新增数据](https://learnku.com/docs/laravel/8.x/eloquent/9406)
+
+> 利用`laravel`  `Eloqument Orm 快速入门` 中的`firstOrNew`  或者 ``updateOrCreate``  可以实现
+
+**firstOrNew示例**
+
+```php
+ /**
+     * 创建或新增导航
+     * @param $data
+     * @return mixed
+     */
+    public function createOrUpdateNavigationModel($data)
+    {
+        $id = $data['id'] ?? 0; //主键数据库那边要设置自动递增
+        $sort = $data['sort'] ?? NavigationModel::SORT_DEFAULT;
+        $title = $data['title'] ?? "";
+        $transform_title = $data['transform_title'] ?? "";
+        $parent_id = $data['parent_id'] ?? NavigationModel::PARENT_ID_DEFAULT;
+        $icon = $data['icon'] ?? "";
+        $link_url = $data['link_url'] ?? "";
+        $navigationModel = NavigationModel::firstOrNew(['id' => $id]);
+        $navigationModel->id = $id;
+        $navigationModel->sort = $sort;
+        $navigationModel->title = $title;
+        $navigationModel->transform_title = $transform_title;
+        $navigationModel->parent_id = $parent_id;
+        $navigationModel->icon = $icon;
+        $navigationModel->link_url = $link_url;
+        return $navigationModel->save();
+    }
+```
+
