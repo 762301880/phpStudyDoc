@@ -51,7 +51,7 @@ class UpgradeRoleValidator
     protected static function customRules(Request $request)
     {
         $user=$request->user(); # 获取当前用户
-        # 这里必须要注意 is_club_member 自定义的验证规则名称一定不能为
+        # 这里必须要注意 is_club_member 自定义的验证规则名称一定不能为驼峰命名
         Validator::extend('is_club_member', function ($attribute, $value, $parameters, $validator) {
             return ClubMember::find($value) != null;
         });
