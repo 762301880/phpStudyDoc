@@ -78,7 +78,7 @@ public function upload(Request $request)
     {
         $file = $request->file('img');
         $path      = $file->getPath() . '/' . $file->getFilename();//得到文件主机上的地址
-        $file_name = date('YmdHis') . uniqid() .$file->getClientOriginalName();//上传的文件名称
+        $file_name = date('YmdHis') . '_' . uniqid() . '_' . $file->getClientOriginalName();//上传的文件名称
         $bucket = 'yaoliuyang-test-oss'; //bucket名称
         $object = $file_name;
         # $object = $this->temp_path . $file_name;    temp_path=='temp_img/' 可配置化
