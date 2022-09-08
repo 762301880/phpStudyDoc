@@ -8,7 +8,7 @@
 
 | 名称     | 地址                                                         |
 | -------- | ------------------------------------------------------------ |
-| 参考博客 | [link](https://learnku.com/articles/66387) [link](https://github.com/fkei/JSON.minify/blob/master/minify.json.js) |
+| 参考博客 | [link](https://learnku.com/articles/66387) [link](https://github.com/fkei/JSON.minify/blob/master/minify.json.js) [link](https://doc.houdunren.com/soft/9%20postman.html#postman) |
 
 **Pre-req.**中添加代码
 
