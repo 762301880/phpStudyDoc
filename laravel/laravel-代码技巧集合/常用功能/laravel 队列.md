@@ -26,7 +26,7 @@
 >
 >3. 在`.env`文件中配置QUEUE_CONNECTION=database
 >     `Laravel`可配置多种队列驱动，包括 "sync", "database", "beanstalkd", "sqs", "redis", "null"（具体参见app/config/queue.php）
->     其中sync为同步，database为使用数据库，后面三种为第三方队列服务，最后一种为不使用队列。
+>     其中sync为同步**(可以打断点并调试)**，database为使用数据库，后面三种为第三方队列服务，最后一种为不使用队列。
 >     通过在 .env 中的 QUEUE_CONNECTION 选项，来决定选择何种驱动。
 >     如 QUEUE_CONNECTION=database 即为选择数据库驱动队列。
 
