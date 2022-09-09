@@ -486,6 +486,22 @@ Swap file ".demo.txt.swp" already exists!
  rm -rf .demo.txt.swp   //删除交换    
 ```
 
+##  grep 
+
+**资料**
+
+| 名称 | 地址                                                         |
+| ---- | ------------------------------------------------------------ |
+| 博客 | [link](https://download.csdn.net/download/weixin_38713450/12841869?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7EPaid-1-12841869-blog-121425903.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7EPaid-1-12841869-blog-121425903.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=2) [link](https://www.runoob.com/linux/linux-comm-grep.html) |
+
+```shell
+# 只知道文字如何查询文件名
+grep -rn "需要查询的文字" *
+data/config/env.sh:2:.............        返回文件位置:文字存在的行数
+```
+
+
+
 ## [别名机制](https://www.runoob.com/linux/linux-comm-alias.html)(创建自己的linux命令)
 
 > <font color='red'>注意：创建别名之后重新进入终端生效</font>
