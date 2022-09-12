@@ -72,6 +72,7 @@ if (!function_exists('getBeforeTime')) {
         if ($timeDiff > $year && $timeDiff < $max_year) return floor($timeDiff / $year) . "年之前";
         return date('Y-m-d H:i:s', $time); //超过100年返回具体时间
     }
+}
 ```
 
 **实例二**
