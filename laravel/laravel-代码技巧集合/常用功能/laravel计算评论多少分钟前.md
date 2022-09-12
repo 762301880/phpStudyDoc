@@ -33,6 +33,45 @@
             return date('Y-m-d H:i:s', strtotime($request->get('time')));
         }
     }
+
+# --------------------------------我是分割-----------------------------------------------------------------
+
+# 优化封装二 (全局函数)
+if (!function_exists('getBeforeTime')) {
+    /**
+     * 计算序列化时间
+     * 调用示例 dd(getBeforeTime(strtotime('1997-08-11 09:10:12')));
+     */
+    function getBeforeTime($time)
+    {
+        //闭包序列化时间 int格式
+        $serializeTime = function ($time) {
+            if (is_int($time)) $time = (int)$time;
+            if (is_string($time)) $time = strtotime($time);
+            return $time;
+        };
+        $thisTime = (new DateTime())->format('Y-m-d H:i:s');
+        $thisTime = (new DateTime($thisTime))->getTimestamp();
+        if ($thisTime < $time) throw new Exception("需要转化的时间不能大于当前的日期");
+        $time = $serializeTime($time);
+        $seconds = 60;//60秒
+        $minutes = $seconds * $seconds;//1小时
+        $hours = $minutes * 24;//一天
+        $month = $hours * 30;//一个月
+        $year = $month * 12;//一年
+        $max_year = $year * 100;//最大年份100年
+        //echo "当前时间为:" . $thisTime;
+        //echo "需要转化的时间为:" . $time;
+        $timeDiff = $thisTime - $time;
+        //echo "时间差为:" . $timeDiff;
+        if ($timeDiff < $seconds) return $timeDiff . '秒之前';
+        if ($timeDiff < $minutes) return floor($timeDiff / $seconds) . '分钟之前';
+        if ($timeDiff < $hours) return floor($timeDiff / $minutes) . '小时之前';
+        if ($timeDiff < $month) return floor($timeDiff / $hours) . '天之前';
+        if ($timeDiff < $year) return floor($timeDiff / $month) . '个月之前';
+        if ($timeDiff > $year && $timeDiff < $max_year) return floor($timeDiff / $year) . "年之前";
+        return date('Y-m-d H:i:s', $time); //超过100年返回具体时间
+    }
 ```
 
 **实例二**
