@@ -498,3 +498,49 @@ $result = $app->refund->byOutTradeNumber('out-trade-no-xxx', 'refund-no-xxx', 20
         ]);
 ```
 
+### 例如拼团:参与拼团到了输入密码支付页面先不输入密码，先修改拼团结束时间，让拼团结束后，在输入密码支付，能支付成功和拼团成功，在查看拼团详情，所需成团人数和实际参团人数不一致
+
+**参考**
+
+| 名称             | 地址                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| 设置微信支付过期 | [link](http://www.sanshu.cn/article/12248.html)  [link](http://www.sanshu.cn/article/12248.html) |
+| 微信官方支付文档 | [link](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1) |
+
+
+
+> 即用户卡在支付页面不支付，然后拼团时间过期了再支付这种情况就需要限制一下支付时间了
+>
+> **注意事项**    time_start  time_expire 两个参数缺一不可
+
+**代码示例**
+
+```php
+#------------ easywechat 调用微信支付设置过期时间
+if (!empty($is_spell_group) && $is_spell_group == OrderModel::IS_SPELL_GROUP_YES && $spell_group_user_pid != SpellGroupUsersModel::PARENT_ID_DEFAULT) {
+            Log::info("此订单是拼团订单需要设置订单过期时间,订单过期时间为:".$time_expire.',订单id:'.$order_id);
+            $result = $this->app->order->unify([
+                'body' => $body,
+                'out_trade_no' => $order_number,
+                'total_fee' => $payment_price * 100,
+                //'spbill_create_ip' => '123.12.12.123', // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
+                'notify_url' => request()->domain() . '/api/order_payment_notice_callback', // 支付结果通知网址，如果不设置则会使用配置里的默认地址(换成自己的通知回调地址)
+                'trade_type' => 'JSAPI',
+                'openid' => $openId, //用户自己的openid
+                'time_start'=>date('YmdHis'),
+                'time_expire' => $time_expire,
+            ]);
+        } else {
+            # 非拼团支付
+            $result = $this->app->order->unify([
+                'body' => $body,
+                'out_trade_no' => $order_number,
+                'total_fee' => $payment_price * 100,
+                //'spbill_create_ip' => '123.12.12.123', // 可选，如不传该参数，SDK 将会自动获取相应 IP 地址
+                'notify_url' => request()->domain() . '/api/order_payment_notice_callback', // 支付结果通知网址，如果不设置则会使用配置里的默认地址(换成自己的通知回调地址)
+                'trade_type' => 'JSAPI',
+                'openid' => $openId, //用户自己的openid
+            ]);
+        }
+```
+
