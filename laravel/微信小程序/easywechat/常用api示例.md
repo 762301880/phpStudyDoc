@@ -121,7 +121,7 @@ $this->app = Factory::payment($config);
 ### 根据商户订单号查询
 
 ```php
-#订单号 调用支付时候传递的out_trade_no(自定义的订单编号)
+#订单号 调用支付时候传递的out_trade_no(自定义的订单编号:随机生成的订单编号)
 $this->app->order->queryByOutTradeNumber("商户系统内部的订单号（out_trade_no）");
 
 # 返回示例
