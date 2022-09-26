@@ -536,5 +536,26 @@ public function getOrderReserveListOrDetails($data)
             ->select();
 ```
 
+## 查询json数据
 
+```shell
+	 getLastSql();
+     //https://www.kancloud.cn/manual/thinkphp5_1/507621
+     $stu = Stu::where('info->sex', 2)->select();
+     dd($stu);
+```
+
+[**解决json为int类型无法查询问题**](https://www.kancloud.cn/manual/thinkphp5_1/507621)
+
+> 需要指定设置对应json数据类型
+
+```shell
+// 设置json类型字段
+    protected $json = ['info'];
+
+    // 设置JSON字段的类型
+    protected $jsonType = [
+        'info->sex'	=>	'int'
+    ];
+```
 

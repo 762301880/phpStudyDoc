@@ -116,3 +116,83 @@ array:10 [▼
     }
 ```
 
+## json查询
+
+**数据示例**
+
+[![xVh86s.png](https://s1.ax1x.com/2022/09/26/xVh86s.png)](https://imgse.com/i/xVh86s)
+
+```mysql
+CREATE TABLE `stu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sname` char(10) DEFAULT NULL,
+  `class_id` int(11) DEFAULT NULL,
+  `birthday` datetime DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `sex` enum('男','女') DEFAULT NULL,
+  `info` json DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='学生表';
+```
+
+
+
+**代码示例**
+
+```php
+   public function test(Request $request)
+    {
+//        $stus = Stu::all();
+//
+//        foreach ($stus as $element) {
+//            $ranName = Str::random(3);
+//            $ranSex = rand(1, 2);
+//            $ranScore = random_int(1, 100);
+//            $element->info = json_encode([
+//                'name' => $ranName,
+//                'sex' => $ranSex,
+//                'score' => $ranScore
+//            ]);
+//            $element->save();
+//        };
+
+        $stu=Stu::where("info->sex",1)->get();
+        dd($stu->toArray());
+    }
+
+# 结果示例
+
+array:3 [▼
+  0 => array:8 [▼
+    "id" => 5
+    "sname" => "后盾人"
+    "class_id" => 2
+    "birthday" => "2003-09-01 20:33:13"
+    "updated_at" => "2022-09-26T09:29:44.000000Z"
+    "sex" => "男"
+    "info" => "{"sex": 1, "name": "klI", "score": 40}"
+    "sex_serialize_int" => 1
+  ]
+  1 => array:8 [▼
+    "id" => 6
+    "sname" => "张云"
+    "class_id" => 3
+    "birthday" => "1996-09-01 20:33:13"
+    "updated_at" => "2022-09-26T09:29:44.000000Z"
+    "sex" => "女"
+    "info" => "{"sex": 1, "name": "dOE", "score": 62}"
+    "sex_serialize_int" => 2
+  ]
+  2 => array:8 [▼
+    "id" => 8
+    "sname" => "李兰"
+    "class_id" => 2
+    "birthday" => null
+    "updated_at" => "2022-09-26T09:29:44.000000Z"
+    "sex" => "女"
+    "info" => "{"sex": 1, "name": "Fim", "score": 76}"
+    "sex_serialize_int" => 2
+  ]
+]
+```
+
