@@ -116,7 +116,7 @@ array:10 [▼
     }
 ```
 
-## json查询
+# json查询
 
 **数据示例**
 
@@ -192,6 +192,33 @@ array:3 [▼
     "sex" => "女"
     "info" => "{"sex": 1, "name": "Fim", "score": 76}"
     "sex_serialize_int" => 2
+  ]
+]
+```
+
+[## 选择json字段为一级字段]()
+
+```php
+ 
+$stu = Stu::select(["id", 'info->sex as sex'])->where("info->sex", 1)->get();
+        dd($stu->toArray());
+# or
+$stu = Stu::select(["id", \DB::raw("json_extract(info,'$.sex') as sex")])->where("info->sex", 1)->get();
+        dd($stu->toArray());
+
+# 结果为
+array:3 [▼
+  0 => array:2 [▼
+    "id" => 5
+    "sex" => "1"
+  ]
+  1 => array:2 [▼
+    "id" => 6
+    "sex" => "1"
+  ]
+  2 => array:2 [▼
+    "id" => 8
+    "sex" => "1"
   ]
 ]
 ```
