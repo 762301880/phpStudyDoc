@@ -538,6 +538,8 @@ public function getOrderReserveListOrDetails($data)
 
 ## 查询json数据
 
+[![xVh86s.png](https://s1.ax1x.com/2022/09/26/xVh86s.png)
+
 ```shell
 	 getLastSql();
      //https://www.kancloud.cn/manual/thinkphp5_1/507621
@@ -557,5 +559,32 @@ public function getOrderReserveListOrDetails($data)
     protected $jsonType = [
         'info->sex'	=>	'int'
     ];
+```
+
+### 选择json字段作为一级字段
+
+```php
+# 代码示例
+  getLastSql();
+        //https://www.kancloud.cn/manual/thinkphp5_1/507621
+        $stu = Stu::field(["id",Db::raw("json_extract(info,'$.sex') as sex ")])->where('info->sex', 2)->select();
+        dd($stu->toArray());
+# ---------------------------------------------
+# 结果示例
+^ array:7 [▼
+  0 => array:2 [▼
+    "id" => 1
+    "sex" => "2"
+  ]
+  1 => array:2 [▼
+    "id" => 2
+    "sex" => "2"
+  ]
+  2 => array:2 [▶]
+  3 => array:2 [▶]
+  4 => array:2 [▶]
+  5 => array:2 [▶]
+  6 => array:2 [▶]
+]
 ```
 
