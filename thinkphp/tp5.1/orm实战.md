@@ -567,6 +567,8 @@ public function getOrderReserveListOrDetails($data)
 # 代码示例
   getLastSql();
         //https://www.kancloud.cn/manual/thinkphp5_1/507621
+        $stu = Stu::field(["id","json_extract(info,'$.sex') as sex"])->where('info->sex', 2)->select();
+        #or
         $stu = Stu::field(["id",Db::raw("json_extract(info,'$.sex') as sex ")])->where('info->sex', 2)->select();
         dd($stu->toArray());
 # ---------------------------------------------
