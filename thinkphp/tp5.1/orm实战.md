@@ -538,6 +538,8 @@ public function getOrderReserveListOrDetails($data)
 
 ## 查询json数据
 
+https://blog.csdn.net/grey_bear/article/details/122584902      json字段提取
+
 [![xVh86s.png](https://s1.ax1x.com/2022/09/26/xVh86s.png)
 
 ```shell
@@ -587,6 +589,48 @@ public function getOrderReserveListOrDetails($data)
   4 => array:2 [▶]
   5 => array:2 [▶]
   6 => array:2 [▶]
+]
+```
+
+## 多字段json查询
+
+[![xZZ1ds.png](https://s1.ax1x.com/2022/09/27/xZZ1ds.png)
+
+**代码示例**
+
+```php
+   $stu = Stu::where('info->article->content', 'like',"%4WHpEP050XLJ734%")->select();
+   dd($stu->toArray());
+
+ # 结果示例
+^ array:1 [▼
+  0 => array:7 [▼
+    "id" => 10
+    "sname" => "刘雷"
+    "class_id" => null
+    "birthday" => "1996-11-08 20:33:13"
+    "updated_at" => "2022-09-27 08:45:38"
+    "sex" => "男"
+    "info" => {#56 ▼
+      +"sex": 2
+      +"name": "4Ij"
+      +"score": 3
+      +"article": {#58 ▼
+        +"title": "DtpM2Wx5AI"
+        +"content": "XwxBgzF7O9T3kah6J53x4WHpEP050XLJ734uuwufpLkv57dg29Np0n0Qb75IQF4Ab9K0WePpR1ojOckaMOxwJX05hL"
+      }
+    }
+  ]
+]
+# ---------------------选择多级字段作为一级字段------------------------------    
+      # 选择文章内容字段
+      $stu = Stu::field("json_extract(info,'$.article.content') as content")->where('info->article->content', 'like',"%4WHpEP050XLJ734%")->select();
+
+# 结果示例
+ array:1 [▼
+  0 => array:1 [▼
+    "content" => ""XwxBgzF7O9T3kah6J53x4WHpEP050XLJ734uuwufpLkv57dg29Np0n0Qb75IQF4Ab9K0WePpR1ojOckaMOxwJX05hL""
+  ]
 ]
 ```
 

@@ -196,7 +196,7 @@ array:3 [▼
 ]
 ```
 
-[## 选择json字段为一级字段]()
+## [选择json字段为一级字段]()
 
 ```php
  
@@ -219,6 +219,55 @@ array:3 [▼
   2 => array:2 [▼
     "id" => 8
     "sex" => "1"
+  ]
+]
+```
+
+##  多级json筛选
+
+[![xZZ1ds.png](https://s1.ax1x.com/2022/09/27/xZZ1ds.png)](https://imgse.com/i/xZZ1ds)
+
+> 例如上图的**info**  json 字段 我们有一个文章json字段里面又有**title(文章标题),content(文章内容字段)** 我们想查询其中的文字内容或者标题如何查询呢
+
+**代码示例**
+
+> 需求:以文章个别内容查询改文章的用户对应文章信息
+
+```php
+//        $stus = Stu::all();
+//
+//        foreach ($stus as $element) {
+//            $ranName = Str::random(3);
+//            $ranSex = rand(1, 2);
+//            $ranScore = random_int(1, 100);
+//            $ranTitle = Str::random(10);
+//            $ranContent = Str::random(90);
+//            $element->info = json_encode([
+//                'name' => $ranName,
+//                'sex' => $ranSex,
+//                'score' => $ranScore,
+//                'article' => [
+//                    'title' => $ranTitle,
+//                    'content' => $ranContent
+//                ]
+//            ]);
+//            $element->save();
+//        };
+
+
+
+        $stu = Stu::select(["id","sname","info->article->title as title","info->article->content as content"])
+            ->where("info->article->content", 'like', "%HpEP050XLJ734uuwufpLkv57dg29Np0n0Q%")
+            ->get();
+        dd($stu->toArray());
+
+# 结果
+array:1 [
+  0 => array:4 [
+    "id" => 10
+    "sname" => "刘雷"
+    "title" => "DtpM2Wx5AI"
+    "content" => "XwxBgzF7O9T3kah6J53x4WHpEP050XLJ734uuwufpLkv57dg29Np0n0Qb75IQF4Ab9K0WePpR1ojOckaMOxwJX05hL"
   ]
 ]
 ```
