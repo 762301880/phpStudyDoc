@@ -592,7 +592,7 @@ https://blog.csdn.net/grey_bear/article/details/122584902      json字段提取
 ]
 ```
 
-## 多字段json查询
+### 多字段json查询
 
 https://blog.csdn.net/robinson_911/article/details/120370772?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-120370772-blog-119889086.pcrelevantt0_20220926_downloadratepraise_v1&spm=1001.2101.3001.4242.1&utm_relevant_index=2
 
@@ -629,6 +629,23 @@ https://blog.csdn.net/robinson_911/article/details/120370772?utm_medium=distribu
       $stu = Stu::field("json_extract(info,'$.article.content') as content")->where('info->article->content', 'like',"%4WHpEP050XLJ734%")->select();
 
 # 结果示例
+^ array:1 [▼
+  0 => array:1 [▼
+    "content" => ""XwxBgzF7O9T3kah6J53x4WHpEP050XLJ734uuwufpLkv57dg29Np0n0Qb75IQF4Ab9K0WePpR1ojOckaMOxwJX05hL""
+  ]
+]
+```
 
+### **扩展补充**
+
+### json字段查询取消双引号
+
+> 采用**json_unquote**函数取消双引号,[参考](http://t.zoukankan.com/xiaomaomao-p-15630256.html)
+
+```php
+       $stu = Stu::field("json_unquote(json_extract(info,'$.article.content')) as content")
+            ->where('info->article->content', 'like',"%4WHpEP050XLJ734%")
+            ->select();
+        dd($stu->toArray());
 ```
 
