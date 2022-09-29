@@ -65,7 +65,7 @@ curl -L https://get.daocloud.io/docker/compose/releases/download/v2.2.3/docker-c
 chmod +x /usr/local/bin/docker-compose
 ```
 
-# compose实战
+# compose实战(网络参考)
 
 > 简单来说**composer**就是启动你写好的执行的生成的**dockerfile**镜像，不需要再去手动的**run**启动命令
 >
@@ -139,17 +139,150 @@ services:
 
 
 
+# 个人**docker-compose实战**
+
+## 搭建laravel项目
+
+> 如下图所示首先我们定义了一个docker目录下存放docker相关配置，根目录下新建了**Dockerfile&docker-compose.yml**配置文件
+
+![image-20220929083743040](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220929083743040.png)
+
+### **nginx配置文件81.69.231.252.conf**
+
+> 目录名对应服务器的ip地址 如果是本地修改为**127.0.0.1.conf**
+>
+> 对应监听地址也要修改**server_name**
+
+```shell
+server {
+    listen 80;
+    server_name 81.69.231.252;
+    root /data/work/laravel_study/public; # 指向laravel 框架的public 目录
+
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+
+    index index.php;
+    client_max_body_size 100m;
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    error_page 404 /index.php;
+
+    location ~ \.php$ {
+        # fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+        fastcgi_pass  127.0.0.1:9000;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+}
+```
+
+### **crontab 文件**
+
+>  里面配置对应的项目的定时任务
+
+```shell
+* * * * * cd /data/work/laravel_study && php artisan schedule:run >> /dev/null 2>&1
+```
+
+### **start_service.sh**
+
+> 启动项目所需脚本
+
+```shell
+#!/bin/sh
 
 
+echo -e "======================启动php-fpm========================\n"
+php-fpm7 2>/dev/null
+echo -e "php-fpm启动成功...\n"
 
 
+echo -e "======================启动nginx========================\n"
+nginx  2>/dev/null
+echo -e "nginx启动成功...\n"
 
+echo -e "======================启动定时任务========================\n"
+crond & 2>/dev/null
+echo -e "定时任务启动成功...\n"
 
+/bin/bash
 
+```
 
+### **Dockerfile**
 
+```shell
+FROM  hyperf/hyperf:7.4-alpine-v3.11-swoole
+# 设置项目的路径
+ENV  PROJECT_PATH  /data/work/laravel_study/
+# 设置日志存储目录名称
+ENV  LOG_DIRECTORY_NAME storage
+# 设置日志目录全路径
+ENV  PROJECT_LOG_PATH $PROJECT_PATH$LOG_DIRECTORY_NAME
+# 指定工作目录(进入启动的容器终端会自动进入工作目录)
+WORKDIR $PROJECT_PATH
+# 修改镜像源
+RUN  cd /etc/apk && sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" repositories \
+    && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
+    # 设置修改容器内部时区
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# 拷贝当前项目到容器工作目录
+COPY $PWD  $PROJECT_PATH
+# 设置定时任务脚本
+COPY ./docker/crontab /var/spool/cron/crontabs/root
+# 安装所需软件
+RUN apk add vim net-tools \
+     && apk add dos2unix \
+     && apk add nginx \
+     && mkdir -p  /run/nginx/ && chmod -R 777 /run/nginx/ \
+     && apk add php-fpm \
+     && cd $PROJECT_PATH && chmod -R 777 $PROJECT_LOG_PATH  &&  composer install
+# 将nginx 配置文件拷贝到容器中
+COPY  ./docker/81.69.231.252.conf   /etc/nginx/conf.d/
+COPY  ./docker/start_service.sh   /bin/
+RUN  chmod a+x /bin/start_service.sh
+RUN  dos2unix /bin/start_service.sh
+# 暴露端口号(指的是暴露这些端口 -P 命令可以自动生成暴露的端口)
+EXPOSE 9501 80
+CMD  ["/bin/start_service.sh"]
+```
 
+### **docker-compose.yml**
 
+```shell
+# yaml 配置
+version: '3'
+services:
+  web:
+    container_name: laravel_study
+    build: .
+    ports:
+      - "1997:80"
+    tty: true
+    restart: always # 默认重启
+#    command:
+#      - /bin/bash
+#      - -c
+#      - |
+#        php-fpm7 2>/dev/null
+#        nginx  2>/dev/null
+#        /bin/bash
 
+    
+   # command: ["/bin/start_service.sh"]
 
+```
 
