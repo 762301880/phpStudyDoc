@@ -143,6 +143,15 @@ services:
 
 ## 搭建laravel项目
 
+**资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://www.iteye.com/blog/laomn-2440511) [link](https://blog.csdn.net/qq_41980563/article/details/88880719) [link](https://www.it1352.com/2725087.html) [link](https://www.cnblogs.com/panbin2006/p/16529040.html) [link](https://huaweicloud.csdn.net/63311b68d3efff3090b52482.html?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Eactivity-1-119813498-blog-125740113.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Eactivity-1-119813498-blog-125740113.pc_relevant_default&utm_relevant_index=2) |
+|          |                                                              |
+
+
+
 > 如下图所示首先我们定义了一个docker目录下存放docker相关配置，根目录下新建了**Dockerfile&docker-compose.yml**配置文件
 
 ![image-20220929083743040](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220929083743040.png)
