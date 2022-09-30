@@ -295,3 +295,61 @@ services:
 
 ```
 
+# Dockerfile 扩展补充
+
+## Dockerfile写入linux定时任务动态
+
+**资料**
+
+| 名称 | 地址                                                         |
+| ---- | ------------------------------------------------------------ |
+| 博客 | [link](https://www.cnblogs.com/HYanqing/p/12213185.html)  [link](https://www.likecs.com/show-205295903.html) |
+
+
+
+> 上面所示的写入定时任务不是那么友好，需要手动编辑一个定时任务脚本文件这里我们扩展一下
+
+```dockerfile
+FROM  hyperf/hyperf:7.4-alpine-v3.11-swoole
+# 设置项目的路径
+ENV  PROJECT_PATH  /data/work/laravel_study/
+# 设置日志存储目录名称
+ENV  LOG_DIRECTORY_NAME storage
+# 设置日志目录全路径
+ENV  PROJECT_LOG_PATH $PROJECT_PATH$LOG_DIRECTORY_NAME
+# 指定工作目录(进入启动的容器终端会自动进入工作目录)
+WORKDIR $PROJECT_PATH
+# 修改镜像源
+RUN  cd /etc/apk && sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" repositories \
+    && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
+    # 设置修改容器内部时区
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    # 创建一个定时脚本文件
+    && touch ~/crontab \
+    # 写入定时脚本
+    && echo "* * * * * cd ${PROJECT_PATH} && php artisan schedule:run >> /dev/null 2>&1" >> ~/crontab \
+    # 写入定时脚本
+    && mv ~/crontab /var/spool/cron/crontabs/root
+
+# 拷贝当前项目到容器工作目录
+COPY $PWD  $PROJECT_PATH
+## 设置定时任务脚本
+#COPY ./docker/crontab /var/spool/cron/crontabs/root
+# 安装所需软件
+RUN apk add vim net-tools \
+     && apk add dos2unix \
+     && apk add nginx \
+     && mkdir -p  /run/nginx/ && chmod -R 777 /run/nginx/ \
+     && apk add php-fpm \
+     && cd $PROJECT_PATH && chmod -R 777 $PROJECT_LOG_PATH  &&  composer install
+# 将nginx 配置文件拷贝到容器中
+COPY  ./docker/127.0.0.1.conf  /etc/nginx/conf.d/
+COPY  ./docker/start_service.sh   /bin/
+RUN  chmod a+x /bin/start_service.sh
+RUN  dos2unix /bin/start_service.sh
+# 暴露端口号(指的是暴露这些端口 -P 命令可以自动生成暴露的端口)
+EXPOSE 9501 80
+
+CMD  ["/bin/start_service.sh"]
+```
+
