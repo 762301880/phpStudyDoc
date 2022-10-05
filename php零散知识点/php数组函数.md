@@ -62,3 +62,25 @@ array:2 [
        # 结果 7
 ```
 
+# 案例
+
+## [删除数组中最后面几位](https://blog.csdn.net/weixin_42525582/article/details/115205188)
+
+```php+HTML
+<?php
+
+$arr = [1 => '保洁服务', 2 => '保姆服务', 3 => '工程师服务'];
+$unsetNum = 1; //需要删除的后几位位数
+$newArr = array_splice($arr, 0, (count($arr) - $unsetNum));
+var_dump($newArr);
+
+# 返回
+
+array(2) {
+  [0]=>
+  string(12) "保洁服务"
+  [1]=>
+  string(12) "保姆服务"
+}
+```
+
