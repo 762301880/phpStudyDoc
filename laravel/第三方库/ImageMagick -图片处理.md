@@ -23,7 +23,7 @@
 **下载源码包&安装**
 
 ```shell
-# 下载安装imagemagick
+# 下载安装imagemagick(软件)
 # linux 安装教程 http://www.imagemagick.org/script/install-source.php#linux
 #wget https://download.imagemagick.org/ImageMagick/download/ImageMagick-7.1.0-18.tar.gz
 wget https://download.imagemagick.org/ImageMagick/download/ImageMagick.tar.gz
@@ -47,7 +47,7 @@ Features: Cipher DPC HDRI OpenMP(4.5)
 Delegates (built-in): lzma xml zlib
 Compiler: gcc (8.5)
 
-# 安装imagick
+# 安装imagick(php扩展)
 # 下载扩展包  http://pecl.php.net/package/imagick
 wget http://pecl.php.net/get/imagick-3.6.0.tgz && tar -zxvf imagick-3.6.0.tgz && cd imagick-3.6.0
 # 编译
