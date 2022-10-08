@@ -8,9 +8,33 @@
 
 ![image-20221008110052749](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221008110052749.png)
 
+## xshell连接ubuntu虚拟机
+
+**资料**
+
+| 名称 | 地址                                                         |
+| ---- | ------------------------------------------------------------ |
+| 博客 | [link](https://blog.csdn.net/weixin_45329799/article/details/120276880) |
 
 
 
+**设置步骤**
+
+```shell
+# 安装sshd
+sudo apk install sshd
+# 启动ssh
+systemctl start sshd
+#查看sshd是否启用成功
+root@yly-ununtu:/# ps -ef | grep sshd
+#-----------------------
+# root用户被拒绝连接--解决办法如下
+sudo vim /etc/ssh/sshd_config    #编辑ssh配置文件，添加如下配置
+PermitRootLogin yes
+PasswordAuthentication yes
+
+# shell地址就是ip地址不知道的可以ifconfig命令查看
+```
 
 
 
