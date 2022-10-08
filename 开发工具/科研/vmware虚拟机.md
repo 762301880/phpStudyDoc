@@ -2,7 +2,11 @@
 
 > 这种比较属于无脑操作了不做叙述请自行百度查阅安装方法
 
+## 解决虚拟机ubuntu显示过小
 
+> **鼠标右键显示设置->显示器** 慢慢调试分辨率即可
+
+![image-20221008110052749](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221008110052749.png)
 
 
 
