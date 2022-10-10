@@ -54,6 +54,11 @@ sudo apt install wine64-tools
 
 # 使用
 
+```shell
+# 安装exe软件
+wine  [exe软件路径]
+```
+
 
 
 #  bug解析
