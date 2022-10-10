@@ -1,16 +1,18 @@
-# 一、说明
+# [修改软件源](https://blog.csdn.net/aodechudawei/article/details/122433257)
 
-> 开发过程中我们需要在本地开发，
+> 我们在下载软件的时候可能会遇到**无法定位软件包 sshd**这种情况,需要修改默认的软件源,点击左下角的**显示应用程序**,点击**软件和更新**
 
-#  二、配置虚拟域名
+[![xtZuM8.png](https://s1.ax1x.com/2022/10/10/xtZuM8.png)](https://imgse.com/i/xtZuM8)
 
-## 2.1 切换root用户
+#  配置虚拟域名
+
+## 切换root用户
 
 ```shell
 sudo su root 
 ```
 
-## 2.2 进入hosts目录&编辑hosts
+##  进入hosts目录&编辑hosts
 
 - 打开hosts目录
 

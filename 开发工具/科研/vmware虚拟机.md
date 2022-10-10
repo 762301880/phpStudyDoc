@@ -21,8 +21,10 @@
 **设置步骤**
 
 ```shell
-# 安装sshd
-sudo apk install sshd
+# 安装sshd        https://blog.csdn.net/m0_46392035/article/details/124835203
+
+sudo apt install sshd # 如果此命令不行-切换软件源(点击左下角导航栏的-显示应用程序-软件和更新中设置)后执行以下命令
+sudo apt install openssh-server
 # 启动ssh
 systemctl start sshd
 #查看sshd是否启用成功
