@@ -16,7 +16,9 @@
 | ---- | ------------------------------------------------------------ |
 | 博客 | [link](https://blog.csdn.net/weixin_45329799/article/details/120276880) |
 
+### **如果xshell出现ssh服务器拒绝了密码,请再试一次**
 
+[![xtedpt.png](https://s1.ax1x.com/2022/10/10/xtedpt.png)](https://imgse.com/i/xtedpt)
 
 **设置步骤**
 
