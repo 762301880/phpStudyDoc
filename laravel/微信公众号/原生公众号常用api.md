@@ -65,7 +65,7 @@ https://blog.csdn.net/ljh101/article/details/108806075
     public function getAccessToken()
     {
          /***************************推荐写法*************************************/
-       $appId = $this->appId;
+        $appId = $this->appId;
         $appSecret = $this->appSecret;
         $key = 'official_account_access_token';     # 记住这里的换成key不可以是access_token为了防止与小程序的缓存accessToken重合
         //如果缓存存在直接返回缓存中的token
@@ -101,6 +101,155 @@ array:2 [▼
   "expires_in" => 7200
 ]
 ```
+
+**获取access_token请求优化**
+
+> 使用过程中会遇到这样一个问题,就是根据官网所示,**建议公众号开发者使用中控服务器统一获取和刷新access_token，其他业务逻辑服务器所使用的access_token均来自于该中控服务器，不应该各自去刷新，否则容易造成冲突，导致access_token覆盖而影响业务；**
+>
+> ***所以本地或者测试服请求很容易导致线上access_token失效这是非常致命的***  平常的公司只有**测试服&线上**两个服务器没有**中控服务器**,所以我们
+>
+> 只有一个解决方案**除线上之外的所有获取access_token的地方都统一请求线上access_token即可解决**
+
+[<img src="https://s1.ax1x.com/2022/10/12/xUkXP1.png" alt="xUkXP1.png" style="zoom: 80%;" />](https://imgse.com/i/xUkXP1)
+
+**优化代码示例**
+
+```php
+# 路由
+Route::post('get_official_account_access_token', 'OfficialAccount/getDevAccessToken');//解决测试服获取公众号access_token问题
+#----------------------------------------------------------
+
+# 控制器
+<?php
+
+
+namespace app\api\controller;
+
+
+use app\common\service\OfficialAccountService;
+use exception\SystemException;
+use think\App;
+use think\Request;
+use traits\ApplyResponseLayout;
+
+class OfficialAccount extends Base
+{
+    use ApplyResponseLayout;
+
+    private $accountService = "";
+
+    public function __construct(App $app = null, OfficialAccountService $accountService)
+    {
+        parent::__construct($app);
+        $this->accountService = $accountService;
+    }
+
+    /**
+     * 非外部调用接口(解决内部获取access_token,测试服&线上只能一端请求的问题)
+     * 需求:测试服&本地请求线上,线上默认请求线上
+     * @param Request $request
+     * @return \think\response\Json
+     */
+    public function getDevAccessToken(Request $request)
+    {
+        try {
+            if (empty(request()->param("appsecret"))) throw new SystemException('密钥不能为空');
+            $secret = $this->accountService->appSecret; # 建议做成md5(secret+appid)比较传输过来的两个数据
+            if (request()->param('appsecret') != $secret) throw new SystemException("非法请求");
+            $res = $this->accountService->getAccessToken();
+            return $this->resSuccess($res, "accessToken返回成功");
+        } catch (SystemException $systemException) {
+            return $this->resError($systemException->getMessage());
+        }
+    }
+}
+
+# ------------------------------------------------------
+
+# service
+
+class OfficialAccountService
+{
+    # 依赖注入以便全局使用
+    private $accessToken;
+    private $appId;
+    public $appSecret;
+
+    public function __construct()
+    {
+        $this->appId = config('wechat.official_account.default.app_id');
+        $this->appSecret = config('wechat.official_account.default.secret');
+        $this->accessToken = $this->getAccessToken();
+    }
+
+    /**
+     * 获取公众号的token
+     * @return mixed
+     * 接口文档地址:https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
+     */
+    public function getAccessToken()
+    {
+        if (env('APP_ENV') == 'dev') {  //本地请求线上access_token
+            $url = "线上地址/api/get_official_account_access_token"; //做成可配置化
+            $data = ["appsecret" => $this->appSecret];
+            $res = json_decode(request_post($url, $data)); # curl请求线上
+            return $res->data;
+        }
+        $appId = $this->appId;
+        $appSecret = $this->appSecret;
+        $key = 'official_account_access_token';
+        //如果缓存存在直接返回缓存中的token
+        if (!empty(Cache::get($key))) {
+            Log::debug('内存中的token为:' . Cache::get($key));
+            return Cache::get($key);
+        }
+        //反之执行缓存
+        Log::info('开始请求小程序accessToken');
+        $data = json_decode(file_get_contents("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appId&secret=$appSecret"), true);
+        $accessToken = $data['access_token'] ?? "";
+        Log::info('获取小程序accessToken成功:' . json_encode($data) . ',当前accessToken' . $accessToken);
+        //设置缓存过期时间2小时-五分钟
+        if (!empty($accessToken)) Cache::set($key, $accessToken, (60 * 60 * 2 - 60 * 5));
+        return $accessToken;
+    }
+}
+
+
+# 公用方法 curl请求
+
+/**
+ * http请求
+ * @param string $url 地址
+ * @param array $post_data 请求数据
+ * @param array $data 更多请求参数
+ * @return bool|string
+ */
+if (!function_exists('request_post')) {
+    function request_post($url = '', $post_data = [], $data = [])
+    {
+        $cookie = !empty($data['cookie']) ? $data['cookie'] : "";
+        $postUrl = $url;
+        $ch = curl_init();//初始化curl
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); //禁止 cURL 验证对等证书
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); //是否检测服务器的域名与证书上的是否一致
+        curl_setopt($ch, CURLOPT_URL, $postUrl);//抓取指定网页
+        curl_setopt($ch, CURLOPT_HEADER, 0);//设置header param:1
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        if (!empty($post_data)) { # 如果提交的参数请求不为空
+            curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);//提交的参数
+        }
+        if (!empty($cookie)) { # 如果有cookie传递cookie
+            curl_setopt($ch, CURLOPT_COOKIE, $cookie);
+        }
+        $data = curl_exec($ch);//运行curl
+        curl_close($ch); # 关闭curl请求
+        return $data;
+    }
+}
+```
+
+
 
 # 生成带参数的二维码
 
