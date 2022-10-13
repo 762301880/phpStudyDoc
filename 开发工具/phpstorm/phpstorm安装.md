@@ -81,18 +81,23 @@ yaoliuyang@yaoliuyang-PC:~$ phpstorm
 
 **示例**
 
+> **在桌面创建** ***phpstorm.desktop***文件 然后编辑
+>
+> ## 参数说明
+>
 > **Exec**执行的shell脚本地址
 >
 > **Icon** 指向图标地址
 
 ```shell
+# phpstorm.desktop
 [Desktop Entry]
 Type=Application
 Version=2020.3
 GenericName=Phpstorm2020
 Name=phpstorm
 Comment=phpstorm ide
-Exec="/home/yaoliuyang/Documents/myapp/PhpStorm-2020.3.3/PhpStorm-203.7717.64/bin/phpstorm.sh"
+Exec="/home/yaoliuyang/Documents/myapp/PhpStorm-2020.3.3/PhpStorm-203.7717.64/bin/phpstorm.sh"  
 Icon=/home/yaoliuyang/Documents/myapp/PhpStorm-2020.3.3/PhpStorm-203.7717.64/bin/phpstorm.svg
 Terminal=false
 Categories=Development;IDE;
