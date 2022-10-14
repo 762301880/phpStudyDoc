@@ -1,3 +1,11 @@
+# 官网地址
+
+| 名称                               | 地址                                                     |
+| ---------------------------------- | -------------------------------------------------------- |
+| typora官网(需要翻墙)  typora中文网 | [link](https://typora.io/)  [link](https://typoraio.cn/) |
+
+
+
 # 说明
 
 > 突然看见typora官网开始收费下载了好家伙，的产品
@@ -8,11 +16,17 @@
 
 2. [下载beta版本下载](https://typora.io/releases/all)
 
-![image-20211227092103525](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20211227092103525.png)
+[![xdOkNT.png](https://s1.ax1x.com/2022/10/14/xdOkNT.png)](https://imgse.com/i/xdOkNT)
 
 ***分享一下外链***
 
 [windows版本](https://yaoliuyang.lanzoul.com/ihlVLy0rh9c)
 
-[linux版本](https://yaoliuyang.lanzoul.com/i71iDy0rguh)
+[linux版本](https://yaoliuyang.lanzoul.com/ifHES0du0uod
+
+```shell
+wget https://download.typora.io/linux/typora_1.4.1-dev_amd64.deb
+```
+
+
 
