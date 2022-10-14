@@ -28,3 +28,24 @@ chmod +x navicat15-premium-cs.AppImage
 ```
 
 - 或则直接鼠标右键 属性-权限-允许执行文件(打沟)
+
+
+
+# 创建桌面图标
+
+>图标可以官网下载**png**格式或者**svg**格式
+
+**桌面创建文件:navicat.desktop**
+
+```shell
+# navicat.desktop
+[Desktop Entry]
+Type=Application
+Name=Navicat Premium 15
+GenericName=Database Development Tool
+Icon=navicat-icon   # 指向图标地址
+Exec=navicat       # 需要执行的程序路径
+Categories=Development;
+Keywords=database;sql;
+```
+
