@@ -48,6 +48,7 @@ sudo dpkg-reconfigure mysql-apt-config
 
 ```shell
 sudo apt update
+sudo apt upgrade 
 ```
 
 ### 执行安装
