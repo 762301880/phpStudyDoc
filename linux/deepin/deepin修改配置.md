@@ -10,7 +10,7 @@
 
 ## 配置方法
 
-> 编辑`/etc/apt/sources.list`文件（需要使用**sudo**）, 在文件最前面添加以下条目（操作前请做好相应备份）
+> 编辑`/etc/apt/sources.list`文件（需要使用**sudo**）, 在文件<font color="red">最前面</font>添加以下条目（操作前请做好相应备份）
 
 ```shell
 deb [by-hash=force] https://mirrors.aliyun.com/deepin apricot main contrib non-free

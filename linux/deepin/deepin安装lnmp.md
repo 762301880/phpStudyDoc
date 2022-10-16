@@ -35,13 +35,23 @@ wget https://dev.mysql.com/get/mysql-apt-config_0.8.20-1_all.deb
 
 > 在下载的deb包目录中打开终端使用dpkg命令安装deb包
 
+**执行安装**
+
+> 跳出的窗口中软件包设置**debian buster**  然后剩下的统一默认即可, 记得装完存储库执行**sudo apt u**
+
 ```shell
 sudo dpkg -i mysql-apt-config_0.8.20-1_all.deb
+```
 
+**补充**
 
+```shell
 # 如果报错
 #Warning: apt-key should not be used in scripts (called from postinst maintainerscript of the package mysql-apt-config)
 sudo dpkg-reconfigure mysql-apt-config
+
+# 卸载mysql存储库
+sudo dpkg -P mysql-apt-config
 ```
 
 ### 刷新软件包
@@ -97,6 +107,12 @@ mysql> show databases;
 mysql>
 
 ```
+
+### **补充**
+
+#### navicat如何连接本地mysql
+
+> 端口因该使用**127.0.0.1**
 
 ## mariadb-替代mysql使用(不推荐)
 
