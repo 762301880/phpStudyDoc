@@ -156,7 +156,9 @@ sudo apt update --fix-missing # 更新镜像源
 sudo apt -y install php7.4-fpm # 不推荐因为deepin 默认最高php版本是7.3
 sudo apt install php #推荐
 # 安装默认常用php 扩展
-apt -y install  php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring  php-soap curl php-curl
+sudo apt -y install  php-mysql php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring  php-soap curl php-curl
+# 安装php-fpm
+sudo apt -y install php-fpm 
 ```
 
 - 卸载php
@@ -175,6 +177,82 @@ sudo find /etc -name "*php*" |xargs  rm -rf
 # 检查是否卸载干净（无返回就是卸载完成）
   dpkg -l | grep php7.0
 ```
+
+## 扩展php安装swoole
+
+### pecl安装
+
+```shell
+sudo pecl install swoole
+```
+
+**如果安装过程中出现报错:phpize: not found**
+
+```shell
+yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ sudo pecl install swoole
+WARNING: channel "pecl.php.net" has updated its protocols, use "pecl channel-update pecl.php.net" to update
+downloading swoole-4.8.12.tgz ...
+Starting to download swoole-4.8.12.tgz (2,097,350 bytes)
+.............................................................................................................................................................................................................................................................................................................................................................................................................................done: 2,097,350 bytes
+413 source files, building
+running: phpize
+sh: 1: phpize: not found
+ERROR: `phpize' failed
+
+# 执行安装
+sudo apt -y install php-dev
+```
+
+**安装过程中提示开启扩展**
+
+```shell
+enable sockets supports? [no] : yes
+enable openssl support? [no] : yes
+enable http2 support? [no] : yes
+enable mysqlnd support? [no] : yes
+enable json support? [no] : yes
+enable curl support? [no] : yes
+enable cares support? [no] : yes
+
+# 如果报错
+ERROR: `/tmp/pear/temp/swoole/configure --with-php-config=/usr/bin/php-confi
+
+#执行安装 
+sudo apt -y install gcc g++
+
+
+# 如果再报错 compilation terminated. （安装扩展中的报错）
+/tmp/pear/temp/swoole/ext-src/php_swoole_curl.h:25:10: fatal error: curl/curl.h: 没有那个文件或目录
+ #include <curl/curl.h>
+          ^~~~~~~~~~~~~
+compilation terminated.
+make: *** [Makefile:216：ext-src/swoole_curl.lo] 错误 1
+ERROR: `make' failed
+```
+
+**安装完成**
+
+```shell
+Build process completed successfully
+Installing '/usr/include/php/20180731/ext/swoole/php_swoole.h'
+Installing '/usr/include/php/20180731/ext/swoole/config.h'
+Installing '/usr/lib/php/20180731/swoole.so'
+install ok: channel://pecl.php.net/swoole-4.8.12
+configuration option "php_ini" is not set to php.ini location
+You should add "extension=swoole.so" to php.ini
+
+# 出现以上字段则代表安装完成此时我们需要手动的添加php扩展
+# 查询php.ini的位置
+yaoliuyang@yaoliuyang-PC:/etc/php/7.3/cli$ php -i | grep php.ini
+Configuration File (php.ini) Path => /etc/php/7.3/cli
+Loaded Configuration File => /etc/php/7.3/cli/php.ini
+
+# 添加swoole扩展
+
+echo "extension=swoole.so" >> /etc/php/7.3/cli/php.ini
+```
+
+
 
 # nginx 安装
 
