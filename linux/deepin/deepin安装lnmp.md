@@ -275,6 +275,21 @@ sudo apt -y  install nginx
 
 **配置文件信息**
 
+**创建nginx站点配置**
+
+```shell
+# 创建虚拟域名
+sudo vim /etc/hosts
+
+0.0.0.0 www.cs.com # 添加自定义虚拟域名
+#--------------------------
+
+# 创建nginx站点配置文件
+cd /etc/nginx/sites-enabled && sudo vim www.cs.com
+```
+
+**nginx配置**
+
 ```shell
 server {
     listen 80;
