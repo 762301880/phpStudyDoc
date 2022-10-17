@@ -84,3 +84,14 @@ array(2) {
 }
 ```
 
+## 删除数组中的前几位
+
+```php
+<?php
+
+$arr = [1 => '保洁服务', 2 => '保姆服务', 3 => '工程师服务'];
+$unsetNum = 1; //需要删除的后几位位数
+$newArr = array_slice($arr, 2);
+var_dump($newArr);
+```
+
