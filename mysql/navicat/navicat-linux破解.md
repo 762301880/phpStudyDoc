@@ -1,35 +1,31 @@
-# 	一、资料
+# 	资料
 
-| name                                                         | url                          |
-| ------------------------------------------------------------ | ---------------------------- |
-| NavicatForLinux免费在线破解(在线-记得需要下载网站提供的软件)-激活后打包上传网盘下次可以直接使用(亲测) | [免费破解](https://rlds.tk/) |
-|                                                              |                              |
-|                                                              |                              |
+| name     | url                                                        |
+| -------- | ---------------------------------------------------------- |
+| 网络博客 | [link](https://www.cnblogs.com/navysummer/p/16263742.html) |
 
-# 由于第一种情况已经满足我的需求了，如果日后有需要再补充第二种情况
+# 破解navicat
 
-[请下载上述官网提供的navicat 版本不然无法破解](https://rlds.tk/down.php)
+##  官方下载[中文版](http://www.navicat.com.cn/download/navicat-premium)
 
-# 二、破解navicat(勿看没用了)
-
-## 2.1 官方下载[中文版](http://www.navicat.com.cn/download/navicat-premium)
-
-> wget命令下载
+> wget命令下载,<font color='red'>建议直接网址复制到浏览器请求下载</font> **wget会出现下载失败的情况**
 
 ```shell
+# 不推荐会下载失败
 wget http://www.navicat.com.cn/download/direct-download?product=navicat15-premium-cs.AppImage&location=1
+
+# 推荐命令
+wget https://download.navicat.com.cn/download/navicat15-premium-cs.AppImage
 ```
 
-### 2.2 将下载的镜像设置为可执行文件
+## 将下载的镜像设置为可执行文件
 
 ```shell
 chmod +x navicat15-premium-cs.AppImage
 ./navicat15-premium-cs.AppImage
+
+# 或则直接鼠标右键 属性-权限-允许执行文件(打沟)
 ```
-
-- 或则直接鼠标右键 属性-权限-允许执行文件(打沟)
-
-
 
 # 创建桌面图标
 
