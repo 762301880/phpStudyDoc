@@ -67,3 +67,14 @@
 `Ctrl`+`Shift`+`+`    //取消折叠方法    
 ```
 
+# 搞笑bug
+
+## **ctrl+shift+f**全文搜索小弹窗消失的搞笑
+
+> 今天突然发现全文搜索小弹窗没了这很不方便利于修改代码，于是咨询了同事结果人家跟我说往上托就行了，真尴尬啊
+
+![image-20221022162921948](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221022162921948.png)
+
+**想要的效果**
+
+![image-20221022162837947](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221022162837947.png)
