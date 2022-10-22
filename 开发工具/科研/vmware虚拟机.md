@@ -40,7 +40,33 @@ PasswordAuthentication yes
 # shell地址就是ip地址不知道的可以ifconfig命令查看
 ```
 
+#  本地访问虚拟机ubuntu内部项目
 
+**参考资料**
+
+| 名称 | 地址                                                         |
+| ---- | ------------------------------------------------------------ |
+| 博客 | [link](https://blog.csdn.net/qq_43688965/article/details/121529839) |
+
+## 配置
+
+**虚拟机中查询ip地址**
+
+![image-20221022110847290](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221022110847290.png)
+
+**虚拟机网络设置修改为NET模式**
+
+![image-20221022110452953](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221022110452953.png)
+
+> 点击导航栏的**编辑-虚拟网络编辑器**  更改设置
+
+![image-20221022110615424](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221022110615424.png)
+
+**添加对外访问端口**
+
+![image-20221022110757281](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221022110757281.png)
+
+> 设置完毕即可访问容器内部项目**如果nginx代理**记得修改配置文件ip为网卡地址例如**192.168.112.128.conf**  即可本地访问容器内部项目
 
 # bug解析
 
