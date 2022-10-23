@@ -37,6 +37,28 @@ wget https://gitee.com/qishibo/AnotherRedisDesktopManager/attach_files/893990/do
 chmod + x  下载的文件
 ```
 
+### 设置桌面图标
+
+> 设置桌面文件**Another_Redis.desktop** 并修改**Exec&Icon**指向
+
+```shell
+# Another_Redis.desktop 
+[Desktop Entry]
+Name=Another-Redis
+Comment=redis app
+GenericName=Another-Redis
+Exec=/home/yaoliuyang/Documents/app/redis_app/Another-Redis-Desktop-Manager.1.5.8.AppImage
+Icon=/home/yaoliuyang/Documents/app/redis_app/Another Redis Desktop Manager.png
+Type=Application
+StartupNotify=true
+Categories=Office;WordProcessor;
+MimeType=text/markdown;text/x-markdown;
+X-Deepin-CreatedBy=com.deepin.dde.daemon.Launcher
+X-Deepin-AppID=another_redis
+```
+
+
+
 # 三、使用
 
 - 双击已经安装的`Another Redis Desktop Manager `
