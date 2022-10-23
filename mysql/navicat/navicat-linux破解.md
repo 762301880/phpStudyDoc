@@ -29,19 +29,62 @@ chmod +x navicat15-premium-cs.AppImage
 
 # 创建桌面图标
 
->图标可以官网下载**png**格式或者**svg**格式
+>图标可以官网下载**png**格式或者**svg**格式,或者从解压的appimage中寻找对应图标
 
 **桌面创建文件:navicat.desktop**
 
 ```shell
-# navicat.desktop
+# navicat15.desktop
 [Desktop Entry]
 Type=Application
 Name=Navicat Premium 15
 GenericName=Database Development Tool
-Icon=navicat-icon   # 指向图标地址
-Exec=navicat       # 需要执行的程序路径
+# 指向图标地址
+Icon=navicat-icon   
+Icon=/home/yaoliuyang/Documents/app/navicat15/navicat-icon.png
+# 需要执行的程序路径
+Exec=/home/yaoliuyang/Documents/app/navicat15/Navicat_Premium_15_cs-x86_64.appimage
 Categories=Development;
 Keywords=database;sql;
+```
+
+### appimage解压
+
+**资料**
+
+| 名称         | 地址                                                         |
+| ------------ | ------------------------------------------------------------ |
+| 博客         | [link](https://www.zyku.net/linux/4152.html)                 |
+| appimage官网 | [link](https://appimage.org/)  [link](https://www.bilibili.com/read/cv18046728/) |
+
+**操作命令**
+
+```shell
+xxx.AppImage --appimage-extract  #例:Navicat_Premium_15_cs-x86_64.appimage    解压出来的图标包含图标&启动文件等
+```
+
+
+
+#  删除配置文件无限试用
+
+**资料**
+
+| 名称 | 地址                                                         |
+| ---- | ------------------------------------------------------------ |
+| 博客 | [link](https://www.xmmup.com/linuxubuntuxianavicat-premium-16dewuxianshiyong.html) [link](https://www.cnblogs.com/phpper/p/16668671.html) |
+
+##  操作一
+
+> Navicat Premium 16的试用期只有14天，快到期之前，做如下动作，即可无限使用。
+>
+> 1、关闭Navicat程序
+> 2、删除如下2个文件：
+
+```shell
+rm -rf ~/.config/navicat    
+rm -rf ~/.config/dconf/user
+ 
+lsof | grep navicat | grep \\.config
+# 重新打开即可
 ```
 
