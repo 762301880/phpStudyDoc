@@ -359,6 +359,25 @@ kill PID
 >
 > 最后无意中发现把本地监听停了之后,队列还在执行，这时候恍然大悟，原来测试服的队列还在监听着reids中写入的任务
 
+##  测试队列是否是异步执行
+
+```php
+# 控制器中代码-调用队列并打印文字
+ Queue::push(Job1::class,['123'=>456]);
+ dd("测试是否异步");
+
+# 异步逻辑中代码
+  public function fire(Job $job, $data)
+    {
+        sleep(50); //测试是否是异步执行暂停50秒
+        dd($data);
+    }
+
+# 调用结果可以看出直接打印了测试是否异步文字就是异步执行
+```
+
+
+
 # bug解决
 
 ## 队列导致MySQL server has gone away
@@ -410,3 +429,4 @@ show global variables like '%timeout';  # 查看连接超时命令
 > 重启之后就可以看见**正在执行的队列报错**
 
 ![image-20220820140308715](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220820140308715.png)
+
