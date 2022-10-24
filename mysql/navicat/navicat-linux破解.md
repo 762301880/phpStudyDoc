@@ -27,6 +27,18 @@ chmod +x navicat15-premium-cs.AppImage
 # 或则直接鼠标右键 属性-权限-允许执行文件(打沟)
 ```
 
+**如果启动报错**
+
+![image-20221024091459052](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221024091459052.png)
+
+**解决方案**
+
+```shell
+sudo apt install fuse
+```
+
+
+
 # 创建桌面图标
 
 >图标可以官网下载**png**格式或者**svg**格式,或者从解压的appimage中寻找对应图标
