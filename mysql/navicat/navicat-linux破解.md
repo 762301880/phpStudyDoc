@@ -1,8 +1,8 @@
 # 	资料
 
-| name     | url                                                        |
-| -------- | ---------------------------------------------------------- |
-| 网络博客 | [link](https://www.cnblogs.com/navysummer/p/16263742.html) |
+| name     | url                                                          |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://www.cnblogs.com/navysummer/p/16263742.html) [link](https://blog.fengzi.info/?p=288) [link](https://www.cnblogs.com/librarookie/p/15109941.html) |
 
 # 破解navicat
 
