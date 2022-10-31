@@ -64,6 +64,8 @@ PasswordAuthentication yes
 
 **添加对外访问端口**
 
+> <font color="red">实测添加端口转发会导致虚拟机内部无法访问网络:待解决</font>
+
 ![image-20221022110757281](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221022110757281.png)
 
 > 设置完毕即可访问容器内部项目**如果nginx代理**记得修改配置文件ip为网卡地址例如**192.168.112.128.conf**  即可本地访问容器内部项目
