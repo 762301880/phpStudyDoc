@@ -2,7 +2,7 @@
 
 | name     | url                                                          |
 | -------- | ------------------------------------------------------------ |
-| 网络博客 | [link](https://www.cnblogs.com/navysummer/p/16263742.html) [link](https://blog.fengzi.info/?p=288) [link](https://www.cnblogs.com/librarookie/p/15109941.html) |
+| 网络博客 | [link](https://www.cnblogs.com/navysummer/p/16263742.html) [link](https://blog.fengzi.info/?p=288) [link](https://www.cnblogs.com/librarookie/p/15109941.html) [link](https://blog.csdn.net/weixin_42489341/article/details/87095114) |
 
 # 破解navicat
 
