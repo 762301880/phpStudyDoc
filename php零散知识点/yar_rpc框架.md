@@ -202,6 +202,18 @@ Installing shared extensions:     /usr/lib/php7/modules/       # 里面有  yar.
 bash-5.0# find / -name php.ini
 /etc/php7/php.ini
 
+extension=yar.so # 添加
+
+
+# 如果报错  参考:https://stackoverflow.com/questions/22952994/mongo-so-undefined-symbol-php-json-encode-in-unknown-on-line-0-after-instal
+PHP Warning:  PHP Startup: Unable to load dynamic library 'yar.so' (tried: /usr/lib/php7/modules/yar.so (Error relocating /usr/lib/php7/modules/yar.so: php_json_encode: symbol not found), /usr/lib/php7/modules/yar.so.so (Error loading shared library /usr/lib/php7/modules/yar.so.so: No such file or directory)) in Unknown on line 0
+
+php.ini  # 文件中多添加一个扩展
+
+extension=json.so # 一定要在yar.so之前
+extension=yar.so
+
+
 ```
 
 
