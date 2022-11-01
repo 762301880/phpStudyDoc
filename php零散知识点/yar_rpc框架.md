@@ -83,6 +83,15 @@ yar.content_type => application/octet-stream => application/octet-stream
 
 ## linux安装
 
+### [下载软件包](https://pecl.php.net/package/yar)
+
+```shell
+# 下载软件包
+wget https://pecl.php.net/get/yar-2.3.2.tgz && tar -zxvf yar-2.3.2.tgz && cd yar-2.3.2
+```
+
+
+
 ### alpine 安装
 
 ```shell
@@ -150,9 +159,49 @@ checking build system type... x86_64-pc-linux-musl
 checking host system type... x86_64-pc-linux-musl
 checking target system type... x86_64-pc-linux-musl
 configure: error: Cannot find php-config. Please use --with-php-config=PATH  # 说找不到php-config 让我们指定php配置文件未知
+# 安装php-config
+apk add php-dev
+# 查询php-config7
+bash-5.0# find / -name php-co*
+/usr/bin/php-config7
+# 继续执行编译
+bash-5.0# ./configure --with-php-config=/usr/bin/php-config7
+# 如果报错
+configure: error: Please reinstall the libcurl distribution - easy.h should be in <curl-dir>/include/curl/
+bash-5.0# apk add curl-dev
+# 继续执行编译
+bash-5.0# ./configure --with-php-config=/usr/bin/php-config7
 
+# 如果报错  https://blog.csdn.net/ligaofeng/article/details/105879032?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-105879032-blog-84377911.pc_relevant_recovery_v2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-105879032-blog-84377911.pc_relevant_recovery_v2&utm_relevant_index=2
+creating libtool
+appending configuration tag "CXX" to libtool
+configure: patching config.h.in
+configure: creating ./config.status
+config.status: creating config.h
+config.status: config.h is unchanged
+# 安装 libtool ps 没啥用
+#bash-5.0# apk add libtool
 
-bash-5.0# ./configure --with-php-config=
+# 执行安装
+bash-5.0# make && make install
+
+# 如果报错
+bash: make: command not found
+# 安装
+apk add make
+# 出现以下则代表安装成功
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+
+Build complete.
+Don't forget to run 'make test'.
+
+Installing shared extensions:     /usr/lib/php7/modules/       # 里面有  yar.so
+
+# 添加扩展到php配置文件 
+bash-5.0# find / -name php.ini
+/etc/php7/php.ini
+
 ```
 
 
