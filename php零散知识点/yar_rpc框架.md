@@ -81,6 +81,82 @@ yar.timeout => 5000 => 5000
 yar.content_type => application/octet-stream => application/octet-stream    
 ```
 
+## linux安装
+
+### alpine 安装
+
+```shell
+apk add php-devel  # 安装phpize
+# 执行编译
+bash-5.0# phpize7
+Configuring for:
+PHP Api Version:         20190902
+Zend Module Api No:      20190902
+Zend Extension Api No:   320190902
+
+# 如果报错
+Cannot find autoconf. Please check your autoconf installation and the
+$PHP_AUTOCONF environment variable. Then, rerun this script.
+# 安装 autoconf
+bash-5.0# apk add autoconf
+(1/6) Installing m4 (1.4.18-r1)
+(2/6) Installing perl (5.30.3-r0)
+....
+
+# 继续执行phpize7 出现以下没有报错则代表编译成功
+bash-5.0# phpize7
+Configuring for:
+PHP Api Version:         20190902
+Zend Module Api No:      20190902
+Zend Extension Api No:   320190902
+
+bash-5.0# ./configure 
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for pkg-config... no
+checking for cc... no
+checking for gcc... no
+configure: error: in `/root/yar-2.3.2':
+configure: error: no acceptable C compiler found in $PATH
+See `config.log' for more details
+
+# 上一步编译解决方案(没有安装编译软件)
+bash-5.0# apk add gcc 
+bash-5.0# apk add g++
+
+# 再次编译
+bash-5.0# ./configure 
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for a sed that does not truncate output... /bin/sed
+checking for pkg-config... no
+checking for cc... cc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether cc accepts -g... yes
+checking for cc option to accept ISO C89... none needed
+checking how to run the C preprocessor... cc -E
+checking for icc... no
+checking for suncc... no
+checking for system library directory... lib
+checking if compiler supports -R... no
+checking if compiler supports -Wl,-rpath,... yes
+checking build system type... x86_64-pc-linux-musl
+checking host system type... x86_64-pc-linux-musl
+checking target system type... x86_64-pc-linux-musl
+configure: error: Cannot find php-config. Please use --with-php-config=PATH  # 说找不到php-config 让我们指定php配置文件未知
+
+
+bash-5.0# ./configure --with-php-config=
+```
+
+
+
 # 项目中使用实例
 
 ```php
