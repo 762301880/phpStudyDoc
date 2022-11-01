@@ -208,12 +208,26 @@ extension=yar.so # 添加
 # 如果报错  参考:https://stackoverflow.com/questions/22952994/mongo-so-undefined-symbol-php-json-encode-in-unknown-on-line-0-after-instal
 PHP Warning:  PHP Startup: Unable to load dynamic library 'yar.so' (tried: /usr/lib/php7/modules/yar.so (Error relocating /usr/lib/php7/modules/yar.so: php_json_encode: symbol not found), /usr/lib/php7/modules/yar.so.so (Error loading shared library /usr/lib/php7/modules/yar.so.so: No such file or directory)) in Unknown on line 0
 
-php.ini  # 文件中多添加一个扩展
+php.ini  # 文件中多添加一个扩展(此方案没用)
 
 extension=json.so # 一定要在yar.so之前
 extension=yar.so
 
+# 最终解决方案  https://github.com/patrickallaert/php-apm/issues/42
+## 在/etc/php7/conf.d中新建  51_yar.ini 配置文件 里面写入
+bash-5.0# ls
+00__json.ini       00_curl.ini        00_iconv.ini       00_openssl.ini     00_pdo_sqlite.ini  00_sockets.ini     00_sysvsem.ini     00_zip.ini         01_mysqlnd.ini     20_pdo_mysql.ini   51_yar.ini
+00_bcmath.ini      00_default.ini     00_mbstring.ini    00_pcntl.ini       00_posix.ini       00_sodium.ini      00_sysvshm.ini     00_zlib.ini        01_phar.ini        20_redis.ini
+00_ctype.ini       00_gd.ini          00_opcache.ini     00_pdo.ini         00_session.ini     00_sysvmsg.ini     00_xml.ini         01_dom.ini         01_xmlreader.ini   50_swoole.ini
+bash-5.0# pwd
+/etc/php7/conf.d
 
+bash-5.0# cat 51_yar.ini 
+extension=yar
+
+# 最终效果
+bash-5.0# php -m | grep yar
+yar
 ```
 
 
