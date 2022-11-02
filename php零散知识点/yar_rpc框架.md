@@ -81,7 +81,7 @@ yar.timeout => 5000 => 5000
 yar.content_type => application/octet-stream => application/octet-stream    
 ```
 
-## linux安装
+## [linux安装](https://github.com/laruence/yar)
 
 ### [下载软件包](https://pecl.php.net/package/yar)
 
