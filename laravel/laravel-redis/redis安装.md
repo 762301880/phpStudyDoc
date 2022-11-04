@@ -34,6 +34,10 @@ redis> get foo
 
 **配置服务启动**
 
+| 名称 | 地址                                                   |
+| ---- | ------------------------------------------------------ |
+| 博客 | [link](http://t.zoukankan.com/murenhui-p-8898238.html) |
+
 > 启动 **/etc/init.d/redis start**
 
 ```shell
@@ -47,6 +51,10 @@ CLIEXEC=/usr/local/bin/redis-cli     # 修改为自己对应的
 
 PIDFILE=/var/run/redis_${REDISPORT}.pid
 CONF="/etc/redis/${REDISPORT}.conf"      # 此配置文件对应/usr/local/redis-6.2.6中的redis.conf  修改名称并备份即可 cp redis.conf cp redis.conf.cp && cp cp redis.conf 6379.conf
+
+# 重新载入配置  systemctl daemon-reload
+service redis start 
+systemctl start redis.service
 ```
 
 
