@@ -10,10 +10,11 @@
 
 ```shell
 # 从源代码 下载、解压和编译Redis： 推荐将redis放在 /usr/local目录下编译
+cd /usr/local
 wget https://download.redis.io/releases/redis-6.2.6.tar.gz 
-tar -zxzf redis-6.2.6.tar.gz
-cd redis-6.2.6
+tar -zxvf redis-6.2.6.tar.gz && cd redis-6.2.6
 make
+make install #执行安装 redis_server redis-cli 在bin目录     #指定路径 make PREFIX=/usr/local/redis/ install
 
 # 执行完 make 命令后，redis-6.0.8 的 src 目录下会出现编译后的 redis 服务程序 redis-server，还有用于测试的客户端程序 redis-cli：下面启动 redis 服务 进入编译过后的redis目录 
 
@@ -30,6 +31,25 @@ OK
 redis> get foo
 "bar"
 ```
+
+**配置服务启动**
+
+> 启动 **/etc/init.d/redis start**
+
+```shell
+cd /usr/local/redis-6.2.6/utils     # 进入编译后的utils文件
+sudo cp redis_init_script /etc/init.d/redis         # 拷贝文件
+sudo vim /etc/init.d/redis      # 记得这个要切换root用户编辑
+# /etc/init.d/redis 
+REDISPORT=6379
+EXEC=/usr/local/bin/redis-server    # 修改为自己对应的
+CLIEXEC=/usr/local/bin/redis-cli     # 修改为自己对应的
+
+PIDFILE=/var/run/redis_${REDISPORT}.pid
+CONF="/etc/redis/${REDISPORT}.conf"      # 此配置文件对应/usr/local/redis-6.2.6中的redis.conf  修改名称并备份即可 cp redis.conf cp redis.conf.cp && cp cp redis.conf 6379.conf
+```
+
+
 
 **[redis.conf配置常用介绍](https://www.runoob.com/redis/redis-conf.html)**
 
