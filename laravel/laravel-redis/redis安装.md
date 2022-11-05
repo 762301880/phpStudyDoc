@@ -1,4 +1,12 @@
-#   [linux安装](https://www.runoob.com/redis/redis-install.html)
+# 资料
+
+| 名称          | 地址                                           |
+| ------------- | ---------------------------------------------- |
+| redis官方文档 | [link](http://www.redis.cn/documentation.html) |
+
+#  redis安装
+
+## [linux安装](https://www.runoob.com/redis/redis-install.html)
 
 > 请在[redis官网](https://redis.io/download)下载开发包：https://redis.io/download
 >
@@ -99,7 +107,7 @@ cat redis.conf | grep daemonize # 查询是否修改
 netstat -anp |grep 6379
 ```
 
-# windows安装redis
+## windows安装redis
 
 > 如果我们使用的是**phpstudy**这种集成开发环境自带的就有redis,开启之后我们只需要配置系统环境变量即可在终端中使用
 >
