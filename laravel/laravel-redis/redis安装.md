@@ -34,9 +34,9 @@ redis> get foo
 
 **配置服务启动**
 
-| 名称 | 地址                                                   |
-| ---- | ------------------------------------------------------ |
-| 博客 | [link](http://t.zoukankan.com/murenhui-p-8898238.html) |
+| 名称 | 地址                                                         |
+| ---- | ------------------------------------------------------------ |
+| 博客 | [link](http://t.zoukankan.com/murenhui-p-8898238.html) [link](https://blog.csdn.net/u014163312/article/details/123650944) [link](https://blog.csdn.net/x1128559250/article/details/95511171?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-5-95511171-blog-123650944.pc_relevant_recovery_v2&spm=1001.2101.3001.4242.4&utm_relevant_index=8) |
 
 > 启动 **/etc/init.d/redis start**
 
@@ -51,10 +51,15 @@ CLIEXEC=/usr/local/bin/redis-cli     # 修改为自己对应的
 
 PIDFILE=/var/run/redis_${REDISPORT}.pid
 CONF="/etc/redis/${REDISPORT}.conf"      # 此配置文件对应/usr/local/redis-6.2.6中的redis.conf  修改名称并备份即可 cp redis.conf cp redis.conf.cp && cp cp redis.conf 6379.conf
-
+chmod a+x  /etc/init.d/redis  
 # 重新载入配置  systemctl daemon-reload
+systemctl daemon-reload
 service redis start 
 systemctl start redis.service
+
+
+# ubuntu 设置开机自启动去的是 /etc/init.d/redis配置
+sudo update-rc.d redis defaults # 加载到系统自启动文件
 ```
 
 
