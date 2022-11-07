@@ -1603,3 +1603,19 @@ array:9 [
 
 [附：检验授权凭证（access_token）是否有效](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#4)
 
+# 客服消息
+
+## 素材管理
+
+### [添加小程序卡片素材](https://developers.weixin.qq.com/doc/offiaccount/Shopping_Guide/model-account/shopping-guide.setGuideCardMaterial.html)
+
+**参考资料**
+
+| 名称     | 地址                                          |
+| -------- | --------------------------------------------- |
+| 网络博客 | [link](https://zhuanlan.zhihu.com/p/92839657) |
+
+> 效果类似于**瑞幸咖啡**的优惠券链接点击跳转到小程序领券
+
+[<img src="https://s1.ax1x.com/2022/11/07/xvpORx.png" alt="xvpORx.png" style="zoom: 67%;" />](https://imgse.com/i/xvpORx)
+
