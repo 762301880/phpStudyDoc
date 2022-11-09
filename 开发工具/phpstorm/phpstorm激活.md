@@ -30,3 +30,30 @@
 **选择自己需要的历史版本下载即可**
 
 ![image-20220727080632200](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220727080632200.png)
+
+## windows 个人破解phpstorm
+
+**参考**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 博客参考 | [link](https://blog.alipay168.cn/index/detail/item/587.html) |
+
+原理
+
+> 1.关闭软件（建议先导出设置配置，操作会重置配置）
+>
+> 2.删除文件（一般AppData会被隐藏，需要通过查看选项里面打开查看隐藏文件，不懂自行百度）推荐使用**gitbash操作**
+>
+> 删除目录 C:\Users\用户名\AppData\Roaming\JetBrains\PhpStorm2020.2\eval
+>
+> 删除文件 C:\Users\用户名\AppData\Roaming\JetBrains\PhpStorm2020.2\options\other.xml
+>
+> 3.删除对应的注册表
+>
+> ``HKEY_CURRENT_USER\Software\JavaSoft\Prefs\jetbrains\phpstorm``
+>
+> 4.重新启动
+>
+> 5.选择试用30天，到此就完成了重新试用。
+
