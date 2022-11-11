@@ -187,3 +187,12 @@ public function sendMessage($agentid)
     }
 ```
 
+# 企业机器人
+
+**资料**
+
+| 名称           | 地址                                                         |
+| -------------- | ------------------------------------------------------------ |
+| 添加机器人文档 | [link](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&is_tencent=) |
+| 机器人开发文档 | [link](https://developer.work.weixin.qq.com/document/path/91770) |
+
