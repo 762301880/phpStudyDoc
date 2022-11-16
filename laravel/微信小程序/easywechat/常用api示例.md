@@ -18,7 +18,7 @@
 | ---------------- | ------------------------------------------------------------ |
 | easywechat官网   | [链接](https://easywechat.vercel.app/6.x/)                   |
 | 第三方博客       | [link](https://segmentfault.com/a/1190000016177743) [link](https://learnku.com/articles/8613/wechat-small-programs-pay-api-configuration-under-laravel) |
-| 微信支付官方文档 | [link](https://pay.weixin.qq.com/static/product/product_intro.shtml?name=jsapi) |
+| 微信支付官方文档 | [link](https://pay.weixin.qq.com/static/product/product_intro.shtml?name=jsapi)  [link](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_5_1.shtml) |
 
 ## **支付参数配置介绍**
 
