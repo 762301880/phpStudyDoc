@@ -407,7 +407,11 @@ public function getMiniAccessToken()
 
 ![image-20220721144301942](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220721144301942.png)
 
+# 获取微信群id
 
+**资料**
 
-
+| 名称         | 地址                                                         |
+| ------------ | ------------------------------------------------------------ |
+| 微信开发文档 | [link](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/group/wx.getGroupEnterInfo.html) [link](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html) |
 
