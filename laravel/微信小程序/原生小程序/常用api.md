@@ -363,7 +363,7 @@ public function getMiniAccessToken()
             'jump_wxa' => [
                 'path' => $path,//跳转到的目标小程序信息
                 'query' => $query,
-                'env_version' => '',
+                'env_version' => '', #要打开的小程序版本。正式版为"release"，体验版为"trial"，开发版为"develop"，仅在微信外打开时生效。
             ],
             'expire_type' => 0,//到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
             'expire_time' => strtotime("+11 month"),//到期失效的 scheme 码失效类型，失效时间：0，失效间隔天数：1
