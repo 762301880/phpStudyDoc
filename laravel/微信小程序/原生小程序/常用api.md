@@ -325,7 +325,7 @@ public function getMiniAccessToken()
 
 **效果示例**
 
-<img src="https://s2.loli.net/2022/04/28/VxAsHUEIJ5OD3wb.gif" alt="Screenshot_2022_0428_085826.gif" style="zoom:50%;" />
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/VxAsHUEIJ5OD3wb.gif" alt="Screenshot_2022_0428_085826.gif" style="zoom:50%;" />
 
 **页面参数查询**
 
