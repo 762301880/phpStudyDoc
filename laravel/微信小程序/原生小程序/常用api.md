@@ -212,6 +212,8 @@ if (!function_exists('http_request')) {
         $retData = Cache::get($key);
         if (!empty($retData)) return $retData;
         $res = request_post($url, json_encode($data));
+        $resJson=json_decode($res,true); # 这里多加了一步是因为请求返回过来的是二进制而如果这里并截取判断一下可能会导致异常报错信息也会被加密为base_64格式
+        if (!empty($resJson)&&is_array($resJson)) throw new SystemException($resJson);
         Log::info("获取小程序码:" . json_encode($res));
         $image_base64 = base64_encode($res);
         Cache::set($key, $image_base64, 60 * 60 * 2);
