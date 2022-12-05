@@ -95,3 +95,49 @@ $newArr = array_slice($arr, 2);
 var_dump($newArr);
 ```
 
+# php 对二维数组进行排序
+
+```php
+<?php
+$arr = [
+    [
+        "id" => 28,
+        "validity_end_time" => "2023-02-04 15:50:00"
+    ],
+    [
+        "id" => 33,
+        "validity_end_time" => "2023-01-04 15:50:00"
+    ],
+    [
+        "id" => 48,
+        "validity_end_time" => "2023-03-04 15:50:00"
+    ],
+];
+array_multisort( array_column($arr,'validity_end_time'), SORT_ASC,$arr);
+var_dump($arr);
+
+# 结果示例
+array(3) {
+  [0]=>
+  array(2) {
+    ["id"]=>
+    int(33)
+    ["validity_end_time"]=>
+    string(19) "2023-01-04 15:50:00"
+  }
+  [1]=>
+  array(2) {
+    ["id"]=>
+    int(28)
+    ["validity_end_time"]=>
+    string(19) "2023-02-04 15:50:00"
+  }
+  [2]=>
+  array(2) {
+    ["id"]=>
+    int(48)
+    ["validity_end_time"]=>
+    string(19) "2023-03-04 15:50:00"
+  }
+}
+```
