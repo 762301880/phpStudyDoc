@@ -649,3 +649,9 @@ https://blog.csdn.net/robinson_911/article/details/120370772?utm_medium=distribu
         dd($stu->toArray());
 ```
 
+##  [thinkphp链式操作会保留上一个变量查询出来的值](http://www.360doc.com/content/21/0720/15/65839659_987450259.shtml)
+
+```php
+->removeOption()        # 使用removeOption链式移除查询条件,例如  ->removeOption("where")     
+```
+
