@@ -6,6 +6,84 @@
 
 
 
+# 常用api实例
+
+##  设置api密钥
+
+**链接**
+
+| 名称                               | 地址                                                         |
+| ---------------------------------- | ------------------------------------------------------------ |
+| **如何使用安全的公钥签名验证方式** | [link](https://seniverse.yuque.com/hyper_data/api_v3/lq7gdg) |
+
+**文档**
+
+> 请求地址  
+>
+> https://api.seniverse.com/v3/pro/weather/grid/now.json?location=22.2268:113.4852&public_key=YOUR_PUBLIC_KEY&ts=1660111539&ttl=300&sig=PuL%2FJyIWq4F%2F5Qnz7AL3UCRs0lM%3D
+
+**代码示例**
+
+> https://seniverse.yuque.com/hyper_data/api_v3/ofoyw2
+
+```shell
+
+    public function test(Request $request)
+    {
+        $publicKey = "**************";
+        $secretKey = "**************";
+        $location = "22.2268:113.4852";
+        $ts = time();
+        $ttl = 300;
+//        $param = [
+//            "location" => $location,
+//            "public_key" => $publicKey,
+//            "ts" => $ts,
+//            "ttl" => $ttl
+//        ];
+        //$sig = "location={$location}&public_key={$publicKey}&ts={$ts}&ttl={$ttl}";
+        //$sig = http_build_query($param);
+        $sig = "location={$location}&public_key={$publicKey}&ts={$ts}&ttl={$ttl}";
+        $sig = base64_encode(hash_hmac('sha1', $sig, $secretKey, TRUE));
+        $sig = urlencode($sig);
+        $url = "https://api.seniverse.com/v3/pro/weather/grid/now.json?location={$location}&public_key={$publicKey}&ts={$ts}&ttl={$ttl}&sig={$sig}";
+//        $reqData = [
+//            "location" => $location,
+//            "public_key" => $publicKey,
+//            "ts" => $ts,
+//            "ttl" => $ttl,
+//            "sig" => $sig,
+//        ];
+        //dd($reqData);
+        $res = $this->https_request($url);
+        dd($res);
+    }
+
+    public function https_request($url, $data = null)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); //禁止 cURL 验证对等证书
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE); //是否检测服务器的域名与证书上的是否一致
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curl);
+        $error = curl_error($curl);
+        curl_close($curl);
+        return json_decode($output, true);
+    }
+    
+    
+    # 结果返回  - 我没有权限调用此api
+    array:2 [
+  "status" => "You do not have access to this API."
+  "status_code" => "AP010002"
+]
+```
+
 
 
 # 注意事项
