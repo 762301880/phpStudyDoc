@@ -32,7 +32,7 @@
     {
         $publicKey = "**************";
         $secretKey = "**************";
-        $location = "22.2268:113.4852";
+        $location = "39.93:116.40";
         $ts = time();
         $ttl = 300;
 //        $param = [
@@ -77,7 +77,7 @@
     }
     
     
-    # 结果返回  - 我没有权限调用此api
+    # 结果返回  - 我没有权限调用此api  经过测试需要联系工作人员帮你开通权限 且 不是免费版本才可以调用
     array:2 [
   "status" => "You do not have access to this API."
   "status_code" => "AP010002"
