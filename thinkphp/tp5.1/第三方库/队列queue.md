@@ -430,3 +430,31 @@ show global variables like '%timeout';  # 查看连接超时命令
 
 ![image-20220820140308715](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220820140308715.png)
 
+#  坑注意
+
+## $job->delete() 不会停止任务而是停止执行队列
+
+> 怎么说呢如下一种场景
+
+```php
+ # 我以为$job->delete() 会直接停止向下执行任务结果是会向下执行
+ if (empty($adminId) || empty($user_id)) {
+    Log::info("订单{$order_id}分享群主id{$group_open_gid}运营人员{$adminId}或者管理员{$user_id}为空,不允许添加报表信息");
+    $job->delete();//删除任务
+    Log::info("删除订单为:{$order_id}的队列任务");
+                }
+ # 创建成交明细
+ ShareOrderDetailDao::createDetail($orderModel, $adminId, $user_id, $group_open_gid);
+
+# ------------------修改为----------------
+
+ if (empty($adminId) || empty($user_id)) {
+    Log::info("订单{$order_id}分享群主id{$group_open_gid}运营人员{$adminId}或者管理员{$user_id}为空,不允许添加报表信息");
+    $job->delete();//删除任务
+    Log::info("删除订单为:{$order_id}的队列任务");
+     return ; # 添加一个返回执行
+                }
+ # 创建成交明细
+ ShareOrderDetailDao::createDetail($orderModel, $adminId, $user_id, $group_open_gid);
+```
+
