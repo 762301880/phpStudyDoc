@@ -38,6 +38,9 @@ PermitRootLogin yes
 PasswordAuthentication yes
 
 # shell地址就是ip地址不知道的可以ifconfig命令查看
+
+# 重启sshd
+/etc/init.d/sshd restart
 ```
 
 #  本地访问虚拟机ubuntu内部项目
