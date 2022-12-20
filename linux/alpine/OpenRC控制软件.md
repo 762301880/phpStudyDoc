@@ -19,6 +19,8 @@ apk add openrc  # 安装openrc
 
 **添加系统启动时候的自启服务**
 
+> **<font color="red">经过测试此启动只针对于纯alpine系统有效,docker-alpine系统镜像并不会生效</font>**
+
 ```shell
 rc-update add {service-name} {run-level-name}            #  service-name 需要启动的服务名称  run-level-name 运行的级别名称
 
