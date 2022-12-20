@@ -13,5 +13,16 @@
 
 | 名称     | 地址                                                         |
 | -------- | ------------------------------------------------------------ |
-| 博客参考 | [link](https://blog.csdn.net/lxyoucan/article/details/117153780)  [link](https://blog.csdn.net/m0_70403365/article/details/124758831) |
+| 博客参考 | [link](https://blog.csdn.net/lxyoucan/article/details/117153780)  [link](https://blog.csdn.net/m0_70403365/article/details/124758831) [link](https://zhuanlan.zhihu.com/p/107963371) |
 
+
+
+**<font color="red">持久化到磁盘</font>**
+
+> 默认alpine系统只运行在内存中，重启后一切数据都将消失,所以我们需要将系统写入磁盘
+
+```shell
+setup-alpine         # 此命令用于设置系统
+```
+
+![image-20221220155007659](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221220155007659.png)
