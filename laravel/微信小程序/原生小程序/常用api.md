@@ -416,5 +416,5 @@ public function getMiniAccessToken()
 
 | 名称         | 地址                                                         |
 | ------------ | ------------------------------------------------------------ |
-| 微信开发文档 | [link](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/group/wx.getGroupEnterInfo.html) [link](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html) |
+| 微信开发文档 | [link](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/group/wx.getGroupEnterInfo.html) [link](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html)  [link](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/group/wx.getGroupEnterInfo.html) |
 
