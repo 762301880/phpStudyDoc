@@ -58,6 +58,13 @@ sudo dpkg -P mysql-apt-config
 
 ```shell
 sudo apt update
+
+# 如果报错 正在读取软件包列表... 完成          
+# W: GPG 错误：http://repo.mysql.com/apt/debian buster InRelease: 由于没有公钥，无法验证下列签名： NO_PUBKEY 467B942D3A79BD29
+
+# 解决方案      https://www.cnblogs.com/2205254761qq/p/11863928.html
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 467B942D3A79BD29(这一串==签名密钥)
+
 sudo apt upgrade 
 ```
 
@@ -326,3 +333,4 @@ server {
 
 ```
 
+ 
