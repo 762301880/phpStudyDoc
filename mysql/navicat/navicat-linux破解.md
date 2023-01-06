@@ -37,6 +37,110 @@ chmod +x navicat15-premium-cs.AppImage
 sudo apt install fuse
 ```
 
+## [破解](https://www.cnblogs.com/navysummer/p/16263742.html)
+
+# [Linux破解Navicat15](https://www.cnblogs.com/navysummer/p/16263742.html)
+
+1.下载Navicat15
+
+```shell
+wget https://download.navicat.com.cn/download/navicat15-premium-cs.AppImage
+```
+
+2.文件处理
+
+```shell
+navy@DEEPIN:~/Desktop$ mkdir navicat15-premium-cs
+navy@DEEPIN:~/Desktop$ sudo mount -o loop navicat15-premium-cs.AppImage  navicat15-premium-cs
+navy@DEEPIN:~/Desktop$ cp -r navicat15-premium-cs navicat15-premium-cs-bak
+navy@DEEPIN:~/Desktop$ sudo umount navicat15-premium-cs
+navy@DEEPIN:~/Desktop$ rm -rf navicat15-premium-cs
+```
+
+3.安装依赖
+
+```shell
+sudo apt install libcapstone-dev cmake rapidjson-dev  openssl git
+```
+
+4.安装keystone
+
+```shell
+navy@DEEPIN:~/Desktop$ git clone https://github.com/keystone-engine/keystone.git
+navy@DEEPIN:~/Desktop/keystone$ cd keystone
+navy@DEEPIN:~/Desktop/keystone$ mkdir build
+navy@DEEPIN:~/Desktop/keystone$ cd build
+navy@DEEPIN:~/Desktop/keystone/build$ ../make-share.sh
+navy@DEEPIN:~/Desktop/keystone/build$  sudo make install
+navy@DEEPIN:~/Desktop/keystone/build$ sudo ldconfig
+```
+
+5.安装navicat-keygen
+
+```shell
+navy@DEEPIN:~/Desktop$ git clone -b linux --single-branch https://gitee.com/andisolo/navicat-keygen.git
+navy@DEEPIN:~/Desktop$ cd navicat-keygen
+navy@DEEPIN:~/Desktop/navicat-keygen$ make all
+```
+
+6.通过navicat-patcher命令来修改原公钥
+
+```shell
+navy@DEEPIN:~/Desktop/navicat-keygen$ ./bin/navicat-patcher ../navicat15-premium-cs-bak/
+```
+
+7.[下载打包工具 ](https://yaoliuyang.lanzoul.com/ikINo0katjhg)   or [csdn](https://download.csdn.net/download/leoeitail/11257965)
+
+```shell
+navy@DEEPIN:~/Desktop$ wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+navy@DEEPIN:~/Desktop$ chmod +x appimagetool-x86_64.AppImage
+```
+
+8.打包成新的app
+
+```shell
+navy@DEEPIN:~/Desktop$ ./appimagetool-x86_64.AppImage navicat15-premium-cs-bak/ navicat15-premium-cs-2.AppImage
+```
+
+9.运行新的app
+
+```shell
+navy@DEEPIN:~/Desktop$ sudo chmod +x ~/Desktop/navicat15-premium-cs-2.AppImage
+navy@DEEPIN:~/Desktop$ ./navicat15-premium-cs-2.AppImag
+```
+
+点击注册
+
+10.使用 navicat-keygen 来生成序列号和JH码
+
+```shell
+navy@DEEPIN:~/Desktop$ cd navicat-keygen
+navy@DEEPIN:~/Desktop/navicat-keygen$ ./bin/navicat-keygen --text ./RegPrivateKey.pem
+```
+
+>  按提示选择Navicat产品类别（1.Premium）、Navicat语言版本（1.）和填写主版本号（15），随后生成一个序列号，输入用户名和组织，出现Input request code in Base64: (Double press ENTER to end)
+> 保留界面，进入第11步。
+
+11.软件界面注册
+
+> 断开网络
+>
+> 输入上一步生成的Serial number
+>
+> 点击激活
+>
+> 提示激活失败,选择手动激活
+>
+> 复制请求码到第10步
+>
+> 回车两次生成激活码
+>
+> 复制navicat-keygen生成的激活码,在软件对话框里的激活码输入框里输入激活码完成激活
+
+ 
+
+
+
 
 
 # 创建桌面图标
