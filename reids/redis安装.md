@@ -58,7 +58,7 @@ EXEC=/usr/local/bin/redis-server    # 修改为自己对应的
 CLIEXEC=/usr/local/bin/redis-cli     # 修改为自己对应的
 
 PIDFILE=/var/run/redis_${REDISPORT}.pid
-CONF="/etc/redis/${REDISPORT}.conf"      # 此配置文件对应/usr/local/redis-6.2.6中的redis.conf  修改名称并备份即可 cp redis.conf cp redis.conf.cp && cp cp redis.conf 6379.conf
+CONF="/etc/redis/${REDISPORT}.conf"      # 此配置文件对应/usr/local/redis-6.2.6中的redis.conf  修改名称并备份即可 cp redis.conf cp redis.conf.cp && cp redis.conf 6379.conf
 chmod a+x  /etc/init.d/redis  
 # 重新载入配置  systemctl daemon-reload
 systemctl daemon-reload
