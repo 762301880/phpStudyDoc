@@ -4,7 +4,9 @@
 | ---------- | ------------------------------------------------------------ |
 | 第三方资料 | [swoole 手册](https://www.kancloud.cn/fage/swoole_extension/691334)  php中文网[swoole技巧](https://www.php.cn/swoole/)  laravel学院[swoole](https://laravelacademy.org/search?term=swoole)  [实战技巧-第三方博客](https://www.kancloud.cn/wangking/hyperf/2005902) |
 
-# [tcp服务端](https://wiki.swoole.com/#/start/start_tcp_server)
+# tcp
+
+## [tcp服务端](https://wiki.swoole.com/#/start/start_tcp_server)
 
 > 创建**server.php**
 
@@ -54,19 +56,13 @@ apt -y install telnet
 telnet 127.0.0.1 9501
 ```
 
-# [tcp客户端](https://wiki.swoole.com/wiki/page/p-client.html)
+## [tcp客户端](https://wiki.swoole.com/wiki/page/p-client.html)
 
 > 建立**client.php**
 
-```php
+## 实战演练
 
-```
-
-
-
-# 实战演练
-
-## [计算在线人数](https://blog.csdn.net/haibo0668/article/details/118193894)
+### [计算在线人数](https://blog.csdn.net/haibo0668/article/details/118193894)
 
 > 请自行添加 message，Close 事件 [bug参考](https://blog.csdn.net/thinkthewill/article/details/109034237)
 
@@ -91,7 +87,7 @@ use Swoole\Timer;
 
 > 请自行添加其他事件
 
-```shell
+```php
 # 用户发送消息事件
         $ws->on('message', function (Server $server, Frame $frame) use ($ws) {
             foreach ($ws->connections as $fd){
@@ -106,4 +102,12 @@ use Swoole\Timer;
             }
         });
 ```
+
+# udp
+
+## udp调试
+
+### [安装 netcat](https://eternallybored.org/misc/netcat/)
+
+> https://blog.csdn.net/walykyy/article/details/105982540
 
