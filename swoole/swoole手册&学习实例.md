@@ -4,7 +4,7 @@
 | ---------- | ------------------------------------------------------------ |
 | 第三方资料 | [swoole 手册](https://www.kancloud.cn/fage/swoole_extension/691334)  php中文网[swoole技巧](https://www.php.cn/swoole/)  laravel学院[swoole](https://laravelacademy.org/search?term=swoole)  [实战技巧-第三方博客](https://www.kancloud.cn/wangking/hyperf/2005902) |
 
-# tcp服务端
+# [tcp服务端](https://wiki.swoole.com/#/start/start_tcp_server)
 
 > 创建**server.php**
 
@@ -49,6 +49,7 @@ php server.php
 netstat -anp | grep 9501    
 
 # 尝试连接tcp服务    
+# windows 安装telnet     https://jingyan.baidu.com/article/b7001fe16d559c4f7282ddbf.html
 apt -y install telnet
 telnet 127.0.0.1 9501
 ```
