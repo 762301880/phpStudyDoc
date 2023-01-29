@@ -203,6 +203,8 @@ extension=swoole.so
 
 **wget 下载**
 
+> 本人使用 **swoole-cli-v5.0.1-cygwin64**版本
+
 ```shell
 # wget 下载
 wget https://github.com/swoole/swoole-src/releases/download/v4.8.11/swoole-cli-v4.8.11-cygwin64.zip
