@@ -233,3 +233,42 @@ array:703 [▼
   ....  
 ```
 
+## [读取excel](https://blog.csdn.net/u010698107/article/details/124775260)
+
+```php
+ $excel_file = $request->file('file');
+        if (empty($excel_file)) throw new SystemException("需要上传的excel文件不能为空");
+        $file_info = $excel_file->getInfo();
+        $real_file_name = $file_info['name'] ?? "";
+        $real_file_name_arr = explode('.', $real_file_name);
+        $real_file_name_prefix = current($real_file_name_arr);//获取上传文件的前缀
+        $real_file_suffix = end($real_file_name_arr);//获取上传文件的后缀
+        $temp_file_name = $real_file_name_prefix . time() . '' . '.' . $real_file_suffix; //构建临时上传文件名称
+        $upload_file_path = "static/import";
+        if (!is_dir($upload_file_path)) mkdir($upload_file_path);//目录不存在创建默认目录
+        $isUpload = $excel_file->move($upload_file_path, $temp_file_name);//上传临时文件到本地
+        if (!$isUpload) throw new SystemException("上传excel文件失败,请重新上传");
+        $path_file_name = $upload_file_path . '/' . $temp_file_name; //文件路径+名称
+        # 读取excel
+        switch ($real_file_suffix) {
+            case 'csv'://csv类型
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+                $spreadsheet = $reader->load($path_file_name);
+                $worksheet = $spreadsheet->getActiveSheet();
+// $worksheet   = $spreadsheet->getSheetByName('testcase');
+// $rawCasedata = $worksheet->toArray();
+                $highestRow = $worksheet->getHighestRow(); // 取得总行数
+                $highestColumn = $worksheet->getHighestColumn(); // 取得总列数
+                $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn); // 取得总列数
+
+                $excelData = [];
+                for ($row = 1; $row <= $highestRow; $row++) {
+                    for ($col = 1; $col <= $highestColumnIndex; $col++) {
+                        $excelData[$row][] = (string)$worksheet->getCellByColumnAndRow($col, $row)->getValue();
+                    }
+                }
+                dd($excelData);
+        }
+        return true;
+```
+
