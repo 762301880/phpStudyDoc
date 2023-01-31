@@ -268,7 +268,26 @@ array:703 [▼
                     }
                 }
                 dd($excelData);
-        }
+                break;
+            case 'xlsx':
+            case 'xls':
+            $spreadsheet = IOFactory::load($path_file_name);
+// $reader->setReadDataOnly(true); // 设置后无法获取excel中的图片
+                $worksheet = $spreadsheet->getActiveSheet();
+// $worksheet   = $spreadsheet->getSheetByName('testcase');
+// $rawCasedata = $worksheet->toArray();
+                $highestRow = $worksheet->getHighestRow(); // 取得总行数
+                $highestColumn = $worksheet->getHighestColumn(); // 取得总列数
+                $highestColumnIndex = Coordinate::columnIndexFromString($highestColumn); // 取得总列数
+
+                $excelData = [];
+                for ($row = 1; $row <= $highestRow; $row++) {
+                    for ($col = 1; $col <= $highestColumnIndex; $col++) {
+                        $excelData[$row][] = (string)$worksheet->getCellByColumnAndRow($col, $row)->getValue();
+                    }
+                }
+                dd($excelData);
+            }
         return true;
 ```
 
