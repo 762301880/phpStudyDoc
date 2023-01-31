@@ -190,9 +190,48 @@ Latency by percentile distribution:
 .....
 ```
 
+### 基础的知识
+
+> redis默认有16个数据库,默认使用的是第0个
+>
+> 可以使用select进行切换数据库!
+
+```bash
+# 查看reidis配置中的配置
+yaoliuyang@yaoliuyang-PC:/usr/local/redis$ cat redis.conf | grep database
+
+databases 16
 
 
+# 切换数据库 redis-cli 打开客户端
+127.0.0.1:6379> select 3      #切换数据库
+OK
+127.0.0.1:6379[3]> 
 
+127.0.0.1:6379[3]> DBSIZE #查看当前空间 DB大小
+(integer) 0
+
+# 尝试插入一条数据并查看空间大小
+127.0.0.1:6379[3]> set name 123       # 数据只会保存在3号数据库(可以用redis可视化工具切换数据库查看)
+OK
+127.0.0.1:6379[3]> DBSIZE
+(integer) 1
+
+127.0.0.1:6379[3]> keys *      # 查看数据库所有的key
+1) "name"
+
+# 清空当前库的所有数据
+127.0.0.1:6379[3]> flushdb
+OK
+127.0.0.1:6379[3]> keys *
+(empty array)
+
+
+# 清空所有的数据库中的数据包括当前的数据库
+127.0.0.1:6379[3]> flushall     # 此命令大小写都可以
+OK
+
+```
 
 
 
