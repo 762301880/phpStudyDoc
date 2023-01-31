@@ -123,17 +123,72 @@
 >
 > 4、事务
 
+### 测试性能
 
+**redis-benchmark**
 
+> 位于**/usr/local/redis/src/**下,  redis-benchmark是一个压力测试工具!  **此命令可以全局使用**
+>
+> 官方自带的性能测试工具!
+>
+> redis-benchmark命令参数!
 
+[redis 性能测试工具可选参数如下所示:](https://www.runoob.com/redis/redis-benchmarks.html)
 
+| 序号 | 选项                      | 描述                                       | 默认值    |
+| :--- | :------------------------ | :----------------------------------------- | :-------- |
+| 1    | **-h**                    | 指定服务器主机名                           | 127.0.0.1 |
+| 2    | **-p**                    | 指定服务器端口                             | 6379      |
+| 3    | **-s**                    | 指定服务器 socket                          |           |
+| 4    | **-c**                    | 指定并发连接数                             | 50        |
+| 5    | **-n**                    | 指定请求数                                 | 10000     |
+| 6    | **-d**                    | 以字节的形式指定 SET/GET 值的数据大小      | 2         |
+| 7    | **-k**                    | 1=keep alive 0=reconnect                   | 1         |
+| 8    | **-r**                    | SET/GET/INCR 使用随机 key, SADD 使用随机值 |           |
+| 9    | **-P**                    | 通过管道传输 <numreq> 请求                 | 1         |
+| 10   | **-q**                    | 强制退出 redis。仅显示 query/sec 值        |           |
+| 11   | **--csv**                 | 以 CSV 格式输出                            |           |
+| 12   | ***-l\*（L 的小写字母）** | 生成循环，永久执行测试                     |           |
+| 13   | **-t**                    | 仅运行以逗号分隔的测试命令列表。           |           |
+| 14   | ***-I\*（i 的大写字母）** | Idle 模式。仅打开 N 个 idle 连接并等待。   |           |
 
+简单测试:
 
+```shell
+# 测试:100个并发连接  100000请求
+redis-benchmark -h localhost -p 6379 -c 100 -n 100000
 
-
-
-
-
+....
+====== GET ======                                                   
+  100000 requests completed in 1.35 seconds   #对我们的10万个请求进行写入测试
+  100 parallel clients      # 100个并发客户端
+  3 bytes payload  # 每次写入3个字节
+  keep alive: 1    # 只有一台服务器来处理这些请求,单机性能
+  host configuration "save": 3600 1 300 100 60 10000
+  host configuration "appendonly": no
+  multi-thread: no
+  
+Latency by percentile distribution:
+0.000% <= 0.167 milliseconds (cumulative count 2)
+50.000% <= 0.583 milliseconds (cumulative count 51736)
+75.000% <= 0.831 milliseconds (cumulative count 75951)
+87.500% <= 0.871 milliseconds (cumulative count 89536)
+93.750% <= 0.895 milliseconds (cumulative count 93815)
+96.875% <= 0.983 milliseconds (cumulative count 97076)
+98.438% <= 1.039 milliseconds (cumulative count 98536)
+99.219% <= 1.103 milliseconds (cumulative count 99257)
+99.609% <= 1.199 milliseconds (cumulative count 99614)
+99.805% <= 1.647 milliseconds (cumulative count 99805)
+99.902% <= 1.935 milliseconds (cumulative count 99904)
+99.951% <= 2.031 milliseconds (cumulative count 99956)
+99.976% <= 2.055 milliseconds (cumulative count 99983)
+99.988% <= 2.071 milliseconds (cumulative count 99988)
+99.994% <= 2.103 milliseconds (cumulative count 99994)
+99.997% <= 2.191 milliseconds (cumulative count 99998)
+99.998% <= 2.207 milliseconds (cumulative count 100000)
+100.000% <= 2.207 milliseconds (cumulative count 100000) #所有请求在3毫秒内处理完成
+.....
+```
 
 
 
