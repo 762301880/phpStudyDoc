@@ -259,7 +259,60 @@ redis为什么单线程还这么快?
 
 
 
+###  [五大数据类型](https://www.runoob.com/redis/redis-data-types.html)
 
+> Redis是一个开源（BSD许可），内存存储的数据结构服务器，可用作**数据库**，高速**缓存**和**消息队列代理**。它支持[字符串](https://www.redis.net.cn/tutorial/3508.html)、[哈希表](https://www.redis.net.cn/tutorial/3509.html)、[列表](https://www.redis.net.cn/tutorial/3510.html)、[集合](https://www.redis.net.cn/tutorial/3511.html)、[有序集合](https://www.redis.net.cn/tutorial/3512.html)，[位图](https://www.redis.net.cn/tutorial/3508.html)，[hyperloglogs](https://www.redis.net.cn/tutorial/3513.html)等数据类型。内置复制、[Lua脚本](https://www.redis.net.cn/tutorial/3516.html)、LRU收回、[事务](https://www.redis.net.cn/tutorial/3515.html)以及不同级别磁盘持久化功能，同时通过Redis Sentinel提供高可用，通过Redis Cluster提供自动[分区](https://www.redis.net.cn/tutorial/3524.html)。
+
+**Redis-Key**
+
+```shell
+127.0.0.1:6379> set name zhangsan
+OK
+127.0.0.1:6379> keys * # 查看所有key
+1) "name"
+127.0.0.1:6379> set age 23
+OK
+127.0.0.1:6379> keys *
+1) "name"
+2) "age"
+127.0.0.1:6379> exists name # 判断当前jey是否存在
+(integer) 1
+127.0.0.1:6379>  move name 1 # 移除namekey
+(integer) 1
+127.0.0.1:6379> keys *
+1) "age"
+127.0.0.1:6379> expire age 5 # 设置key过期实践
+(integer) 1
+127.0.0.1:6379> ttl age # 查看key过期时间
+(integer) 2
+127.0.0.1:6379> ttl age
+(integer) 1
+127.0.0.1:6379> ttl age
+(integer) -2
+127.0.0.1:6379> keys *
+(empty array)
+
+```
+
+
+
+**String**
+
+**List**
+
+**Set**
+
+**Hash**
+
+**Zset**
+
+### 三种特殊数据类型
+
+**geospatial**
+
+**hyperloglog**
+
+**bitmaps**
 
 
 
