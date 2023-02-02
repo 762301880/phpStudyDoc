@@ -474,6 +474,211 @@ OK
 
 **List**
 
+> 基本的数据类型,列表 
+>
+> 在redis里面,我们可以把list完成,栈、队列,阻塞队列!
+>
+> <font color='red'>所有的list命令都是以l开头的 </font> redis 不区分大小写命令
+
+```shell
+127.0.0.1:6379> flushdb # 清空数据库
+OK
+127.0.0.1:6379> keys *     # 查看所有的key
+(empty array)
+##########################################################
+# 写入list 数据
+127.0.0.1:6379> LPUSH list one   # 将一个只或者多个值,插入到列表头部(左)
+(integer) 1
+127.0.0.1:6379> LPUSH list two
+(integer) 2
+127.0.0.1:6379> LPUSH list three
+(integer) 3
+127.0.0.1:6379> get list
+# 获取值 最先存的值在最下面
+127.0.0.1:6379> LRANGE list 0 -1     # 通过区间获取具体的值!
+1) "three"
+2) "two"
+3) "one"
+#########################################################
+127.0.0.1:6379> RPUSH list only  # 将一个或者多个值,插入到列表尾部(右)
+(integer) 4
+127.0.0.1:6379> LRANGE list 0 -1
+1) "three"
+2) "two"
+3) "one"
+4) "only"
+
+
+# 移除一个元素
+
+127.0.0.1:6379> LRANGE list 0 -1
+1) "three"
+2) "two"
+3) "one"
+4) "only"
+127.0.0.1:6379> LPOP list       # 移除列表的第一个元素
+"three"
+127.0.0.1:6379> LRANGE list 0 -1
+1) "two"
+2) "one"
+3) "only"
+127.0.0.1:6379> RPOP list  # 移除list的最后一个元素
+"only"
+127.0.0.1:6379> LRANGE list 0 -1
+1) "two"
+2) "one"
+#########################################################
+
+127.0.0.1:6379> LRANGE list 0 -1
+1) "two"
+2) "one"
+127.0.0.1:6379> LINDEX list 1    # 通过下标获得list中的某一个值!
+"one"
+
+
+#########################################################
+127.0.0.1:6379> flushdb
+OK
+127.0.0.1:6379> LPUSH list one
+(integer) 1
+127.0.0.1:6379> LPUSH list tow
+(integer) 2
+127.0.0.1:6379> LPUSH list three
+(integer) 3
+127.0.0.1:6379> LPUSH list four
+(integer) 4
+127.0.0.1:6379> LLEN list      #返回列表的长度
+(integer) 4
+
+# 移除指定的值!
+127.0.0.1:6379> LRANGE list 0 -1
+1) "four"
+2) "three"
+3) "tow"
+4) "one"
+127.0.0.1:6379> LREM list 1 one     # 移除list集合中指定个数的value,精确匹配
+(integer) 1
+127.0.0.1:6379> LRANGE list 0 -1
+1) "four"
+2) "three"
+3) "tow"
+127.0.0.1:6379> LREM list 1 three
+(integer) 1
+127.0.0.1:6379> LRANGE list 0 -1
+1) "four"
+2) "tow"
+127.0.0.1:6379> LPUSH list four
+(integer) 3
+127.0.0.1:6379> LRANGE list 0 -1
+1) "four"
+2) "four"
+3) "tow"
+127.0.0.1:6379> LREM list 2 four
+(integer) 2
+127.0.0.1:6379> LRANGE list 0 -1
+1) "tow"
+
+#########################################################
+
+127.0.0.1:6379> flushdb
+OK
+127.0.0.1:6379> RPUSH mylist "hello"
+(integer) 1
+127.0.0.1:6379> RPUSH mylist "hello1"
+(integer) 2
+127.0.0.1:6379> RPUSH mylist "hello2"
+(integer) 3
+127.0.0.1:6379> RPUSH mylist "hello3"
+(integer) 4
+127.0.0.1:6379> LRANGE mylist 0 -1
+1) "hello"
+2) "hello1"
+3) "hello2"
+4) "hello3"
+127.0.0.1:6379> LTRIM mylist 1 2
+OK
+127.0.0.1:6379> LRANGE mylist 0 -1   # 通过下标街区保留指定区间内的元素。截断了只剩下截取的元素!(类似于修树枝)     
+1) "hello1"
+2) "hello2"
+
+
+#########################################################
+
+RPOPLPUSH      # 移除列表的最后一个元素,将他移动到新的列表中!
+
+127.0.0.1:6379> RPUSH mylist "hello1"
+(integer) 1
+127.0.0.1:6379> RPUSH mylist "hello2"
+(integer) 2
+127.0.0.1:6379> RPUSH mylist "hello3"
+(integer) 3
+127.0.0.1:6379> RPUSH mylist "hello4"
+(integer) 4
+127.0.0.1:6379> LRANGE mylist 0 -1
+1) "hello1"
+2) "hello2"
+3) "hello3"
+4) "hello4"
+127.0.0.1:6379> RPOPLPUSH mylist myonterlist
+"hello4"
+127.0.0.1:6379> LRANGE mylist 0 -1     #查看原来的列表
+1) "hello1"
+2) "hello2"
+3) "hello3"
+127.0.0.1:6379> LRANGE myonterlist 0 -1     #查看目标的列表中,确实存在该值!
+1) "hello4"
+
+
+
+#########################################################
+
+# lset 将列表中指定的下标的值替换为另外一个值,更新操作
+
+127.0.0.1:6379> EXISTS list       # 判断这个列表是否存在
+(integer) 0
+127.0.0.1:6379> LSET list 0 item       # 如果不存在列表我们去更新就会报错
+(error) ERR no such key
+127.0.0.1:6379> LPUSH list value1
+(integer) 1
+127.0.0.1:6379> LRANGE list 0 0
+1) "value1"
+127.0.0.1:6379> LSET list 0 item          # 如果存在,更新当前下标的值
+OK
+127.0.0.1:6379> LRANGE list 0 0
+1) "item"
+127.0.0.1:6379> LSET list 1 other      # 如果不存在,则会报错!
+(error) ERR index out of range
+127.0.0.1:6379> LRANGE list 0 -1
+1) "item"
+
+#########################################################
+# linsert  将某个具体的value插入到列表某个元素的前面或后面！
+
+127.0.0.1:6379> flushdb
+OK
+127.0.0.1:6379> RPUSH mylist hello
+(integer) 1
+127.0.0.1:6379> RPUSH mylist world
+(integer) 2
+127.0.0.1:6379> LRANGE mylist 0 -1
+1) "hello"
+2) "world"
+127.0.0.1:6379> LINSERT mylist before "world" "other"
+(integer) 3
+127.0.0.1:6379> LRANGE mylist 0 -1
+1) "hello"
+2) "other"
+3) "world"
+127.0.0.1:6379> LINSERT mylist after "world" "new"
+(integer) 4
+127.0.0.1:6379> LRANGE mylist 0 -1
+1) "hello"
+2) "other"
+3) "world"
+4) "new"
+
+```
+
 **Set**
 
 **Hash**
@@ -497,6 +702,10 @@ OK
 # 扩展补充
 
 ### 命令行中如果不记得全部命令可以用**Tab**快捷键自动补全
+
+
+
+
 
 
 
