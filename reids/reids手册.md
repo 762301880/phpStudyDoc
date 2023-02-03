@@ -263,7 +263,7 @@ redis为什么单线程还这么快?
 
 > Redis是一个开源（BSD许可），内存存储的数据结构服务器，可用作**数据库**，高速**缓存**和**消息队列代理**。它支持[字符串](https://www.redis.net.cn/tutorial/3508.html)、[哈希表](https://www.redis.net.cn/tutorial/3509.html)、[列表](https://www.redis.net.cn/tutorial/3510.html)、[集合](https://www.redis.net.cn/tutorial/3511.html)、[有序集合](https://www.redis.net.cn/tutorial/3512.html)，[位图](https://www.redis.net.cn/tutorial/3508.html)，[hyperloglogs](https://www.redis.net.cn/tutorial/3513.html)等数据类型。内置复制、[Lua脚本](https://www.redis.net.cn/tutorial/3516.html)、LRU收回、[事务](https://www.redis.net.cn/tutorial/3515.html)以及不同级别磁盘持久化功能，同时通过Redis Sentinel提供高可用，通过Redis Cluster提供自动[分区](https://www.redis.net.cn/tutorial/3524.html)。
 
-**Redis-Key**
+#### **Redis-Key**
 
 ```shell
 127.0.0.1:6379> set name zhangsan
@@ -472,7 +472,7 @@ OK
 #################################################
 ```
 
-**List**
+#### **List**
 
 > 基本的数据类型,列表 
 >
@@ -687,11 +687,11 @@ OK
 > - 如果移除了key，所有的值都消失,空链表，也表示不存在
 > - 在两边插入或者改动值,效率最高!中间元素,相对来说效率会低一点~
 
-**Set**
+#### **Set**
 
-**Hash**
+#### **Hash**
 
-**Zset**
+#### **Zset**
 
 ### 三种特殊数据类型
 
