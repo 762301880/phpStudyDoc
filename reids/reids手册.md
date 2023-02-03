@@ -862,7 +862,108 @@ OK
 
 
 
-#### **Hash**
+#### [**Hash**](https://www.runoob.com/redis/redis-hashes.html) (哈希)
+
+> map集合, key-map集合! 这时候这个值是一个map集合! 本质和String没有太大的区别,还是一个简单的key-value
+
+```shell
+127.0.0.1:6379> FLUSHALL
+OK
+127.0.0.1:6379> HMSET myhash field1 yaoliuyang         # set 一个具体的key-value
+OK
+127.0.0.1:6379> HMGET myhash field1     # 获取一个字段值
+1) "yaoliuyang"
+127.0.0.1:6379> HMSET myhash field2 lisi field3 wangwu    #  set多个key-value
+OK
+127.0.0.1:6379> HMGET myhash field1 field2 field3     # 获取多个字段值
+1) "yaoliuyang"
+2) "lisi"
+3) "wangwu"
+127.0.0.1:6379> HGETALL myhash      # 获取在哈希表中指定 key 的所有字段和值
+1) "field1"
+2) "yaoliuyang"
+3) "field2"
+4) "lisi"
+5) "field3"
+6) "wangwu"
+
+
+
+# 删除一个值    	HDEL key field1 [field2]      删除一个或多个哈希表字段
+127.0.0.1:6379> HMGET myhash field1 field2 field3
+1) "yaoliuyang"
+2) "lisi"
+3) "wangwu"
+127.0.0.1:6379> HDEL myhash field3    # 删除hash指定key字段!对应的value值也就消失了!
+(integer) 1
+127.0.0.1:6379> HGETALL myhash
+1) "field1"
+2) "yaoliuyang"
+3) "field2"
+4) "lisi"
+
+
+
+# 获取哈希表中字段的数量
+127.0.0.1:6379> HGETALL myhash
+1) "field1"
+2) "yaoliuyang"
+3) "field2"
+4) "lisi"
+127.0.0.1:6379> HLEN myhash      # 获取哈希表中字段的数量
+(integer) 2
+
+
+#  查看哈希表 key 中，指定的字段是否存在 	HEXISTS key field
+
+127.0.0.1:6379> HGETALL myhash
+1) "field1"
+2) "yaoliuyang"
+3) "field2"
+4) "lisi"
+127.0.0.1:6379> HEXISTS myhash field2 # 查看哈希表 key 中，指定的字段是否存在。
+(integer) 1 # 存在返回1
+127.0.0.1:6379> HEXISTS myhash field3
+(integer) 0  # 不存在返回0
+
+
+# 只获得的所有的field(key)
+127.0.0.1:6379> HKEYS myhash
+1) "field1"
+2) "field2"
+# 只获得所有的value
+127.0.0.1:6379> HVALS myhash
+1) "yaoliuyang"
+2) "lisi"
+
+# 设置自增&自减
+127.0.0.1:6379> HSET myhash field3 5   # 初始值设置为5
+(integer) 1
+127.0.0.1:6379> HINCRBY myhash field3 1 # 自增
+(integer) 6
+127.0.0.1:6379> HINCRBY myhash field3 1  # 自增
+(integer) 7
+127.0.0.1:6379> HINCRBY myhash field3 -1  # 自减
+(integer) 7
+
+
+# 只有在字段 field 不存在时，设置哈希表字段的值。
+127.0.0.1:6379> HSETNX myhash field4 hello      # 如果不存在则可以设置
+(integer) 1
+127.0.0.1:6379> HSETNX myhash field4 9           # 如果存在则不能设置
+(integer) 0
+
+
+
+# hash应用场景  user name age,尤其是用户信息之类的,经常变动的信息! hash更适合于对象的存储,string更适合字符串存储
+
+127.0.0.1:6379> HSET user:1 name yaoliuyang
+(integer) 1
+127.0.0.1:6379> hget user:1 name
+"yaoliuyang"
+
+
+```
 
 #### **Zset**
 
