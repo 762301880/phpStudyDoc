@@ -865,6 +865,8 @@ OK
 #### [**Hash**](https://www.runoob.com/redis/redis-hashes.html) (哈希)
 
 > map集合, key-map集合! 这时候这个值是一个map集合! 本质和String没有太大的区别,还是一个简单的key-value
+>
+> 对象用hash存储
 
 ```shell
 127.0.0.1:6379> FLUSHALL
