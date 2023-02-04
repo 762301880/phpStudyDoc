@@ -1157,11 +1157,11 @@ OK
 > GEO底层的实现原理其实就是Zset !  我们可以使用Zset命令来操作geo!
 
 ```shell
-127.0.0.1:6379> ZRANGE china:city 0 -1      # 查看所有的元素
+127.0.0.1:6379> ZRANGE china:city 0 -1      # 查看地图中所有的元素
 1) "chongqing"
 2) "shanghai"
 3) "beijin"
-127.0.0.1:6379> ZREM china:city beijin # 移除
+127.0.0.1:6379> ZREM china:city beijin # 移除地图中北京元素
 (integer) 1
 127.0.0.1:6379> ZRANGE china:city 0 -1
 1) "chongqing"
