@@ -1054,7 +1054,122 @@ OK
 
 ### 三种特殊数据类型
 
-**geospatial**
+####  **geospatial(地理位置)**
+
+> 朋友的定位,附近的人,打车距离计算?
+>
+> Redis的Geo 在Redis3.2版本就已经推出了！ 这个功能可以推算地理位置的信息,两地之间的距离,方圆几里的人!
+>
+> 可以查询一些测试数据: http://www.jsons.cn/lngcode/
+>
+> 只有六个命令
+>
+> #### Redis 地理位置(geo) 命令
+>
+> | 命令                                                         | 描述                                                      |
+> | :----------------------------------------------------------- | :-------------------------------------------------------- |
+> | [Redis GEOHASH 命令](https://www.redis.net.cn/order/3687.html) | 返回一个或多个位置元素的 Geohash 表示                     |
+> | [Redis GEOPOS 命令](https://www.redis.net.cn/order/3688.html) | 从key里返回所有给定位置元素的位置（经度和纬度）           |
+> | [Redis GEODIST 命令](https://www.redis.net.cn/order/3686.html) | 返回两个给定位置之间的距离                                |
+> | [Redis GEORADIUS 命令](https://www.redis.net.cn/order/3689.html) | 以给定的经纬度为中心， 找出某一半径内的元素               |
+> | [Redis GEOADD 命令](https://www.redis.net.cn/order/3685.html) | 将指定的地理空间位置（纬度、经度、名称）添加到指定的key中 |
+> | [Redis GEORADIUSBYMEMBER 命令](https://www.redis.net.cn/order/3690.html) | 找出位于指定范围内的元素，中心点是由给定的位置元素决定    |
+
+```shell
+###############################
+##  geoadd 添加地理位置       https://www.redis.net.cn/order/3685.html
+## 规则,两级无法直接添加,我们一般会下载城市数据,直接通过java程序一次性导入!
+## 参数 key 值 (经度,纬度,名称)
+
+我附近的人?(获得所有附近的人的地址,定位!) 通过半径来查询!
+获得指定数量的人,200
+所有数据因该都录入: china:city,才会让结果更加清晰
+
+127.0.0.1:6379> FLUSHALL
+OK
+
+# 添加城市
+127.0.0.1:6379> GEOADD china:city 116.405285 39.904989 beijin
+(integer) 1
+127.0.0.1:6379> GEOADD china:city 121.472644 31.231706 shanghai
+(integer) 1
+127.0.0.1:6379> GEOADD china:city 106.504962 29.533155 chongqing 
+(integer) 1
+
+#   获得当前定位:一定是一个坐标值!
+
+127.0.0.1:6379> GEOPOS china:city beijin        # 获取指定的城市的经度和纬度!
+1) 1) "116.40528291463851929"
+   2) "39.9049884229125027"
+
+127.0.0.1:6379> GEOPOS china:city beijin chongqing
+1) 1) "116.40528291463851929"
+   2) "39.9049884229125027"
+2) 1) "106.50495976209640503"
+   2) "29.53315530684997015"
+
+
+# 两人之间的距离    
+## 单位:
+- m 表示单位为米。
+- km 表示单位为千米。
+- mi 表示单位为英里。
+- ft 表示单位为英尺。
+
+127.0.0.1:6379> GEODIST china:city beijin shanghai km     # 查看上海到北京的直线距离
+"1067.5980"
+127.0.0.1:6379> GEODIST china:city beijin chongqing km     # 查看重庆到北京的直线距离
+"1464.2210"
+
+
+## 我附近的人?(获得所有附近的人的地址,定位!) 通过半径来查询         GEORADIUS
+
+127.0.0.1:6379> GEORADIUS china:city 110 30 1000 km withdist   # 获取110 30 这个经纬度为中心.寻找方圆1000KM的城市,显示到中间距离的位置
+1) 1) "chongqing" 
+   2) "341.4052"
+
+127.0.0.1:6379> GEORADIUS china:city 110 30 1000 km withcoord   # 显示他人的定位信息   
+1) 1) "chongqing"
+   2) 1) "106.50495976209640503"
+      2) "29.53315530684997015"
+
+127.0.0.1:6379> GEORADIUS china:city 110 30 1000 km withdist withcoord count 2     #  筛选出指定的结果
+1) 1) "chongqing"
+   2) "341.4052"
+   3) 1) "106.50495976209640503"
+      2) "29.53315530684997015"
+      
+      
+# 找出位于指定范围内的元素，中心点是由给定的位置元素决定      GEORADIUSBYMEMBER
+## 找出位于指定元素周围的其他元素!
+127.0.0.1:6379> GEORADIUSBYMEMBER china:city beijin 1100 km
+1) "beijin"
+2) "shanghai"
+
+#  返回一个或多个位置元素的 Geohash 表示
+## 改命令返回11个字符串的Geohash字符串!
+## 将二维的经纬度转化为一维的字符串,如果两个字符串越接近,那么则距离越近!
+127.0.0.1:6379> GEOHASH china:city beijin chongqing
+1) "wx4g0b7xrt0"
+2) "wm78p86e170"
+```
+
+> GEO底层的实现原理其实就是Zset !  我们可以使用Zset命令来操作geo!
+
+```shell
+127.0.0.1:6379> ZRANGE china:city 0 -1      # 查看所有的元素
+1) "chongqing"
+2) "shanghai"
+3) "beijin"
+127.0.0.1:6379> ZREM china:city beijin # 移除
+(integer) 1
+127.0.0.1:6379> ZRANGE china:city 0 -1
+1) "chongqing"
+2) "shanghai"
+
+```
+
+
 
 **hyperloglog**
 
