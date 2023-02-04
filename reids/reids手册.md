@@ -967,7 +967,90 @@ OK
 
 ```
 
-#### **Zset**
+#### **Zset(有序集合)**
+
+> 在set的基础上,增加了一个值，set k1 v1 k2
+
+```shell
+127.0.0.1:6379> ZADD myset 1 one    # 添加一个值
+(integer) 1
+127.0.0.1:6379> ZADD myset 2 two 3 three      # 添加多个值
+(integer) 2
+127.0.0.1:6379> ZRANGE myset 0 -1       # 查询值
+1) "one"
+2) "two"
+3) "three"
+################################################################
+
+# 排序如何实现
+## 设置三个人的薪水
+127.0.0.1:6379> zadd salary 2500 xiaohong  # 添加三个用户的薪水
+(integer) 1
+127.0.0.1:6379> zadd salary 5000 zhangsan 
+(integer) 1
+127.0.0.1:6379> zadd salary 500 yaoliuyang
+(integer) 1
+127.0.0.1:6379> ZRANGEBYSCORE salary -inf +inf # 显示全部的用户,从小到大排序
+1) "yaoliuyang"
+2) "xiaohong"
+3) "zhangsan"
+127.0.0.1:6379> ZREVRANGE salary 0 -1     # 从大到小排序
+1) "zhangsan"
+2) "yaoliuyang"
+127.0.0.1:6379> ZRANGEBYSCORE salary -inf +inf withscores    # 显示全部的用户,并且附带成绩  
+1) "yaoliuyang"
+2) "500"
+3) "xiaohong"
+4) "2500"
+5) "zhangsan"
+6) "5000"
+127.0.0.1:6379> ZRANGEBYSCORE salary -inf 2500 withscores       # 显示工资小于2500员工的降序排列
+1) "yaoliuyang"
+2) "500"
+3) "xiaohong"
+4) "2500"
+
+
+################################################################
+
+
+# 移除元素
+
+127.0.0.1:6379> ZRANGE salary  0 -1
+1) "yaoliuyang"
+2) "xiaohong"
+3) "zhangsan"
+127.0.0.1:6379> ZREM salary xiaohong       # 移除有序集合中的指定元素
+(integer) 1
+127.0.0.1:6379> ZRANGE salary  0 -1
+1) "yaoliuyang"
+2) "zhangsan"
+
+# 查看元素
+127.0.0.1:6379> ZRANGE salary  0 -1
+1) "yaoliuyang"
+2) "zhangsan"
+127.0.0.1:6379> ZCARD salary       # 获取有序集合中的个数
+(integer) 2
+
+# 获取指定区间的成员数量
+127.0.0.1:6379> zadd myset 1 hello 2 hello2 3 hello3
+(integer) 3
+127.0.0.1:6379> ZCOUNT myset 1 3
+(integer) 3
+127.0.0.1:6379> ZCOUNT myset 1 2     # 获取指定区间的成员数量
+(integer) 2
+
+
+```
+
+> 其余的一些api,通过[官网查询](https://www.redis.net.cn/order/),Redis 有序集合(sorted set) 命令
+>
+> 案例思路: set 排序  存储班级成绩表,工资表排序!
+>
+> 普通消息: 1,重要消息  2,带权重进行判断!
+>
+> 排行榜应用实现，取top N 测试!  
 
 ### 三种特殊数据类型
 
