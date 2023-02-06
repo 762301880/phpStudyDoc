@@ -1171,7 +1171,80 @@ OK
 
 
 
-**hyperloglog**
+####  [**hyperloglog**](https://www.runoob.com/redis/redis-hyperloglog.html)
+
+> 什么是基数?
+>
+> 基数(不重复的元素)
+>
+> 两个数据集
+>
+> A{1,3,5,7,8,9,7}        B{1,2,5,7,8}
+>
+> 简介:Redis2.8.9版本就更新了Hyperloglog数据结构!
+>
+> Redis Hyperloglog 基数统计的算法
+>
+> 网页的UV (一个人访问一个网站多次,但是还是算作一个人!)
+>
+> 传统的方式,set保存用户的id,然后就可以统计set中的元素数量作为标准判断!(这个方式如果保存大量的用户id,就会
+>
+> 比较麻烦!我们的用户是为了计数,而不是保存用户id;)
+>
+> 0.81%错误率!统计UV任务,可以忽略不计的!
+>
+> **Hyperloglog 优点**
+>
+> - 占用的内存是固定
+> - 2^64不同的元素的技术,只需要废12KB内存!如果要从内存角度来比较的话Hyperloglog首选!
+>
+> ## Redis HyperLogLog 命令
+>
+> 下表列出了 redis HyperLogLog 的基本命令：
+>
+> | 序号 | 命令及描述                                                   |
+> | :--- | :----------------------------------------------------------- |
+> | 1    | [PFADD key element [element ...\]](https://www.runoob.com/redis/hyperloglog-pfadd.html) 添加指定元素到 HyperLogLog 中。 |
+> | 2    | [PFCOUNT key [key ...\]](https://www.runoob.com/redis/hyperloglog-pfcount.html) 返回给定 HyperLogLog 的基数估算值。 |
+> | 3    | [PFMERGE destkey sourcekey [sourcekey ...\]](https://www.runoob.com/redis/hyperloglog-pfmerge.html) 将多个 HyperLogLog 合并为一个 HyperLogLog |
+
+```shell
+127.0.0.1:6379> FLUSHALL
+OK
+# 测试使用
+127.0.0.1:6379> PFADD mykey a b c d e f g h i j   # 创建第一组元素mykey
+(integer) 1
+127.0.0.1:6379> PFCOUNT mykey       # 统计mykey元素中的基数数量
+(integer) 10    
+127.0.0.1:6379> PFADD mykey2 i j z x c v b n m        # 创建第二组元素mykey2       
+(integer) 1
+127.0.0.1:6379> PFCOUNT mykey2
+(integer) 9
+
+127.0.0.1:6379> PFMERGE mykey3 mykey mykey2      # 合并两组mykey mykey2 到 mykey3 并集
+OK
+127.0.0.1:6379> PFCOUNT mykey3       #  查看并集的
+(integer) 15
+
+```
+
+## 事务
+
+### jedis
+
+### Redis.conf详解
+
+### Redis持久化
+
+### Redis发布订阅
+
+### Redis主从复制
+
+### Redis缓存穿透和雪崩
+
+
+
+
 
 **bitmaps**
 
