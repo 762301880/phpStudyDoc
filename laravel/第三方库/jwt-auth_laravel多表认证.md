@@ -545,3 +545,22 @@ echo $renewToken;
   ```
 
   
+
+### [个人觉得最好的方案](https://blog.csdn.net/qq_27878777/article/details/126765385)
+
+> 首先，refreshToken有效时间一定要比token有效时间长至少才能不影响用户体验，具体要长多少得以实际需求为准，建议是24小时
+>
+> 前端每次访问后端都携带token，如果token失效则后端直接返回类似token失效请重新登录的报文。
+>
+> 前端第一次收到token失效的响应后，从本地存储拿refreshToken再去请求
+>
+> 后端一检测到refreshToken参数不为空，就去校验解析这个refreshToken
+>
+> 如果有效，后端就返回一个新的token及refreshToken给前端，前端收到后更新本地存储，同时拿这个新的token向后端发起第三次请求，然后成功获取资源
+>
+> 如果无效，则后端同样返回token失效，前端第二次收到失效的响应则跳转到登录页重新登录
+>
+> refreshToken比较可以存redis并用md5加密比较
+
+
+
