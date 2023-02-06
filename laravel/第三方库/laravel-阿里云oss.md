@@ -143,6 +143,17 @@ $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->en
 $res = $ossClient->listBuckets()->getBucketList();
 ```
 
+###  给图片添加文字水印
+
+**资料**
+
+| 名称     | 地址                                                       |
+| -------- | ---------------------------------------------------------- |
+| 文档地址 | [link](https://help.aliyun.com/document_detail/44957.html) |
+| 他人博客 | [link](https://jinzhijun.cn/develop/346)                   |
+
+
+
 # 问题示例
 
 ## oss配置生命周期
