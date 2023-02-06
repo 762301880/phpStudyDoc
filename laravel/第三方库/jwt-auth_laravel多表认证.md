@@ -440,3 +440,108 @@ Public function authLogin(Request $request){
 **续签方案**
 
 > 1. 最简单的一种方式是每次请求刷新JWT，即每个HTTP请求都返回一个新的JWT。这个方法不仅暴力不优雅，而且每次请求都要做JWT的加密解密，会带来性能问题。另一种方法是在redis中单独为每个JWT设置过期时间，每次访问时刷新JWT的过期时间
+>
+> 2. jwt 有什么续期方案？ JWT本身不提供续期方案，但是可以通过一些外部手段来实现续期。 其中一种常见的手段是使用另一个token来授予请求发起者更新jwt的权限。这种模式通常称为“refresh token”，就像一个访问令牌，可以用来更新jwt。当用户登录到应用程序时，服务器会发出一个refresh token和一个jwt，两者都有自己的有效期限，refresh token通常比jwt有更长的有效期限。在jwt到期之前，用户可以使用refresh token来更新jwt，而不必重新登录。
+>
+> 3. JWT 续签即在原有 token 的基础上，给它签发一个新 token，同时原有 token 也仍然可用，新 token 也可以单独使用。 实现续签的步骤： 1. 客户端携带原有的 token 向服务器申请续签，服务器验证 token 是否有效； 2. 如果 token 有效，则服务器会根据原有的 token 签发一个新的 token，同时也更新原有 token 的过期时间； 3. 服务器返回新的 token 给客户端； 4. 客户端可以使用新的 token 或者原有的 token 访问服务器。
+>
+> 4. jwt续签是一种在原有token有效期内，重新计算一个剩余有效期的机制。 通常情况下，jwt续签会在检测到原有token快要过期时，向服务器申请续签，服务器会重新计算一个新的token并返回给用户，而此时原有token仍然处于有效状态，但是新的token会覆盖掉原有token，使用新的token即可。 jwt续签的实现过程一般涉及以下几个步骤： 1、用户在客户端发出请求，并携带原有token； 2、服务器端收到请求，验证token有效性，并计算token的剩余有效期； 3、服务器端生成新的token，覆盖原有token； 4、服务器端将新的token返回给客户端； 5、客户端将新的token保存在本地，并使用新的token进行请求。
+
+**网上代码参考**
+
+- 方案一(不是很好)
+
+```php
+php jwt实现续签代码
+
+<?php
+/**
+ * jwt实现续签
+ */
+
+//签发token
+function generateToken(){
+    //签发者
+    $iss = 'www.xxx.com';
+    //接收者
+    $aud = 'client';
+    //签发时间
+    $iat = time();
+    //过期时间
+    $exp = $iat + 60*60;
+    //私钥
+    $secret = 'xxx';
+
+    $payload = array(
+        "iss"=>$iss,
+        "aud"=>$aud,
+        "iat"=>$iat,
+        "exp"=>$exp
+    );
+
+    $jwt = JWT::encode($payload, $secret);
+    return $jwt;
+}
+
+//验证token
+function validateToken($jwt){
+    $secret = 'xxx';
+    try {
+        $payload = JWT::decode($jwt, $secret,array('HS256'));
+        return true;
+    } catch (\Firebase\JWT\ExpiredException $e) {
+        return false;
+    }
+}
+
+//实现续签
+function renewToken($jwt){
+    $secret = 'xxx';
+    try {
+        $payload = JWT::decode($jwt, $secret,array('HS256'));
+        //重新设置过期时间
+        $payload->exp = time() + 60*60;
+        $newToken = JWT::encode($payload,$secret);
+        return $newToken;
+    } catch (\Firebase\JWT\ExpiredException $e) {
+        return false;
+    }
+}
+
+//调用
+$token = generateToken();
+echo $token;
+echo "\n";
+$renewToken = renewToken($token);
+echo $renewToken;
+```
+
+- 方案二
+
+  ```php
+  <?php
+  
+  // jwt续签代码：
+  
+  // 加载composer库
+  require_once __DIR__ . "/vendor/autoload.php";
+  
+  // 使用firebase/php-jwt库
+  use \Firebase\JWT\JWT;
+  
+  // 获取需要续签的jwt
+  $jwt_string = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+  
+  // 将jwt解码
+  $decoded = JWT::decode($jwt_string, 'secret', array('HS256'));
+  
+  // 将jwt的过期时间延长1天
+  $decoded->exp = time() + 86400;
+  
+  // 生成新的jwt
+  $jwt_string_renewed = JWT::encode($decoded, 'secret');
+  
+  echo $jwt_string_renewed;
+  ```
+
+  
