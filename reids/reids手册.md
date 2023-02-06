@@ -1223,10 +1223,61 @@ OK
 
 127.0.0.1:6379> PFMERGE mykey3 mykey mykey2      # 合并两组mykey mykey2 到 mykey3 并集
 OK
-127.0.0.1:6379> PFCOUNT mykey3       #  查看并集的
+127.0.0.1:6379> PFCOUNT mykey3       #  查看并集的数量
 (integer) 15
 
+# 如果允许容错,那么一定可以使用Hyperloglog
+# 如果不允许容错,就使用set或者自己的数据类型即可!
 ```
+
+#### Bitmaps
+
+> 位存储
+>
+> 场景
+>
+> 统计疫情感染人数: 0 1 0 1 0
+>
+> 统计用户信息,活跃,不活跃!  登录、未登录!   打卡, 365打卡!     两个状态的,都可以使用Bitmaps
+>
+> Bitmaps 位图,数据结构! 都是操作二进制来进行记录,就只有0和1两个状态!
+>
+> 352天=365bit   1字节=8bit       46个字节左右!
+
+```shell
+# 测试 使用bitmap来记录周一到周日的打卡! 第一位的0-6 代表周一到周日，第二位的0&1 代表0未打卡 1已打卡             
+
+127.0.0.1:6379> SETBIT sign  0 1  # 周一:1
+(integer) 0
+127.0.0.1:6379> SETBIT sign  1 0  # 周二:0
+(integer) 0
+127.0.0.1:6379> SETBIT sign  2 0  # 周三:0
+(integer) 0
+127.0.0.1:6379> SETBIT sign  3 1  # 周四:1 
+(integer) 0
+127.0.0.1:6379> SETBIT sign  4 1  # 周五:1
+(integer) 0
+127.0.0.1:6379> SETBIT sign  5 0  # 周六:0
+(integer) 0
+127.0.0.1:6379> SETBIT sign  6 0  # 周日:0 
+(integer) 0
+
+
+## 查看某一天是否有打卡!
+127.0.0.1:6379> GETBIT sign 4      # 查看周五是否打卡
+(integer) 1 
+127.0.0.1:6379> GETBIT sign 3      # 查看周四是否打卡 
+(integer) 1
+127.0.0.1:6379> GETBIT sign 6      # 查看周日是否打卡 
+(integer) 0
+
+# 统计操作,统计打卡的天数!
+
+127.0.0.1:6379> BITCOUNT sign      # 统计这周的打卡记录,就可以是否有全勤
+(integer) 3     # 一周打卡了三次
+```
+
+
 
 ## 事务
 
