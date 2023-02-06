@@ -26,10 +26,10 @@
 
 ## 资料
 
-| name                       | url                                                        |
-| -------------------------- | ---------------------------------------------------------- |
-| 阿里云文档中心-对象存储oss | [link](https://help.aliyun.com/document_detail/85580.html) |
-|                            |                                                            |
+| name                               | url                                                          |
+| ---------------------------------- | ------------------------------------------------------------ |
+| 阿里云文档中心-对象存储oss         | [link](https://help.aliyun.com/document_detail/85580.html)   |
+| 查看 公共云下OSS各地域Endpoint如下 | [link](https://help.aliyun.com/document_detail/31837.htm?spm=a2c4g.11186623.0.0.605c273bVxKtaM#concept-zt4-cvy-5db) |
 
 # 逻辑示例
 
