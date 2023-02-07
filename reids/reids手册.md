@@ -1477,10 +1477,6 @@ QUEUED
 
 
 
-
-
-### jedis
-
 ### Redis.conf详解
 
 ### Redis持久化
