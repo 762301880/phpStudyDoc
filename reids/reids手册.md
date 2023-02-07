@@ -1277,9 +1277,207 @@ OK
 (integer) 3     # 一周打卡了三次
 ```
 
+### [事务](https://www.redis.net.cn/tutorial/3515.html)
+
+> Redis单条命令是保证原子性的!但是事务不保证原子性 ！     
+>
+> Redis事务本质:一组命令的集合! 一个事务中的所有命令都会被序列化,在事务执行的过程中,会按照顺序执行!
+>
+> 一次性,顺序性,排他性!执行一系列的命令!
+>
+> ```shell
+> --------- # 队列
+> set
+> set
+> set
+> ---------
+> ```
+>
+> Redis事务没有隔离级别的概念！
+>
+> 所有的命令在事务中,并没有直接被执行!只有发起执行命令的时候才会执行
+>
+> 什么是事务?  要么同时成功,要么同时失败,原子性!
+>
+> Redis的事务
+>
+> - 开启事务(MULTI)
+> - 命令入队(...)
+> - 执行事务(EXEC)
+
+**Redis 事务命令**
+
+下表列出了 redis 事务的相关命令：
+
+| 序号 | 命令及描述                                                   |
+| :--- | :----------------------------------------------------------- |
+| 1    | [DISCARD](https://www.redis.net.cn/order/3638.html) 取消事务，放弃执行事务块内的所有命令。 |
+| 2    | [EXEC](https://www.redis.net.cn/order/3639.html) 执行所有事务块内的命令。 |
+| 3    | [MULTI](https://www.redis.net.cn/order/3640.html) 标记一个事务块的开始。 |
+| 4    | [UNWATCH](https://www.redis.net.cn/order/3641.html) 取消 WATCH 命令对所有 key 的监视。 |
+| 5    | [WATCH key [key ...\]](https://www.redis.net.cn/order/3642.html) 监视一个(或多个) key ，如果在事务执行之前这个(或这些) key 被其他命令所改动，那么事务将被打断。 |
+
+```shell
+# 正常执行事务
+127.0.0.1:6379> MULTI        # 开启事务
+OK
+# 命令入队
+127.0.0.1:6379(TX)> set k1 v1
+QUEUED
+127.0.0.1:6379(TX)> set k2 v2
+QUEUED
+127.0.0.1:6379(TX)> get k2 
+QUEUED
+127.0.0.1:6379(TX)> set k3 v3       
+QUEUED
+127.0.0.1:6379(TX)> EXEC      # 执行事务
+1) OK
+2) OK
+3) "v2"
+4) OK
+```
+
+```shell
+# 放弃事务
+127.0.0.1:6379> MULTI      # 开启事务
+OK
+127.0.0.1:6379(TX)> set a 1
+QUEUED
+127.0.0.1:6379(TX)> set b 2
+QUEUED
+127.0.0.1:6379(TX)> set c 3
+QUEUED
+127.0.0.1:6379(TX)> DISCARD  # 取消事务
+OK
+127.0.0.1:6379> get c      # 事务队列中的命令都不会被执行
+(nil)
+```
+
+> java常见异常
+>
+> 编译型异常(代码有问题! 命令有错 !),事务中所有的命令都不会被执行
+>
+> ```shell
+> 127.0.0.1:6379> MULTI
+> OK
+> 127.0.0.1:6379(TX)> set k1 v1 
+> QUEUED
+> 127.0.0.1:6379(TX)> set k2 v2
+> QUEUED
+> 127.0.0.1:6379(TX)> set k3 v3
+> QUEUED
+> 127.0.0.1:6379(TX)> GETSET k3     # 错误的命令
+> (error) ERR wrong number of arguments for 'getset' command
+> 127.0.0.1:6379(TX)> set k4 v4
+> QUEUED
+> 127.0.0.1:6379(TX)> set k5 v5
+> QUEUED
+> 127.0.0.1:6379(TX)> EXEC      # 执行事务报错
+> (error) EXECABORT Transaction discarded because of previous errors.
+> 127.0.0.1:6379> get k5        # 所有的命令都不会被执行
+> (nil)
+> ```
+>
+> 运行时异常(1/0),如果事务队列中存在语法性,那么执行命令的时候,其他命令可以正常执行的,错误命令会抛出异常!
+>
+> ```shell
+> 127.0.0.1:6379> set k1 v1
+> OK
+> 127.0.0.1:6379> MULTI
+> OK
+> 127.0.0.1:6379(TX)> INCR k1     # 会执行的时候失败
+> QUEUED
+> 127.0.0.1:6379(TX)> set k2 v2
+> QUEUED
+> 127.0.0.1:6379(TX)> set k3 v3
+> QUEUED
+> 127.0.0.1:6379(TX)> get k3
+> QUEUED
+> 127.0.0.1:6379(TX)> EXEC
+> 1) (error) ERR value is not an integer or out of range   #虽然第一条命令报错了,但是依旧执行成功了
+> 2) OK
+> 3) OK
+> 4) "v3"
+> ```
+>
+> 
+
+### 监控(watch)
+
+> 悲观锁:
+>
+> - 很悲观,什么时候都会出问题,无论做什么都会加锁!
+>
+> 乐观锁:
+>
+> - 很乐观,认为什么时候都不会出现问题,所以不会上锁! 更新数据的时候去判断一下,在此期间是否有人修改过这个数据
+> - 获取version
+> - 更新的时候比较version
+
+```shell
+# Redis监视测试
+## 正常执行成功
+127.0.0.1:6379> set money 100
+OK
+127.0.0.1:6379> set out 0 
+OK
+127.0.0.1:6379> WATCH money  # 监视 money 对象
+OK
+127.0.0.1:6379> MULTI  # 事务正常结束,数据期间没有发生变动,这个时候就正常执行成功!
+OK
+127.0.0.1:6379(TX)> DECRBY money 20
+QUEUED
+127.0.0.1:6379(TX)> INCRBY out 20
+QUEUED
+127.0.0.1:6379(TX)> EXEC
+1) (integer) 80
+2) (integer) 20
+
+```
+
+**测试多线程修改值,使用watch可以当作redis的乐观锁操作!**
+
+```shell
+127.0.0.1:6379> WATCH money    # 监控金额 80
+OK
+127.0.0.1:6379> MULTI
+OK
+127.0.0.1:6379(TX)> DECRBY money 10
+QUEUED
+127.0.0.1:6379(TX)> INCRBY out 10
+QUEUED
+127.0.0.1:6379(TX)> EXEC     # 执行之前,另外一个线程修改了我们的值,这个时候,就会导致事务执行失败
+(nil)
+
+# 线程二
+127.0.0.1:6379> get money
+"80"
+127.0.0.1:6379> set money 1000      # 在上一个执行exec之前修改
+OK
+
+```
+
+> 如果修改失败获取最新的值就好
+
+```shell
+127.0.0.1:6379> UNWATCH      # 1.如果发现事务执行失败,就先解锁
+OK
+127.0.0.1:6379> WATCH money    # 2.获取最新的值,再次监视, select version
+OK
+127.0.0.1:6379> MULTI
+OK
+127.0.0.1:6379(TX)> DECRBY money 1
+QUEUED
+127.0.0.1:6379(TX)> INCRBY money 1
+QUEUED
+127.0.0.1:6379(TX)> exec     # 3.比对监视的值是否发生了变化,如果没有发生变化,那么可以执行成功,如果变了就执行失败!
+1) (integer) 989
+2) (integer) 990
+```
 
 
-## 事务
+
+
 
 ### jedis
 
@@ -1296,8 +1494,6 @@ OK
 
 
 
-
-**bitmaps**
 
 
 
