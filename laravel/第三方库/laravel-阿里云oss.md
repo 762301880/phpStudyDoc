@@ -147,10 +147,65 @@ $res = $ossClient->listBuckets()->getBucketList();
 
 **资料**
 
-| 名称     | 地址                                                       |
-| -------- | ---------------------------------------------------------- |
-| 文档地址 | [link](https://help.aliyun.com/document_detail/44957.html) |
-| 他人博客 | [link](https://jinzhijun.cn/develop/346)                   |
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 文档地址 | [link](https://help.aliyun.com/document_detail/44957.html)  [link](https://help.aliyun.com/document_detail/44957.html#watermark) |
+| 他人博客 | [link](https://jinzhijun.cn/develop/346)                     |
+
+**代码示例**
+
+```php
+// 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
+        $accessKeyId = "LTAI4FqTWQmMztMtGzTX44Pr";
+        $accessKeySecret = "ju1WFs5eX2nEVFSshb43myWuXWCSwj";
+// yourEndpoint填写Bucket所在地域对应的Endpoint。以华东1（杭州）为例，Endpoint填写为https://oss-cn-hangzhou.aliyuncs.com。
+        $endpoint = "oss-cn-beijing.aliyuncs.com";
+// 填写Bucket名称，例如examplebucket。
+        $bucket = "yaoliuyang-test-oss";
+// 填写Object完整路径，例如exampledir/exampleobject.jpg。Object完整路径中不能包含Bucket名称。
+        $object = "312be0e5cae93d373d362d589f434215%20.png";
+        $ossClient = new OssClient($accessKeyId, $accessKeySecret, $endpoint);
+// 生成一个带水印参数的签名的URL，有效期是3600秒，可以直接使用浏览器访问。
+        $timeout = 3600;
+        function base64url_encode($data)
+        {
+            return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+        }
+
+// 填写文字水印内容（例如Hello World）或者水印图片完整路径（例如panda.jpg）。
+// 在图片中添加水印图片时，请确保水印图片已保存在图片所在Bucket中。
+        $image_date = date('Y-m-d H:i:s');
+        $image_address = "广东省东菀市xx区xx详细地址";
+        $content = "$image_date";
+        $content2 = "$image_address";
+        $string = base64url_encode($content);
+        $string2 = base64url_encode($content2);
+        //dd($string);
+        $image_object = "f641c9392adccecf520d66bd0150ae96.jpeg";
+        // 为图片添加水印。
+
+        $put_content = "image/watermark,text_" . $string . ',' . 'color_FFFFFF' . ',' . 't_50,x_10,y_10/watermark';
+        $put_content = $put_content . ",text_" . $string2 . ',' . 'color_FFFFFF' . ',' . 't_50,x_100,y_100';
+        if (!empty($image_object)) $put_content = $put_content . ',image_' . base64url_encode($image_object);
+        if (!empty($image_object)) $put_content = $put_content . ',order_1';
+        $options = array(
+            OssClient::OSS_PROCESS => $put_content,
+        );
+        $signedUrl = $ossClient->signUrl($bucket, $object, $timeout, "GET", $options);
+        dd($signedUrl);
+```
+
+
+
+#### 问题记录
+
+**如何给文字水印换行**
+
+```shell
+https://blog.csdn.net/qq_36025814/article/details/124158528
+```
+
+
 
 
 
