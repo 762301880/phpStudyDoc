@@ -1477,9 +1477,323 @@ QUEUED
 
 
 
-### Redis.conf详解
+### [Redis.conf详解](https://www.runoob.com/redis/redis-conf.html)
+
+> 启动的时候,就通过配置文件来启动!
+>
+> 配置文件unit单位对大小写不敏感
+>
+> **常用配置讲解**
+>
+> ```shell
+> bind 127.0.0.1       # 指定绑定的本机地址 如果需要开启远程访问可以使用通配符*,或者公网ip地址
+> protected-mode yes   # 保护模式
+> port 6379            # 端口设置
+> ```
+>
+> **通用配置详解**
+>
+> ```shell
+> daemonize no     # Redis 默认不是以守护进程的方式运行，可以通过该配置项修改，使用 yes 启用守护进程（Windows 不支持守护线程的配置为 no）
+> 
+> pidfile /var/run/redis_6379.pid    # 如果以后台的方式运行,我们就需要指定一个pid进程文件!
+> 
+> 
+> # 日志
+> # Specify the server verbosity level.        # 指定服务器的冗长级别。
+> # This can be one of:                        # 可能是其中之一:
+> # debug (a lot of information, useful for development/testing)        # 大量信息，对开发/测试很有用
+> # verbose (many rarely useful info, but not a mess like the debug level)     # 许多很少有用的信息，但不像调试级别那样混乱
+> # notice (moderately verbose, what you want in production probably)      # 稍微有点啰嗦，可能是你在生产中想要的(生产环境)
+> # warning (only very important / critical messages are logged)     # 只记录非常重要/关键的消息
+> loglevel notice      # 日志级别 
+> 
+> 
+> logfile ""       # 日志的文件位置名(如果为空就是标准的输出)
+> 
+> 
+> datebases 16   # 数据库的数量,默认是16个数据库
+> 
+> always-show-logo no      # 是否总是显示logo(就是通过配置文件启动显示的那个redis logo)
+> ```
+>
+> **快照**
+>
+> > 持久化,在规定的时间内,执行了多少次操作则会持久化到文件 **.rdb** **.aof** 
+> >
+> > redis是内存数据库,如果没有持久化,那么数据断电及失!
+>
+> ```shell
+>  save 3600 1     # 如果3600 秒内,如果至少有一个key进行了修改,我们就进行持久化操作
+>  save 300 100    # 如果300 秒内,如果至少有100key进行了修改,我们就进行持久化操作 
+>  save 60 10000   # 如果60 秒内,如果至少有10000key进行了修改,我们就进行持久化操作
+>  # 我们之后学习持久化,会自己定义这个测试!
+>  
+>  
+>  
+> stop-writes-on-bgsave-error yes  # 持久化如果出错,是否还需要继续工作!
+> 
+> rdbcompression yes  # 是否压缩rdb文件,rdb就是持久化的文件,需要消耗一些CPU资源!
+> 
+> rdbchecksum yes     # 保存rdb文件的时候,进行错误的检查校验!
+> 
+> dir ./        #  rdb文件保存的目录
+> ```
+>
+> **REPLICATION**     复制,我们后面讲解主从复制的,时候再进行讲解
+>
+> **SECURITY** 安全
+>
+> > 可以在这里设置redis的密码,默认是没有密码!
+>
+> ```shell
+> requirepass foobared   # 配置
+> 
+> # 可以通过客户端查看默认是没有密码的
+> 127.0.0.1:6379> config get requirepass       # 获取redis的密码
+> 1) "requirepass"
+> 2) ""
+> 
+> # 通过配置文件设置密码
+> requirepass 123465     # redis配置文件密码为123456
+> 
+> # 通过客户端设置密码
+> 127.0.0.1:6379> config set requirepass  "123456"        # 设置redis的密码,如果想再次设置为空则需要设置为空字符即可""
+> 127.0.0.1:6379> set number 1        # 发现所有的命令都没有权限了
+> (error) NOAUTH Authentication required.
+> 127.0.0.1:6379> auth 123456       # 使用密码进行登录
+> OK
+> 127.0.0.1:6379> set number 1
+> OK
+> ```
+>
+>  **限制CLIENTS**
+>
+> ```shell
+>  maxclients 10000        # 设置能连接上redis的最大客户端的数量
+>  
+>  maxmemory <bytes>     # redis 配置对大的内存容量
+>  
+>  #######################
+>  maxmemory-policy noeviction    # 内存到达上线之后的处理策略
+>    1. volatile-lru:  只对设置了过期时间的key进行LRU(默认值)
+>    2. allkeys-lru:   删除lru算法的key
+>    3. volatile-random:  随机删除即将过期key
+>    4. allkey-random:    随机删除
+>    5. volatile-ttl:     删除即将过期的
+>    6. noeviction:       永不过期,返回错误
+>  #######################
+> ```
+>
+> **APPEND ONLY MODE 模式 aof配置**
+>
+> ```shell
+> appendonly no    # 默认是不开启aof模式的,默认是使用rdb方式持久化的,在大部分所有的情况下,rdb完全够用
+> 
+> appendfilename "appendonly.aof"     # 持久化的文件的名字
+> 
+> # appendfsync always      # 每次修改都会sync 消耗性能
+> appendfsync everysec      # 每秒执行一次sync,可能会丢失1s的数据!
+> # appendfsync no          # 不执行sync,这个时候操作系统自己同步数据,数度最快
+> ```
+>
+> 
+
+####   **单位**
+
+```shell
+# Redis configuration file example.
+#
+# Note that in order to read the configuration file, Redis must be
+# started with the file path as first argument:
+#
+# ./redis-server /path/to/redis.conf
+
+# Note on units: when memory size is needed, it is possible to specify
+# it in the usual form of 1k 5GB 4M and so forth:
+#
+# 1k => 1000 bytes
+# 1kb => 1024 bytes
+# 1m => 1000000 bytes
+# 1mb => 1024*1024 bytes
+# 1g => 1000000000 bytes
+# 1gb => 1024*1024*1024 bytes
+#
+# units are case insensitive so 1GB 1Gb 1gB are all the same.
+
+################################## INCLUDES ###################################
+
+## 对应中文翻译
+
+ 
+
+# Redis配置文件示例。
+#
+#注意，为了读取配置文件，Redis必须
+#以文件路径作为第一个参数开始:
+#
+# ./redis-server /path/to/redis.conf
+
+#关于单位的注意事项:当需要内存大小时，可以指定
+#它通常的形式为1k 5GB 4M等等:
+#
+# 1k => 1000字节
+# 1kb => 1024字节
+# 1m => 1000000字节
+# 1mb => 1024*1024字节
+# 1g => 1000000000字节
+# 1gb => 1024*1024*1024字节
+#
+#单位不区分大小写，所以1GB 1GB 1GB都是一样的。
+
+################################## 包括  ###################################
+```
+
+#### 包含
+
+> 就好比我们学习Spring,improt  include
+
+```shell
+# Include one or more other config files here.  This is useful if you
+# have a standard template that goes to all Redis servers but also need
+# to customize a few per-server settings.  Include files can include
+# other files, so use this wisely.
+#
+# Note that option "include" won't be rewritten by command "CONFIG REWRITE"
+# from admin or Redis Sentinel. Since Redis always uses the last processed
+# line as value of a configuration directive, you'd better put includes
+# at the beginning of this file to avoid overwriting config change at runtime.
+#
+# If instead you are interested in using includes to override configuration
+# options, it is better to use include as the last line.
+#
+# include /path/to/local.conf
+# include /path/to/other.conf
+
+######################################################
+# 对应中文
+
+#在这里包含一个或多个其他配置文件。这很有用，如果你
+#有一个标准模板，适用于所有Redis服务器，但也需要
+#自定义一些每个服务器的设置。包含文件可以包含
+#其他文件，所以要明智地使用它。
+#
+#注意选项include不会被命令CONFIG REWRITE重写
+#从管理员或Redis哨兵。因为Redis总是使用最后一个处理
+# line作为配置指令的值，最好使用includes
+#，以避免在运行时覆盖配置更改。
+#
+#如果您对使用include覆盖配置感兴趣
+# options，最好使用include作为最后一行。
+#
+# include /path/to/local.conf
+# include /path/to/other.conf
+
+```
+
+#### 网络
+
+> sda
+
+```shell
+################################## NETWORK #####################################
+
+# By default, if no "bind" configuration directive is specified, Redis listens
+# for connections from all available network interfaces on the host machine.
+# It is possible to listen to just one or multiple selected interfaces using
+# the "bind" configuration directive, followed by one or more IP addresses.
+# Each address can be prefixed by "-", which means that redis will not fail to
+# start if the address is not available. Being not available only refers to
+# addresses that does not correspond to any network interfece. Addresses that
+# are already in use will always fail, and unsupported protocols will always BE
+# silently skipped.
+#
+# Examples:
+#
+# bind 192.168.1.100 10.0.0.1     # listens on two specific IPv4 addresses
+# bind 127.0.0.1 ::1              # listens on loopback IPv4 and IPv6
+# bind * -::*                     # like the default, all available interfaces
+#
+# ~~~ WARNING ~~~ If the computer running Redis is directly exposed to the
+# internet, binding to all the interfaces is dangerous and will expose the
+# instance to everybody on the internet. So by default we uncomment the
+# following bind directive, that will force Redis to listen only on the
+# IPv4 and IPv6 (if available) loopback interface addresses (this means Redis
+# will only be able to accept client connections from the same host that it is
+# running on).
+#
+# IF YOU ARE SURE YOU WANT YOUR INSTANCE TO LISTEN TO ALL THE INTERFACES
+# JUST COMMENT OUT THE FOLLOWING LINE.
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+bind 127.0.0.1 -::1          # 绑定的地址  如果需要远程访问可以使用通配符*,或者远程公网ip地址
+
+# Protected mode is a layer of security protection, in order to avoid that
+# Redis instances left open on the internet are accessed and exploited.
+#
+# When protected mode is on and if:
+#
+# 1) The server is not binding explicitly to a set of addresses using the
+#    "bind" directive.
+# 2) No password is configured.
+#
+# The server only accepts connections from clients connecting from the
+# IPv4 and IPv6 loopback addresses 127.0.0.1 and ::1, and from Unix domain
+# sockets.
+#
+# By default protected mode is enabled. You should disable it only if
+# you are sure you want clients from other hosts to connect to Redis
+# even if no authentication is configured, nor a specific set of interfaces
+# are explicitly listed using the "bind" directive.
+protected-mode yes
+
+# Accept connections on the specified port, default is 6379 (IANA #815344).
+# If port 0 is specified Redis will not listen on a TCP socket.
+port 6379
+
+# TCP listen() backlog.
+#
+# In high requests-per-second environments you need a high backlog in order
+# to avoid slow clients connection issues. Note that the Linux kernel
+# will silently truncate it to the value of /proc/sys/net/core/somaxconn so
+# make sure to raise both the value of somaxconn and tcp_max_syn_backlog
+# in order to get the desired effect.
+tcp-backlog 511
+
+# Unix socket.
+#
+# Specify the path for the Unix socket that will be used to listen for
+# incoming connections. There is no default, so Redis will not listen
+# on a unix socket when not specified.
+#
+# unixsocket /run/redis.sock
+# unixsocketperm 700
+
+# Close the connection after a client is idle for N seconds (0 to disable)
+timeout 0
+
+# TCP keepalive.
+#
+# If non-zero, use SO_KEEPALIVE to send TCP ACKs to clients in absence
+# of communication. This is useful for two reasons:
+#
+# 1) Detect dead peers.
+# 2) Force network equipment in the middle to consider the connection to be
+#    alive.
+#
+# On Linux, the specified value (in seconds) is the period used to send ACKs.
+# Note that to close the connection the double of the time is needed.
+# On other kernels the period depends on the kernel configuration.
+#
+# A reasonable value for this option is 300 seconds, which is the new
+# Redis default starting with Redis 3.2.1.
+tcp-keepalive 300
+```
+
+
 
 ### Redis持久化
+
+#### RDB
 
 ### Redis发布订阅
 
