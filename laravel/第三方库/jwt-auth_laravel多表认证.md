@@ -562,5 +562,66 @@ echo $renewToken;
 >
 > refreshToken比较可以存redis并用md5加密比较
 
+**实现步骤**
 
+> php jwt refresh_token 实现 
+>
+> 1、生成access_token 通过私钥，使用令牌的相关信息（用户ID，过期时间等）生成一个过期时间短的access_token。
+>
+>  2、生成refresh_token 通过私钥，使用令牌的相关信息（用户ID，过期时间等）生成一个过期时间长的refresh_token。
+>
+>  3、实现refresh_token 当access_token过期时，客户端可以通过refresh_token来换取新的access_token。此时，客户端需要携带refresh_token以及相关的信息，发起请求给服务端，服务端根据refresh_token及其相关信息，验证refresh_token的合法性，如果验证成功则生成新的access_token，并且返回给客户端。
+
+**中间件实现逻辑**
+
+```shell
+<?php
+
+namespace app\http\middleware;
+
+use app\common\model\AuntModel;
+use app\common\service\JwtService;
+use constant\ErrorCode;
+use exception\SystemException;
+use Firebase\JWT\ExpiredException;
+use traits\ApplyResponseLayout;
+
+class JwtVerify
+{
+    use ApplyResponseLayout;
+
+    public function handle($request, \Closure $next)
+    {
+        try {
+            $token = $request->header('Authorization');
+            if (empty($token)) throw new SystemException("token不能为空");
+            $res = JwtService::validateToken($token);
+            $id = $res->id ?? "";
+            $model = !empty($res->model_name) ? (new $res->model_name) : "";
+            $modelInstance = !empty($model) ? $model->get($id) : "";
+            if ($modelInstance instanceof AuntModel) $this->appendReqData($request, $modelInstance);
+        } catch (SystemException $systemException) {
+            return $this->resError($systemException->getMessage());
+        } catch (ExpiredException $exception) {
+            return $this->resError($exception->getMessage(), '', ErrorCode::$USER_TOKEN_EXPIRED);
+        }
+        return $next($request);
+    }
+
+    /**
+     * 添加附加数据
+     * @param $request
+     * @param $modelInstance
+     */
+    public function appendReqData($request, $modelInstance)
+    {
+        # 构建阿姨返回全局请求数据
+        if ($modelInstance instanceof AuntModel) {
+            $request->userId = $modelInstance->id ?? ""; //返回用户id
+            $request->userPhone = $modelInstance->mobile ?? ""; //手机号码
+            $request->userName = $modelInstance->name ?? ""; //用户姓名
+        }
+    }
+}
+```
 
