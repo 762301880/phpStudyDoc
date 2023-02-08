@@ -1594,7 +1594,7 @@ QUEUED
 > 
 > # appendfsync always      # 每次修改都会sync 消耗性能
 > appendfsync everysec      # 每秒执行一次sync,可能会丢失1s的数据!
-> # appendfsync no          # 不执行sync,这个时候操作系统自己同步数据,数度最快
+> # appendfsync no          # 不执行sync,这个时候操作系统自己同步数据,数度最快!
 > ```
 >
 > 
@@ -1793,7 +1793,20 @@ tcp-keepalive 300
 
 ### Redis持久化
 
-#### RDB
+> Redis是内存数据库,如果不将内存中的数据库状态保存到磁盘,那么一旦服务器进程推出,服务器中的数据库状态也会消失。所以Redis提供了持久化功能!
+>
+> 面试和工作,持久化都是重点!
+
+#### RDB(Redis DataBase)
+
+**什么是RDB**
+
+```shell
+```
+
+
+
+
 
 ### Redis发布订阅
 
