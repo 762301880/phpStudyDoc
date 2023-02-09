@@ -1803,6 +1803,92 @@ tcp-keepalive 300
 
 ![image-20230209135159207](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230209135159207.png)
 
+> 在指定的实践间隔内将内存中的数据集快照写入磁盘,也就是行化讲的Snapshot快照,它恢复时是将快照文件直接读到内存里。
+>
+> Redis会单独创建(fork)一个子进程来进行持久化,会先将数据写入到一个临时文件中,待持久化过程都结束了,再用这个临时文件替换上次持久化好
+>
+> 的文件。整个过程中,主进程是不进行任何IO操作的。这就确保了极高的性能。如果需要进行大规模数据的恢复,且对于数据恢复的完整性不是非常
+>
+> 敏感,那么RDB方式要比AOF方式更加的高效。RDB的缺点是最后一次持久化后的数据可能丢失。
+>
+> 我们默认的就是RBD,一般情况下不需要修改这个配置!
+>
+> **rdb**保存的文件是**dump.rdb**文件 都是在我们的配置文件中快照中进行配置的
+>
+> ```shell
+> # /usr/local/redis/redis.conf
+> 
+> # save 3600 1
+> # save 300 100
+> # save 60 10000
+> save 60  5        # 我们测试一下:只要60s内修改了5次key,就会触发rdb操作
+> 
+> 
+> dbfilename dump.rdb      # 一般会在 /目录下    如果找不到可以用 find / -name dump.rdb 查询
+> ```
+>
+> > **触发机制**
+> >
+> > 1. save的规则满足的情况下,会自动触发rdb规则
+> > 2. 执行flushall命令,也会出发我们的rdb规则!
+> > 3. 退出redis,也会产生rdb 文件!
+> >
+> > 备份就自动生成一个dump.rdb文件
+> >
+> > **如何恢复rdb文件!**
+> >
+> > 1. 只需要将rdb文件放在我们redis启动目录就可以,redis启动的时候会自动检查dunm.rdb文件恢复其中的数据!
+> > 2. 查看需要存放的位置
+> >
+> > ```shell
+> > 127.0.0.1:6379> CONFIG GET dir
+> > 1) "dir"
+> > 2) "/"      # 如果在这个目录下存在dump.rdb文件启动的时候就会自动恢复其中的数据
+> > ```
+> >
+> > 几乎就他自己默认的配置就够用了,但是我们还是要去学习!
+> >
+> > **优点**
+> >
+> > 1. 适合大规模的数据恢复!   dump.rdb
+> > 2. 如果你对数据完整性要求不高!
+> >
+> > **缺点**
+> >
+> > 1. 需要一定的时间间隔进程操作! 如果redis意外宕机了,这个最后一次修改数据就没有了!
+> > 2. fork 进程的时候,会占用一定的内存空间!
+>
+> ```shell
+> # 测试 rdb
+> 127.0.0.1:6379> set k1 v1
+> OK
+> 127.0.0.1:6379> set k2 v2
+> OK
+> 127.0.0.1:6379> set k3 v3
+> OK
+> 127.0.0.1:6379> set k4 v4
+> OK
+> 127.0.0.1:6379> set k5 v5
+> OK
+> 127.0.0.1:6379> shutdown # 然后关机
+> not connected> exit # 推出redis-cli
+> 
+> 
+> # 重启redis服务
+> yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ systemctl restart redis
+> # 再次启动客户端可以用桌面应用程序查看数据依然存在
+> yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ redis-cli
+> 127.0.0.1:6379> keys *
+> 1) "k4"
+> 2) "k5"
+> 3) "k2"
+> 4) "k1"
+> 5) "k3" 
+> 
+> ```
+>
+> 
+
 ```shell
 
 ```
