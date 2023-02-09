@@ -1891,9 +1891,226 @@ tcp-keepalive 300
 >
 > 
 
-```shell
+####  AOF(Append Only File)
 
+将我们所有的命令都记录下来,history,恢复的时候就把这个文件全部再执行一遍!
+
+> 是什么
+
+图片
+
+> 以日志的形式来记录每个写操作,将Redis执行过的所有指令记录下来(读操作不记录),只许追加文件但不可以改写文件,redis启动之初会
+>
+> 自动读取该文件重新构建数据,换言之,redis重启的话就根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作
+
+**<font color='red'>Aof保存的是 appendonly.apf文件</font>>**
+
+> append配置    找到自己的redis配置文件 
+>
+> **appendonly no **默认是 不开启的,我们需要手动进行配置!我们只需要将appendonly改为yes就开启了aof!
+
+```shell
+############################## APPEND ONLY MODE ###############################
+
+# By default Redis asynchronously dumps the dataset on disk. This mode is
+# good enough in many applications, but an issue with the Redis process or
+# a power outage may result into a few minutes of writes lost (depending on
+# the configured save points).
+#
+# The Append Only File is an alternative persistence mode that provides
+# much better durability. For instance using the default data fsync policy
+# (see later in the config file) Redis can lose just one second of writes in a
+# dramatic event like a server power outage, or a single write if something
+# wrong with the Redis process itself happens, but the operating system is
+# still running correctly.
+#
+# AOF and RDB persistence can be enabled at the same time without problems.
+# If the AOF is enabled on startup Redis will load the AOF, that is the file
+# with the better durability guarantees.
+#
+# Please check https://redis.io/topics/persistence for more information.
+
+appendonly yes      #  默认是不开启的(no)  如果需要开启需要设置成yes
+
+# The name of the append only file (default: "appendonly.aof")
+
+appendfilename "appendonly.aof"    # aof的名字可以修改但不推荐默认的就已经足够了
+
+# appendfsync always        # 每一次都修改 
+appendfsync everysec        # 每一秒中同步一次(用这个就可以了,最多只会丢失一秒钟的数据)
+# appendfsync no            # 不修改 
 ```
+
+**测试**
+
+```shell
+ # 重启redis让配置文件生效
+127.0.0.1:6379> SHUTDOWN      
+not connected> exit
+yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ systemctl restart redis
+yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ redis-cli
+127.0.0.1:6379> 
+
+# 重启完成之后可以在/目录下看到appendonly.aof文件如果找不到可以使用 find / -name appendonly.aof 命令查询
+
+# 设置几个命令后查看 appendonly.aof 文件
+127.0.0.1:6379> set k1 v1 
+OK
+127.0.0.1:6379> set k2 v2
+OK
+127.0.0.1:6379> set k3 v3
+OK
+127.0.0.1:6379> set k4 v4
+OK
+127.0.0.1:6379> set k5 v5
+OK
+
+
+# 查看 appendonly.aof 文件 可以查看我们的记录 
+yaoliuyang@yaoliuyang-PC:/$ cat appendonly.aof      这个文件中记录着我们的所有写操作
+*2
+$6
+SELECT
+$1
+0
+*3
+$3
+set
+$2
+k1
+$2
+v1
+*3
+$3
+set
+$2
+k2
+$2
+v2
+*3
+$3
+set
+$2
+k3
+$2
+v3
+*3
+$3
+set
+$2
+k4
+$2
+v4
+*3
+$3
+set
+$2
+k5
+$2
+v5
+
+# 我们尝试破坏appendonly.aof 文件内容
+yaoliuyang@yaoliuyang-PC:/$ vim appendonly.aof     # 在文件的最后随便添加点字符改动文件
+*2
+$6
+SELECT
+$1
+0
+*3
+$3
+set
+$2
+k1
+$2
+v1
+*3
+$3
+set
+$2
+k2
+$2
+v2
+*3
+$3
+set
+$2
+k3
+$2
+v3
+*3
+$3
+set
+$2
+k4
+$2
+v4
+*3
+$3
+set
+$2
+k5
+$2
+dsaaaaaaaaaaaaaaaaaav5      # 修改破坏了文件
+
+# 重新启动reids
+127.0.0.1:6379> SHUTDOWN
+not connected> exit # 推出cli 
+yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ systemctl restart redis
+yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ redis-cli
+Could not connect to Redis at 127.0.0.1:6379: Connection refused       #连接拒绝 aof文件有问题
+not connected> 
+
+
+# 如果 这个aof文件有错误,这时候redis是启动不起来的,我们需要修复这个aof配置文件
+## redis给我们提供了一个工具  redis-check-aof 
+
+yaoliuyang@yaoliuyang-PC:/usr/local/redis/src$ sudo redis-check-aof --fix /appendonly.aof 
+0x              a4: Expected \r\n, got: 6161
+AOF analyzed: size=188, ok_up_to=139, ok_up_to_line=40, diff=49
+This will shrink the AOF from 188 bytes, with 49 bytes, to 139 bytes
+Continue? [y/N]: y
+Successfully truncated AOF
+
+# 再次查看配置文件
+yaoliuyang@yaoliuyang-PC:/$ cat appendonly.aof 
+*2
+$6
+SELECT
+$1
+0
+*3
+$3
+set
+$2
+k1
+$2
+v1
+*3
+$3
+set
+$2
+k2
+$2
+v2
+*3
+$3
+set
+$2
+k3
+$2
+v3
+*3
+$3
+set
+$2
+k4
+$2
+v4
+
+# 
+```
+
+
 
 
 
