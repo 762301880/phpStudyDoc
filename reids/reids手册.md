@@ -1801,7 +1801,10 @@ tcp-keepalive 300
 
 **什么是RDB**
 
+![image-20230209135159207](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230209135159207.png)
+
 ```shell
+
 ```
 
 
