@@ -2175,7 +2175,48 @@ AOF重写的基础大小默认值64M太小了,可以设置到5G以上,默认超�
 
 
 
-### Redis发布订阅
+### [Redis发布订阅](https://www.runoob.com/redis/redis-pub-sub.html)
+
+> Redis发布订阅(pub/sub)是一种**消息通信模式**:发送者(pub)发送消息,订阅者(sub)接收消息。  微信,微博客,关注系统!
+>
+> Redis客户端可以订阅任意数量的频道。
+>
+> 订阅/发布消息图:
+
+第一个: 消息发送者，第二个:频道    第三个:消息订阅者
+
+![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/2404975-20220726225800125-2023426694.png)
+
+
+
+下图展示了频道channel1,以及订阅这个频道的三个客户端--client2,client5和client1之间的关系:
+
+![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/pubsub1.png)
+
+
+
+当有新消息通过PUBLISH命令发送给频道channel1时,这个消息就会被发送给订阅它的三个客户端:
+
+![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/pubsub2.png)
+
+#### Redis 发布订阅命令
+
+下表列出了 redis 发布订阅常用命令：
+
+| 序号 | 命令及描述                                                   |
+| :--- | :----------------------------------------------------------- |
+| 1    | [PSUBSCRIBE pattern [pattern ...\]](https://www.runoob.com/redis/pub-sub-psubscribe.html) 订阅一个或多个符合给定模式的频道。 |
+| 2    | [PUBSUB subcommand [argument [argument ...\]]](https://www.runoob.com/redis/pub-sub-pubsub.html) 查看订阅与发布系统状态。 |
+| 3    | [PUBLISH channel message](https://www.runoob.com/redis/pub-sub-publish.html) 将信息发送到指定的频道。 |
+| 4    | [PUNSUBSCRIBE [pattern [pattern ...\]]](https://www.runoob.com/redis/pub-sub-punsubscribe.html) 退订所有给定模式的频道。 |
+| 5    | [SUBSCRIBE channel [channel ...\]](https://www.runoob.com/redis/pub-sub-subscribe.html) 订阅给定的一个或多个频道的信息。 |
+| 6    | [UNSUBSCRIBE [channel [channel ...\]]](https://www.runoob.com/redis/pub-sub-unsubscribe.html) 指退订给定的频道。 |
+
+
+
+
+
+
 
 ### Redis主从复制
 
