@@ -2340,6 +2340,8 @@ yaoliuy+   79567       1  0 17:17 ?        00:00:00 redis-server 127.0.0.1:6372
 
 #### 一主二从
 
+#### <font color='red'>工作中不会使用</font>
+
 > <font color='red'>默认情况下,每台Redis服务器都是主节点;</font> 我们一般情况下只用配置从机就好了!
 >
 > 认老大! 一主(可以是三台中的任何一台建议6379) 二从(6371,6372)
@@ -2513,6 +2515,106 @@ masterauth 123456
 > <font color='red'>增量复制</font>: Master继续将新的所有收集到的修改命令一次传给slave,完成同步  （增量复制意思就是断开重写连接进行一次全量复制之后再次在主机中写入一个值就会增量复制到断开连接后全量复制一遍后的从机上）   
 >
 > <font color='red'>但是只要是重新连接master,一次完全同步(全量复制)将被自动执行</font>   我们的数据一定可以在从机中看到!
+
+#### 层层链路(毛毛虫玩法:上一个M链接下一个S)
+
+#### <font color='red'>工作中不会使用</font>
+
+>  上面讲的一主二从是将6371&6372分别都连接到主节点6379 这样有一个弊端如果主节点断了,那么两个子节点(6371&6372相当于废了)
+>
+> 现在我们重新配置一下    6379依然是主节点   6371 绑定主机 6379   6372绑定从机6371
+>
+>   
+
+```shell
+#################################################
+
+# 6379
+127.0.0.1:6379> info Replication
+# Replication
+role:master
+connected_slaves:1
+slave0:ip=127.0.0.1,port=6371,state=online,offset=2027,lag=0
+master_failover_state:no-failover
+master_replid:bf5a2aca09516e1db76f0ac8485b3b4786874355
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:2027
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:2027
+
+
+# 6371 
+
+127.0.0.1:6371> info Replication
+# Replication
+role:slave            	
+master_host:127.0.0.1
+master_port:6379
+master_link_status:up
+master_last_io_seconds_ago:4
+master_sync_in_progress:0
+slave_read_repl_offset:2125
+slave_repl_offset:2125
+slave_priority:100
+slave_read_only:1
+replica_announced:1
+connected_slaves:1
+slave0:ip=127.0.0.1,port=6372,state=online,offset=2125,lag=0
+master_failover_state:no-failover
+master_replid:bf5a2aca09516e1db76f0ac8485b3b4786874355
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:2125
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:2125
+
+# 6372
+
+127.0.0.1:6372> info 127.0.0.1:6371> info Replication
+ERR syntax error
+127.0.0.1:6372> info Replication
+# Replication
+role:slave
+master_host:127.0.01
+master_port:6371
+master_link_status:up
+master_last_io_seconds_ago:9
+master_sync_in_progress:0
+slave_read_repl_offset:2167
+slave_repl_offset:2167
+slave_priority:100
+slave_read_only:1
+replica_announced:1
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:bf5a2aca09516e1db76f0ac8485b3b4786874355
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:2167
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:642
+repl_backlog_histlen:1526
+```
+
+**如果没有老大了,这个时候能不能选者一个老大出来呢?手动!**
+
+> 谋朝篡位
+>
+> 如果主机断开了连接,我们可以使用`SLAVEOF no one` 让自己变成主机!其他的节点就可以手动连接到最新的这个主节点(手动)
+>
+> 如果这个时候老大修复了,那就重新连接!
+
+
+
+
+
+
 
 
 
