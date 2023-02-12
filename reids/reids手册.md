@@ -2319,12 +2319,12 @@ repl_backlog_histlen:0
 
 
 # 添加多几个配置文件修改下面几个参数(本地模拟可以复制几个配置文件 例如 cp 6379.conf 6371.conf,cp 6379.conf 6372.conf)
-
-port 6371
-daemonize yes
-pidfile /var/run/redis_6371.pid
-logfile "6371.log"
-dbfilename dump6371.rdb
+## 复制三个文件,然后修改对应的信息
+port 6371         # 端口(进程占用的端口号)
+daemonize yes                 
+pidfile /var/run/redis_6371.pid       # pid名字(port id:记录了进程的id,文件带有锁.可以防止程序的多次启动)
+logfile "6371.log"               # log文件名字(logfile:明确日志文件的位置)
+dbfilename dump6371.rdb          # dump.rdb文件名字(持久化文件位置)
 ```
 
 
