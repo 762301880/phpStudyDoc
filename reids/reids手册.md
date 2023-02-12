@@ -2331,14 +2331,188 @@ dbfilename dump6371.rdb          # dump.rdb文件名字(持久化文件位置)
 
 # 启动三个redis(可以使用进程命令查看)
 yaoliuyang@yaoliuyang-PC:/etc/redis$ ps -ef | grep redis
-.
+.........
 root       77219       1  0 15:58 ?        00:00:01 /usr/local/redis/src/redis-server 127.0.0.1:6379
 yaoliuy+   79385       1  0 17:14 ?        00:00:00 redis-server 127.0.0.1:6371
 yaoliuy+   79567       1  0 17:17 ?        00:00:00 redis-server 127.0.0.1:6372
 
 ```
 
+#### 一主二从
 
+> <font color='red'>默认情况下,每台Redis服务器都是主节点;</font> 我们一般情况下只用配置从机就好了!
+>
+> 认老大! 一主(可以是三台中的任何一台建议6379) 二从(6371,6372)
+
+```shell
+# 查看配置的redis是不是主机(这个没啥用只是看一下)
+yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ redis-cli -p 6371
+127.0.0.1:6371> INFO replication
+# Replication
+role:master
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:00f346e93584759caf330795cd46dd61860d27d5
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:0
+second_repl_offset:-1
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+
+# 配置从机 6371(仆)
+
+127.0.0.1:6371> SLAVEOF 127.0.0.1 6379     # SLAVEOF host   6371 认 6379当老大
+OK
+127.0.0.1:6371> info replication
+# Replication
+role:slave           # 再次查看可以查看角色是从机
+master_host:127.0.0.1 # 可以看到主机的信息
+master_port:6379        #
+master_link_status:down
+master_last_io_seconds_ago:-1
+master_sync_in_progress:0
+slave_read_repl_offset:1
+slave_repl_offset:1
+master_link_down_since_seconds:-1
+slave_priority:100
+slave_read_only:1
+replica_announced:1
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:00f346e93584759caf330795cd46dd61860d27d5
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:0
+second_repl_offset:-1
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+(3.74s)
+
+# 在主机中查看
+127.0.0.1:6379> info replication
+# Replication
+role:master
+connected_slaves:1     # 多了从机的配置
+slave0:ip=127.0.0.1,port=6371,state=online,offset=0,lag=1
+master_failover_state:no-failover
+master_replid:ddf87230d913f778d862c507a7ab47d6820ccde7
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:279
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:279
+
+# 配置第二台从机
+yaoliuyang@yaoliuyang-PC:/$ redis-cli -p 6372
+127.0.0.1:6372> SLAVEOF 127.0.0.1 6379
+OK
+127.0.0.1:6372> info replication
+# Replication
+role:slave
+master_host:127.0.0.1
+master_port:6379
+master_link_status:down
+master_last_io_seconds_ago:-1
+master_sync_in_progress:0
+slave_read_repl_offset:1
+slave_repl_offset:1
+master_link_down_since_seconds:-1
+slave_priority:100
+slave_read_only:1
+replica_announced:1
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:4053b2013720a406983a724face257230cb1dd25
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:0
+second_repl_offset:-1
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+(0.94s)
+
+# 再次查看主机    如果两个都配置完了,就是有两个从机的
+## 补充 如果6379(主)的配置文件中redis设置了密码,就再去71&72文件中添加一个配置 masterauth 密码
+127.0.0.1:6379> info replication
+# Replication
+role:master
+connected_slaves:2
+slave0:ip=127.0.0.1,port=6372,state=online,offset=0,lag=3
+slave1:ip=127.0.0.1,port=6371,state=online,offset=0,lag=2
+master_failover_state:no-failover
+master_replid:ddf87230d913f778d862c507a7ab47d6820ccde7
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:545
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:545
+```
+
+**<font color='red'>真实的主从配置应该在配置文件中配置,这样的话是永久的</font>** 我们这里使用的是命令(暂时的)
+
+```shell
+# sudo vim 6371.conf
+
+# replicaof <masterip> <masterport>  # 取消注释
+replicaof 127.0.0.1 6379	# 编辑成这种
+
+# masterauth <master-password> # 如果主机有密码记得配置主机的密码
+masterauth 123456
+```
+
+#### 细节了解
+
+> 主机可以写,从机不能写只能读!主机中的所有信息和数据,都会自动被从机保存!
+>
+> 主机写:
+>
+> ```shell
+> 127.0.0.1:6379> keys *
+> (empty array)
+> 127.0.0.1:6379> set name 123
+> OK
+> 
+> ```
+>
+> 从机只能读取内容!
+>
+> ```shell
+> 127.0.0.1:6372> keys *
+> 1) "name"
+> 127.0.0.1:6372> set age 2
+> (error) READONLY You can't write against a read only replica.
+> 127.0.0.1:6372> 
+> ```
+
+
+
+测试:主机断开连接,从机一就是连接到主机的,但是没有写操作,这个时候,主机如果回来了,从机依旧可以直接获取到到主机写的信息!
+
+
+
+如果是使用命令行来配置的主从,这个时候如果重启了,就会编程主机(即shutdown关闭后再次启动连接info Replication可以查看),只要
+
+变为了从机,立马就会从主机中获取值!
+
+**复制原理**
+
+> Slave 启动成功连接到master后会发送一个sync同步命令
+>
+> Master接到命令,启动后台的存盘进程,同时收集所有接收到的用于修改数据集命令,在后台进程执行完毕之后,<font color='red'>master将传送整个数据文件到slave,并完成一次数据同步.</font>
+>
+> <font color="red">全量复制</font>: 而slave服务在接收到数据库文件数据后,将其存盘并加载到内存中
+>
+> <font color='red'>增量复制</font>: Master继续将新的所有收集到的修改命令一次传给slave,完成同步  （增量复制意思就是断开重写连接进行一次全量复制之后再次在主机中写入一个值就会增量复制到断开连接后全量复制一遍后的从机上）   
+>
+> <font color='red'>但是只要是重新连接master,一次完全同步(全量复制)将被自动执行</font>   我们的数据一定可以在从机中看到!
 
 
 
