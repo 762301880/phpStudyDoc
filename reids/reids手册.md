@@ -2203,22 +2203,135 @@ AOF重写的基础大小默认值64M太小了,可以设置到5G以上,默认超�
 
 下表列出了 redis 发布订阅常用命令：
 
+> 这些命令被广泛用于构建即使通信应用,比如网络聊天室(chatroom)和实时广播,实时提醒等.
+
 | 序号 | 命令及描述                                                   |
 | :--- | :----------------------------------------------------------- |
 | 1    | [PSUBSCRIBE pattern [pattern ...\]](https://www.runoob.com/redis/pub-sub-psubscribe.html) 订阅一个或多个符合给定模式的频道。 |
 | 2    | [PUBSUB subcommand [argument [argument ...\]]](https://www.runoob.com/redis/pub-sub-pubsub.html) 查看订阅与发布系统状态。 |
-| 3    | [PUBLISH channel message](https://www.runoob.com/redis/pub-sub-publish.html) 将信息发送到指定的频道。 |
+| 3    | [PUBLISH channel message](https://www.runoob.com/redis/pub-sub-publish.html) 将信息发送到指定的频道(消息发送者)。 |
 | 4    | [PUNSUBSCRIBE [pattern [pattern ...\]]](https://www.runoob.com/redis/pub-sub-punsubscribe.html) 退订所有给定模式的频道。 |
 | 5    | [SUBSCRIBE channel [channel ...\]](https://www.runoob.com/redis/pub-sub-subscribe.html) 订阅给定的一个或多个频道的信息。 |
 | 6    | [UNSUBSCRIBE [channel [channel ...\]]](https://www.runoob.com/redis/pub-sub-unsubscribe.html) 指退订给定的频道。 |
 
+#### 测试
 
+**订阅端:**
 
+```shell
+yaoliuyang@yaoliuyang-PC:/usr/local/redis/src$ redis-cli
+127.0.0.1:6379> SUBSCRIBE yaoliuyang         # 订阅一个频道 yaoliuyang
+Reading messages... (press Ctrl-C to quit)
+1) "subscribe"
+2) "yaoliuyang"
+3) (integer) 1        # 等待读取推送的信息
+1) "message"        # 消息
+2) "yaoliuyang"       # 那个频道的消息
+3) "\xe4\xbd\xa0\xe5\xa5\xbd"     # 消息的具体内容
+```
 
+**发送端:**
 
+```shell
+yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ redis-cli    
+127.0.0.1:6379> PUBLISH yaoliuyang "你好"       #  发布者发布消息到频道
+(integer) 1 
+```
 
+**原理**
+
+> Redis是使用C实现的,通过分析Redis源码里的pubsub.c文件,了解发布和订阅机制的底层实现,籍此加深对Redis的理解.
+>
+> Redis通过PUBLISH(**推送**)，SUBSCRIBE(**接收**)和PSUBSCRIBE(**接收多个**)等命令实现发布和订阅功能
+>
+> 通过哦SUBSCRIBE命令订阅某频道后,redis-server里维护了一个字典,字典的键就是一个个channel(**频道**)，而字典的值则是一个链表,
+>
+> 链表中保存了所有订阅这个channel的客户端.SUBSCRIBE命令的关键,就是将客户端加到给定channel的订阅链表中.
+>
+> 通过PUBLISH命令向订阅者发送消息,redis-server会使用给定的频道作为键,在它所维护的channel字典中查找记录了订阅这个频道的
+>
+> 所有客户端的链表,遍历这个链表,将消息发布给所有订阅者.
+>
+> Pub/Sub从字面上理解就是发布(Publish)与订阅(Subscribe),在Redis中,你可以设定对某一个key值进行消息发布及消息订阅,当一个key值上面进行了消息发布后,所有订阅它的客户端都会收到相应的消息.这一功能最明显的用法就是用作实时消息系统,比如普通的及时聊天,群聊等功能.
+>
+> **使用场景:**
+>
+> 1. 实时消息系统!
+> 2. 实时聊天(频道当作聊天室,将信息回显给所有人即可!)!
+> 3. 订阅,关注系统都是可以的!
+>
+> **稍微复杂的场景我们就会使用消息中间件MQ**
 
 ### Redis主从复制
+
+#### 概念
+
+主从复制,是指将一台Redis服务器的数据,复制到其他的Redis服务器.前者称为主节点(master/leader),后者称为从节点(slave/follower);
+
+**<font color='red'>数据的复制是单向的,只能由主节点到从节点</font>**.Master以写为主,Slave以读为主.
+
+<font color='red'>默认情况下,每台Redis服务器都是主节点;</font>且一个主节点可以有多个从节点(或没有从节点),但一个从节点只能有一个主节点.
+
+**主从复制的作用包括:**
+
+1. 数据冗余: 主从复制实现了数据的热备份,是持久化之外的一种数据冗余方式
+2. 故障恢复: 当主节点出现问题时,可以由节点提供服务,实现快速的故障恢复;实际上是一种服务的冗余
+3. 负载均衡: 在主从复制的基础上,配合读写分离,可以由主节点提供写服务,由从节点提供读服务(即写Redis数据时应用连接主节点,读Redis数据时应用连接从节点),分担服务器负载;尤其是在写少读多的场景下,通过多个从节点分担读负载,可以大大提高Redis服务器的并发量
+4. 高可用基石: 除了上述作用以外,主从复制还是哨兵和集群能够实施的基础,因此说主从复制是Redis高可用的基础.
+
+一般来说,要将Redis运用于工程项目中,只使用一台Redis是万万不能的(宕机,一主二从),原因如下:
+
+1. 从结构上,单个Redis服务器会发生单点故障,并且一台服务器需要处理所有的请求负载,压力较大;
+2. 从容量上,单个Redis服务器内存容量有限,就算一台Redis服务器内存容量为256G,也不难将所有的内存用作Redis存储内存,一般来说,<font color='red'>单台Redis最大使用内存不因该超过20G</font>
+
+电商商战上的商品,一般都是一次上传,无数次阅览的,说专业点也就是"多读少写"
+
+对于这种场景,我们可以使用如下这种架构
+
+![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/u=2063238625,1214794687&fm=253&fmt=auto&app=138&f=PNG)
+
+主从复制,读写分离!80%的情况下都是在进行读操作!减缓服务器的压力!架构中经常使用! 一主二从!
+
+只要在公司中,主从复制就是必须要使用的,因为在真实的项目中不可能单机使用Redis!
+
+
+
+
+
+#### 环境配置
+
+> 只配置从库,不配值主库
+
+```shell
+127.0.0.1:6379> info Replication       # 查看当前库的信息
+# Replication
+role:master           # 角色
+connected_slaves:0      # 没有从机
+master_failover_state:no-failover
+master_replid:014d76269b049337bbcb434e6d0007bbfe2a1c84
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:0
+second_repl_offset:-1
+repl_backlog_active:0
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:0
+repl_backlog_histlen:0
+
+
+# 添加多几个配置文件修改下面几个参数(本地模拟可以复制几个配置文件 例如 cp 6379.conf 6371.conf,cp 6379.conf 6372.conf)
+
+port 6371
+daemonize yes
+pidfile /var/run/redis_6371.pid
+logfile "6371.log"
+dbfilename dump6371.rdb
+```
+
+
+
+
+
+
 
 ### Redis缓存穿透和雪崩
 
