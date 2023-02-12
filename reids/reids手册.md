@@ -2325,6 +2325,17 @@ daemonize yes
 pidfile /var/run/redis_6371.pid       # pid名字(port id:记录了进程的id,文件带有锁.可以防止程序的多次启动)
 logfile "6371.log"               # log文件名字(logfile:明确日志文件的位置)
 dbfilename dump6371.rdb          # dump.rdb文件名字(持久化文件位置)
+
+# 启动自定义的配置 (如果无法启动请先关闭配置文件中的daemonize然后再启动就可以看见错误信息)
+/usr/local/redis/src/redis-server /etc/redis/6371.conf 
+
+# 启动三个redis(可以使用进程命令查看)
+yaoliuyang@yaoliuyang-PC:/etc/redis$ ps -ef | grep redis
+.
+root       77219       1  0 15:58 ?        00:00:01 /usr/local/redis/src/redis-server 127.0.0.1:6379
+yaoliuy+   79385       1  0 17:14 ?        00:00:00 redis-server 127.0.0.1:6371
+yaoliuy+   79567       1  0 17:17 ?        00:00:00 redis-server 127.0.0.1:6372
+
 ```
 
 
