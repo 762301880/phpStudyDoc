@@ -205,9 +205,11 @@ $res = $ossClient->listBuckets()->getBucketList();
 https://blog.csdn.net/qq_36025814/article/details/124158528
 ```
 
+####  添加文字水印时提示“font content is too large”怎么办？
 
-
-
+> https://help.aliyun.com/document_detail/44957.htm#p-ma2-j0n-4mi
+>
+> 通过OSS的图片处理为图片添加文字水印时，最长不能超过64个字符（1个汉字计为3个字符）。当提示“font content is too large”时，建议您缩短文字长度，然后为图片添加文字水印。更多信息，请参见[示例一：添加文字水印](https://help.aliyun.com/document_detail/44957.htm#section-tj2-dbv-vdb)。
 
 # 问题示例
 
