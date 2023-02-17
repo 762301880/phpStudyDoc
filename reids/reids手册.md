@@ -2856,6 +2856,14 @@ sentinel client-reconfig-script mymaster /var/redis/reconfig.sh # 运维配置
 
 
 
+#### 扩展补充
+
+**laravel哨兵配置连接**
+
+| 名称     | 地址                                                 |
+| -------- | ---------------------------------------------------- |
+| 网络博客 | [link](https://www.freesion.com/article/8524774342/) |
+
 
 
 ### Redis缓存穿透和雪崩(面试高频,工作常用!)
