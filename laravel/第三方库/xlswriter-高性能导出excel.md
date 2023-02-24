@@ -1,11 +1,12 @@
 #  资料
 
-| name                                                         | url                                                |
-| ------------------------------------------------------------ | -------------------------------------------------- |
-| [xlswriter](https://xlswriter.viest.me/index.html)高性能excel导出扩展 | [xlswriter](https://xlswriter.viest.me/index.html) |
-| xlswriter-中文文档                                           | [link](https://xlswriter-docs.viest.me/zh-cn)      |
-| github-第三方参考                                            | [link](https://github.com/yzh0325/xlswrite)        |
-| xlswriter-gitee文档                                          | [link](https://gitee.com/viest/php-ext-xlswriter)  |
+| name                                                         | url                                                       |
+| ------------------------------------------------------------ | --------------------------------------------------------- |
+| [xlswriter](https://xlswriter.viest.me/index.html)高性能excel导出扩展 | [xlswriter](https://xlswriter.viest.me/index.html)        |
+| xlswriter-中文文档                                           | [link](https://xlswriter-docs.viest.me/zh-cn)             |
+| github-第三方参考                                            | [link](https://github.com/yzh0325/xlswrite)               |
+| xlswriter-gitee文档                                          | [link](https://gitee.com/viest/php-ext-xlswriter)         |
+| 博客参考                                                     | [link](https://mp.weixin.qq.com/s/T1u1Varbiezmo5v_rix-Pw) |
 
 安装ide-提醒工具
 
