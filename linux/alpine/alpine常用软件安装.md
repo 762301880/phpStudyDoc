@@ -27,3 +27,11 @@ openvswitch-2.17.3-r0
 .........
 ```
 
+###  alpine 启动docker 
+
+```shell
+service docker start      # 启动
+service docker restart    # 重启
+service docker stop       # 停止
+```
+
