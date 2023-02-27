@@ -7,6 +7,7 @@
 | github-第三方参考                                            | [link](https://github.com/yzh0325/xlswrite)               |
 | xlswriter-gitee文档                                          | [link](https://gitee.com/viest/php-ext-xlswriter)         |
 | 博客参考                                                     | [link](https://mp.weixin.qq.com/s/T1u1Varbiezmo5v_rix-Pw) |
+| 书栈网                                                       | [link](https://www.bookstack.cn/books/xlswriter)          |
 
 安装ide-提醒工具
 
