@@ -91,6 +91,8 @@ skip-grant-tables
 
 7、然后再次启动`mysql` 然后用命令 `mysql –u root –p` 进入`mysql`管理界面（密码可为空）
 
+> 进入mysql通过命令行(-p后面不要加空格:因为空格也算字符),修改密码(sql语句后面一定要加;(分号))
+
 8、进入界面后更改root密码
 
 ```mysql
