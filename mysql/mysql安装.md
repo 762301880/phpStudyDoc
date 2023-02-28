@@ -69,7 +69,9 @@ docker run --name mysql -itd --privileged=true -p 3306:3306 -p 9702:9702 -v /dat
 
 
 
-# 压缩包形式安装mysql
+# 压缩包形式安装mysql(windows平台下强烈推荐使用)
+
+> 压缩包方式安装好处就是想删就删，因为用程序安装会修改系统注册表会导致卸载不干净的情况
 
 ## 资料
 
