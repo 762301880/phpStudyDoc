@@ -78,6 +78,7 @@ docker run --name mysql -itd --privileged=true -p 3306:3306 -p 9702:9702 -v /dat
 | mysql官方下载地址        | [link](https://downloads.mysql.com/archives/community/)  [MySQL ：： 下载 MySQL 社区服务器](https://dev.mysql.com/downloads/mysql/) |
 | 清华大学开源镜像站-mysql | [link](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/)  [点击下载](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/mysql-5.7.36-winx64.zip) |
 | 官方说明文档             | [MySQL ：： MySQL 8.0 参考手册 ：： 2.3.4.1 提取安装归档文件](https://dev.mysql.com/doc/refman/8.0/en/windows-extract-archive.html) |
+| 菜鸟教程mysql安装方式    | [link](https://www.runoob.com/mysql/mysql-install.html)      |
 
 ## windows-压缩包安装
 
