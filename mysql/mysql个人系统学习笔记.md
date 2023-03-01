@@ -400,27 +400,199 @@ create table [if not exists] `表名`(
 )[表类型][字符设置][注释]
 ```
 
+常用命令
+
+```sql
+show create database school  -- 查看创造数据库的语句
+show create table student -- 查看student数据表定义的语句
+desc student -- 显示表的结构
+```
+
+## 数据表的类型
+
+```sql
+-- 关于数据库引擎
+/*
+INNODB 默认使用
+MYISAM 早些年是用的
+*/
+```
 
 
 
+|            | MYISAM | INNODB         |
+| ---------- | ------ | -------------- |
+| 事务支持   | 不支持 | 支持           |
+| 数据行锁定 | 不支持 | 支持           |
+| 外键约束   | 不支持 | 支持           |
+| 全文索引   | 支持   | 不支持         |
+| 表空间大小 | 较小   | 较大，前者两倍 |
 
 
 
+常规使用操作：
+
+> **MYISAM** 节约空间，速度较快
+>
+> **INNODB** 安全性高，事务的处理，多表多用户操作
 
 
 
+**在物理空间存在的位置**
+
+> 所有的数据库文件都存在**data**(压缩包安装后自动生成的那个目录)目录下,一个文件夹就对应一个数据库
+>
+> 本质还是文件的存储!
+
+MySql引擎在物理文件上的区别
+
+> INNODB 在数据库表中只有一个 `*.frm`文件,以及上级目录下的`ibdata1`文件
+>
+> MYISAM 对应文件
+>
+> - `*.frm`  表结构的定义文件
+> - `*.MYD`  数据文件(data)
+> - `*.MYI`  索引文件(index)
+
+**设置数据库表的字符集编码**
+
+> 不设置的话,会是mysql默认的字符集编码~(不支持中文!)
+>
+> MySQL的默认编码是Latin1,不支持中文
+>
+> 在my.ini中配置默认的编码
+
+```sql
+CHARSET=utf8mb4
+```
 
 
 
+## 修改&删除表
+
+### 修改
+
+```sql
+-- 修改表名 ALTER TABLE 旧表名 RENAME AS 新表名
+ALTER TABLE teacher RENAME AS teacher1
+-- 增加表的字段 ALTER TABLE 表名 ADD 字段名 列属性
+ALTER TABLE teacher1 ADD age INT(11)
+-- 修改表的字段（重命名，修改约束）
+-- ALTER TABLE 表名 MODIFY 字段名 列属性[]
+ALTER TABLE teacher1 MODIFY age VARCHAR(11) -- 修改约束
+-- ALTER TABLE 表名 CHANGE 旧名字 新名字 列属性[]
+ALTER TABLE teacher1 CHANGE age age1 INT(11) -- 字段重命名，
+
+-- 删除表的字段 表名 ALTER TABLE 表名 DROP 字段名
+ALTER TABLE teacher1 DROP age1
+```
+
+### 删除
+
+> <font color='red'>所有的创建和删除操作尽量加上判断，以免报错~</font>
+
+```sql
+-- 删除表 DROP TABLE 表名(如果表存在再删除)
+DROP TABLE [if exists] teacher1
+```
+
+**注意点**
+
+> - `` 字段名,使用反单引号包裹
+> - 注释  -- /**/
+> - sql 关键字大小不敏感,建议大家写小写
+> - 所有的符号全部用英文
+
+# MySQL数据管理
+
+## 外键(了解即可)
+
+> 方式一、在创建表的时候，增加约束（麻烦，比较复杂）
+
+```sql
+CREATE TABLE `grade`(
+  `gradeid` INT(10) NOT NULL AUTO_INCREMENT COMMENT '年级id',
+  `gradename` VARCHAR(50) NOT NULL COMMENT '年级名称',
+  PRIMARY KEY(`gradeid`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb3
+
+-- 学生表的gradeid字段 要去引用年纪表的gradeid
+-- 定义外键key
+-- 给这个外键添加约束(执行引用)   REFERENCES 引用
+CREATE TABLE IF NOT EXISTS `student`(
+	`id` INT(4) NOT NULL AUTO_INCREMENT COMMENT '学号',
+	`name` VARCHAR(30) NOT NULL DEFAULT'匿名' COMMENT'姓名',
+	`pwd` VARCHAR(20) NOT NULL DEFAULT'123456' COMMENT'密码',
+	`sex` VARCHAR(2) NOT NULL DEFAULT'女' COMMENT'性别',
+	`birthday` DATETIME DEFAULT NULL COMMENT'出生日期',
+	`gradeid` INT(10) NOT NULL COMMENT '年级id',
+	`address` VARCHAR(100) DEFAULT NULL COMMENT'家庭住址',
+	`email` VARCHAR(50) DEFAULT NULL COMMENT'邮箱',
+	PRIMARY KEY (`id`),
+	KEY `FK_gradeid` (`gradeid`), -- FK_ 外键约束规定
+	CONSTRAINT `FK_gradeid` FOREIGN KEY (`gradeid`) REFERENCES `grade`(`gradeid`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4
+
+```
+
+删除有外键关系的表的时候，必须要先删除引用别人的表，再删除被引用的表
+
+```sql
+# 如果新建表的时候没有创建外间可以使用alter 新增一个外键约束
+
+ALTER TABLE `student`  ADD CONSTRAINT `FK_gradeid` FOREIGN KEY(`gradeid`) REFERENCES `grade`(`gradeid`)
+
+-- ALTER TABLE 表 ADD CONSTRAINT 约束名 FOREIGN KEY (作为外键的列) REFERENCES 哪个表(引用的列)
+```
+
+以上的操作都是物理外键，数据库级别的外键，不建议使用！（避免数据库过多困扰）
+
+最佳实践
+
+- 数据库就是单纯的表，只用来存数据，只有行（数据）和列（字段）
+- 我们想使用多张表的数据，想使用外键（程序去实现）
 
 
 
+##  DML语言(全部记住,背下来)
+
+> 数据库意义: **数据存储,数据管理**
+>
+> DML 语言: 数据操作语言
+
+- insert 添加
+- update 修改
+- delete 删除
+
+## 添加
+
+> 注意事项
+>
+> 1. 字段和字段之间使用英文逗号隔开
+> 2. 字段是可以省略的,但是后面的值必须要一一对应,不能少
+> 3. 可以同时插入多条数据,VALUES后面的值,需要使用,(逗号)隔开即可`values（),()`
+
+```sql
+# 语法：INSERT INTO 表名 ([列1],[列2],[列3]) VALUES ('字段1','字段2','字段3'),('字段1','字段2','字段3')
+
+INSERT INTO `grade` (`gradename`) VALUES ('大四')
+
+-- 由于主见自增我们可以省略(会报错)   如果不写表的字段,他就会一一匹配
+INSERT INTO `grade`  VALUES ('大三')
+
+-- 一般写入插入语句,我们一定要数据和字段一一对应!
+
+-- 插入多个字段
+insert into `grade` (`gradename`) values('大二'）,（'大一')
+
+INSERT INTO `student` (`name`,`pwd`,`sex`) VALUES ('张三','aaa','男'),('王五','bbb','男')
+```
 
 
 
+## 修改
 
-
-
+## 删除
 
 
 
