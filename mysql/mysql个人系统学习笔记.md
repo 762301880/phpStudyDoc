@@ -592,11 +592,86 @@ INSERT INTO `student` (`name`,`pwd`,`sex`) VALUES ('张三','aaa','男'),('王�
 
 ## 修改
 
+> update 修改谁  (条件)  set 原来的值=新值
+
+```sql
+UPDATE `student` SET `name` = '帅哥',`pwd` = '789' WHERE id =8
+
+-- 不指定条件的情况下,会改动所有表中的记录
+UPDATE `student` SET `name` = 'all帅哥',`pwd` = '789' 
+
+-- 通过多个条件定位数据,无上线
+
+update `student` set `name`='新名称' where `name`='all帅哥' and sex='男'
+
+--  语法：
+-- update 表名 set 列=值,[列=值],[列=值] where [条件]
+```
+
+> 条件:where 子句 运算符 id 等于某个值,大于某个值,在某个区间内修改...
+
+操作值会返回 布尔值
+
+| 操作符       | 含义       | 范围        | 结果  |
+| ------------ | ---------- | ----------- | ----- |
+| =            | 等于       | 5=6         | false |
+| <>或!=       | 不等于     | 5<>6        | true  |
+| >            |            |             |       |
+| <            |            |             |       |
+| <=           |            |             |       |
+| >=           |            |             |       |
+| between…and… | []闭合区间 |             |       |
+| and          | 相当于&&   | 5>1 and 1>2 | false |
+| or           | 相当于\|\| | 5>1 or 1>2  | true  |
+
+注意:
+
+- clonum_name 是数据库的列,尽量带上``
+- 条件,筛选的条件,如果没有指定,则会修改所有的列
+- value,是一个具体的值,也可以是一个变量
+
+```sql
+update `student` set `birthday`=CURRENT_TIME WHERE `name`='all帅哥' and sex='女'
+```
+
+- 多个设置的属性之间,使用英文逗号隔开
+
+
+
 ## 删除
 
+**delete**命令
 
+> 语法`delete from 表名 [where条件]`
 
+```sql
+-- 删除数据(避免这样写,没有条件会直接删除全部表中的数据) 
 
+DELETE FROM `student` 
+
+-- 删除指定的数据
+DELETE FROM `student` where id=8
+```
+
+**truncate**命令
+
+作用:完全清空一个数据库表,表的结构和索引约束不会变!
+
+```sql
+TRUNCATE   student
+```
+
+**delete和truncate区别**
+
+- 相同点:都能删除数据,都不会删除表结构
+- 不同
+  - truncate 重新设置自增列计数器会归零
+  - truncate  不会影响事务
+
+了解即可：`DELETE`，重启数据库，现象
+
+- innoDB 自增列会从1开始（存在内存中的，断电即失）
+- MyISAM 继续从上一个自增量开始。（存在文件中，不会丢失）
 
 
 
