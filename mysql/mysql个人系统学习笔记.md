@@ -673,15 +673,84 @@ TRUNCATE   student
 - innoDB 自增列会从1开始（存在内存中的，断电即失）
 - MyISAM 继续从上一个自增量开始。（存在文件中，不会丢失）
 
+# DQL查询数据(最重点)
+
+## DQL
+
+(Data Query LANGUAGE:数据查询语言)
+
+- 所有的查询操作都用它 `Select`
+- 简单的查询,复杂的查询它都能做~
+- <font color='red'>数据库中最核心的语言,最重要的语句</font>
+- 使用频率最高的语句
+
+select 完整的语法
+
+```sql
+SELECT [ALL | DISTINCT]
+{*l table.* l [table,field1[as alias1][,table.field2[as alias2]][,...]]}
+FROM table_name [as table_alias]
+[left | right | inner join table_name2] --联合查询
+[WHERE ...]--指定结果需满足的条件
+[GROUP BY ...]-- 指定结果按照哪几个字段来分组
+[HAVING] -- 过滤分组的记录必须满足的次要条件
+[ORDER BY ...]--指定查询记录按一个或多个条件排序
+[LIMIT {[offset,]row_count l row_countOFFSET offset]];--指定查询的记录从哪条至哪条
+```
 
 
 
+## 指定查询字段
+
+```sql
+-- 查询全部的学生 select 字段 from 表            * 通配符
+SELECT * FROM student
+
+-- 查询指定字段
+SELECT `studentno`,`studentname` FROM student 
+
+-- 别名，给结果起一个名字 AS
+SELECT `studentno` AS 学号,`studentname` AS 学生姓名 FROM student -- 表也可以加AS 给表起一个别名
+
+-- 函数 concat(a,b)
+SELECT CONCAT('姓名：',studentname) AS 新名字 FROM student
+
+```
+
+语法: `select 字段,... from 表`
+
+> 有的时候,列名字不是那么的见名知意,我们起别名 AS  字段名 as 别名    表名  as 别名
 
 
 
+**去重** distinct
 
+> 作用: 去除 select 查询出来的结果中重复的数据,重复的数据只显示一条
 
+```sql
+-- 查询一下有哪些同学参加了考试
+SELECT * FROM result  -- 查询全部的考试成绩
+SELECT `studentno` FROM result  -- 查询全部的考试成绩
+-- 去重复
+SELECT DISTINCT `studentno` FROM result 
+```
 
+**数据库的列(表达式)**
+
+```sql
+SELECT VERSION() -- 查询系统版本(函数)
+
+SELECT 100*3-1 AS 计算结果 -- 用来计算(表达式)
+
+SELECT @@auto_increment_increment  -- 查询自增的步长（变量）
+ 
+-- 学员考试成绩表 + 1分查看 StudentResult==分数
+select `StudenNo`,`StudentResult`+1 as `提分后` from result 
+```
+
+**数据库中的表达式**: 文本值,列,Null,函数,计算表达式,系统变量...
+
+select 表达式  from 表
 
 
 
