@@ -872,13 +872,16 @@ ON s.studentNo = r.studentNo
 
 
 
-| 操作       | 描述                                        |
-| ---------- | ------------------------------------------- |
-| inner join | 如果表中至少有一个匹配,就返回行             |
-| left join  | 即使左表中没有匹配,也会从左表中返回所有的值 |
-| rigth join | 即使右表中没有匹配,也会从右表中返回所有的值 |
+| 操作       | 描述                                                         |
+| ---------- | ------------------------------------------------------------ |
+| inner join | 如果表中至少有一个匹配,就返回行  (指的是链接表点的双方有一个只非空,则都会返回记录) |
+| left join  | 即使左表中没有匹配,也会从左表中返回所有的值(以左表的非空交叉点为主,右表的是否非空无关) |
+| rigth join | 即使右表中没有匹配,也会从右表中返回所有的值(是以右表的交叉点非空判断,与左表无关) |
 
 ```sql
+-- join on 连接查询  join 连接的表, On的意思是判断的条件
+-- where 等值查询
+
 -- 查询考的同学
 SELECT s.studentNo,studentName,SubjectNo,StudentResult
 FROM student AS s
@@ -898,8 +901,8 @@ ON r.SubjectNo=sub.SubjectNo
 -- 从哪几个表中查 FROM 表 xxx JOIN 连接的表 ON 交叉条件
 -- 假设存在一中多张表查询，先查询两章表，然后再慢慢增加
 
---FROM a LEFT JOIN b   左为准
---FROM a RIGHT JOIN b	右为准
+-- FROM a LEFT JOIN b   左为准
+-- FROM a RIGHT JOIN b	右为准
 
 
 ```
