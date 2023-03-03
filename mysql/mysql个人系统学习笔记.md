@@ -752,6 +752,158 @@ select `StudenNo`,`StudentResult`+1 as `提分后` from result
 
 select 表达式  from 表
 
+## where条件子句
+
+作用:检索数据中**符合条件的值**的值
+
+搜索的条件由一个或者多个表达式组成! 结果 布尔值
+
+**逻辑运算符**
+
+| 运算符  | 语法          | 描述                         |
+| ------- | ------------- | ---------------------------- |
+| and &&  | a and b a&&b  | 逻辑与，两个都为真，结果为真 |
+| or \|\| | a or b a\|\|b | 逻辑或                       |
+| not !   | not a !a      | 逻辑非，取反                 |
+
+```sql
+-- 查询考试成绩在 95～100分之间
+select studentNo,studentREsult from result where studentREsult >=95 and studentREsult<=100
+
+
+-- 模糊查询(区间)    查询考试成绩在 95～100分之间
+select studentNo,studentREsult from result where studentREsult between 95 and 100
+
+-- 除了1000号学生之外的同学的成绩
+select studentNo,studentREsult from result where studentREsult !=1000
+
+-- != not
+select studentNo,studentREsult from result where not studentREsult =1000
+```
+
+
+
+模糊查询：比较运算符
+
+| **运算符**  | **语法**          | **描述**                                 |
+| ----------- | ----------------- | ---------------------------------------- |
+| IS NULL     | a is null         | 如果操作符为null，结果为真               |
+| IS NOT NULL | a is not null     | 如果操作符为不为 null，结果为真          |
+| BETWEEN     | a between b and c | 若a在b和c之间，结果为真                  |
+| **Like**    | a like b          | SQL匹配，如果a匹配b，则结果为真          |
+| **in**      | a in(a1,a2,a3…)   | 假设a在a1，a2，a3…其中的某一个，结果为真 |
+
+```sql
+SELECT * FROM student where  ISNULL(address)
+
+-- 查询姓刘的同学
+-- like 结合 %(代表0到任意个字符)  _(一个字符)
+select `studentNo`,`studentName` from student where `studentName` like "刘%"
+
+-- 查询姓刘的同学,名字后面只有一个字的
+select `StudentNO`,`StudentName` from student where `StudentName` like "刘_"
+
+-- 查询姓刘的同学,名字后面只有两个字的(两个下划线)
+select `StudentNO`,`StudentName` from student where `StudentName` like "刘__"
+
+-- 查询名字后中间有嘉字的同学
+select `StudentNO`,`StudentName` from student where `StudentName` like "%嘉%"
+
+-- ======================== in (具体的一个或多个值) ========================
+-- 查询 1001,1002,1003号学员
+select `StudentNO`,`StudentName` from student where `StudentNO` in (1001,1002,1003)
+
+
+
+-- ======================== null not null ========================
+-- 查询地址为空的学生
+
+select `StudentNO`,`StudentName` from student where `address`='' or `address` is null
+select `StudentNO`,`StudentName` from student where ISNull(`address`)
+
+-- 查询地址不为空的学生
+select `StudentNO`,`StudentName` from student where `address` is not NULL
+select `StudentNO`,`StudentName` from student where `address` !=''
+
+```
+
+## [联表查询](https://www.runoob.com/mysql/mysql-join.html)
+
+JOIN
+
+![img](https://ask.qcloudimg.com/http-save/yehe-1558882/986tlzgtra.png)
+
+
+
+```sql
+-- ======================联表查询 join ==============================
+-- 查询参加考试的同学 （学号，姓名，考试编号，分数）
+
+SELECT * FROM student 
+SELECT * FROM result
+
+/*
+1. 分析需求，分析查询的字段来自哪些表
+2.确定使用哪种连接查询？7种
+确定交叉点（这两个表中哪个数据是相同的）
+判断的条件： 学生表中 studentNo = 成绩表中 studentNo 
+
+*/
+
+-- JION（表） ON （判断的条件）连接查询
+-- where 等值查询
+SELECT s.studentNo,studentName,SubjectNo,StudentResult
+FROM student AS s
+INNER JOIN result AS r
+ON s.studentNo=r.studentNo
+
+--Right Join
+SELECT s.studentNo,studentName,SubjectNo,StudentResult
+FROM student AS s
+RIGHT JOIN result AS r
+ON s.studentNo = r.studentNo
+
+--LEFT Join
+SELECT s.studentNo,studentName,SubjectNo,StudentResult
+FROM student AS s
+LEFT JOIN result AS r
+ON s.studentNo = r.studentNo
+```
+
+
+
+| 操作       | 描述                                        |
+| ---------- | ------------------------------------------- |
+| inner join | 如果表中至少有一个匹配,就返回行             |
+| left join  | 即使左表中没有匹配,也会从左表中返回所有的值 |
+| rigth join | 即使右表中没有匹配,也会从右表中返回所有的值 |
+
+```sql
+-- 查询考的同学
+SELECT s.studentNo,studentName,SubjectNo,StudentResult
+FROM student AS s
+LEFT JOIN result AS r
+ON s.studentNo = r.studentNo
+WHERE StudentResult IS NULL
+
+-- 查询了参加考试同学的信息：学号：学生姓名：科目名：分数
+SELECT s.`studentNo`,`studentName`,`SubjectName`,`studentResult`
+FROM student s
+RIGHT JOIN result r
+ON r.studentNo=s.studentNo
+INNER JOIN `subject` sub
+ON r.SubjectNo=sub.SubjectNo
+
+-- 我要查询哪些数据 SELECT ....
+-- 从哪几个表中查 FROM 表 xxx JOIN 连接的表 ON 交叉条件
+-- 假设存在一中多张表查询，先查询两章表，然后再慢慢增加
+
+--FROM a LEFT JOIN b   左为准
+--FROM a RIGHT JOIN b	右为准
+
+
+```
+
 
 
 
