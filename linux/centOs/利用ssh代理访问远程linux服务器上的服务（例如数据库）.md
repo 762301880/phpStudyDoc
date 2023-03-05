@@ -17,7 +17,7 @@
 | 名称                            | 地址                                                         |
 | ------------------------------- | ------------------------------------------------------------ |
 | **Bitvise SSH Client** 下载地址 | [个人网盘](https://yaoliuyang.lanzoul.com/iJlYY01wa6fa)  [link](https://tunnelier.en.softonic.com/?ex=CAT-3508.5) |
-| 参考资料                        | [link](https://blog.csdn.net/qq_16320025/article/details/103962044)   [link](https://www.cnblogs.com/yu29/p/10332891.html)  [link](https://blog.csdn.net/weixin_43860781/article/details/104898684) |
+| 参考资料                        | [link](https://blog.csdn.net/qq_16320025/article/details/103962044)   [link](https://www.cnblogs.com/yu29/p/10332891.html)  [link](https://blog.csdn.net/weixin_43860781/article/details/104898684) [link](https://www.likecs.com/show-204714390.html) |
 
 
 
