@@ -291,3 +291,31 @@ array:703 [▼
         return true;
 ```
 
+## 补充
+
+## 导出图片到excel
+
+```php
+ $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('Logo');
+        //$img_path=__DIR__.'../../public/static/admin/images/logo.png';
+        $img_path=__DIR__.'/../../../public/static/admin/images/logo.png';
+        $drawing->setPath($img_path);
+        $drawing->setHeight(100);
+        $drawing->setWidth(50);
+        $drawing->setCoordinates('A1');
+        // $drawing->setWorksheet($spreadsheet->getActiveSheet());
+
+
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->getColumnDimension('A')->setWidth(20); //设置一列的宽度
+        $sheet->getRowDimension(1)->setRowHeight(50); //设置一行的高度
+        $drawing->setWorksheet($spreadsheet->getActiveSheet());
+        $sheet->setCellValue('A1', 'Hello World !');
+
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        return $writer->save('hello world.xlsx'); # 此命令会自动保存在项目目录的public目录下
+```
+
