@@ -24,7 +24,7 @@
 | ------------------ | ------------------------------------------------------------ |
 | jenkins官网        | [link](https://www.jenkins.io/zh/)                           |
 | jenkins-docker官网 | [link](https://registry.hub.docker.com/_/jenkins)            |
-| 参考博客           | [link](https://learnku.com/articles/39601?spm=a2c6h.12873639.0.0.6a06b3069048Mh)  [link](https://blog.51cto.com/u_8416177/2129777)  [link](https://blog.51cto.com/bigboss/2129477) |
+| 参考博客           | [link](https://learnku.com/articles/39601?spm=a2c6h.12873639.0.0.6a06b3069048Mh)  [link](https://blog.51cto.com/u_8416177/2129777)  [link](https://blog.51cto.com/bigboss/2129477)  [link](https://blog.csdn.net/zqqiang0307/article/details/120458586) |
 
 #  [安装](https://developer.aliyun.com/article/742451)
 
