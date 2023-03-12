@@ -1020,7 +1020,7 @@ WHERE subjectName='数据结构-1'
 ORDER BY StudentResult ASC
 ```
 
-### 分页()
+### 分页
 
 > 100万条数据
 >
@@ -1055,7 +1055,90 @@ LIMIT 0,5
 
 语法:  limit  (查询起始下标,pageSize)
 
+## 子查询
 
+> where (值是固定的,这个值是计算出来的)
+>
+> 本质: 在where语句中嵌套一个子查询语句
+>
+> where (select * from)
+
+```sql
+-- ===========================where=========================
+
+-- 1.查询 数据库结构-1的所有考试结构（学号，科目编号，成绩） 降序排列
+-- 方式一： 连接查询
+SELECT `StudentNo`,r.`SubjectName`,`StudentResult`
+FROM `result` r
+INNER JOIN `subject` sub
+ON r.SubjectNo = sun.SubjectNo
+WHERE subjectName = '数据库结构-1'
+ORDER BY StudentResult DESC
+
+-- 方式二：使用子查询(由里及外 先查询自查询)
+SELECT `StudentNo`,r.`SubjectName`,`StudentResult`
+FROM `result`
+WHERE StudentNo=(
+	SELECT SubjectNo FROM  `subject` 
+    WHERE SubjectName = '数据库结构-1'
+)
+ORDER BY StudentResult DESC
+
+
+-- 分数不少于80分的学生的学号和姓名
+SELECT DISTINCT s.`StudentNo`,`StudentName`
+FROM student s
+INNER JOIN result r
+ON r.StudentNo = s.StudentNo
+WHERE StudentResult>=80
+
+-- 在这个基础上 增加一个科目 ，高等数学-2
+SELECT DISTINCT s.`StudentNo`,`StudentName`
+FROM student s
+INNER JOIN result r
+ON r.StudentNo = s.StudentNo
+WHERE StudentResult>=80 AND `SubjectNo`=(
+    SELECT Subject FROM `subject`
+    WHERE SubjectName='高等数学-2'
+)
+
+-- 查询课程为 高等数学-2 且分数不小于80分的同学的学号和姓名
+SELECT s.`StudentNo`,`StudentName`
+FROM student s
+INNER JOIN result r
+ON s.StudentNo = r.StudentNo
+INNER JOIN `subject` sub
+ON r.`SubjectName`='高等数学-2'
+WHERE `SubjectaName`='高等数学-2' AND StudentResult >=80
+
+
+-- 再改造 (由里即外)
+SELECT `StudentNo`,`StudentName` FROM student
+WHERE StudentNo IN(
+SELECT StudentNo result WHERE StudentResult >80 AND SubjectNo =(
+SELECT SubjectNo FROM `subject` WHERE `SubjectaName`='高等数学-2'
+)
+)
+
+
+```
+
+## 分组
+
+```sql
+-- 查询不同课程的平均分，最高分，最低分，平均分大于80
+-- 核心：（根据不同的课程分组）
+
+SELECT `SubjectName`,AVG(StudentResult),MAX(StudentResult)
+FROM result r
+INNER JOIN `Subject` sub
+ON r.SubjectNo=sub.SubjectNo
+
+GROUP BY r.SubjectNo -- 通过什么字段来分组
+HAVING AVG(StudentResult)>80
+```
+
+# MYSQL函数
 
 
 
