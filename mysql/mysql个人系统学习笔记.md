@@ -907,6 +907,156 @@ ON r.SubjectNo=sub.SubjectNo
 
 ```
 
+### **自连接**(类似于无限级评论自己连接自己)
+
+> 自己的表和自己的表连接,核心:<font color='yellow'>一张表拆为两张一样的表即可</font>
+
+**创建数据表**
+
+```sql
+-- 创建数据表
+CREATE TABLE `category` (
+  `categoryid` int NOT NULL AUTO_INCREMENT,
+  `pid` int DEFAULT NULL COMMENT '父id',
+  `categoryName` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`categoryid`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='类别表';
+
+# 插入测试数据
+INSERT INTO `category` ( `categoryid`, `pid`, `categoryName` )
+VALUES
+    (3,1,'软件开发' ),(4,3,'数据库' ),
+	(5,1,'美术设计'),(6,3,'web开发'),(7,5,'ps技术'),
+	(8,2,'办公信息'),(1,1,'信息技术')
+	
+# 生成的数据库信息如下
++------------+------+--------------+
+| categoryid | pid  | categoryName |
++------------+------+--------------+
+|          2 |    1 | 信息技术     |
+|          3 |    1 | 软件开发     |
+|          4 |    3 | 数据库       |
+|          5 |    1 | 美术设计     |
+|          6 |    3 | web开发      |
+|          7 |    5 | ps技术       |
+|          8 |    2 | 办公信息     |
++------------+------+--------------+
+```
+
+**一级id(父id代表一级)**
+
+| categoryid | categoryName |
+| ---------- | ------------ |
+| 2          | 信息技术     |
+| 3          | 软件开发     |
+| 5          | 美术设计     |
+
+子类(父级别不是一级的子集id)
+
+| pid           | categoryid (自己的id) | categoryName |
+| ------------- | --------------------- | ------------ |
+| 3  (软件开发) | 4                     | 数据库       |
+| 2  (信息技术) | 8                     | 办公信息     |
+| 3  (软件开发) | 6                     | web开发      |
+| 5  (美术设计) | 7                     | ps技术       |
+
+
+
+**操作:** 查询父类对应的子类关系
+
+| 父类     | 子类     |
+| -------- | -------- |
+| 信息技术 | 办公信息 |
+| 软件开发 | 数据库   |
+| 软件开发 | web开发  |
+| 美术设计 | ps技术   |
+
+**对应sql**
+
+```sql
+-- 查询父子信息:把一张表看为两个一模一样的表
+mysql> SELECT
+	a.`categoryName` AS '父名称',
+	b.`categoryName` AS '子名称',
+	a.`categoryid` AS 'b_ctegoryid',
+	b.`categoryid` AS 'b_categoryid',
+	a.`pid` AS 'a_pid',
+	b.`pid` AS 'b_pid' 
+FROM
+	`category` AS a
+	INNER JOIN `category` AS b ON a.categoryid = b.pid 
+WHERE
+	a.pid = 1;
++--------------+--------------+-------------+--------------+-------+-------+
+| 父名称       | 子名称       | b_ctegoryid | b_categoryid | a_pid | b_pid |
++--------------+--------------+-------------+--------------+-------+-------+
+| 软件开发     | 数据库       |           3 |            4 |     1 |     3 |
+| 软件开发     | web开发      |           3 |            6 |     1 |     3 |
+| 美术设计     | ps技术       |           5 |            7 |     1 |     5 |
+| 信息技术     | 办公信息     |           2 |            8 |     1 |     2 |
++--------------+--------------+-------------+--------------+-------+-------+
+4 rows in set (0.00 sec)
+```
+
+## 分页和排序
+
+### 排序(order by)
+
+> order by  通过那个字段排序怎么排
+>
+> 排序分为 
+>
+> - 升序 ASC
+> - 降序 DESC
+
+```sql
+SELECT s.`StudentNo`,`StudentName`,`SubjectName`,`StudentResult`
+FROM student s
+INNER JOIN `result` r
+ON s.`StudentNo`=r.`StudentNo`
+INNER JOIN `subject` sub
+ON r.`subjectNo`=sub.`subjectNo`
+WHERE subjectName='数据结构-1'
+ORDER BY StudentResult ASC
+```
+
+### 分页()
+
+> 100万条数据
+>
+> 为什么要分页?
+>
+> 网页应用:当前,总的页数,页面的大小
+>
+> 缓解数据库压力,给人的体验更好,瀑布流
+>
+> 语法: limit 当前页面,页面的大小 **LIMIT 0,5**
+
+```sql
+SELECT s.`StudentNo`,`StudentName`,`SubjectName`,`StudentResult`
+FROM student s
+INNER JOIN `result` r
+ON s.`StudentNo`=r.`StudentNo`
+INNER JOIN `subject` sub
+ON r.`subjectNo`=sub.`subjectNo`
+WHERE subjectName='数据结构-1'
+ORDER BY StudentResult ASC
+LIMIT 0,5
+
+-- 第一页  limit 0,5   (1-1)*5
+-- 第二页  limit 5,5   (2-1)*5   
+-- 第三页  limit 10,5  (3-1)*5 
+-- 第N页   limit N,5   (N-1)*pageSize,pageSize
+-- [pageSize:页面大小]
+-- [(n-1)*pageSize起始值]
+-- [n:当前页]
+-- [数据总数/页面大小=总页数]
+```
+
+
+
+
+
 
 
 
