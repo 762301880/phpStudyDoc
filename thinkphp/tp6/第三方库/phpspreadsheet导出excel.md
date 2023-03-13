@@ -295,6 +295,14 @@ array:703 [▼
 
 ## 导出图片到excel
 
+**资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://segmentfault.com/q/1010000018476399?sort=created) [link](https://blog.csdn.net/qq_33212312/article/details/125801896) |
+
+**第一种实现方式(不可用)**
+
 ```php
  $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
         $drawing->setName('Logo');
@@ -317,5 +325,167 @@ array:703 [▼
 
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         return $writer->save('hello world.xlsx'); # 此命令会自动保存在项目目录的public目录下
+```
+
+**基于gd库直接家政oss图片保存到excel**
+
+```shell
+ # 导出excel
+    public static function exportOrderServiceReserve($data)
+    {
+        // 图片生成
+
+
+        $setImage = function ($img_url, $spreadsheet, $line, $column) {
+            // 图片生成
+            $objDrawing = new MemoryDrawing();
+            $memoryImg = (new GdService())->createMemoryImg($img_url);
+            $objDrawing->setImageResource($memoryImg);
+            $objDrawing->setRenderingFunction(MemoryDrawing::RENDERING_DEFAULT);//渲染方法
+            $objDrawing->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
+            //设置宽度高度
+            $objDrawing->setHeight(40);//照片高度
+            $objDrawing->setWidth(40); //照片宽度
+            // /*设置图片要插入的单元格*/
+            $objDrawing->setCoordinates($line . $column);
+//            // // 图片偏移距离
+            $objDrawing->setOffsetX(20);
+            $objDrawing->setOffsetY(20);
+            $objDrawing->setWorksheet($spreadsheet->getActiveSheet());
+        };
+
+
+        $spreadsheet = new Spreadsheet();
+
+
+        $sheet = $spreadsheet->getActiveSheet();
+        $headArr = [
+            "预约编号", "用户姓名", "用户手机", "服务类型",
+            "服务项目", "用户住宅面积", "省市", "区域", "上户地址", "预约日期",
+            "预约时段", "小时", "阿姨姓名", "预约状态", "次数",
+            "数量", "实际金额", "上户签到时间", "上户图片", "下户签到时间", "下户图片"
+        ];
+        $countHeadArr = count($headArr);
+        $titleArr = self::getSerLetter('', 1, $countHeadArr);
+
+        $sheet->getColumnDimension(self::getSerLetterChar(18))->setWidth(20); //设置一列的宽度
+        $sheet->getColumnDimension(self::getSerLetterChar(20))->setWidth(20); //设置一列的宽度
+        foreach ($titleArr as $key => $title) {
+            // 批量赋值
+            $sheet->setCellValue($title, $headArr[$key]);
+
+        }
+
+
+        # 构建新数据
+        if (!empty($data)) {
+            $exportData = [];//保存新数据的数组
+            foreach ($data as $key => &$value) {
+                $exportData[$key]['reservation_number'] = $value['reservation_number'];//预约编号
+                $exportData[$key]['user_name'] = $value['user_name'];//用户姓名
+                $exportData[$key]['user_phone'] = $value['user_phone'];//用户手机
+                $exportData[$key]['service_class_text'] = $value['service_class_text'];//服务类型
+                $exportData[$key]['service_name'] = $value['service_name'];//服务项目
+                $exportData[$key]['residence_area'] = $value['residence_area'];//用户住宅面积
+                $exportData[$key]['province_and_city_text'] = $value['province_and_city_text'];//城市
+                $exportData[$key]['area_id_text'] = $value['area_id_text'];//区域
+                $exportData[$key]['to_door_address'] = $value['to_door_address'];//上户地址
+                $exportData[$key]['reservation_time'] = $value['reservation_time'];//预约日期
+                $exportData[$key]['serialize_time_interval'] = $value['serialize_time_interval'];//预约时段
+                $exportData[$key]['hours'] = $value['hours'];//小时
+                $exportData[$key]['input_aunt_name'] = $value['input_aunt_name'];//阿姨姓名
+                $exportData[$key]['status_text'] = $value['status_text'];//预约状态
+                $exportData[$key]['number'] = $value['number'];//次数
+                $exportData[$key]['order_quantity'] = $value['order_quantity'];//数量
+                $exportData[$key]['actual_price'] = $value['actual_price'];//实际金额
+                $exportData[$key]['sign_start_time'] = $value['sign_start_time'];//上户签到时间
+                $sheet->getRowDimension($key+1)->setRowHeight(100); //设置一行的高度
+                $exportData[$key]['sign_start_certificate'] = !empty($value['sign_start_certificate']) ?
+                    $setImage($value['sign_start_certificate'],$spreadsheet,self::getSerLetterChar(18),$key+2):"";   //上户图片
+                $exportData[$key]['sign_end_time'] = $value['sign_end_time'];//下户签到时间
+                $exportData[$key]['sign_end_certificate'] = !empty($value['sign_end_certificate']) ?
+                    $setImage($value['sign_end_certificate'],$spreadsheet,self::getSerLetterChar(20),$key+2):"";;//下户图片
+            }
+        }
+        $sheet->fromArray($exportData, null, 'A2');
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $a = Env::get("app_path");
+        $path = str_ireplace("application/", "", $a);
+        $path = $path . "/download/card/";
+        $te = $path . time() . '.xlsx'; //参考D:\phpstudy_pro\WWW\work\housekeeping-training\extend\office\OfficeExe.php
+        $writer->save($te);
+        return download($te);
+    }
+    
+    
+    # 封装的类库
+    
+        /**
+     * 创建内存的图片
+     * @param $img_url
+     */
+    public function createMemoryImg($img_url)
+    {
+        $suffix=getimagesize($img_url)[2]; //类型二为对应类型 //GIF，JPG，PNG，SWF，SWC，PSD，TIFF，BMP，IFF，JP2，JPX，JB2，JPC，
+//$suffix = getOssRemoteUrlImgSuffix($img_url);//获取图片的后缀
+        $arr=['gif','jpg','png','swf','swc','psd','tiff','bmp','iff','jp2','jpx','jb2','jpc'];
+        $suffix=$arr[$suffix-1]??"";
+        switch ($suffix) {
+            case 'jpg':
+            case 'peg':
+            case 'jpeg':
+                $img = imagecreatefromjpeg($img_url);
+                break;
+            case "png":
+                $img = imagecreatefrompng($img_url);
+                break;
+            case "gif":
+                $img = imagecreatefromgif($img_url);
+                break;
+            default:
+                $img= "";
+                break;
+        }
+        return $img;
+    }
+    
+    
+        public static function getSerLetter($num = null, $line = 1, $line_num = 701)
+    {
+        $arr = [];
+        for ($i = 0; $i <= $line_num; $i++) {
+            $arr[] = "名称" . $i;
+        }
+        for ($i = 0; $i <= count($arr); $i++) {
+            $y = ($i / 26);
+            if ($y >= 1) {
+                $y = intval($y);
+                $yCode[] = chr($y + 64) . chr($i - $y * 26 + 65) . $line;
+            } else {
+                $yCode[] = chr($i + 65) . $line;
+            }
+        }
+        if (!empty($num)) return $yCode[$num];
+        return $yCode;
+    }
+
+    public static function getSerLetterChar($num = null)
+    {
+        $arr = [];
+        for ($i = 0; $i <= 701; $i++) {
+            $arr[] = "名称" . $i;
+        }
+        for ($i = 0; $i <= count($arr); $i++) {
+            $y = ($i / 26);
+            if ($y >= 1) {
+                $y = intval($y);
+                $yCode[] = chr($y + 64) . chr($i - $y * 26 + 65);
+            } else {
+                $yCode[] = chr($i + 65);
+            }
+        }
+        if (!empty($num)||$num=='0') return $yCode[$num];
+        return $yCode;
+    }
 ```
 
