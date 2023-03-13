@@ -5,6 +5,8 @@
 > https://blog.csdn.net/qq_44758926/article/details/115280162
 >
 > https://blog.51cto.com/u_14518853/4894010
+>
+> [mysql官方文档](https://dev.mysql.com/doc/refman/5.7/en/)
 
 # 初识Mysql
 
@@ -1123,7 +1125,7 @@ SELECT SubjectNo FROM `subject` WHERE `SubjectaName`='高等数学-2'
 
 ```
 
-## 分组
+## 分组和过滤
 
 ```sql
 -- 查询不同课程的平均分，最高分，最低分，平均分大于80
@@ -1140,9 +1142,84 @@ HAVING AVG(StudentResult)>80
 
 # MYSQL函数
 
+## **常用函数**
+
+```sql
+-- 数学运算
+
+SELECT ABS(-8) -- 绝对值     8
+SELECT CEILING(9.4) -- 向上取整   10
+SELECT FLOOR(9.4)  -- 向下取整    9   
+SELECT RAND() -- 返回0-1随机数
+SELECT SIGN(-10) -- 判断一个数的符号 0-0 负数返回-1 正数返回1
+
+-- 字符串函数
+SELECT CHAR_LENGTH('2323232') -- 返回字符串长度
+SELECT CONCAT('我','233') -- 拼接字符串
+SELECT INSERT('java',1,2,'cccc') -- 从某个位置开始替换某个长度
+SELECT UPPER('abc') 
+SELECT LOWER('ABC')
+SELECT REPLACE('坚持就能成功','坚持','努力')    -- 努力就能成功
+SELECT SUBSTR("狂神说坚持就能成功",4,6)       -- 返回指定的字符串      坚持就能成功
+SELECT REVERSE('dcba')     -- 反转字符串  abcd
 
 
 
+-- 查询姓 周 的同学 ，改成邹
+SELECT REPLACE(studentname,'周','邹') FROM student
+WHERE studentname LIKE '周%'
+
+-- 时间跟日期函数（记住）
+SELECT CURRENT_DATE() -- 获取当前日期      2023-03-13
+SELECT CURDATE() -- 获取当前日期          2023-03-13
+SELECT NOW() -- 获取当前日期             2023-03-13 22:14:26
+SELECT LOCATIME()  -- 本地时间          2023-03-13 22:14:59
+SELECT SYSDATE()  -- 系统时间         2023-03-13 22:15:13
+
+SELECT YEAR(NOW())         
+SELECT MONTH(NOW())        
+SELECT DAY(NOW())          
+SELECT HOUR(NOW())       
+SELECT MINUTE(NOW())
+SELECT SECOND(NOW())
+
+-- 系统
+SELECT SYSTEM_USER()
+SELECT USER()
+SELECT VERSION()
+
+```
+
+## 聚合函数(常用)
+
+| **函数名称** | **描述** |
+| ------------ | -------- |
+| COUNT()      | 计数     |
+| SUM()        | 求和     |
+| AVG()        | 平均值   |
+| MAX()        | 最大值   |
+| MIN()        | 最小值   |
+
+```sql
+-- ============聚合函数=============
+-- 都能够统计表中的数据 (想查询一个表中有多少个记录,就使用这个count()
+select count(studentname) from student; -- count(指定列,会忽略所有的null值
+select count(*) from student; -- count(*),不会忽略所有的null值   本质 计算行数
+select count(1) from student;  -- count(1),不会忽略所有的null值     本质 计算行数
+
+select sum(`studentResult`) as 总和 from result
+select avg(`studentResult`) as 平均分 from result
+select max(`studentResult`) as 最高分 from result
+select min(`studentResult`) as 最低分 from result
+
+-- 查询不同课程的平均分,最高分,最低分,平均分大于80
+-- 核心:根据不同的课程分组
+
+select `subjectname`,avg(`studentResult`) as 平均分 ,max(`studentResult`) as 最高分,min(`studentResult`) as 最低分 from result r 
+inner join `subject` sub on r.`subjectNo`= sub.`subjectNo`
+group by r.subjectNo  -- 通过什么字段来分组
+having (平均分>=80)
+```
 
 
 
