@@ -1221,13 +1221,94 @@ group by r.subjectNo  -- 通过什么字段来分组
 having (平均分>=80)
 ```
 
+##  数据库级别的MD5加密(扩展)
+
+> **什么是MD5?**
+>
+> 主要增强算法复杂度和不可逆性.
+>
+> MD5不可逆,具体的值的md5是一样的
+>
+> MD5破解网站的原理,背后有一个字典,`MD5加密后的值`,加密的前的值
+
+```sql
+CREATE TABLE `testmd5` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR ( 20 ) NOT NULL COMMENT '名称',
+	`pwd` VARCHAR ( 50 ) NOT NULL COMMENT '密码',
+PRIMARY KEY ( `id` ) 
+) ENGINE = INNODB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb3;
 
 
+-- 明文密码
+INSERT INTO `testmd5` ( `name`, `pwd` )
+VALUES
+	(
+	'张三',
+	123456)
+-- 加密
 
+	UPDATE testmd5 
+SET `pwd` = MD5( `pwd` )  
+WHERE
+	NAME = "张三"
+	
+-- 插入的时候加密
+INSERT INTO `testmd5` ( `name`, `pwd` )
+VALUES
+	(
+	'张三',
+	MD5( 123456 ))
+	
+-- 如何校验，将用户传递过来的密码，进行MD5加密，然后对比加密后的值
+SELECT * FROM testmd5 WHERE `name`='红' AND pwd=MD5('123456')
+```
 
+# 事务
 
-
-
+> 什么是事务
+>
+> 要么都成功,要么都失败
+>
+> 1、sql 执行 A 给 B转账    A 1000  ->200  B 200
+>
+> 2、sql执行  B 收到A的钱  A 800  -> B 400
+>
+> 将一组SQL放在一个批次中去执行
+>
+> **事务原则**: ACID原则,**原子性,一致性,隔离性,持久性** (脏读,幻读....)
+>
+> [参考博客](https://blog.csdn.net/dengjili/article/details/82468576)
+>
+> - 原子性(**Atomicity**)
+>
+>   要么都成功,要么都失败
+>
+> - 一致性(**Consistency**)
+>
+>    事务前后的数据完整性要保持一致,1000
+>
+> - **持久性（Durability）**
+>
+>    事务一旦提交则不可逆,被持久化到数据库中!
+>
+> - 隔离性(**Isolation**)
+>
+>   事务的隔离性是多个用户并发访问数据库时，数据库为每一个用户开启的事务，不能被其他事务的操作数据所干扰，多个并发事务之间要相互隔离
+>
+>   **隔离所导致的一些问题**
+>
+> - 脏读:
+>
+>  指一个事务读取了另外一个事务未提交的数据
+>
+> - 不可重复读:
+>
+> 在一个事务内读取表中的某一行数据,多次读取结果不同。(这个不一定是错误,只是某些场合不对)
+>
+> - 幻读
+>
+> 是指在一个事务内读取到了别的事务插入的数据,导致前后读取不一致
 
 
 
