@@ -1264,7 +1264,7 @@ VALUES
 SELECT * FROM testmd5 WHERE `name`='红' AND pwd=MD5('123456')
 ```
 
-# 事务
+# [事务](https://www.runoob.com/mysql/mysql-transaction.html)
 
 > 什么是事务
 >
@@ -1309,6 +1309,117 @@ SELECT * FROM testmd5 WHERE `name`='红' AND pwd=MD5('123456')
 > - 幻读
 >
 > 是指在一个事务内读取到了别的事务插入的数据,导致前后读取不一致
+
+
+
+## 执行事务
+
+```sql
+-- mysql 是默认开启事务自动提交的
+
+SET autocommit = 0; /* 关闭 */
+SET autocommit = 1; /* 开启(默认的) */
+
+-- 手动处理事务
+SET autocommit = 0; -- 先关闭自动条件
+-- 事务开始
+START TRANSACTION  -- 标记一个事物的开始，从这之后的sql都在一个事物内
+
+
+-- 提交： 持久化（成功！）
+COMMIT
+
+-- 回滚： 回到原来的样子（失败！）
+ROLLBACK
+
+--事物结束
+SET autocommit = 1; -- 结束后开启自动提交
+
+-- 了解
+SAVEPOINT 保存点名  -- 设置一个事物的保存点
+ROLLBACK SAVEPOINT -- 回滚到保存点
+RELEASE SAVEPOINT -- 撤销保存点
+
+
+```
+
+**模拟场景**
+
+```sql
+-- 创建商店数据库
+
+CREATE DATABASE shop CHARSET  utf8mb4
+
+
+-- 创建数据表
+
+-- 账户表
+CREATE TABLE `account` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `money` decimal(9,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- 插入数据
+INSERT INTO `account` (`name`,`money`) values ('A',2000),('B',10000)
+
+-- 示例
+mysql> show tables;
++----------------+
+| Tables_in_shop |
++----------------+
+| account        |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select * from account;
++----+------+----------+
+| id | name | money    |
++----+------+----------+
+|  1 | A    |  2000.00 |
+|  2 | B    | 10000.00 |
++----+------+----------+
+2 rows in set (0.00 sec)
+
+
+
+-- #-------模拟事务---------
+-- SET autocommit = 0; -- 关闭自动提交
+	
+START TRANSACTION; -- 开启一个事务
+
+UPDATE 	`account` set money=money-500 where `name` = 'A'; -- A 减500
+UPDATE 	`account` set money=money+500 where `name` = 'B'; -- B 加500
+
+COMMIT; -- 提交事务
+ROLLBACK; -- 回滚
+
+-- SET autocommit = 1;
+
+```
+
+# 索引
+
+> MySQL官方对索引的定义为:**索引(Index)是帮助MySQL高效获取数据的数据结构。**提取句子主干，就可以得到索引的本质:索引是数据结构。
+
+## 索引的分类
+
+- 主键索引 (PRIMARY KEY)
+  - 唯一的标识,主键不可重复,只能有一个列作为主键
+- 唯一索引 (UNIQUE KEY)
+  - 避免重复的列出现，唯一索引可以重复，多个列都可以标识位
+
+- 常规索引 （KEY/INEDEX）
+
+- 全文索引 FULLTEXT
+
+
+
+
+
+
+
+
 
 
 
