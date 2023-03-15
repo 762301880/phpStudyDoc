@@ -1405,13 +1405,92 @@ ROLLBACK; -- 回滚
 ## 索引的分类
 
 - 主键索引 (PRIMARY KEY)
-  - 唯一的标识,主键不可重复,只能有一个列作为主键
+
+  > 唯一的标识,主键不可重复,只能有一个列作为主键
+
 - 唯一索引 (UNIQUE KEY)
-  - 避免重复的列出现，唯一索引可以重复，多个列都可以标识位
+
+  > 避免重复的列出现，唯一索引可以重复，多个列都可以标识位
 
 - 常规索引 （KEY/INEDEX）
 
+  > 默认的,index key 关键字来设置
+
 - 全文索引 FULLTEXT
+
+> 在特定的数据库引擎下才有,MyISAM
+>
+> 快速定位数据
+
+```sql
+SHOW INDEX FROM student  -- 显示所有的索引信息
+
+-- 增加一个全文索引 （索引名）列名
+ALTER TABLE school.`student` ADD FULLTEXT INDEX `wuhu`(`studentname`)
+
+-- EXPLAIN 分析sql执行的状况
+EXPLAIN SELECT * FROM student;  -- 非全文索引
+
+EXPLAIN SELECT * FROM student WHERE MATCH
+```
+
+**测试索引**
+
+```sql
+-- 新增数据表
+CREATE TABLE `app_user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户昵称',
+  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户邮箱',
+  `phone` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号',
+  `password` varchar(100) COLLATE utf8mb4_general_ci NOT NULL COMMENT '密码',
+  `gender` tinyint DEFAULT '0' COMMENT ' 性别 0男 1 女',
+  `age` tinyint DEFAULT '0' COMMENT '年龄',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='app用户表';
+
+
+-- 插入100万条数据  如果报错 This function has none of DETERMINISTIC, NO SQL, or READS SQL DATA in its de            
+-- 参考  https://blog.csdn.net/mutouren_abc/article/details/120719349
+
+set global log_bin_trust_function_creators=TRUE;
+DELIMITER $$
+CREATE FUNCTION mock_data() 
+RETURNS INT
+BEGIN
+     DECLARE num INT DEFAULT 1000000;
+		 DECLARE i INT DEFAULT 0;
+		 
+		 WHILE i<num DO
+		   -- 插入语句
+
+INSERT INTO `app_user` (`name`,`email`,`phone`,`gender`,`password`,`age`) VALUES(CONCAT('用户',i),'762301880@qq.com',
+CONCAT('18',FLOOR(RAND()*((999999999-100000000)+100000000))),FLOOR(RAND()*2),UUID(),FLOOR(RAND()*100));
+       
+			 set i= i+1;
+     END WHILE;
+        RETURN i;
+END;
+SELECT mock_data();
+```
+
+
+
+```sql
+SELECT * FROM app_user WHERE `name` = '用户99999' -- 1.191 sec
+SELECT * FROM app_user WHERE `name` = '用户99999' -- 1.070 sec
+
+EXPLAIN SELECT * FROM app_user WHERE `name` = '用户99999' -- 1.070 sec
+
+EXPLAIN SELECT * FROM app_user
+
+-- id_表名_字段名 规范
+-- CREATE INDEX 索引名 on 表（字段）
+CREATE INDEX id_app_user_name ON app_user(`name`);
+SELECT * FROM app_user WHERE `name` = '用户99999'  -- 0.006 sec
+```
 
 
 
