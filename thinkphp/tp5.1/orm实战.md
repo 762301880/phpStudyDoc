@@ -652,6 +652,15 @@ https://blog.csdn.net/robinson_911/article/details/120370772?utm_medium=distribu
 ##  [thinkphp链式操作会保留上一个变量查询出来的值](http://www.360doc.com/content/21/0720/15/65839659_987450259.shtml)
 
 ```php
-->removeOption()        # 使用removeOption链式移除查询条件,例如  ->removeOption("where")     
+->removeOption()        # 使用removeOption链式移除查询条件,例如  ->removeOption("where")   弊端会直接移除所有的条件不建议使用  
+    
+    
+        # 建议可以封装为这种不会保存上一步查询的条件
+        $auntLeaveQuery = function ($aunt_id) use ($month_all_dates) { //公用查询
+            return AuntLeaveModel::where('aunt_id', $aunt_id)->whereIn('date', $month_all_dates); //公用查询
+        };
+
+        $retData['leave_days'] = $auntLeaveQuery($aunt_id)->where('type', AuntLeaveModel::TYPE_LEAVE)->count() * $once_date; //请假天数
+        $retData['rest_days'] = $auntLeaveQuery($aunt_id)->where('type', AuntLeaveModel::TYPE_REST)->count() * $once_date; //休息天数    
 ```
 
