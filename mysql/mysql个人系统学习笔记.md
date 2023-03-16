@@ -1492,6 +1492,103 @@ CREATE INDEX id_app_user_name ON app_user(`name`);
 SELECT * FROM app_user WHERE `name` = '用户99999'  -- 0.006 sec
 ```
 
+**索引在小数据量的时候，用处不大，但是在大数据的时候，区别十分明显~**
+
+## 索引原则
+
+> 索引不是越多越好
+>
+> 不要对经常变动的数据加索引
+>
+> 小数据量的表不需要加索引
+>
+> 索引一般加在常用来查询的字段上!
+
+[**索引的数据结构**](https://blog.codinglabs.org/articles/theory-of-mysql-index.html)
+
+Hash      类型的索引
+
+BTREE  : InnoDB的默认数据结构
+
+# 权限管理和备份
+
+
+
+##  用户管理
+
+用户表: **mysql.user**
+
+本质:**对这张表进行增删改差**
+
+```sql
+-- 创建用户
+CREATE USER yaoliuyang IDENTIFIED BY '123456'
+
+-- 修改密码(修改当前用户密码)
+SET PASSWORD = PASSWORD('123456')
+
+-- 修改密码（修改指定用户密码）
+SET PASSWORD FOR yaoliuyang = PASSWORD('123456')
+
+-- 重命名  RENAME USER 原用户名 TO 新用户名
+RENAME USER yaoliuyang TO yaoliuyang01
+  
+-- 用户授权  GRANT ALL PRIVILEGES（全部权限）库.表 TO 用户             *.*表示全部的库全部的表
+-- ALL PRIVILEGES 除了给别人授权，其他都能干 
+GRANT ALL PRIVILEGES ON *.* TO yaoliuyang -- 全部库，全部表
+
+-- 查询权限 SHOW GRANTS FOR 用户
+SHOW GRANTS FOR yaoliuyang -- 查看指定用户的权限
+SHOW GRANTS FOR root@localhost -- root用户要加@地址
+
+-- 撤销权限 REVOKE 权限，在哪个库，哪个表撤销，给谁撤销
+REVOKE ALL PRIVILEGES ON *.* FROM yaoliuyang
+
+-- 删除用户
+DROP USER yaoliuyang 
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
