@@ -89,3 +89,27 @@ select COLUMN_NAME from information_schema.COLUMNS where table_name = '具体表
 UPDATE "表名" SET "需要修改的字段名称" = REPLACE ( "需要修改的字段名称", "需要修改的文字(例如:咨询)", "修改后的文字(例如:询问)" ) WHERE cate = "表名"
 ```
 
+## 插入一百万条数据
+
+```sql
+set global log_bin_trust_function_creators=TRUE;
+DELIMITER $$
+CREATE FUNCTION mock_data() 
+RETURNS INT
+BEGIN
+     DECLARE num INT DEFAULT 1000000;
+		 DECLARE i INT DEFAULT 0;
+		 
+		 WHILE i<num DO
+		   -- 插入语句
+
+INSERT INTO `app_user` (`name`,`email`,`phone`,`gender`,`password`,`age`) VALUES(CONCAT('用户',i),'762301880@qq.com',
+CONCAT('18',FLOOR(RAND()*((999999999-100000000)+100000000))),FLOOR(RAND()*2),UUID(),FLOOR(RAND()*100));
+       
+			 set i= i+1;
+     END WHILE;
+        RETURN i;
+END;
+SELECT mock_data();
+```
+
