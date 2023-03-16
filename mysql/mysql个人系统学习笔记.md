@@ -1549,7 +1549,32 @@ DROP USER yaoliuyang
 
 ```
 
+# MySQL备份
 
+> 为什么要备份?
+>
+> 保证重要的数据不丢失
+>
+> 数据转移 A--->B
+
+MySQL数据库备份方式
+
+- 直接拷贝物理文件
+- 在可视化工具上导出
+- 使用命令行导出 mysqldump 命令行 cmd才叫命令行
+
+```sql
+# mysqldump -h 主机 -u 用户名 -p密码 数据库 表 > 物理磁盘位置/文件名
+# mysqldump -h 主机 -u 用户名 -p密码 数据库 表1 表2 表3 > 物理磁盘位置/文件名
+# mysqldump -h 主机 -u 用户名 -p密码 数据库> 物理磁盘位置/文件名
+
+C:\Program Files\MySQL\MySQL Server 5.7\bin>mysqldump -hlocalhost -uroot -p123456 laravel_study > d:/laravel_study.sql
+
+# 导入
+# 登录的情况下，切换到指定的数据库
+# source 备份文件
+source d:/a.sql
+```
 
 
 
