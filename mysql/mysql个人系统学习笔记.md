@@ -6,6 +6,8 @@
 >
 > https://blog.51cto.com/u_14518853/4894010
 >
+> https://blog.51cto.com/u_15127628/4193070?articleABtest=1
+>
 > [mysql官方文档](https://dev.mysql.com/doc/refman/5.7/en/)
 
 # 初识Mysql
@@ -1681,6 +1683,117 @@ source d:/a.sql
 在规范性能的问题的时候，需要适当考虑一下规范性！
 故意给某些表增加一些冗余的字段。（从多表查询中变为单表查询）
 故意增加一些计算列（从大数据量降低为小数据量的查询：索引）
+
+# JDBC(重点)
+
+[**jdbc介绍**](https://baike.baidu.com/item/JDBC%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F/20866650?fr=aladdin)
+
+## 数据库驱动
+
+> 驱动:声卡(可以发出声音),显卡,数据库
+>
+> SUN公司为了简化开发人员的(对数据库的统一）操作，提供了一个(Java操作数据库的）规范，俗称JDBC
+>
+> 这些规范的实现由具体的厂商去做!
+>
+> 对于开发人员来说，只需要掌握JDBC接口的操作即可
+
+**下载驱动**
+
+| 名称      | 地址                                                         |
+| --------- | ------------------------------------------------------------ |
+| maven下载 | [link](https://mvnrepository.com/artifact/mysql/mysql-connector-java) |
+
+## 第一个JDBC程序
+
+### 对应代码 
+
+[master分支](https://gitlab.com/yly_java_projects/jdbc_test)
+
+**创建测试数据库**
+
+```sql
+CREATE DATABASE jdbcStudy CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+USE jdbcStudy;
+
+CREATE TABLE `users`(
+id INT PRIMARY KEY,
+NAME VARCHAR(40),
+PASSWORD VARCHAR(40),
+email VARCHAR(60),
+birthday DATE
+);
+
+INSERT INTO `users`(id,NAME,PASSWORD,email,birthday)
+VALUES(1,'zhansan','123456','zs@sina.com','1980-12-04'),
+(2,'lisi','123456','lisi@sina.com','1981-12-04'),
+(3,'wangwu','123456','wangwu@sina.com','1979-12-04')
+```
+
+
+
+### **创建一个普通项目**
+
+**导入数据库驱动**
+
+**编写测试代码**
+
+```java
+package com.yao.lesson01;
+
+import java.sql.*;
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.sql.ResultSet;
+//import java.sql.Statement;
+
+/**
+ * 我的第一个jdbc程序
+ */
+public class JdbcFirstDemo {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        // 1.加载驱动-jdbc jar包需要鼠标右键 add builder添加
+        Class.forName("com.mysql.cj.jdbc.Driver");//固定写法,加载驱动
+        // 2. 用户信息和url
+        String url = "jdbc:mysql://localhost:3306/jdbcStudy?useUnicode=true&characterEncoding=utf8&useSSL=true";
+        String username = "root";
+        String password = "123456";
+        //3.连接成功,数据库对象 Connection 代表数据库
+        Connection connection = DriverManager.getConnection(url, username, password);
+        //4.执行SQL的对象 Statement 执行sql的对象
+        Statement statement = (Statement) connection.createStatement();
+        //5.执行SQL的对象去执行SQL,可能存在结果查看返回结果
+        String sql = "select * from users";
+        ResultSet resultSet = statement.executeQuery(sql);//返回的结果集,结果集中封装了我们全部的查询出来的结果
+        while (resultSet.next()) {
+            System.out.println("id=" + resultSet.getObject("id"));
+            System.out.println("name=" + resultSet.getObject("NAME"));
+            //........
+        }
+        //6.释放连接
+        resultSet.close();
+        statement.close();
+        connection.close();
+    }
+}
+```
+
+步骤总结：
+
+1.加载驱动
+
+2.连接数据库 DriverManager
+
+3.获取执行SQL的对象 Statement
+
+4.获得返回的结果集
+
+5.释放连接
+
+
+
+
 
 
 
