@@ -1703,6 +1703,7 @@ source d:/a.sql
 | 名称      | 地址                                                         |
 | --------- | ------------------------------------------------------------ |
 | maven下载 | [link](https://mvnrepository.com/artifact/mysql/mysql-connector-java) |
+| 官网下载  | [link](https://www.runoob.com/java/java-mysql-connect.html)  [历史版本下载]([MySQL ：： 下载 MySQL Connector/J （存档版本）](https://downloads.mysql.com/archives/c-j/)) |
 
 ## 第一个JDBC程序
 
