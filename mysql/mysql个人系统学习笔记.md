@@ -1792,75 +1792,323 @@ public class JdbcFirstDemo {
 
 5.释放连接
 
+#### DriverManager
 
+```java
+// DriverManager.registerDriver(new com.mysql.jdbc.Driver());Class.forName("com.mysql.jdbc.Driver");
 
+// 固定写法Connection 
 
+connection= DriverManager.getConnection(url,name,password);
+// connection代表数据库
+// 数据库设置自动提交
+// 事务提交
+// 事务回滚
+connection.rollback();
+connection.commit();
+connection.setAutoCommit();
+```
 
+#### URL
 
+```java
+String url ="jdbc:mysql://localhost:3306/jdbcstudy?useUnicode=true&characterEncoding=utf8&&useSSL=false";
+// mysql 默认3306
+// 协议://主机地址:端口号/数据库名？参数1&参数2&参数3
 
+// Oracle写法   1521//jdbc:oralce:thin:@localhost:1521:sid
+```
 
+#### statement 执行SQL的对象 prepareStatement 执行SQL的对象
 
+```java
+String sql="SELECT * FROM users";//编写Sql
 
+statement.executeQuery();//执行查询操作返回Resultset
+statement.execute(); //执行所有的sql 
+statement.executeUpdate();//更新，插入，删除，返回一个受影响的行数
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### ResultSet 查询的结果集，封装了所以的查询结果
+
+> 获得指定的数据类型
+
+```java
+ResultSet resultSet = statement.executeQuery(sql);//返回的结果集,结果集中封装了我们全部查询的结果
+resultSet.getObject();//在不知道列类型下使用
+resultSet.getString();//如果知道则指定使用
+resultSet.getInt();
+resultSet.getFloat();
+//... 获取不同的类型
+
+// 遍历,指针
+
+resultSet.next(); //移动到下一个
+resultSet.afterLast();//移动到最后
+resultSet.beforeFirst();//移动到最前面
+resultSet.previous();//移动到前一行
+resultSet.absolute(row);//移动到指定行
+```
+
+#### 释放内存
+
+```java
+//6. 释放连接
+resultSet.close();
+statement.close();
+connection.close();//耗资源,用完关掉
+```
+
+# statement对象
+
+> <font color='red'>Jdbc中的statement对象用于向数据库发送SQL语句，想完成对数据库的增删改查，只需要通过这个对象向数据库发送增删改查语句即可。</font>
+>
+> Statement对象的`executeUpdate`方法，用于向数据库发送增、删、改的sq|语句， `executeUpdate`执行完后， 将会返回一个整数(即增删改语句导致了数据库几行数据发生了变化)。
+>
+> `Statement.executeQuery`方法用于向数据库发生查询语句，`executeQuery`方法返回代表查询结果的`ResultSet`对象。
+
+## CRUD操作-create
+
+>  使用executeUpdate(String sql)方法完成数据添加操作，示例操作：
+
+```java
+Statement statement = connection.createStatement();
+String sql = "insert into user(...) values(...)";
+int num = statement.executeUpdate(sql);
+if(num>0) System.out.println("插入成功");
+```
+
+##  CRUD操作-delete
+
+> 使用executeUpdate(String sql)方法完成数据删除操作，示例操作：
+
+```java
+Statement statement = connection.createStatement();
+String sql = "delete from user where id =1";
+int num = statement.executeUpdate(sql);
+if(num>0) System.out.println("删除成功");
+```
+
+##  CURD操作-read
+
+> 使用executeUpdate(String sql)方法完成数据查询操作，示例操作：
+
+```java
+Statement statement = connection.createStatement();
+String sql = "select * from  user where id =1";
+ResultSet rs= statement.executeQuery(sql);
+if(rs.next()){
+System.out.println("");
+}
+```
+
+## 代码实现
+
+### 编写工具类
+
+```java
+package com.yao.lesson02.utils;
+
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
+import java.util.Properties;
+
+/**
+ * 封装统一增删改查工具类
+ */
+public class JdbcUtils {
+    private static String driver = null;
+    private static String url = null;
+    private static String username = null;
+    private static String password = null;
+
+    static {
+        try {
+            InputStream in = JdbcUtils.class.getClassLoader().getResourceAsStream("db.properties");
+            Properties properties = new Properties();
+            properties.load(in);
+            driver = properties.getProperty("driver");
+            url = properties.getProperty("url");
+            username = properties.getProperty("username");
+            password = properties.getProperty("password");
+            //1.驱动只用加载一次
+            Class.forName(driver);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //2.获取连接
+    public static Connection getConnection() throws Exception {
+        return DriverManager.getConnection(url, username, password);
+    }
+
+    //3.释放资源
+    public static void release(Connection conn, Statement st, ResultSet rs) throws SQLException {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (st != null) {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+```
+
+**db.properties**
+
+```java
+driver=com.mysql.cj.jdbc.Driver
+url=jdbc:mysql://localhost:3306/jdbcStudy?useUnicode=true&characterEncoding=utf8&useSSL=true
+username=root
+password=123456
+```
+
+### 编写增删改的方法(executeUpdate())
+
+```java
+package com.yao.lesson02;
+
+import com.yao.lesson02.utils.JdbcUtils;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class TestDelete {
+    public static void main(String[] args) throws SQLException {
+        Connection connection = null;
+        Statement statement=null;
+        ResultSet resultSet=null;
+        try {
+            connection = JdbcUtils.getConnection();//获取连接
+            statement = connection.createStatement();//获取SQL执行对象
+            String sql = "delete from users where id=5"; //只需要修改为对应增删改的sql  如果需要替换变量用+号拼接字符即可
+
+            int i = statement.executeUpdate(sql);
+            if(i>0){
+                System.out.println("删除成功");//只需要修改为对应增删改的文字返回
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.release(connection,statement,resultSet);
+        }
+
+    }
+}
+```
+
+### 查询(executeQuery())
+
+```java
+package com.yao.lesson02;
+
+import com.yao.lesson02.utils.JdbcUtils;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class TestSelect {
+    public static void main(String[] args) throws SQLException {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = JdbcUtils.getConnection();//获取连接
+            statement = connection.createStatement();//获取SQL执行对象
+            String sql = "select * from users";
+
+            resultSet = statement.executeQuery(sql); //查询完毕会返回一个结果集
+            while (resultSet.next()) {
+                System.out.println("姓名是：" + resultSet.getString("NAME"));
+                System.out.println("邮箱是：" + resultSet.getString("email"));
+                //...
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.release(connection, statement, resultSet);
+        }
+
+    }
+}
+```
+
+## SQL注入问题
+
+> sql存在漏洞，会被攻击导致数据泄露 SQL会被拼接 or
+
+```java
+package com.yao.lesson02;
+
+import com.yao.lesson02.utils.JdbcUtils;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class SQL注入 {
+    public static void main(String[] args) throws SQLException {
+
+        //login("lisi", "123456"); //正常查询
+        // System.out.println("-------------------------");
+        login("' or '1=1", "' or '1=1"); //sql注入查询
+    }
+
+    //登录业务
+    public static void login(String username, String password) throws SQLException {
+
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.getConnection();//获取连接
+            st = conn.createStatement();//获取SQL执行对象
+            String sql = "select * from users where `NAME`='" + username + "'  AND `PASSWORD`='" + password + "'";
+            System.out.println("原始sql为: " + sql);
+            rs = st.executeQuery(sql);//查询完毕返回结果集
+
+            while (rs.next()) {
+                System.out.println(rs.getString("NAME"));
+                System.out.println(rs.getString("password"));
+                System.out.println("==========================================");
+            }
+            JdbcUtils.release(conn, st, rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+    }
+}	
+```
 
 
 
