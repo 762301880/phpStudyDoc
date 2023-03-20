@@ -2110,7 +2110,235 @@ public class SQL注入 {
 }	
 ```
 
+##  PreparedStatement对象
+
+> PreparedStatement 可以防止SQL注入 ，效率更高。
+
+###  增
+
+```java
+package com.yao.lesson03;
+
+import com.yao.lesson02.utils.JdbcUtils;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class testInsert {
+    public static void main(String[] args) throws SQLException {
+        Connection conn = null;
+        PreparedStatement st = null;
+
+        try {
+            conn = JdbcUtils.getConnection();
+            //区别
+            // 使用 ？占位符 代替参数
+            String sql = "INSERT INTO users(`NAME`,`PASSWORD`,`email`,`birthday`) VALUES(?,?,?,?)"; 
+            st = conn.prepareStatement(sql);//预编译sql,先写sql,然后不执行
+            //手动给参数赋值
+            st.setString(1, "测试姓名");
+            st.setString(2, "123456");
+            st.setString(3, "yaoliuyang@aliyun.com");
+            st.setDate(4, Date.valueOf("1997-02-08"));
+            int i=st.executeUpdate();
+            if (i>0) System.out.println("插入成功");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            JdbcUtils.release(conn,st,null);
+        }
+    }
+}
+
+```
+
+### 删
+
+```java
+package com.yao.lesson03;
+
+import com.yao.lesson02.utils.JdbcUtils;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class TestDelete {
+    public static void main(String[] args) throws SQLException {
+        Connection conn = null;
+        PreparedStatement st = null;
+
+        try {
+            conn = JdbcUtils.getConnection();
+            //区别
+            // 使用 ？占位符 代替参数
+            String sql = "delete from users where id=?";
+            st = conn.prepareStatement(sql);//预编译sql,先写sql,然后不执行
+            //手动给参数赋值
+            st.setInt(1, 4);
+            int i=st.executeUpdate();
+            if (i>0) System.out.println("删除成功");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            JdbcUtils.release(conn,st,null);
+        }
+    }
+}
+
+```
+
+### 修改
+
+```java
+package com.yao.lesson03;
+
+import com.yao.lesson02.utils.JdbcUtils;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class TestUpdate {
+    public static void main(String[] args) throws SQLException {
+        Connection conn = null;
+        PreparedStatement st = null;
+
+        try {
+            conn = JdbcUtils.getConnection();
+            //区别
+            // 使用 ？占位符 代替参数
+            String sql = "update users set Name=?,password=? where id=?";
+            st = conn.prepareStatement(sql);//预编译sql,先写sql,然后不执行
+            //手动给参数赋值
+            st.setString(1, "测试修改");
+            st.setString(2, "12345678");
+            st.setInt(3, 3);
+            int i = st.executeUpdate();
+            if (i > 0) System.out.println("修改成功");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.release(conn, st, null);
+        }
+    }
+}
+```
 
 
 
+### 查询
+
+```sql
+package com.yao.lesson03;
+
+import com.yao.lesson02.utils.JdbcUtils;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class TestSelect {
+    public static void main(String[] args) throws SQLException {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs=null;
+        try {
+            conn = JdbcUtils.getConnection();
+            //区别
+            // 使用 ？占位符 代替参数
+            String sql = "select * from users where id=?";
+            st = conn.prepareStatement(sql);//预编译sql,先写sql,然后不执行
+            //手动给参数赋值
+            st.setInt(1, 3);
+            rs = st.executeQuery();
+            while (rs.next()){
+                System.out.println( rs.getString("NAME"));;
+                //...
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+    }
+}
+```
+
+### sql 注入测试(不会注入成功)
+
+```java
+package com.yao.lesson03;
+
+import com.yao.lesson02.utils.JdbcUtils;
+
+import java.sql.*;
+
+public class SQL注入 {
+    public static void main(String[] args) throws SQLException {
+
+        //login("123", "123456"); //正常查询
+        // System.out.println("-------------------------");
+        login("' or '1=1", "' or '1=1"); //sql注入查询 不会注入成功
+    }
+
+    //登录业务
+    public static void login(String username, String password) throws SQLException {
+
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.getConnection();//获取连接
+            //PreparedStatement 防止SQL注入的本质,把传递进来的参数当作字符
+            //假设其中存在转义字符,就直接忽略, '' 引号会直接转义掉
+            String sql = "select * from users where `NAME`= ? AND `PASSWORD`=?";
+            st = conn.prepareStatement(sql);//获取SQL执行对象
+            System.out.println("原始sql为: " + sql);
+            st.setString(1, username);
+            st.setString(2, password);
+            rs = st.executeQuery();//查询完毕返回结果集
+
+            while (rs.next()) {
+                System.out.println(rs.getString("NAME"));
+                System.out.println(rs.getString("password"));
+                System.out.println("==========================================");
+            }
+            JdbcUtils.release(conn, st, rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+    }
+}
+```
+
+##  使用IDEA连接数据库
+
+![MySQL学习笔记（狂神说）_数据库_14](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/e16c352913860481d862f28346b602d5.png)
+
+> 连接成功后，可以选择数据库	
+
+![MySQL学习笔记（狂神说）_sql_15](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/3f16797cfbb1eba846514b65bda22b92.png)
+
+> 双击数据库
+
+![MySQL学习笔记（狂神说）_mysql_16](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/747cafcb855bd935813adce8c1384ff2.png)
+
+> 更新数据、
+
+![MySQL学习笔记（狂神说）_数据_17](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/ac7025a3f87f9f3b1e05c057c45b3ab5.png)
+
+> 编写sql代码的地方
+
+![MySQL学习笔记（狂神说）_数据库_18](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20141d68c93570f9c58da689dcb7c551.png)
 
