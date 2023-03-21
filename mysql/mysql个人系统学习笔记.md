@@ -1711,7 +1711,7 @@ source d:/a.sql
 
 [master分支](https://gitlab.com/yly_java_projects/jdbc_test)
 
-**创建测试数据库**
+### **创建测试数据库**
 
 ```sql
 CREATE DATABASE jdbcStudy CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -1859,7 +1859,7 @@ statement.close();
 connection.close();//耗资源,用完关掉
 ```
 
-# statement对象
+### statement对象
 
 > <font color='red'>Jdbc中的statement对象用于向数据库发送SQL语句，想完成对数据库的增删改查，只需要通过这个对象向数据库发送增删改查语句即可。</font>
 >
@@ -1867,7 +1867,7 @@ connection.close();//耗资源,用完关掉
 >
 > `Statement.executeQuery`方法用于向数据库发生查询语句，`executeQuery`方法返回代表查询结果的`ResultSet`对象。
 
-## CRUD操作-create
+#### CRUD操作-create
 
 >  使用executeUpdate(String sql)方法完成数据添加操作，示例操作：
 
@@ -1878,7 +1878,7 @@ int num = statement.executeUpdate(sql);
 if(num>0) System.out.println("插入成功");
 ```
 
-##  CRUD操作-delete
+#### CRUD操作-delete
 
 > 使用executeUpdate(String sql)方法完成数据删除操作，示例操作：
 
@@ -1889,7 +1889,7 @@ int num = statement.executeUpdate(sql);
 if(num>0) System.out.println("删除成功");
 ```
 
-##  CURD操作-read
+#### CURD操作-read
 
 > 使用executeUpdate(String sql)方法完成数据查询操作，示例操作：
 
@@ -2342,3 +2342,140 @@ public class SQL注入 {
 
 ![MySQL学习笔记（狂神说）_数据库_18](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20141d68c93570f9c58da689dcb7c551.png)
 
+## Jdbc事务
+
+> <font color='red'>要么都成功，要么都失败</font>
+>
+> ACID原则
+>
+> 原子性：要么全部完成，要么都不完成
+>
+> 一致性：结果总数不变
+>
+> 隔离性：多个进程互不干扰
+>
+> 持久性：一旦提交不可逆，持久化到数据库了
+>
+>  隔离性的问题：
+>
+> 脏读： 一个事务读取了另一个没有提交的事务
+>
+> 不可重复读：在同一个事务内，重复读取表中的数据，表发生了改变
+>
+> 虚读（幻读）：在一个事务内，读取到了别人插入的数据，导致前后读出来的结果不一致
+
+### 代码实现
+
+**插入账户数据库**
+
+```sql
+CREATE TABLE `account` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `money` decimal(9,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- 插入数据
+INSERT INTO `account` (`name`,`money`) values ('A',2000),('B',10000)
+```
+
+**代码示例**
+
+> 开启事务`conn.setAutoCommit(false);`
+> 一组业务执行完毕，提交事务
+> 可以在catch语句中显示的定义回滚，但是默认失败会回滚
+
+```java
+package com.yao.lesson04;
+
+import com.yao.lesson02.utils.JdbcUtils;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * 模拟jdbc事务:模拟事务失败场景
+ */
+public class TestTransaction2 {
+
+
+    public static void main(String[] args) throws SQLException {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            conn = JdbcUtils.getConnection();
+            //关闭数据库的自动提交,自动会开启事务
+            conn.setAutoCommit(false);
+
+
+            String sql1 = "update account set money=money-100 where name='A'";
+            st = conn.prepareStatement(sql1);//预编译sql,先写sql,然后不执行
+            st.executeUpdate();
+
+           // int x=1/0; //执行到此处一定会失败中断
+
+            String sql2 = "update account set money=money+100 where name='B'";
+            st = conn.prepareStatement(sql2);//预编译sql,先写sql,然后不执行
+            st.executeUpdate();
+
+            //业务完毕,提交事务
+            conn.commit();
+            System.out.println("修改成功");
+
+        } catch (Exception e) {
+            conn.rollback(); //如果失败回滚事务
+            e.printStackTrace();
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+    }
+}
+```
+
+## 数据库连接池
+
+数据库连接-- 执行完毕--释放
+
+连接--释放 十分浪费系统资源
+
+**池化技术:准备一些预先的资源,过来就连接预先准备好的**
+
+---开门--业务员:等待 --服务--
+
+> 常用连接数 100
+>
+> 最少连接数：100
+>
+> 最大连接数 ： 120 业务最高承载上限
+>
+> 排队等待，
+>
+> 等待超时：100ms
+>
+> 编写连接池，实现一个接口 DateSource
+
+**编写连接池,实现一个接口DataSource**
+
+
+
+> 开源数据源实现(拿来即用)
+
+- DBCP
+- C3P0
+- Druid: 阿里巴巴
+
+使用了这些数据库连接池之后,我们在项目开发种就不需要编写数据库的代码
+
+###  **DBCP**
+
+**DBCP包下载**
+
+| apache官网下载 | [link](https://commons.apache.org/proper/commons-dbcp/download_dbcp.cgi) |
+| -------------- | ------------------------------------------------------------ |
+| 参考文档       | [link](https://blog.csdn.net/qq_45523411/article/details/121517140) |
+
+> 需要用到的**jar包** 
