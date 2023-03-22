@@ -2472,10 +2472,158 @@ public class TestTransaction2 {
 
 ###  **DBCP**
 
-**DBCP包下载**
+**对应代码文件配置目录**
 
-| apache官网下载 | [link](https://commons.apache.org/proper/commons-dbcp/download_dbcp.cgi) |
+![image-20230322095000423](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230322095000423.png)
+
+
+
+**DBCP包相关下载地址**
+
+| apache官网下载 | [link](https://commons.apache.org/proper/)                   |
 | -------------- | ------------------------------------------------------------ |
 | 参考文档       | [link](https://blog.csdn.net/qq_45523411/article/details/121517140) |
 
-> 需要用到的**jar包** 
+> 需要用到的**jar包**  
+>
+> [commons-dbcp2-2.9.0.jar](https://commons.apache.org/proper/commons-dbcp/download_dbcp.cgi)
+>
+> ![image-20230322094447729](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230322094447729.png)
+>
+> [commons-logging-1.2.jar](https://commons.apache.org/proper/commons-logging/download_logging.cgi)
+>
+> ![image-20230322094423215](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230322094423215.png)
+>
+> [commons-pool2-2.11.1.jar](https://commons.apache.org/proper/commons-pool/download_pool.cgi)
+>
+> ![image-20230322094553082](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230322094553082.png)
+
+#### 定义配置文件(dbcpconfig.properties)
+
+```java
+#连接设置,这里面的名字是DBCP数据源中定义好的
+driverClassName=com.mysql.cj.jdbc.Driver
+url=jdbc:mysql://localhost:3306/jdbcStudy?useUnicode=true&characterEncoding=utf8&useSSL=true
+username=root
+password=123456
+#<!-- 初始化连接-->
+initialSize=10
+#最大连接数量
+maxActive=50
+#最大空闲连接
+maxIdle=20
+#最小空闲连接
+minIdle=5
+#超时等待时间以毫秒为单位/s
+maxWait=60000
+#JDBC驱动建立连接时附带的连接属性属性的格式必须为这样：[属性名=property;]
+#注意：“user” 与 “password” 两个属性会被明确地传递，因此这里不需要包含他们。
+connectionProperties=useUnicode=true;characterEncoding=utf8
+#指定由连接池所创建的连接的自动提交（auto-commit）状态。
+defaultAutoCommit=true
+#driver default 指定由连接池所创建的连接的事务级别（TransactionIsolation）。
+#可用值为下列之一：（详情可见javadoc。）NONE,READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE
+defaultTransactionIsolation=READ_UNCOMMITTED
+```
+
+#### 定义连接池工具类文件(JdbcDbcpUtils)
+
+```java
+package com.yao.lesson05.utils;
+
+
+import org.apache.commons.dbcp2.BasicDataSourceFactory;
+
+import javax.sql.DataSource;
+import java.io.InputStream;
+import java.sql.*;
+import java.util.Properties;
+
+/**
+ * 封装统一增删改查工具类
+ */
+public class JdbcDbcpUtils {
+
+    private static DataSource dataSource = null;
+
+    static {
+        try {
+            InputStream in = JdbcDbcpUtils.class.getClassLoader().getResourceAsStream("dbcpconfig.properties");
+            Properties properties = new Properties();
+            properties.load(in);
+            //创建数据源
+            dataSource = BasicDataSourceFactory.createDataSource(properties);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //2.获取连接
+    public static Connection getConnection() throws Exception {
+        return dataSource.getConnection();//从数据源中获取连接
+    }
+
+    //3.释放资源
+    public static void release(Connection conn, Statement st, ResultSet rs) throws SQLException {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (st != null) {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+#### 测试新增逻辑
+
+```java
+package com.yao.lesson05;
+
+import com.yao.lesson05.utils.JdbcDbcpUtils;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class TestDbcp {
+    public static void main(String[] args) throws SQLException {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = JdbcDbcpUtils.getConnection();//获取连接
+            statement = connection.createStatement();//获取SQL执行对象
+            String sql = "INSERT INTO users(`NAME`,`PASSWORD`,`email`,`birthday`)" +
+                    "VALUES('sanjin','123456','233223@qq.com','2020-01-01')";
+
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                System.out.println("插入成功");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcDbcpUtils.release(connection, statement, resultSet);
+        }
+    }
+}
+```
+
