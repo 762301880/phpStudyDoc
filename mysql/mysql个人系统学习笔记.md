@@ -2629,3 +2629,207 @@ public class TestDbcp {
 
 ## c3p0
 
+#### jar包下载
+
+> 下载之后我们复制**lib**目录下的**c3p0-0.9.5.5.jar&mchange-commons-java-0.2.19.jar**包
+
+**参考资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://javaforall.cn/146709.html)                    |
+| 官网下载 | [link](https://sourceforge.net/)          [link](https://sourceforge.net/projects/c3p0/files/latest/download) |
+
+
+
+
+
+### 配置文件
+
+```java
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+    <default-config>
+        <!--
+        C3P0的缺省（默认）配置，
+        如果在代码中是    ComboPooledDataSource cp = new ComboPooledDataSource();  这样写是default-config的配置
+        -->
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/student?useUnicode=true&characterEncoding=utf8&
+            useSSL=false
+        </property>
+        <property name="user">root</property>
+        <property name="password">root</property>
+
+
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+        <property name="acquireIncrement">3</property>
+
+        <!--初始化时获取三个连接，取值应在minPoolSize与maxPoolSize之间。Default: 10 这些都是自己定义 -->
+        <property name="initialPoolSize">10</property>
+
+        <!-- 连接的最大空闲时间，default: 30  -->
+        <property name="maxIdleTime">30</property>
+
+        <!--连接池中保留的最大连接数。Default: 100 -->
+        <property name="maxPoolSize">100</property>
+
+        <!--连接池中保留的最小连接数。Default: 15 -->
+        <property name="minPoolSize">15</property>
+    </default-config>
+
+
+    <!--
+    C3P0的命名配置，
+    如果在代码中是    ComboPooledDataSource cp = new ComboPooledDataSource("MySQL");  这样写是default-config的配置
+    -->
+    <named-config name="MySQL">
+        <property name="driverClass">com.mysql.jdbc.Driver</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/student?useUnicode=true&characterEncoding=utf8&useSSL=false
+        </property>
+        <property name="user">root</property>
+        <property name="root">root</property>
+
+        <property name="acquireIncrement">3</property>
+        <property name="initialPoolSize">10</property>
+        <property name="maxIdleTime">30</property>
+        <property name="maxPoolSize">100</property>
+        <property name="minPoolSize">10</property>
+    </named-config>
+
+
+    <!-- 所以下面想什么配置就写什么配置   -->
+</c3p0-config>
+
+```
+
+### 创建工具类
+
+```java
+package com.yao.lesson06.utils;
+
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+/**
+ * 封装统一增删改查工具类
+ */
+public class JdbcUtils_C3P0 {
+
+    private static DataSource dataSource = null;
+    //private static ComboPooledDataSource dataSource = null;
+
+    static {
+        try {
+
+//            //代码版配置
+//            dataSource=  new ComboPooledDataSource();
+//            dataSource.setDriverClass("");
+//            dataSource.setUser("");
+//            dataSource.setPassword("");
+//            dataSource.setJdbcUrl("");
+//            dataSource.setMaxPoolSize("");
+//            dataSource.setMinPoolSize("");
+
+            //创建数据源
+            dataSource = new ComboPooledDataSource("MySQL"); //配置文件写法
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //2.获取连接
+    public static Connection getConnection() throws Exception {
+        return dataSource.getConnection();//从数据源中获取连接
+    }
+
+    //3.释放资源
+    public static void release(Connection conn, Statement st, ResultSet rs) throws SQLException {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (st != null) {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+```
+
+### 测试代码
+
+```java
+package com.yao.lesson06;
+
+import com.yao.lesson05.utils.JdbcDbcpUtils;
+import com.yao.lesson06.utils.JdbcUtils_C3P0;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class TestC3P0 {
+    public static void main(String[] args) throws SQLException {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = JdbcUtils_C3P0.getConnection();//获取连接
+            statement = connection.createStatement();//获取SQL执行对象
+            String sql = "INSERT INTO users(`NAME`,`PASSWORD`,`email`,`birthday`)" +
+                    "VALUES('sanjin','123456','233223@qq.com','2020-01-01')";
+
+            int i = statement.executeUpdate(sql);
+            if (i > 0) {
+                System.out.println("插入成功");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JdbcDbcpUtils.release(connection, statement, resultSet);
+        }
+    }
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
