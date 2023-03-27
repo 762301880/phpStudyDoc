@@ -60,7 +60,7 @@ docker run  -itd -p 8080:8080 -p 50000:50000 --restart=always  --name jenkins  -
 
 > 安装完成之后需要进入容器内部找到此路径下的密码输入到下面的文本框中
 
-![1636450936(1).jpg](https://i.loli.net/2021/11/09/xAjnCo9B8XZOtKN.png)
+![1636450936(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/xAjnCo9B8XZOtKN.png)
 
 ```shell
 # 查看容器
