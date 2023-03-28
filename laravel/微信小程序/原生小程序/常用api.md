@@ -200,7 +200,7 @@ if (!function_exists('http_request')) {
         if ($width > 1280) throw new SystemException("宽度最大1280px");
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={$this->accessToken}";
         $check_path = env('APP_ENV') != 'dev' ? true : false;//是否判断路径
-        $envVersion = env('APP_ENV') != 'dev' ? 'release' : 'trial'; //设置自动跳转版本
+        $envVersion = env('APP_ENV') != 'dev' ? 'release' : 'develop'; //设置自动跳转版本
         $data = [
             'scene' => $query,
             'width' => $width,
