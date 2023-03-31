@@ -181,7 +181,7 @@ if (!function_exists('http_request')) {
     }
 ```
 
-## getUnlimited获取小程序二维码(不限制数量)
+## [getUnlimited获取小程序二维码(不限制数量)](https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/qrcode-link/qr-code/getUnlimitedQRCode.html)
 
 ```php
     /**
