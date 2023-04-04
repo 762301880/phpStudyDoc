@@ -15,7 +15,7 @@ apk add openssh
 ###  添加镜像源安装
 
 ```shell
-echo http://dl-cdn.alpinelinux.org/alpine/latest-stable/community >> /etc/apk/repositories  # 添加镜像源
+    echo http://dl-cdn.alpinelinux.org/alpine/latest-stable/community >> /etc/apk/repositories  # 添加镜像源
 apk update  # 更新镜像源
 
 # 搜索docker镜像
