@@ -2,7 +2,7 @@
 
 | 名称       | 地址                                                         |
 | ---------- | ------------------------------------------------------------ |
-| 第三方博客 | [link](https://exception.site/) [link](http://web.52shizhan.cn/ide?k=phpstorm) [link](https://www.789zhao.com/blog/JG093W033ZAJ.HTML) [link](https://blog.alipay168.cn/index/detail/item/587.html) [link](https://www.mano100.cn/thread-1942-1-1.html)  [link](https://www.yuque.com/u30882/rx39g7/dhe52q) |
+| 第三方博客 | [link](https://exception.site/) [link](http://web.52shizhan.cn/ide?k=phpstorm)  [link](https://blog.alipay168.cn/index/detail/item/587.html) [link](https://www.mano100.cn/thread-1942-1-1.html)  [link](https://www.yuque.com/u30882/rx39g7/dhe52q) |
 | 破解网站   | [link](https://jetbra.in/ed66823c-d42c-4f85-bb2e-655591c2b748.html) |
 
 # 个人破解记录
@@ -56,4 +56,18 @@
 > 4.重新启动
 >
 > 5.选择试用30天，到此就完成了重新试用。
+
+## linux 无限重置试用时间
+
+> 记得需要下载30天试用版本
+
+```shell
+yaoliuyang@yaoliuyang-PC:~/.config/JetBrains/PhpStorm2020.3$ pwd
+/home/yaoliuyang/.config/JetBrains/PhpStorm2020.3
+# 删除eval目录即可
+yaoliuyang@yaoliuyang-PC:~/.config/JetBrains/PhpStorm2020.3$ ls
+eval  event-log-metadata  jdbc-drivers  options  phpstorm64.vmoptions  port.lock  ssl  tasks  terminal  workspace
+```
+
+
 
