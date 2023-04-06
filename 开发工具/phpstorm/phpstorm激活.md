@@ -15,7 +15,7 @@
 
 # 扩展
 
-## 历史版本下载
+## 历史版本下载(注意:<font color="red">无限试用版本只有202003或者之前版本可以支持</font>)
 
 **Download**
 
@@ -56,4 +56,14 @@
 > 4.重新启动
 >
 > 5.选择试用30天，到此就完成了重新试用。
+
+## linux 破解
+
+> 注意:<font color="red">无限试用版本只有202003或者之前版本可以支持</font>
+
+```shell
+yly@yly-PC:~/.config/JetBrains/GoLand2020.3/eval$ pwd   /home/yly/.config/JetBrains/GoLand2020.3/eval
+# 删除里面的key文件即可实现重置
+yly@yly-PC:~/.config/JetBrains/GoLand2020.3/eval$ ls GoLand203.evaluation.key
+```
 
