@@ -244,6 +244,18 @@ if (!function_exists('http_request')) {
 
 ![image-20220812155446400](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220812155446400.png)
 
+### BUG解析
+
+#### 微信小程序生成二维码报错errcode=41030,invalid page rid
+
+```php
+https://blog.csdn.net/weixin_45792959/article/details/125639166
+```
+
+
+
+
+
 # 手机号
 
 ## [getPhoneNumber](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/phonenumber/phonenumber.getPhoneNumber.html)
