@@ -199,15 +199,25 @@ if (!function_exists('http_request')) {
         if ($width < 280) throw new SystemException("宽度最小280px");
         if ($width > 1280) throw new SystemException("宽度最大1280px");
         $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token={$this->accessToken}";
-        $check_path = env('APP_ENV') != 'dev' ? true : false;//是否判断路径
+        #$check_path = env('APP_ENV') != 'dev' ? true : false;//是否判断路径
         $envVersion = env('APP_ENV') != 'dev' ? 'release' : 'trial'; //设置自动跳转版本
-        $data = [
-            'scene' => $query,
-            'width' => $width,
-            'page' => $path,
-            'check_path' => $check_path,//是否判断路径
-            'env_version' => $envVersion //设置自动跳转版本
-        ];
+        if (env('APP_ENV') == 'dev') { //开发或本地
+            $check_path = false;//是否判断路径
+            $data = [
+                'scene' => $query,
+                'width' => $width,
+                'page' => $path,
+                'check_path' => $check_path,
+                'env_version' => $envVersion
+            ];
+        } else { //线上
+            $data = [
+                'scene' => $query,
+                'width' => $width,
+                'page' => $path,
+                'env_version' => $envVersion
+            ];
+        }
         $key = md5($query . $width . $path);
         $retData = Cache::get($key);
         if (!empty($retData)) return $retData;
