@@ -57,6 +57,17 @@ X-Deepin-CreatedBy=com.deepin.dde.daemon.Launcher
 X-Deepin-AppID=another_redis
 ```
 
+**补充**
+
+**如果没有图标文件**
+
+> 更多资料参考  https://www.cnblogs.com/sinferwu/p/16827735.html
+
+```shell
+# 解压.AppImage文件
+./Another-Redis-Desktop-Manager.1.5.9.AppImage --appimage-extract
+```
+
 
 
 # 三、使用
