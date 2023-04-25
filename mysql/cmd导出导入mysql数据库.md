@@ -17,6 +17,54 @@
 
 # 命令
 
+## 常用命令
+
+```php
+-u, --user：指定MySQL登录用户名；
+-p, --password：指定MySQL登录密码；
+-h, --host：指定MySQL主机名；
+-P, --port：指定MySQL端口号；
+--socket：指定MySQL socket文件路径；
+--protocol：指定MySQL连接协议；
+-c, --complete-insert：导出完整的INSERT语句；
+-e, --extended-insert：导出扩展的INSERT语句；
+--hex-blob：导出二进制数据的十六进制格式；
+-t, --no-create-info：只导出表数据，不导出表结构；
+-d, --no-data：只导出表结构，不导出表数据；
+-R, --routines：导出存储过程和函数；
+--triggers：导出触发器；
+--events：导出事件；
+--single-transaction：在一个事务内导出数据；
+--lock-tables：导出数据时锁定表；
+--default-character-set：指定导出文件的字符集；
+--set-gtid-purged：指定导出文件中要包含哪些GTID信息；
+--column-statistics：导出列的统计信息；
+--skip-comments：不导出注释信息；
+--skip-lock-tables：不锁定表进行导出；
+--skip-add-locks：不加锁进行导出；
+--skip-disable-keys：不禁用键进行导出；
+--skip-triggers：不导出触发器；
+--skip-routines：不导出存储过程和函数；
+--skip-events：不导出事件；
+--skip-opt：不使用优化选项进行导出；
+--compact：使用更紧凑的语法进行导出；
+--skip-extended-insert：不使用扩展的INSERT语法进行导出；
+--skip-comments：不导出注释信息；
+--skip-quote-names：不为表和列名加引号；
+--where：指定导出的数据条件；
+--tables：指定导出的表；
+--databases：指定导出的数据库；
+--ignore-table：指定要忽略的表；
+--no-create-db：不导出CREATE DATABASE语句；
+--add-drop-database：在导出文件中添加DROP DATABASE语句；
+--add-drop-table：在导出文件中添加DROP TABLE语句；
+--add-drop-trigger：在导出文件中添加DROP TRIGGER语句；
+--add-locks：在导出文件中添加LOCK TABLE语句；
+--add-locks-for-views：在导出文件中添加LOCK TABLE语句，包括视图；
+--add-drop-view：在导出文件中添加DROP VIEW语句；
+--add-drop-event：在导出文件中
+```
+
 ## 导出数据库
 
 ```sql
