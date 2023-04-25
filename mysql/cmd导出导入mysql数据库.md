@@ -90,8 +90,39 @@ mysql> source d:/laravel_study.sql # 导入sql
 # 编写定时任务
 mysqldump -u数据库用户名 -p数据库密码 要导出的数据库 > /data/mysql/要导出的数据库_$(date +%Y%m%d_%H%M%S).sql >> /dev/null 2>&1
 # 例子  备份今天的数据库并删除三天前的数据库备份
-mysqldump -uroot -p123456 mysql > /data/mysql/mysql_$(date +%Y%m%d_%H%M%S).sql >> /dev/null 2>&1 && cd /data/mysql/ && rm -rf mysql_$(date -d "3 day ago"  +%Y%m%d).sql
+/**
+ * 错误写法(/dev/null 2>&1 导致无法成功导致导出成功)
+ *  mysqldump -uroot -p123456 mysql > /data/mysql/mysql_$(date +%Y%m%d_%H%M%S).sql >> /dev/null 2>&1 && cd /data/mysql/ && rm -rf    
+ *  mysql_$(date -d "3 day ago"  +%Y%m%d).sql
+ */
+ 
+ mysqldump -uroot -p123456 mysql /dev/null 2>&1 > /data/mysql/mysql_$(date +%Y%m%d_%H%M%S).sql  && cd /data/mysql/ && rm -rf    
+   mysql_$(date -d "3 day ago"  +%Y%m%d).sql
 ```
+
+mysqldump导出数据库如何不输出错误信息
+
+
+
+## **bug复现**
+
+### 错误使用/dev/null 2>&1导致导出数据失败
+
+> 您可以使用以下命令来导出 MySQL 数据库并将错误信息输出到/dev/null中：
+
+```sql
+mysqldump -u [用户名] -p [密码] [数据库名] 2>/dev/null > [导出文件名].sql
+```
+
+> 这将把标准错误输出重定向到/dev/null（即不输出任何错误信息），并将数据库导出到指定的文件中。
+
+> 请注意，如果在导出过程中发生了任何错误，您将不会看到它们的详细信息。如果您需要查看任何错误信息，您可以省略重定向到/dev/null，然后将输出保存到文件中，以便稍后查看。
+
+```sql
+mysqldump -u [用户名] -p [密码] [数据库名] > [导出文件名].sql 2> [错误日志文件名].txt
+```
+
+> 这将把标准输出和标准错误输出分别重定向到不同的文件中。您可以将错误日志文件保存到任何您希望的位置，并查看其中的任何错误信息。
 
 
 
