@@ -149,6 +149,17 @@ $ hostname -f
 yaoliuyang-PC
 ```
 
+### 修改主机名称
+
+```shell
+#修改主机名，其中new_hostname是你想要设置的新主机名：(例子  hostnamectl set-hostname yaoliuyang )  hostnamectl set-hostname 是固定死的参数
+hostnamectl set-hostname new_hostname
+#重启系统以使更改生效。你可以使用以下命令来重启系统
+reboot
+```
+
+
+
 ## 处理文件命令:sed
 
 [sed命令详解](https://www.runoob.com/linux/linux-comm-sed.html)
