@@ -105,11 +105,118 @@ Worker::runAll();
 
 
 
+##  问题
+
+### websocket聊天如何发送图片给后端
+
+在workerman websocket中发送图片给后端可以采取多种方式，以下是其中两种常见的方法：
+
+#### 将图片数据作为二进制流发送
+
+前端将图片数据读取为二进制流后，通过websocket发送给后端，后端再将二进制流保存成图片文件。前端(客户端)发送代码示例：
+
+```php
+const reader = new FileReader();
+reader.onload = e => {
+  const blob = new Blob([e.target.result]);
+  // 通过websocket发送blob二进制流
+  ws.send(blob);
+}
+
+const file = document.querySelector('input[type=file]').files[0];
+reader.readAsArrayBuffer(file);
+```
+
+在后端接收websocket消息的回调函数中，可以使用`file_put_contents`等函数将二进制流转化为图片保存到服务器上：
+
+```php
+use Workerman\Protocols\Http\Request;
+
+$worker->onMessage = function($connection, $data) {
+    
+    // 文件保存目录
+    $uploadPath = __DIR__ . '/uploads/';
+    
+    // 将二进制数据保存到文件
+    file_put_contents($uploadPath . uniqid() . '.jpg', $data);
+};
+```
+
+**如何判断传输过来的数据是否是二进制**
+
+> 在 PHP 中，我们可以使用 `is_numeric()` 函数来判断一个字符串是否为数字，但是如果要检查参数是否为二进制，则需要使用另外一个函数，即 `ctype_print()`。`ctype_print()` 函数检查指定的字符串中是否包含可打印字符。如果包含不可打印字符（二进制），则返回 `false`。如果不包含不可打印字符，则返回 `true`。
+>
+> 例如，下面的代码检查 `$data` 是否为二进制字符串：
+>
+> 需要注意的是，为了避免误判，`ctype_print()` 函数只能作为判断字符串是否包含二进制字符的一种基本方法。如果需要更加精确的判断，可以考虑使用其他方法，比如查看字符串中是否包含 ASCII 控制字符或非 ASCII 字符等。
+
+```php
+if (ctype_print($data)) {
+    // $data 中不包含二进制字符，可以当作文本字符串处理
+} else {
+    // $data 中包含二进制字符，需要特殊处理
+}
+```
 
 
 
+#### 将图片转化为base64编码后发送
 
+前端将图片数据转化为base64编码后，通过websocket发送给后端，后端再将base64编码的字符串转化为图片文件。前端(客户端)发送代码示例：
 
+```php
+const reader = new FileReader();
+reader.onload = e => {
+  const base64Image = e.target.result.split(',')[1];
+  // 通过websocket发送base64编码后的图片数据
+  ws.send(base64Image);
+}
+
+const file = document.querySelector('input[type=file]').files[0];
+reader.readAsDataURL(file);
+```
+
+在后端接收websocket消息的回调函数中，可以使用`base64_decode`等函数将base64编码的图片数据转化为图片文件保存到服务器上：
+
+```php
+use Workerman\Protocols\Http\Request;
+
+$worker->onMessage = function($connection, $data) {
+    
+    // 文件保存目录
+    $uploadPath = __DIR__ . '/uploads/';
+    
+    // 将base64编码的字符串转化为图片
+    $imgData = base64_decode($data);
+    // 将图片保存到文件
+    file_put_contents($uploadPath . uniqid() . '.jpg', $imgData);
+};
+```
+
+**判断传输过来的数据是否是base64编码**
+
+> 在 PHP 中，可以使用 `base64_decode()` 函数来尝试将接收到的数据尝试解码为 Base64 字符串。如果解码成功，则说明接收到的数据是一个可解码的 Base64 字符串，否则说明数据不是一个合法的 Base64 编码的字符串。可以按照以下方式来进行判断
+>
+> 需要注意的是，如果接收到的数据不是一个合法的 Base64 编码的字符串，`base64_decode()` 函数会返回 `false`，而不是抛出异常。因此，在进行数据判断之前我们需要先检查解码结果是否合法。另外，我们还需要添加异常处理机制来防止非法数据引发异常。
+
+```php
+$data = '...'; // 传输过来的数据
+
+// 使用 try-catch 来防止非法数据引发异常
+try {
+    // 尝试将数据解码为 Base64 字符串
+    $decodedData = base64_decode($data, true);
+    
+    // 判断是否是合法的 Base64 字符串
+    if (base64_encode($decodedData) === $data) {
+        // 数据是一个合法的 Base64 编码的字符串
+    } else {
+        // 数据不是一个合法的 Base64 编码的字符串
+    }
+} catch (Exception $e) {
+    // 解码失败，数据不是一个合法的 Base64 编码的字符串
+}
+```
 
 
 
