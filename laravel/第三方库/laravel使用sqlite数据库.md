@@ -148,7 +148,7 @@ $user=DB::connection('sqlite')->table('user')->insert(['name'=>'张三']);
 
 ##  报错:Illuminate\Database\QueryException: could not find driver
 
-> 此错误说明找不到**php扩展**
+> 这个错误通常是由于在使用PHP连接SQLite数据库时缺少SQLite驱动程序导致的。要解决这个问题，你需要安装并启用PHP中的SQLite驱动程序。你可以使用以下步骤来安装SQLite驱动程序：
 
 ```shell
 bash-5.0# php -m
@@ -160,6 +160,29 @@ sqlite3    # sqlite3驱动
 ....
 [Zend Modules]
 Zend OPcache
+
+
+# -----------------------------------补充解决方案-------------------------------------------
+## 打开终端（或命令提示符，如果在Windows上）并运行以下命令安装SQLite3和PHP SQLite扩展：
+
+   sudo apt-get install sqlite3 libsqlite3-dev
+   sudo apt-get install php7.x-sqlite3
+
+## 注意：将“7.x”替换为你当前安装的PHP版本号，例如php7.4。
+
+## 安装完成后，在PHP配置文件中启用SQLite扩展。在Ubuntu上，配置文件位于“/etc/php/7.x/apache2/php.ini” （将“7.x”替换为你当前安装的PHP版本号）。将以下行添加到配置文件底部：
+
+   ```
+   extension=sqlite3
+   ```
+
+## 重启Apache Web服务器，以便使更改生效：
+
+   ```
+   sudo systemctl restart apache2
+   ```
+
+#安装完成后，再次运行你的代码，这个问题应该就得以解决了。
 ```
 
 **windows处理**
