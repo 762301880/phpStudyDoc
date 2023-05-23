@@ -41,11 +41,11 @@ php artisan migrate # 此迁移命令会在数据库生成对应的数据表
 ```sql
 CREATE TABLE `notifications` (
   `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL, # App\Notifications\UserLoginNotification  保存来自那个通知
-  `notifiable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL, # App\Models\User 通知类
-  `notifiable_id` bigint(20) unsigned NOT NULL, # 通知id
-  `data` text COLLATE utf8mb4_unicode_ci NOT NULL, # 传入的数据
-  `read_at` timestamp NULL DEFAULT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL, # App\Notifications\UserLoginNotification  --保存来自那个通知
+  `notifiable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL, # App\Models\User   --通知类
+  `notifiable_id` bigint(20) unsigned NOT NULL,              -- 通知id
+  `data` text COLLATE utf8mb4_unicode_ci NOT NULL,           -- 传入的数据
+  `read_at` timestamp NULL DEFAULT NULL,                     -- 阅读时间
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
