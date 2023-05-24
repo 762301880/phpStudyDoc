@@ -158,6 +158,76 @@ $user->notifications()->delete();
 >
 > 管理员对多用户、用户组、全站的站内信：即一对多发送(**点到面**)
 
+## 数据库设计
+
+```sql
+CREATE TABLE IF NOT EXISTS `message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,  #站内信的唯一标识符，使用自增长int类型；
+  `sender_id` int(11) NOT NULL,        # 站内信的发送者ID，使用int类型；
+  `receiver_id` int(11) NOT NULL,       #站内信的发送者ID，使用int类型；可以加一个模型字段就可以对应出是那张表的发送者id
+  `title` varchar(255) NOT NULL,      # 站内信的标题，使用varchar类型；
+  `content` text NOT NULL,            # 站内信的正文，使用text类型；
+  `created_at` datetime NOT NULL,    # 站内信的创建时间，使用datetime类型。   
+  `is_read` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0表示未读，1表示已读',  # (建议用时间字段表示read_at 未读表示空读了则显示时间)
+  `read_at`   TIMESTAMP NULL DEFAULT NULL COMMENT '站内信阅读时间';
+  PRIMARY KEY (`id`) 
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+```
+
+## 逻辑示例
+
+```php
+// 发送站内信的业务逻辑
+if ($_POST['action'] == 'send_message') {
+  $sender_id = $_SESSION['user_id']; // 获取发送者ID
+  $receiver_id = $_POST['receiver_id']; // 获取接收者ID
+  $title = $_POST['title']; // 获取站内信标题
+  $content = $_POST['content']; // 获取站内信正文
+  $timestamp = date('Y-m-d H:i:s'); // 获取当前时间
+
+  // 执行插入站内信操作
+  $sql = "INSERT INTO message (sender_id, receiver_id, title, content, created_at) VALUES ('$sender_id', '$receiver_id', '$title', '$content', '$timestamp')";
+  $result = $db->query($sql);
+
+  // 返回发送站内信结果
+  if ($result) {
+    echo json_encode(array('success' => true));
+  } else {
+    echo json_encode(array('success' => false));
+  }
+  exit;
+}
+
+// 获取用户的站内信列表
+$sql = "SELECT * FROM message WHERE receiver_id = {$_SESSION['user_id']} ORDER BY created_at DESC";
+$result = $db->query($sql);
+
+$messages = array();
+if ($result && $result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    array_push($messages, $row);
+  }
+}
+
+// 获取站内信详情
+if ($_GET['action'] == 'message_detail' && intval($_GET['message_id']) > 0) {
+  $sql = "SELECT * FROM message WHERE id = {$_GET['message_id']}";
+  $result = $db->query($sql);
+
+  if ($result && $result->num_rows > 0) {
+    $message = $result->fetch_assoc();
+  }
+}
+
+// 设置阅读时间
+function mark_as_read($message_id) {
+    // 在数据库中将read_at字段更新为当前时间戳
+    $query = "UPDATE `message` SET `read_at` = NOW() WHERE `id` = $message_id";
+    $result = mysqli_query($db, $query);
+    return $result; // 返回更新结果
+}
+```
+
 
 
 
