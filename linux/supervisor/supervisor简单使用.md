@@ -251,3 +251,52 @@ docker exec -it laravel_study supervisorctl restart laravel_swoole
 # 重要事件
 
 ## 新添加配置一定要重新载入配置新的配置才会生效
+
+## 添加配置文件时候注意事项(重要)
+
+#### 复制配置文件时候一定要注意千万别吗进程名字复制跟之前一样记得修改配置
+
+```shell
+[program:jz_order_share_append]  # 进程名称配置配置错误   应该修改为  jz_send_order_give_coupon
+process_name=%(program_name)s_%(process_num)02d
+command=php /www/wwwroot/home_train/think queue:work --daemon --queue send_order_give_coupon
+autostart=true
+autorestart=true
+startsecs=0
+# 修改为当前登录的用户 可以用 whoami 命令查询
+user=root
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/etc/supervisord.d/log/jz_send_order_give_coupon.log
+stopwaitsecs=3600
+
+
+
+# 例如上面的错误配置 我查询为什么我 jz_order_share_append.ini中的命令没跑起来  查看下面的进程被 6333占用了
+
+[root@iZwz9fhv99le4f935sqr8rZ log]# supervisorctl status
+cashier                                                                        RUNNING   pid 6313, uptime 0:00:58
+cashier-center                                                                 RUNNING   pid 6314, uptime 0:00:58
+cashier2                                                                       RUNNING   pid 6315, uptime 0:00:58
+gopxs_test                                                                     RUNNING   pid 6321, uptime 0:00:58
+gw-erm-api-server                                                              RUNNING   pid 6327, uptime 0:00:58
+jz_order_share_append:jz_order_share_append_00                                 RUNNING   pid 6333, uptime 0:00:58
+jz_order_success_callback:jz_order_success_callback_00                         RUNNING   pid 6337, uptime 0:00:58
+jz_reserve_to_aunt:jz_reserve_to_aunt_00                                       RUNNING   pid 6341, uptime 0:00:58
+jz_send_order_service_reserve_notice:jz_send_order_service_reserve_notice_00   RUNNING   pid 6346, uptime 0:00:58
+live-connect                                                                   RUNNING   pid 6347, uptime 0:00:58
+mid                                                                            RUNNING   pid 6349, uptime 0:00:58
+mid2                                                                           RUNNING   pid 6352, uptime 0:00:58
+push_erm_api_server                                                            RUNNING   pid 6353, uptime 0:00:58
+queue_erm_server                                                               RUNNING   pid 6355, uptime 0:00:58
+queue_server                                                                   RUNNING   pid 6356, uptime 0:00:58
+reset_top_and_sort                                                             RUNNING   pid 6359, uptime 0:00:58
+time_tasks                                                                     RUNNING   pid 6360, uptime 0:00:58
+vip_shop_update_time                                                           RUNNING   pid 6361, uptime 0:00:58
+# 再次查看6333进程 可以发现另一个复制的守护进程中的配置文件写错
+[root@iZwz9fhv99le4f935sqr8rZ log]# ps -ef | grep 6333
+root      6333  3449  0 10:45 ?        00:00:00 php /www/wwwroot/home_train/think queue:work --daemon --queue send_order_give_coupon
+root      6644  1758  0 10:47 pts/1    00:00:00 grep --color=auto 6333
+
+```
+
