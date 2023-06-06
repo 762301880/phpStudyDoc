@@ -440,3 +440,24 @@ public function getMiniAccessToken()
 | ------------ | ------------------------------------------------------------ |
 | 微信开发文档 | [link](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/group/wx.getGroupEnterInfo.html) [link](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html)  [link](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/group/wx.getGroupEnterInfo.html) |
 
+# [调用微信收货地址](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html)
+
+
+
+**返给后端地址信息**
+
+```php
+当用户通过 wx.chooseAddress 接口选择完地址后，会返回一个 address 对象，其中包含了用户选择的地址信息，具体字段说明如下：
+
+{
+  userName: '收货人姓名', // 姓名
+  postalCode: '邮编', // 邮编
+  provinceName: '省份名称', // 省份名称
+  cityName: '城市名称', // 城市名称
+  countyName: '区县名称', // 区县名称
+  detailInfo: '详细地址', // 详细地址
+  nationalCode: '收货地址国家码', // 国家码
+  telNumber: '手机号码' // 手机号码
+}
+```
+
