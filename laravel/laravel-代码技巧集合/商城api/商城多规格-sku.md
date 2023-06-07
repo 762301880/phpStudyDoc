@@ -23,6 +23,12 @@
 
 ## sku属性表
 
+>这种设计可以用于商品SKU，但是需要根据具体业务场景进行优化。其中，`spec_attr` 表用于存储规格属性，`spec_value` 表用于存储规格属性值，而 `spec` 表用于存储商品的规格信息。
+>
+>通过 `spec_attr` 和 `spec_value` 的表结构设计，可以灵活地管理商品规格属性和属性值。但是在实际业务场景中，考虑到规格数量较多时，会存在以下问题：
+>
+>
+
 ```sql
 CREATE TABLE `spec_attr` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -45,6 +51,7 @@ CREATE TABLE `spec_value` (
 
 CREATE TABLE `spec` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL COMMENT ‘关联商品id’,
   `original_price` decimal(10,2) DEFAULT NULL COMMENT '原价',
   `price` decimal(10,2) NOT NULL COMMENT '价格(规格价格)',
   `num` int NOT NULL COMMENT '总数量(不变的上架数量)',
@@ -53,9 +60,154 @@ CREATE TABLE `spec` (
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `spec_attr_ids` varchar(20) DEFAULT NULL COMMENT '规格关联属性id  例如 1,2,3',
-  `spec_value_ids` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '规格关联属性值ids  例如1,2,3',
+  `spec_value_ids` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '规格关联属性值ids  “颜色:红色|尺码:M',
   `express_fee` decimal(2,0) DEFAULT NULL COMMENT '快递费',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='规格表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品sku表';
+```
+
+**对应代码逻辑示例**
+
+
+
+```php
+<?php
+
+class skuService {
+  // 数据库连接句柄
+  private $conn;
+
+  public function __construct($db) {
+    $this->conn = $db;
+  }
+
+  /**
+   * 获取所有商品的 SKU 信息
+   */
+  public function getAllSkus($product_id) {
+    $sql = "SELECT * FROM sku WHERE product_id = ? ORDER BY id DESC";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(1, $product_id);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * 根据属性值获取 SKU 信息
+   */
+  public function getSkuByAttrValues($product_id, $attr_values) {
+    // 将属性值按照升序排序，并拼接为字符串
+    sort($attr_values);
+    $attr_values_str = implode('|', $attr_values);
+    // 查询匹配的 SKU 信息
+    $sql = "SELECT * FROM sku WHERE product_id = ? AND attr_values = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(1, $product_id);
+    $stmt->bindParam(2, $attr_values_str);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * 添加商品 SKU 信息
+   */
+  public function addSku($product_id, $price, $num, $attr_values) {
+    // 将属性值按照升序排序，并拼接为字符串
+    sort($attr_values);
+    $attr_values_str = implode('|', $attr_values);
+    // 插入新的 SKU 信息
+    $sql = "INSERT INTO sku (product_id, price, num, attr_values) VALUES (?, ?, ?, ?)";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(1, PDO::PARAM_INT);
+    $stmt->bindParam(2, PDO::PARAM_STR);
+    $stmt->bindParam(3, PDO::PARAM_INT);
+    $stmt->bindParam(4, PDO::PARAM_STR);
+    $stmt->execute([$product_id, $price, $num, $attr_values_str]);
+    return $this->conn->lastInsertId();
+  }
+
+  /**
+   * 更新商品 SKU 信息
+   */
+  public function updateSku($product_id, $sku_id, $price, $num, $attr_values) {
+    // 将属性值按照升序排序，并拼接为字符串
+    sort($attr_values);
+    $attr_values_str = implode('|', $attr_values);
+    // 更新 SKU 信息
+    $sql = "UPDATE sku SET price = ?, num = ?, attr_values = ? WHERE id = ? AND product_id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(1, PDO::PARAM_STR);
+    $stmt->bindParam(2, PDO::PARAM_INT);
+    $stmt->bindParam(3, PDO::PARAM_STR);
+    $stmt->bindParam(4, PDO::PARAM_INT);
+    $stmt->bindParam(5, PDO::PARAM_INT);
+    $stmt->execute([$price, $num, $attr_values_str, $sku_id, $product_id]);
+    return $stmt->rowCount();
+  }
+
+  /**
+   * 删除商品 SKU 信息
+   */
+  public function deleteSku($product_id, $sku_id) {
+    $sql = "DELETE FROM sku WHERE id = ? AND product_id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(1, PDO::PARAM_INT);
+    $stmt->bindParam(2, PDO::PARAM_INT);
+    $stmt->execute([$sku_id, $product_id]);
+    return $stmt->rowCount();
+  }
+}
+
+?>
+```
+
+>代码解释：
+>
+>- `skuService` 类负责实现 SKU 相关的数据操作逻辑。
+>- `__construct` 方法用于连接数据库。
+>- `getAllSkus` 方法用于获取指定商品的所有 SKU 信息。
+>- `getSkuByAttrValues` 方法用于根据属性值获取指定商品的 SKU 信息。
+>- `addSku` 方法用于添加商品的 SKU 信息。
+>- `updateSku` 方法用于更新商品的 SKU 信息。
+>- `deleteSku` 方法用于删除商品的 SKU 信息。
+>
+>在 `addSku` 和 `updateSku` 方法中，为了方便操作和参数传递方便，采用了预处理语句并进行了占位符绑定，同时也增加了防止 SQL 注入攻击的安全性。
+>
+>下面是一些可能会用到的代码片段，如需要完整的应用示例请提供更多信息。
+
+```php
+// 示例：获取所有商品的 SKU 信息
+$sku_service = new skuService($conn);
+$product_id = 1; // 商品ID
+$skus = $sku_service->getAllSkus($product_id);
+
+// 示例：通过属性值获取商品的 SKU 信息
+$sku_service = new skuService($conn);
+$product_id = 1; // 商品ID
+$attr_values = ['颜色:红色', '尺码:M']; // 属性值数组
+$sku = $sku_service->getSkuByAttrValues($product_id, $attr_values);
+
+// 示例：添加商品的 SKU 信息
+$sku_service = new skuService($conn);
+$product_id = 1; // 商品ID
+$price = 100; // SKU 价格
+$num = 10; // SKU 数量
+$attr_values = ['颜色:红色', '尺码:M']; // 属性值数组
+$sku_id = $sku_service->addSku($product_id, $price, $num, $attr_values);
+
+// 示例：更新商品的 SKU 信息
+$sku_service = new skuService($conn);
+$product_id = 1; // 商品ID
+$sku_id = 1; // SKU ID
+$price = 120; // 更新后的 SKU 价格
+$num = 15; // 更新后的 SKU 数量
+$attr_values = ['颜色:蓝色', '尺码:L']; // 更新后的属性值数组
+$result = $sku_service->updateSku($product_id, $sku_id, $price, $num, $attr_values);
+
+// 示例：删除商品的 SKU 信息
+$sku_service = new skuService($conn);
+$product_id = 1; // 商品ID
+$sku_id = 1; // SKU ID
+$result = $sku_service->deleteSku($product_id, $sku_id);
 ```
 
