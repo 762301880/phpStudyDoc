@@ -37,6 +37,33 @@
         \Cache::set($key, $res['access_token'], $expiration_time); //保存缓存
         return $res['access_token'];
     }
+
+## 推荐使用稳定版本  https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/mp-access-token/getStableAccessToken.html
+
+ /**
+         * 稳定版
+         */
+        $url = "https://api.weixin.qq.com/cgi-bin/stable_token";
+        $reqData = [
+            'grant_type' => 'client_credential',
+            'appid' => $this->appId,
+            'secret' => $this->secret
+        ];
+        $key = 'mini_program_access_token';//缓存小程序key
+        $expiration_time = 7200 - 60 * 3;//过期时间
+        $accessToken = Cache::get($key);
+        if (!empty($accessToken)) {
+            return $accessToken;
+        }
+        $res = request_post($url, json_encode($reqData));
+        $res=json_decode($res,true);
+        if (!empty($res['errcode'])) {
+            Log::info("请求小程序accesstoken:" . json_encode($res));
+            throw new SystemException('请求异常');
+        }
+        Cache::set($key, $res['access_token'], $expiration_time); //保存缓存
+        return $res['access_token'];
+
 ```
 
 **解决测试调用token线上token失效问题**
