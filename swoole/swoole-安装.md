@@ -172,6 +172,9 @@ swoole # 显示出的扩展有swoole即可
 
 ```shell
 sudo pecl install swoole
+
+# 安装指定版本
+pecl install https://pecl.php.net/get/swoole-4.8.1.tgz
 ```
 
 - 如果提示 `Command 'pecl' not found, but can be installed with:`
@@ -182,6 +185,22 @@ sudo apt install php-pear      # 必须安装用于直接安装swoole的命令
 ```
 
 - 然后通过 `php -i | grep php.ini` 定位 `php.ini` 文件所在位置，并打开该配置文件，在文件末尾追加如下内容：
+
+> 也可以在服务器上执行以下命令来查询php.ini文件的位置：
+>
+> ```
+> php -i | grep 'php.ini'
+> ```
+>
+> 该命令会输出php.ini文件的完整路径。
+>
+> 如果你的PHP安装目录和系统环境不同，可以使用以下命令来查找php.ini文件的位置：
+>
+> ```
+> php -r "phpinfo();" | grep 'php.ini'
+> ```
+>
+> 该命令会输出php.ini文件的完整路径，无论PHP安装目录是否默认
 
 ```shell
 [swoole]
