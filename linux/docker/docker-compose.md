@@ -1,3 +1,11 @@
+## 参考
+
+| 微软 | [link](https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/multi-container-microservice-net-applications/multi-container-applications-docker-compose) |
+| ---- | ------------------------------------------------------------ |
+|      |                                                              |
+
+
+
 # 简介
 
 > docker
@@ -351,5 +359,46 @@ RUN  dos2unix /bin/start_service.sh
 EXPOSE 9501 80
 
 CMD  ["/bin/start_service.sh"]
+```
+
+## docker-compose up -d 启动后自动删除垃圾容器
+
+> 不知道为什么构建容器之后目前会生成几个垃圾容器还没找到具体原因
+
+### docker system prune 删除
+
+`docker system prune` 是 Docker 提供的一个命令，可以一次性删除所有无用的 Docker 资源，包括：
+
+- 没有被使用的容器；
+- 没有被使用的镜像；
+- 没有被使用的匿名和挂起的数据卷；
+- 没有被使用的网络。
+
+使用 `docker system prune` 命令可以清理掉不需要的 Docker 资源，释放计算机的磁盘空间和系统资源，并且避免产生垃圾容器和镜像。
+
+`docker system prune` 命令的使用非常简单，只需要在 Docker 主机中执行即可：
+
+```
+docker system prune
+```
+
+
+
+在执行该命令后，Docker 会列出要删除的所有无用资源，并提示你确认删除。如果确认删除，请输入 `Y` 或 `yes`，然后按 Enter 键。删除无用资源可能需要花费一段时间，具体耗时取决于要删除的资源数量和大小。
+
+如果你想自动删除所有无用资源，而不需进行确认，请使用以下命令：
+
+```
+docker system prune -f
+```
+
+
+
+总之，`docker system prune` 命令是一种清理无用 Docker 资源的有效方法，可以使 Docker 主机保持整洁，节省磁盘空间，避免垃圾容器和镜像的产生。建议定期运行该命令，尤其是在 Docker 主机空间不足或需要释放系统资源时
+
+**结合使用**
+
+```shell
+docker-compose up -d && docker system prune -f
 ```
 
