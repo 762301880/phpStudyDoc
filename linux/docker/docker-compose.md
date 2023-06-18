@@ -402,3 +402,76 @@ docker system prune -f
 docker-compose up -d && docker system prune -f
 ```
 
+# 遇到的bug解析
+
+## docker-compose 修改mysql配置没有生效(密码)
+
+**我的配置文件**
+
+> **解决方案**
+>
+> 你可以尝试以下步骤：
+>
+> 1. 在执行 `docker-compose up` 启动服务之前，将 `./docker/db_data` 目录删除。
+> 2. 修改 `docker-compose.yml` 文件中的 `MYSQL_ROOT_PASSWORD` 变量为你想要的新密码。
+> 3. 重新执行 `docker-compose up -d` 启动服务。
+>
+> 这样可以确保 Docker 重新创建一个带有新密码的 MySQL 数据库容器。如果你仍然不行，可以执行以下步骤：
+>
+> 1. 停止并删除所有的 Docker 容器和网络： `docker-compose down --volumes`
+> 2. 删除 `./docker/db_data` 目录。
+> 3. 修改 `docker-compose.yml` 文件中的 `MYSQL_ROOT_PASSWORD` 变量为你想要的新密码。
+> 4. 重新执行 `docker-compose up -d` 启动服务。
+>
+> 这样应该能够让新密码生效。
+
+```php
+version: '3'
+
+services:
+  app:
+    build: docker
+    container_name: php7.4-fpm
+    restart: always
+    volumes:
+      - .:/data/work/laravel_study/
+    networks:
+      - web
+
+  web:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    ports:
+      - 1997:80
+      - 9501:9501
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/60.204.148.255.conf
+      - .:/data/work/laravel_study/
+    depends_on:
+      - app
+      - db
+    networks:
+      - web
+  db:
+    container_name: mysql-8.0
+    image: mysql:8.0
+    volumes:
+      - /data/db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    networks:
+      - web
+networks:
+  web:
+    driver: bridge
+
+```
+
+**<font color='red'>需要将对应的数据卷删除在重写执行 docker-compose up -d</font>**
