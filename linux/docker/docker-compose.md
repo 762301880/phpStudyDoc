@@ -1,3 +1,11 @@
+## 参考
+
+| 微软 | [link](https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/multi-container-microservice-net-applications/multi-container-applications-docker-compose) |
+| ---- | ------------------------------------------------------------ |
+|      |                                                              |
+
+
+
 # 简介
 
 > docker
@@ -353,3 +361,117 @@ EXPOSE 9501 80
 CMD  ["/bin/start_service.sh"]
 ```
 
+## docker-compose up -d 启动后自动删除垃圾容器
+
+> 不知道为什么构建容器之后目前会生成几个垃圾容器还没找到具体原因
+
+### docker system prune 删除
+
+`docker system prune` 是 Docker 提供的一个命令，可以一次性删除所有无用的 Docker 资源，包括：
+
+- 没有被使用的容器；
+- 没有被使用的镜像；
+- 没有被使用的匿名和挂起的数据卷；
+- 没有被使用的网络。
+
+使用 `docker system prune` 命令可以清理掉不需要的 Docker 资源，释放计算机的磁盘空间和系统资源，并且避免产生垃圾容器和镜像。
+
+`docker system prune` 命令的使用非常简单，只需要在 Docker 主机中执行即可：
+
+```
+docker system prune
+```
+
+
+
+在执行该命令后，Docker 会列出要删除的所有无用资源，并提示你确认删除。如果确认删除，请输入 `Y` 或 `yes`，然后按 Enter 键。删除无用资源可能需要花费一段时间，具体耗时取决于要删除的资源数量和大小。
+
+如果你想自动删除所有无用资源，而不需进行确认，请使用以下命令：
+
+```
+docker system prune -f
+```
+
+
+
+总之，`docker system prune` 命令是一种清理无用 Docker 资源的有效方法，可以使 Docker 主机保持整洁，节省磁盘空间，避免垃圾容器和镜像的产生。建议定期运行该命令，尤其是在 Docker 主机空间不足或需要释放系统资源时
+
+**结合使用**
+
+```shell
+docker-compose up -d && docker system prune -f
+```
+
+# 遇到的bug解析
+
+## docker-compose 修改mysql配置没有生效(密码)
+
+**我的配置文件**
+
+> **解决方案**
+>
+> 你可以尝试以下步骤：
+>
+> 1. 在执行 `docker-compose up` 启动服务之前，将 `./docker/db_data` 目录删除。
+> 2. 修改 `docker-compose.yml` 文件中的 `MYSQL_ROOT_PASSWORD` 变量为你想要的新密码。
+> 3. 重新执行 `docker-compose up -d` 启动服务。
+>
+> 这样可以确保 Docker 重新创建一个带有新密码的 MySQL 数据库容器。如果你仍然不行，可以执行以下步骤：
+>
+> 1. 停止并删除所有的 Docker 容器和网络： `docker-compose down --volumes`
+> 2. 删除 `./docker/db_data` 目录。
+> 3. 修改 `docker-compose.yml` 文件中的 `MYSQL_ROOT_PASSWORD` 变量为你想要的新密码。
+> 4. 重新执行 `docker-compose up -d` 启动服务。
+>
+> 这样应该能够让新密码生效。
+
+```php
+version: '3'
+
+services:
+  app:
+    build: docker
+    container_name: php7.4-fpm
+    restart: always
+    volumes:
+      - .:/data/work/laravel_study/
+    networks:
+      - web
+
+  web:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    ports:
+      - 1997:80
+      - 9501:9501
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/60.204.148.255.conf
+      - .:/data/work/laravel_study/
+    depends_on:
+      - app
+      - db
+    networks:
+      - web
+  db:
+    container_name: mysql-8.0
+    image: mysql:8.0
+    volumes:
+      - /data/db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    networks:
+      - web
+networks:
+  web:
+    driver: bridge
+
+```
+
+**<font color='red'>需要将对应的数据卷删除在重写执行 docker-compose up -d</font>**
