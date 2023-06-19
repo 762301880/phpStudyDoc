@@ -159,10 +159,10 @@ swoole # 显示出的扩展有swoole即可
 
 **资料**
 
-| 资料名称                               | 资料地址                                                 |
-| -------------------------------------- | -------------------------------------------------------- |
-| `laravel`学院`Swoole` 从入门到实战教程 | [地址](https://laravelacademy.org/books/swoole-tutorial) |
-|                                        |                                                          |
+| 资料名称                               | 资料地址                                                     |
+| -------------------------------------- | ------------------------------------------------------------ |
+| `laravel`学院`Swoole` 从入门到实战教程 | [地址](https://laravelacademy.org/books/swoole-tutorial)     |
+| 博客                                   | [link](https://blog.csdn.net/mouday/article/details/121658009) |
 
 `Ubuntu安装swoole`
 
