@@ -51,7 +51,7 @@ CREATE TABLE `spec_value` (
 
 CREATE TABLE `spec` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `product_id` int NOT NULL COMMENT ‘关联商品id’,
+  `product_id` int NOT NULL COMMENT '关联商品id',
   `original_price` decimal(10,2) DEFAULT NULL COMMENT '原价',
   `price` decimal(10,2) NOT NULL COMMENT '价格(规格价格)',
   `num` int NOT NULL COMMENT '总数量(不变的上架数量)',
