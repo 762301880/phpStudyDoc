@@ -102,6 +102,36 @@ yum -y install libcurl-devel
 
 **gd扩展**
 
+> gd库依赖**zlib**  **libpng**           
+>
+> **zlib安装**
+>
+> >  No package 'zlib' found    
+>
+> 对于 Ubuntu/Debian 系统
+>
+> apt-get update
+> apt-get install zlib1g-dev
+>
+> 对于 CentOS/RHEL 系统：
+>
+> yum install zlib-devel
+>
+> 安装完 zlib 库后，再尝试执行 `docker-php-ext-install gd` 命令，应该可以成功安装 GD 扩展了。
+>
+> **libpng**安装
+>
+> >    No package 'libpng' found
+>
+> 对于 Ubuntu/Debian 系统：
+>
+> apt-get update
+> apt-get install libpng-dev
+>
+> 对于 CentOS/RHEL 系统：
+>
+> yum install libpng-devel
+
 ```shell
 ./configure  --with-php-config=/usr/local/php7.4.3/bin/php-config
 # 提示报错
