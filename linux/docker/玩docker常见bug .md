@@ -111,7 +111,7 @@ bash-5.0# ps aux|grep cron
 
 ```shell
 # test  每分钟跑一个定时脚本写入时间  每小时10分钟清理只写入一条
-* * * * *  cd ~ && echo  $(date "+%Y-%m-%d %X") >> a.txt
-10 * * * *  cd ~ && echo  $(date "+%Y-%m-%d %X") > a.txt
+* * * * *   echo  $(date "+%Y-%m-%d %X") >> ~/test_cron.txt 
+10 * * * *  echo  $(date "+%Y-%m-%d %X")  >> ~/test_cron.txt 
 ```
 

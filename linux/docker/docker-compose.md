@@ -402,6 +402,16 @@ docker system prune -f
 docker-compose up -d && docker system prune -f
 ```
 
+### 删除所有启动的容器以及数据卷&镜像
+
+> 这将会删除所有已经停止的容器，删除所有构建的镜像，删除所有卷，并删除所有孤儿容器。之后你可以重新运行 `docker-compose up -d` 命令重新构建和启动所有服务。
+
+```shell
+docker-compose down --rmi all --volumes --remove-orphans
+```
+
+
+
 # 遇到的bug解析
 
 ## docker-compose 修改mysql配置没有生效(密码)
