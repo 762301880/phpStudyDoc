@@ -485,3 +485,74 @@ networks:
 ```
 
 **<font color='red'>需要将对应的数据卷删除在重写执行 docker-compose up -d</font>**
+
+## **配置定时任务无法执行**
+
+> linux cron定时任务 * * * * * echo 222222 >> aaa.txt 这种可以执行 * * * * * echo $(date '+%Y-%m-%d %X') >> ~/test_cron.txt 这种不能执行
+
+```shell
+您好！根据您提供的信息，似乎第一个命令可以正常执行，但第二个命令无法执行。
+
+根据您提供的第二个命令：`* * * * * echo $(date '+%Y-%m-%d %X') >> ~/test_cron.txt`，这是一个将当前时间追加到`test_cron.txt`文件中的命令。
+
+在Cron任务中，命令行环境可能与您在终端中使用的不同。要确保在Cron执行的命令中使用正确的环境变量和路径，可以尝试以下方法之一来解决问题：
+
+1. 完整指定命令的绝对路径：您可以使用命令`which`来查找命令在系统中的完整路径，例如：`/usr/bin/date`。将命令替换为完整路径后，Cron就可以正确执行它。
+2. 在Cron任务中设置环境变量：如果在命令行中使用了自定义环境变量，请确保在Cron任务中设置相同的环境变量。您可以使用Shell脚本或特殊的Cron环境文件来设置这些变量，例如在Cron任务之前添加`.bashrc`文件的引用：`. /home/your_username/.bashrc`。
+
+请注意，Cron任务执行时没有终端环境，所以要确保命令在没有用户交互的情况下能够正确执行。
+
+希望这些提示能帮助您解决问题。如果还有其他疑问，请随时提问！
+```
+
+为什么会出现这种情况
+
+![img](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAALxJREFUKFNjdPHv+s+AAzAyMD5lYGLczMjwbyvDH6Y7HIx/nzJi08DIyPic4S9DowCH/JzVq8P+IpuHRQPjVlYe9qjtS/M+YbMYRcN/Boapew2/5TE0NPzD6UyEkxi37jH86odPMcgQsA0gN7Nws2vgcgaGHxj/MWbs3lw6E5czUDS4+nc/EWCTl0cPDZx+cA3smb57fUkmMaaD/eAW2OWza33ZFuI1+PZo7NpccoNoDX5+nbybNpV/JlYDAHlQRz8Kbx0fAAAAAElFTkSuQmCC)
+
+出现这种情况的原因可能是以下几个方面：
+
+1. 环境变量：Cron任务是在系统后台运行的，它可能没有与您的用户环境相同的环境变量。因此，如果您在命令中使用了自定义环境变量，那么在Cron任务中就无法识别和使用它们。您需要在Cron任务中显式设置或引用这些环境变量。
+2. 路径问题：在命令行中使用的某些命令的完整路径可能与Cron任务中的不同。Cron任务没有终端交互，所以它不会根据您的$PATH环境变量来查找命令。要解决这个问题，您可以在Cron任务中使用完整的命令路径，如`/usr/bin/date`。
+3. 文件路径权限问题：Cron任务在执行时使用的用户可能没有对特定文件或目录的写权限。请确保Cron任务所使用的用户对目标文件的路径有适当的访问权限。
+
+总的来说，Cron任务是在不同的环境中运行的，与交互式终端会话有所不同。因此，您需要特别关注环境变量、命令路径和文件权限等问题，以确保Cron任务能够正确执行。
+
+![img](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAIFJREFUKFOV0LENwjAQheHfSW36iDYFuwS2iISUJRiCAiZgAKZJyyQvOukcoQQS293Z9+ndOUiKwBFogQ64eM2vE5aXkmqgB25As3xfgdQg6QC8PHV2f4F1SKqAOzAksQm+0Dsl7QJHNt5oO2UBR1fgWQLs9z7ZwFMepeBcCk6lIE4RQize+r7aywAAAABJRU5ErkJggg==)
+
+怎么能让cron使用当前用户环境相同的环境变量
+
+![img](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAALxJREFUKFNjdPHv+s+AAzAyMD5lYGLczMjwbyvDH6Y7HIx/nzJi08DIyPic4S9DowCH/JzVq8P+IpuHRQPjVlYe9qjtS/M+YbMYRcN/Boapew2/5TE0NPzD6UyEkxi37jH86odPMcgQsA0gN7Nws2vgcgaGHxj/MWbs3lw6E5czUDS4+nc/EWCTl0cPDZx+cA3smb57fUkmMaaD/eAW2OWza33ZFuI1+PZo7NpccoNoDX5+nbybNpV/JlYDAHlQRz8Kbx0fAAAAAElFTkSuQmCC)
+
+要让Cron任务使用当前用户环境相同的环境变量，可以按照以下步骤操作：
+
+1. 打开您的Cron配置文件：在终端中使用以下命令打开Cron配置文件：
+
+   ```
+   crontab -e
+   ```
+
+   
+
+2. 在配置文件中设置环境变量：在打开的配置文件中添加您所需的环境变量。例如，如果您想要设置`PATH`环境变量，可以在文件开头添加类似如下的行：
+
+   ```
+   PATH=/your/custom/path:/usr/local/bin:/usr/bin:/bin
+   ```
+
+   
+
+   请按照您自己的需求设置其他环境变量。
+
+3. 保存并退出文件：完成环境变量的设置后，保存并退出Cron配置文件。
+
+4. 重启Cron服务：使更改生效，需要重新启动Cron服务。在终端中，使用以下命令重启Cron服务：
+
+   ```
+   sudo service cron restart
+   ```
+
+   
+
+现在，Cron任务将在执行时使用与当前用户相同的环境变量。请注意，这样做可能会增加Cron任务的复杂性和依赖性，因为它依赖于当前用户的环境设置。在设置环境变量时，请确保遵循正确的语法和设置安全性。
+
+希望这能帮到您！如果您还有其他疑问，请随时提问。
