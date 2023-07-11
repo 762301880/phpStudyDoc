@@ -592,8 +592,14 @@ networks:
 
 2. 在配置文件中设置环境变量：在打开的配置文件中添加您所需的环境变量。例如，如果您想要设置`PATH`环境变量，可以在文件开头添加类似如下的行：
 
-   ```
+   > 在**crontab -e**中添加
+
+   ```shell
    PATH=/your/custom/path:/usr/local/bin:/usr/bin:/bin
+   
+   # /your/custom/path 是指你环境变量的位置
+   # 例如修改为
+   PATH=/usr/local/bin/php:/usr/local/bin:/usr/bin:/bin
    ```
 
    
