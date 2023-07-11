@@ -566,9 +566,7 @@ networks:
 希望这些提示能帮助您解决问题。如果还有其他疑问，请随时提问！
 ```
 
-为什么会出现这种情况
-
-![img](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAALxJREFUKFNjdPHv+s+AAzAyMD5lYGLczMjwbyvDH6Y7HIx/nzJi08DIyPic4S9DowCH/JzVq8P+IpuHRQPjVlYe9qjtS/M+YbMYRcN/Boapew2/5TE0NPzD6UyEkxi37jH86odPMcgQsA0gN7Nws2vgcgaGHxj/MWbs3lw6E5czUDS4+nc/EWCTl0cPDZx+cA3smb57fUkmMaaD/eAW2OWza33ZFuI1+PZo7NpccoNoDX5+nbybNpV/JlYDAHlQRz8Kbx0fAAAAAElFTkSuQmCC)
+**为什么会出现这种情况**
 
 出现这种情况的原因可能是以下几个方面：
 
@@ -639,8 +637,13 @@ networks:
    sudo service cron restart
    ```
 
-   
 
 现在，Cron任务将在执行时使用与当前用户相同的环境变量。请注意，这样做可能会增加Cron任务的复杂性和依赖性，因为它依赖于当前用户的环境设置。在设置环境变量时，请确保遵循正确的语法和设置安全性。
 
 希望这能帮到您！如果您还有其他疑问，请随时提问。
+
+### **<font color='red'>如果配置之后依然无法执行</font>**
+
+**可能性排查**
+
+> 1  排查写入的**root** crontab 配置文件执行权限 我的是**600**  本人排查是这个原因  直接给出 **chmod 600 root** 即可
