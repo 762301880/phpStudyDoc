@@ -39,3 +39,12 @@
 | RetroArch | [link](https://www.retroarch.com/)                           |
 | lakka     | [link](https://www.lakka.tv/) [link](https://www.lakka.tv/get/) |
 
+## 手柄
+
+**穷逼使用手机模拟手柄**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| DroidJoy | [link](https://play.google.com/store/apps/details?id=com.grill.droidjoy&hl=en)  [link](https://www.upanboot.com/app/205867.html) |
+|          |                                                              |
+
