@@ -14,6 +14,8 @@
 ## **安装到U盘启动盘**
 
 > [**USB 启动盘软件下载**](https://rufus.ie/zh/#google_vignette)
+>
+> https://win32diskimager.org/
 
 ![image-20230717140324244](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230717140324244.png)
 
