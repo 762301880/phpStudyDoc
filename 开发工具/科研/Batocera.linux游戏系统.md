@@ -16,3 +16,26 @@
 > [**USB 启动盘软件下载**](https://rufus.ie/zh/#google_vignette)
 
 ![image-20230717140324244](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230717140324244.png)
+
+# 补充
+
+## 其它类似于Batocera的Linux游戏系统
+
+> 类似于Batocera.linux的Linux系统还有以下几种:
+>
+> 1. RetroPie: RetroPie是一个专为单板电脑和开发板设计的Linux发行版，专门用于模拟器和游戏机的构建。它支持广泛的游戏机平台，并提供易于使用的界面。
+> 2. Lakka: Lakka是另一个面向游戏的Linux发行版，它基于OpenELEC和RetroArch，提供了一个轻量级的、易于使用的界面，适用于单板电脑和开发板。
+> 3. Recalbox: Recalbox也是一个针对游戏机的Linux发行版，类似于RetroPie。它集成了多个模拟器和游戏引擎，并提供简单的设置界面。
+> 4. RetroArch: RetroArch并不是一个完整的操作系统，而是一个多平台的前端程序，可用于各种操作系统上运行模拟器和游戏。它具有广泛的平台和模拟器支持，并提供强大的配置选项。
+>
+> 这些都是类似于Batocera.linux的Linux系统，旨在提供游戏机模拟器和游戏的支持。根据个人喜好和需求，你可以选择其中一个来构建自己的游戏机系统。
+
+**地址**
+
+| 名称      | 地址                                                         |
+| --------- | ------------------------------------------------------------ |
+| Recalbox  | [link](https://www.recalbox.com/)                            |
+| RetroPie  | [link](https://retropie.org.uk/download/)                    |
+| RetroArch | [link](https://www.retroarch.com/)                           |
+| lakka     | [link](https://www.lakka.tv/) [link](https://www.lakka.tv/get/) |
+
