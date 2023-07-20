@@ -40,6 +40,7 @@
 | RetroPie  | [link](https://retropie.org.uk/download/)                    |
 | RetroArch | [link](https://www.retroarch.com/)                           |
 | lakka     | [link](https://www.lakka.tv/) [link](https://www.lakka.tv/get/) |
+| retrobat  | [link](https://www.retrobat.ovh/) [link](https://www.retrobat.org/) |
 
 ## 手柄
 
