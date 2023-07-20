@@ -172,3 +172,41 @@ END;
 call addMyData();
 ```
 
+**示例补充- 自动递增日期**
+
+```mysql
+# 添加数据库
+CREATE TABLE `test` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT ' ',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14652 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+-- 执行写入过程
+DROP PROCEDURE if exists addMyData -- 先删除再创建
+
+-- CREATE PROCEDURE addMyData () BEGIN
+-- 	DECLARE num INT;
+-- 	DECLARE curr_date DATE;
+-- 	
+-- 	SET num = 1;
+-- 	
+-- 	SET curr_date = DATE( '2021-07-20' );-- 指定初始日期
+-- 	WHILE
+-- 			num <= 100000 DO
+-- 			INSERT INTO test ( `create_time` )
+-- 		VALUES
+-- 			( curr_date );
+-- 		
+-- 		SET num = num + 1;
+-- 		
+-- 		SET curr_date = DATE_ADD( curr_date, INTERVAL 1 DAY );-- 增加一天
+-- 		
+-- 	END WHILE;
+-- END;
+
+-- call addMyData();
+```
+
