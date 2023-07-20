@@ -210,3 +210,17 @@ DROP PROCEDURE if exists addMyData -- 先删除再创建
 -- call addMyData();
 ```
 
+## 删除三个月前的数据
+
+```mysql
+DELETE FROM `test` where  DATE_FORMAT(create_time,'%Y-%m-%d') <  DATE_FORMAT( DATE_SUB( CURDATE(), INTERVAL 3 MONTH ), '%Y-%m-%d' )
+
+-- SELECT
+-- 	*,
+-- 	DATE_FORMAT( create_time, '%Y-%m-%d' ) AS del_time,
+-- 	DATE_FORMAT( DATE_SUB( CURDATE(), INTERVAL 3 MONTH ), '%Y-%m-%d' ) AS three_months_ago
+-- 
+-- FROM
+-- 	test
+```
+
