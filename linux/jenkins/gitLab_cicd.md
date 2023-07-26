@@ -68,6 +68,24 @@ deploy:
 >
 > 需要注意的是，sshpass对于安全性来说是不太理想的，因为它需要明文传输密码。因此，只有在安全性不是很重要的情况下才应该使用sshpass。在生产环境中，推荐使用SSH密钥对进行身份验证，以提高系统的安全性。
 
+####  自动更新swoole
+
+> **exec 不能加-it** 
+>
+> 这个错误提示表明你正在尝试在非交互设备上执行一个需要终端交互的命令。在你的命令中，`-it`选项指示`docker exec`命令需要一个交互式终端会话。
+>
+> 然而，由于你正在通过SSH连接执行命令，而SSH连接不会提供实际的TTY终端，所以会报错。要解决这个问题，你可以尝试去掉`-it`选项，将`docker exec`命令改为非交互式执行。
+>
+> 这样，你可以通过SSH连接执行`docker exec`命令，并列出`php7.4-fpm`容器中的文件列表。记住，由于没有使用交互式终端，可能需要适当调整命令以适应非交互式执行，并且某些命令的行为可能会有所不同。
+
+```shell
+  # 定义部署任务
+  script:
+    - sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd $REMOTE_DIRECTORY && git pull origin develop && docker exec php7.4-fpm supervisorctl restart all"
+```
+
+
+
 ### **对应变量配置**
 
 > 需要注意的是编辑变量勾选的时候不要点击了
