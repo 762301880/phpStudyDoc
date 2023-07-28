@@ -8,3 +8,18 @@
 | 官网                                                         | [MySQL Data Dumper in Launchpad](https://launchpad.net/mydumper) |
 | github                                                       | [GitHub - mydumper/mydumper：官方MyDumper项目](https://github.com/mydumper/mydumper) |
 
+## 安装 mydumper
+
+
+
+```shell
+wget https://github.com/mydumper/mydumper/archive/refs/tags/v0.15.1-1.tar.gz
+
+tar -zxvf v0.15.1-1.tar.gz
+
+cd mydumper-0.15.1-1      # 根据解压得到的目录名进行调整
+
+cmake .
+make && make install
+```
+
