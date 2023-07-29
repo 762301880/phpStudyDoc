@@ -145,7 +145,7 @@ Dependencies resolved.
 
 | 名称 | 地址                                                         |
 | ---- | ------------------------------------------------------------ |
-| 官网 | [link]([在Red Hat Enterprise Linux和CentOS上安装Percona XtraBackup - Percona XtraBackup](https://docs.percona.com/percona-xtrabackup/2.4/installation/yum_repo.html)) |
+| 官网 | [在Red Hat Enterprise Linux和CentOS上安装Percona XtraBackup - Percona XtraBackup](https://docs.percona.com/percona-xtrabackup/2.4/installation/yum_repo.html) |
 
 > 是的，有一些类似于mydumper的数据库迁移工具，它们也是用于备份和迁移MySQL数据库的工具。以下是几个常用的工具：
 >
