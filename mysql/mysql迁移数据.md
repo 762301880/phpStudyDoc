@@ -117,9 +117,9 @@ mydumper --help
 
 请注意，如果您的mydumper安装是通过其他方式进行的，那么卸载步骤可能会略有不同。在执行卸载操作之前，请确保备份重要数据，并仔细阅读相关文档或咨询社区以获取更准确的卸载指南。
 
-# bug解析
+## bug解析
 
-## **如果执行 cmake . 报错 cmake: symbol lookup error: cmake: undefined symbol: archive_write_add_filter_zstd**
+###  **如果执行 cmake . 报错 cmake: symbol lookup error: cmake: undefined symbol: archive_write_add_filter_zstd**
 
 **参考资料**
 
@@ -139,3 +139,18 @@ Package libarchive-3.3.2-8.el8_1.x86_64 is already installed.
 Dependencies resolved.
 ```
 
+# **XtraBackup** 备份(待补充)
+
+**资料**
+
+| 名称 | 地址                                                         |
+| ---- | ------------------------------------------------------------ |
+| 官网 | [link]([在Red Hat Enterprise Linux和CentOS上安装Percona XtraBackup - Percona XtraBackup](https://docs.percona.com/percona-xtrabackup/2.4/installation/yum_repo.html)) |
+
+> 是的，有一些类似于mydumper的数据库迁移工具，它们也是用于备份和迁移MySQL数据库的工具。以下是几个常用的工具：
+>
+> 1. Percona XtraBackup：Percona XtraBackup是一个开源的MySQL备份工具，它能够高效地备份InnoDB和XtraDB存储引擎的数据文件，支持增量备份和并行备份。Percona XtraBackup可以用于备份和恢复MySQL数据库，也可以用于数据库迁移，将备份的数据导入到新的数据库中。
+> 2. MySQL Enterprise Backup：MySQL Enterprise Backup是MySQL官方提供的商业备份工具，它支持在生产环境中进行高效备份和恢复操作。MySQL Enterprise Backup提供了增量备份的功能，可以将备份数据迁移到其他MySQL实例中。
+> 3. pt-archiver：pt-archiver是Percona Toolkit中的一个工具，用于根据用户定义的过滤条件从MySQL表中导出数据。它可以将导出的数据保存为CSV、JSON等格式，并支持按批次导出。虽然pt-archiver主要用于导出数据，但也可以将导出的数据导入到另一个MySQL实例中，达到数据库迁移的目的。
+>
+> 这些工具与mydumper不同的是，它们更侧重于备份和恢复操作，但同样可以用于数据库迁移。根据你的需求和环境，选择适合的工具来实现数据库迁移。在使用任何数据库迁移工具之前，请务必仔细阅读相关文档和进行测试，以确保数据的正确迁移和完整性。
