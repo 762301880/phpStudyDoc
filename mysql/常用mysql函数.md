@@ -213,6 +213,7 @@ DROP PROCEDURE if exists addMyData -- 先删除再创建
 ## 删除三个月前的数据
 
 ```mysql
+# FROM_UNIXTIME(create_time,'%Y-%m-%d')
 DELETE FROM `test` where  DATE_FORMAT(create_time,'%Y-%m-%d') <  DATE_FORMAT( DATE_SUB( CURDATE(), INTERVAL 3 MONTH ), '%Y-%m-%d' )
 
 -- SELECT
