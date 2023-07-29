@@ -34,21 +34,21 @@ mydumper --version
 1. 安装编译依赖性：
    在编译前，需要安装一些依赖包和开发工具。执行以下命令以安装这些依赖项：
 
-```
-sudo yum install -y cmake gcc glib2-devel mysql-devel zlib-devel
+```shell
+yum install -y cmake gcc glib2-devel mysql-devel zlib-devel
 ```
 
 1. 下载mydumper源代码：
    通过以下命令下载mydumper源代码：
 
-```
+```shell
 wget https://github.com/maxbube/mydumper/archive/refs/tags/v0.9.5.tar.gz
 ```
 
 1. 解压和编译源代码：
    执行以下命令解压并编译源代码：
 
-```
+```shell
 tar -zxvf v0.9.5.tar.gz
 cd mydumper-0.9.5/
 cmake .
@@ -75,7 +75,16 @@ mydumper --help
 
 希望以上信息能对你有所帮助！如有任何疑问，请随时提问。
 
-# 卸载mydumper
+## 使用示例
+
+### 导入
+
+```shell
+# 导入示例
+ myloader -u yao_test -p H5ZKdTcr7s2Hjsy7 -B yao_test -d /data/backup -o
+```
+
+## 卸载mydumper
 
 要卸载mydumper，您可以按照以下步骤操作：
 
@@ -108,32 +117,25 @@ mydumper --help
 
 请注意，如果您的mydumper安装是通过其他方式进行的，那么卸载步骤可能会略有不同。在执行卸载操作之前，请确保备份重要数据，并仔细阅读相关文档或咨询社区以获取更准确的卸载指南。
 
+# bug解析
 
+## **如果执行 cmake . 报错 cmake: symbol lookup error: cmake: undefined symbol: archive_write_add_filter_zstd**
 
+**参考资料**
 
+| name     | url                                                          |
+| -------- | ------------------------------------------------------------ |
+| 博客参考 | [link](https://blog.csdn.net/chenyulancn/article/details/118540210) |
 
+**解决示例**
 
-
+```shell
 [root@iZwz9fhv99le4f935sqr8rZ mydumper-0.9.5]# cmake .
 cmake: symbol lookup error: cmake: undefined symbol: archive_write_add_filter_zstd
-
-
 
 [root@iZwz9fhv99le4f935sqr8rZ mydumper-0.9.5]#  yum install  libarchive
 Last metadata expiration check: 0:08:55 ago on Fri 28 Jul 2023 05:05:20 PM CST.
 Package libarchive-3.3.2-8.el8_1.x86_64 is already installed.
 Dependencies resolved.
-
-
-
-https://blog.csdn.net/chenyulancn/article/details/118540210
-
-
-
-
-
-```shell
-# 导入示例
- myloader -u yao_test -p H5ZKdTcr7s2Hjsy7 -B yao_test -d /data/backup -o
 ```
 
