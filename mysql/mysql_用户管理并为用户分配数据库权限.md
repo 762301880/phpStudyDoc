@@ -26,3 +26,66 @@
  FLUSH PRIVILEGES; #刷新权限
 ```
 
+
+
+
+
+#  参考
+
+MySQL是一种流行的关系型数据库管理系统，可以使用以下命令为用户赋予权限：
+
+1. 创建用户：
+
+   ```mysql
+   CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+   ```
+
+   这将创建一个名为’username’的用户，只能从本地主机访问，并使用指定的密码进行身份验证。
+
+2. 授予全局权限：
+
+   ```mysql
+   GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
+   ```
+
+   这将授予用户’username’在所有数据库和所有表上的全部权限。
+
+3. 授予特定数据库权限：
+
+   ```mysql
+   GRANT ALL PRIVILEGES ON dbname.* TO 'username'@'localhost';
+   ```
+
+   这将授予用户’username’在指定的数据库（dbname）上的全部权限。
+
+4. 授予特定表权限：
+
+   ```mysql
+   GRANT SELECT, INSERT, DELETE ON dbname.tablename TO 'username'@'localhost';
+   ```
+
+   这将授予用户’username’在指定数据库（dbname）的特定表（tablename）上的SELECT、INSERT和DELETE权限。
+
+5. 刷新权限：
+
+   ```mysql
+   FLUSH PRIVILEGES;
+   ```
+
+   在修改权限后，使用此命令刷新权限，以使更改生效。
+
+请注意，上述命令中的’localhost’可以替换为其他主机名或 IP 地址，以允许从其他主机访问数据库。另外，'*'代表所有数据库或所有表，你可以根据需求进行调整。
+
+以上是MySQL中常用的赋予用户权限的命令。详细的权限管理内容可以参考MySQL官方文档。
+
+**示例**
+
+```shell
+# 创建用户
+CREATE USER 'yao_test_backup'@'%' IDENTIFIED BY 'yao123456';
+# 分配所有权限
+GRANT ALL PRIVILEGES ON housekeeping.* TO 'yao_test_backup'@'%';
+
+
+```
+
