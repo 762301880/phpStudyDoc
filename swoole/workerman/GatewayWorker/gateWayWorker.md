@@ -109,11 +109,7 @@ public function bind(Request $request)
 
 
 
-
-
-
-
-
+# [tp5 Workerman 快速上手手册](https://www.kancloud.cn/thinkphp/think-worker/722897#Workerman_Server_389)
 
 
 
