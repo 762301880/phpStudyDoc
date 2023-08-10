@@ -13,7 +13,7 @@
 # 下载 默认下载得是最新版 8.*的mysql
 docker pull mysql
 # 启动 -e(设置环境变量) MYSQL_ROOT_PASSWORD=指定密码  不推荐使用-v h
-docker run --name mysql -itd -p 3307:3306 -v /data/mysql:/etc/mysql -e MYSQL_ROOT_PASSWORD=yaoliuyang  容器id
+docker run --name mysql -itd -p 3307:3306 -v /data/mysql:/etc/mysql -e MYSQL_ROOT_PASSWORD=yaoliuyang  镜像id
 # 执行上一步直接远程连接即可 用户名是root
 ```
 
