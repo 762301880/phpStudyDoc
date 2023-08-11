@@ -39,15 +39,17 @@
 
 **下载对应版本**
 
->  Thread Safe([线程安全](https://so.csdn.net/so/search?q=线程安全&spm=1001.2101.3001.7020))和 None Thread Safe(NTS，非线程安全)  本人下载的是**None Thread Safe**,**是否线程安全可以打印phpinfo()**
+>  **是否线程安全可以打印phpinfo()**查询线程是否安全
 >
-> 查询线程是否安全
+>  **Thread Safety**  值为**disabled** 就是代表**你的PHP版本不支持线程安全**
+>
+>   本人下载的是**None Thread Safe**
 
-![1652404126(1).jpg](https://s2.loli.net/2022/05/13/T1nKjFztwLaS8Gy.png)
+![image-20230811095220357](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230811095220357.png)
 
 > 线程安全:禁用
 
-![1652404349(1).jpg](https://s2.loli.net/2022/05/13/dXYoGuwZnV42CSt.png)
+![image-20230811095423442](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230811095423442.png)
 
 下载完成之后解压
 
@@ -321,4 +323,4 @@ extension_loaded('yar');  # 判断yar扩展是否存在返回 bool类型
 >
 > **PHP Runtime 勾选扩展**点击**确定回到编辑器既可以有提示**
 
-![1652405064(1).png](https://s2.loli.net/2022/05/13/3CanPeRZ7sbpvhY.png)
+![image-20230811094333727](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230811094333727.png)
