@@ -232,7 +232,12 @@ bash-5.0# php -m | grep yar
 yar
 ```
 
+### pecl安装
 
+```shell
+pecl install yar
+pecl install msgpack
+```
 
 # 项目中使用实例
 
@@ -301,19 +306,15 @@ class YarService
 return $client->test('张三');
 ```
 
+# 补充
 
-
-## 补充
-
-**判断扩展是否存在**
+## **判断yar扩展是否存在**
 
 ```php
 extension_loaded('yar');  # 判断yar扩展是否存在返回 bool类型
 ```
 
-
-
-# phpstorm对应扩展提示设置
+## phpstorm对应扩展提示设置
 
 **说明**
 
