@@ -225,3 +225,31 @@ DELETE FROM `test` where  DATE_FORMAT(create_time,'%Y-%m-%d') <  DATE_FORMAT( DA
 -- 	test
 ```
 
+## 查询sql语句瓶颈
+
+> EXPLAIN命令是SQL语句中的一个关键字，用于分析查询语句或表结构的性能瓶颈。它可以模拟优化器执行SQL查询语句，从而知道数据库是如何处理SQL语句的。EXPLAIN命令可以帮助我们找出查询语句的瓶颈，从而进行优化。
+>
+> EXPLAIN命令的基本语法如下
+
+```sql
+EXPLAIN SELECT * FROM table_name WHERE condition;
+```
+
+> 其中，`SELECT`语句是要进行分析的查询语句，`table_name`是要查询的表名，`condition`是查询条件。
+>
+> EXPLAIN命令的输出结果中包含了很多信息，其中比较重要的有：
+>
+> - id：每个查询语句都有一个唯一的id。
+> - select_type：查询类型，包括SIMPLE（简单查询）、PRIMARY（主查询）、SUBQUERY（子查询）等。
+> - table：要查询的表名。
+> - partitions：表所属的分区。
+> - type：访问类型，包括ALL（全表扫描）、index（索引扫描）、range（范围扫描）等。
+> - possible_keys：可能使用的索引。
+> - key：实际使用的索引。
+> - key_length：使用的索引长度。
+> - ref：连接条件中使用的列或常量。
+> - rows：扫描的行数。
+> - filtered：按表条件过滤的行数。
+> - Extra：包含不适合在其他列中显示的额外信息，如Using index（使用覆盖索引）、Using filesort（使用文件排序）等。
+>
+> 其中，type和key是最重要的两个字段。type字段表示MySQL如何查找数据，而key字段表示MySQL实际上使用了哪个索引来查找数据。如果type为ALL，则表示MySQL没有使用任何索引来查找数据；如果type为index，则表示MySQL使用了覆盖索引（Covering Index）来查找数据；如果type为range，则表示MySQL使用了范围扫描（Range Scan）来查找数据；如果type为ref，则表示MySQL使用了索引合并扫描（Index Merge Scan）来查找数据。而key字段则表示MySQL实际上使用了哪个索引来查找数据。如果key为NULL，则表示MySQL没有使用任何索引来查找数据；如果key为const，则表示MySQL使用了主键或唯一索引来查找数据；如果key为system，则表示MySQL只扫描了1行数据，并且这1行数据就是system表中的唯一数据。
