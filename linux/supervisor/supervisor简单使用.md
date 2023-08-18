@@ -47,7 +47,7 @@ files = /etc/supervisor.d/*.ini # 主要关注这一行这个是我们要添加�
 
 # 添加配置
 touch /run/supervisord.conf
-supervisord -c /etc/supervisord.conf #可以直接执行这条命令, 自动创建supervisor.sock
+supervisord -c /etc/supervisord.conf #可以直接执行这条命令, 自动创建supervisor.sock   请注意一般supervisord.conf文件的位置再/etc/supervisor目录下所以命令需要修改
 
 mkdir /etc/supervisor.d && chmod -R 777 /etc/supervisor.d # 创建配置文件夹
 
