@@ -92,3 +92,16 @@ pm.request.body.raw = GlobalJsonMinify(pm.request.body.raw)
 | 参考博客 | [link](https://zhuanlan.zhihu.com/p/583171655) |
 
 ![image-20230828165936809](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230828165936809.png)
+
+## **设置变量**
+
+```shell
+// 响应结果
+const response = JSON.parse(responseBody)
+//在控制台打印结果（在postman软件底部 Console 标签查看）
+console.log(response);
+ //储存到环境变量token
+ pm.environment.set("api_token",response.data.token);
+```
+
+![image-20230828171011218](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230828171011218.png)
