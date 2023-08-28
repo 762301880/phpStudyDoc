@@ -81,3 +81,14 @@ GlobalJsonMinify = function (json) {
 pm.request.body.raw = GlobalJsonMinify(pm.request.body.raw)
 ```
 
+## postman添加cookie
+
+> 有这样一种场景 不分离的项目要如何调试接口呢  
+
+**参考**
+
+| 名称     | 地址                                           |
+| -------- | ---------------------------------------------- |
+| 参考博客 | [link](https://zhuanlan.zhihu.com/p/583171655) |
+
+![image-20230828165936809](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230828165936809.png)
