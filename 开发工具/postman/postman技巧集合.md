@@ -105,3 +105,15 @@ console.log(response);
 ```
 
 ![image-20230828171011218](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230828171011218.png)
+
+## 发送ajax请求
+
+**资料**
+
+| 名称 | 地址                                                  |
+| ---- | ----------------------------------------------------- |
+| 博客 | [link](https://www.cnblogs.com/jcydd/p/11454571.html) |
+
+> 请在**Headers**中添加      X-Requested-With**:**XMLHttpRequest
+
+![image-20230829152700546](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230829152700546.png)
