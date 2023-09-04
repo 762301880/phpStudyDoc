@@ -98,7 +98,7 @@ UPDATE "表名" SET "需要修改的字段名称" = REPLACE ( "需要修改的�
 | 参考文档           | [link](https://mp.weixin.qq.com/s/MArWD5iDi6Sv0r0vfebt5A)  [文档备份PDF](https://gitee.com/yaolliuyang/pdf_doc_backup/raw/master/%E4%B8%BA%E4%BA%86%E5%87%8F%E5%B0%91%E5%BB%B6%E8%BF%9F%E5%92%8C%E5%8D%A1%E9%A1%BF%EF%BC%8C%E6%88%91%E5%AF%B9%20MySQL%20%E6%9F%A5%E8%AF%A2%E5%81%9A%E4%BA%86%E8%BF%99%E4%BA%9B%E4%BC%98%E5%8C%96%E5%A4%84%E7%90%86..._.pdf) |
 | 生成随机数文档参考 | [link](https://zhuanlan.zhihu.com/p/386664858)  [link](https://blog.csdn.net/xiaojin21cen/article/details/103661435) |
 
-
+**mysql存储过程**
 
 ```sql
 set global log_bin_trust_function_creators=TRUE;
