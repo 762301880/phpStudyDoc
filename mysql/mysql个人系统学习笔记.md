@@ -2817,19 +2817,32 @@ public class TestC3P0 {
 
 ```
 
+# mysql慢查询日志
+
+**资料**
+
+| 名称              | 地址                                                         |
+| ----------------- | ------------------------------------------------------------ |
+| 博客              | [link](https://zhuanlan.zhihu.com/p/112307303#%E5%89%8D%E8%A8%80) |
+| mysql dba修炼之道 | [link](https://weread.qq.com/web/reader/85a329405d039885a68ca85ke3632bd0222e369853df322) |
 
 
 
+**查询是否开启了慢sql**
 
-
-
-
-
-
-
-
-
-
+```mysql
+mysql> show variables like'%query_log%';
+--------------
+show variables like'%query_log%'
+--------------
++---------------------+-----------------------------------------+
+| Variable_name       | Value                                   |
++---------------------+-----------------------------------------+
+| slow_query_log      | ON                                      |
+| slow_query_log_file |/path/to/log3304/slowquery.log           |
++---------------------+-----------------------------------------+
+2rows in set (0.00sec)
+```
 
 
 
