@@ -12,6 +12,18 @@ laravel-学院[redis实战参考](https://laravelacademy.org/books/high-performa
 
 # [消息订阅与发布](https://learnku.com/docs/laravel/8.x/redis/9405#08edd9)
 
+**资料**
+
+| name     | url                                                          |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/weixin_43888891/article/details/130951434) |
+
+**说明**
+
+> **缺点**
+>
+> 订阅消息不能持久化
+
 **创建订阅**
 
 ```php
