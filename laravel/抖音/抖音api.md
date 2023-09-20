@@ -140,3 +140,6 @@ class DouYinService
     }
 ```
 
+# 订阅消息
+
+## [查询订阅消息模版库](https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/develop/server/subscribe-notification/query-template-list)
