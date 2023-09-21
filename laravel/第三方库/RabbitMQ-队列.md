@@ -50,6 +50,14 @@ docker run -itd --hostname my-rabbit  --name rabbit -p 15672:15672 -p 5673:5672 
 
 
 
+
+
+
+
+
+
+
+
 ## MQ的基本概念
 
 ###  MQ概述
