@@ -40,6 +40,14 @@ docker run -itd --hostname my-rabbit  --name rabbit -p 15672:15672 -p 5673:5672 
 | ------------------------------------ | ------------------------------------------------------------ |
 | 第三方扩展包-php-amqplib/php-amqplib | [扩展包地址](https://packagist.org/packages/php-amqplib/php-amqplib)  [文档地址](http://php-amqplib.github.io/php-amqplib/namespaces/phpamqplib.html) |
 
+
+
+
+
+
+
+
+
 #  黑马程序员MQ学习资料
 
 **资料**
@@ -47,14 +55,6 @@ docker run -itd --hostname my-rabbit  --name rabbit -p 15672:15672 -p 5673:5672 
 | 名称     | 地址                                                       |
 | -------- | ---------------------------------------------------------- |
 | 网络博客 | [link](https://www.ngui.cc/zz/2029459.html?action=onClick) |
-
-
-
-
-
-
-
-
 
 
 
@@ -194,6 +194,60 @@ docker run -itd --hostname my-rabbit  --name rabbit -p 15672:15672 -p 5673:5672 
 **① 生产者不需要从消费者出获得反馈。引入消息队列之前的直接调用，其接口的返回值应该为null，这才让明白下层的动作还没做，上层却当成动作做完了继续往后走，即所谓异步成为了可能。**
 **②容许短暂的不一致性。**
 **③确实用了有效果。即解耦、提速、削峰这些方面的收益，超过加入MQ，管理MQ这些成本**
+
+###  常见的MQ产品
+
+> 目前业界有很多的MQ产品，例如RabbitMQ、RocketMQ、ActiveMQ、Kafka、ZeroMQ，MetaMq等，
+>
+> 也有直接使用Redis充当消息队列的案例，而这些消息队列产品，各有侧重，在实际选型时，需要结合自身需求及MQ产品特征，综合考虑。
+
+![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326155130522.png)
+
+由于RabbitMQ综合能力强劲，所以接下来的课程中，我们将主要学习RabbitMQ。
+
+### RabbitMQ简介
+
+> AMQP，即 Advanced Message Queuing Protocol(高级消息队列协议)，是一个网络协议，是应用层协议的一个开放标准，为面向消息的中间件设计。给予此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。2006年，AMQP规范发布。类比http
+
+![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326160432214.png)
+
+
+
+2007年，Rabbit计数公司给予AMQP标准开发的RabbitMQ 1.0 发布。RabbitMQ采用Erlang语言开发。
+Erlang语言由Ericson设计，专门为开发高并发和分布式系统的一种语言，在典型领域使用广泛
+
+- RabbitMQ基础架构如下图
+
+![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326161047667.png)
+
+RabbitMQ中的相关概念
+
+- Broker：接收和分发消息的应用，RabbitMQ server 就是Message Broker
+- Virtual host：出于多租户和安全因素设计的，把AMQP的基本组件划分到一个虚拟的分组中，类似于网络中的namespace概念。当多个不同的用户使用同一个RabbitMQ server 提供的服务时，可以划分出多个vhost，每个用户在自己的vhost创建exchange/queue等
+- Connection：publisher/consumer 和 broker之间的TCP连接
+- Channel：如果每一次访问RabbitMQ都建立一个Connection，在消息量大的时候简历TCP Connection的开销将是巨大的，效率也低。Channel是在Connection内部简历的逻辑连接，如果应用程序支持多线程，通常每个thread创建单独的 channel进行通讯，AMQP method包含了channel id 帮组客户端和message broker 识别channel，所以channel之间是完全隔离的。Channel作为轻量级的Connection极大减少了操作系统简历TCP connectino的开销
+- Exchange：message到达broker的第一站，根据分发规则，配匹查询表中的routing key，分发消息到queue中去。常用的类型有：direct（point-to-point），topic（publish-subscribe）and fanout（multicast）
+- Queue：消息最终被送到这里等待consumer取走
+- Binding：exchange和queue之间的虚拟连接，binding中可以包含routing key。Binding信息被保存到exchange中的查询表中，用于message的分发依据
+
+RabbitMQ提供了6中工作模式：简单模式、work queues、Publish/Subscribe发布与订阅模式、Routing路由模式、Topics主题模式、RPC远程调用模式（远程调用，不太算MQ；暂不做介绍）。
+官网对应模式介绍：https://www.rabbitmq.com/getstarted.html
+
+![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326163033586.png)
+
+![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326163104880.png)
+
+JMS
+
+- JMS即Java消息服务（JavaMessage Service）应用程序接口，是一个Java平台中关于面向消息中间件的API
+- JMS是JavaEE规范中的一种，类比JDBC
+- 很多消息中间件都实现了JMS规范，例如：ActiveMQ。RabbitMQ官方没有提供JMS的实现包，但是开源社区有
+
+**小结：**
+**1、RabbitMQ是基于AMQP协议使用Erlang语言开发的一款消息队列产品。**
+**2、RabbitMQ提供了6中工作模式，我们学习5中。这是今天的重点。**
+**3、AMQP是协议，类比HTTP。**
+**JMS是API规范接口，类比JDBC。**
 
 
 
