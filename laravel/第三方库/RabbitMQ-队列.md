@@ -17,16 +17,27 @@
 
 **资料**
 
-| 名称                     | 地址                                      |
-| ------------------------ | ----------------------------------------- |
-| docker-rabbitmq 官方镜像 | [link](https://hub.docker.com/_/rabbitmq) |
+| 名称                     | 地址                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| docker-rabbitmq 官方镜像 | [link](https://hub.docker.com/_/rabbitmq)  [兔子 - 官方图片 \|码头工人中心 (docker.com)](https://registry.hub.docker.com/_/rabbitmq/) |
 
 **安装**
 
+> 安装后默认用户名&密码为**guest**
+
 ```shell
-docker pull rabbitmq    # 拉取镜像
-docker run -itd --hostname my-rabbit  --name rabbit -p 15672:15672 -p 5673:5672 rabbitmq
+docker run -itd --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
 ```
+
+**设置默认用户和密码**
+
+> 如果要更改 / 的默认用户名和密码，可以使用 和 环境变量执行此操作。这些变量以前在特定于 docker 的入口点 shell 脚本中可用，但现在可以直接在 RabbitMQ 中使用。`guest``guest``RABBITMQ_DEFAULT_USER``RABBITMQ_DEFAULT_PASS`
+
+```php
+docker run -d --hostname my-rabbit --name some-rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3-management
+```
+
+
 
 # 实战
 
@@ -39,10 +50,109 @@ docker run -itd --hostname my-rabbit  --name rabbit -p 15672:15672 -p 5673:5672 
 | 名称                                 | 地址                                                         |
 | ------------------------------------ | ------------------------------------------------------------ |
 | 第三方扩展包-php-amqplib/php-amqplib | [扩展包地址](https://packagist.org/packages/php-amqplib/php-amqplib)  [文档地址](http://php-amqplib.github.io/php-amqplib/namespaces/phpamqplib.html) |
+| 相关使用文档(推荐这个)               | [RabbitMQ Tutorials — RabbitMQ](https://www.rabbitmq.com/getstarted.html)                          [RabbitMQ教程 - “你好世界！ — 兔子MQ](https://www.rabbitmq.com/tutorials/tutorial-one-php.html) |
 
 
 
+### **简单实验**
 
+#### 订阅
+
+```php
+<?php
+
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+
+class MqSub extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'mq_sub';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'test rabbitmq sub';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+        $exchange = 'Gaming';
+        $routerKey = 'lol'; //只订阅LOL消息
+
+        $connection = new AMQPStreamConnection('60.204.148.255', 5672, 'guest', 'guest');
+        $channel = $connection->channel();
+        $channel->exchange_declare($exchange, 'direct', false, false, false);
+        list($queueName, ,) = $channel->queue_declare("", false, false, true, false);
+        $channel->queue_bind($queueName, $exchange, $routerKey);
+
+        echo " 等待消息中..." .PHP_EOL;
+        $callback = function ($msg) {
+            echo '接收到消息：',$msg->delivery_info['routing_key'], ':', $msg->body, PHP_EOL;
+            sleep(1);  //模拟耗时执行
+        };
+        $channel->basic_consume($queueName, '', false, true, false, false, $callback);
+
+        while ($channel->is_consuming()) {
+            $channel->wait();
+        }
+
+        $channel->close();
+        $connection->close();
+
+    }
+}
+```
+
+#### 发布
+
+```php
+public function publish(Request $request)
+    {
+        $exchange = 'Gaming';
+        $connection = new AMQPStreamConnection('60.204.148.255', 5672, 'guest', 'guest');
+        $channel = $connection->channel();
+        $channel->exchange_declare($exchange, 'direct', false, false, false);
+        for ($i = 0; $i < 100; $i++) {
+            $routes = ['dota', 'csgo', 'lol'];
+            $key = array_rand($routes);
+            $arr = [
+                'match_id' => $i,
+                'status' => rand(0, 3)
+            ];
+            $data = json_encode($arr);
+            $msg = new AMQPMessage($data);
+
+            $channel->basic_publish($msg, $exchange, $routes[$key]);
+            echo '发送 ' . $routes[$key] . ' 消息: ' . $data . PHP_EOL;
+        }
+        $channel->close();
+        $connection->close();
+
+    }
+```
 
 
 
