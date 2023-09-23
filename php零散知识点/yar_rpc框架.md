@@ -43,7 +43,7 @@
 >
 >  **Thread Safety**  值为**disabled** 就是代表**你的PHP版本不支持线程安全**
 >
->   本人下载的是**None Thread Safe**
+>   本人下载的是**Non Thread Safe**
 
 ![image-20230811095220357](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230811095220357.png)
 
