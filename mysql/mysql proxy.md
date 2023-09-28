@@ -2,9 +2,10 @@
 
 | 名称               | 地址                                                         |
 | ------------------ | ------------------------------------------------------------ |
-| 网络博客           | [link](https://blog.csdn.net/weixin_43611106/article/details/122011691) |
+| 网络博客           | [link](https://blog.csdn.net/weixin_43611106/article/details/122011691)  [link](https://github.com/Meituan-Dianping/DBProxy/blob/master/doc/QUICK_START.md)  [link](https://zhjwpku.com/2018/01/16/mysql-proxy-alternatives.html) |
 | mysql proxy github | [link](https://github.com/mysql/mysql-proxy)                 |
 | 官方下载地址       | [link](https://dev.mysql.com/downloads/mysql-proxy/)         |
+| 官方文档           | [link](https://downloads.mysql.com/docs/mysql-proxy-en.pdf)  |
 
 **简介**
 
@@ -102,5 +103,33 @@ Application Options:
   --event-threads                                         number of event-handling threads (default: 1)
   --lua-path=<...>                                        set the LUA_PATH
   --lua-cpath=<...>                                       set the LUA_CPATH     
+```
+
+**对应配置文件**
+
+```php
+root@yaoliuyang:/usr/local/mysql-proxy# cat proxy.cnf 
+[mysql-proxy]
+user=root
+proxy-address=0.0.0.0:4406
+proxy-backend-addresses=60.204.148.255:3306
+proxy-backend-username=root
+proxy-backend-password=yaoliuyang
+proxy-read-only-backend-addresses=60.204.148.255:3307
+admin-username=root
+admin-password=yaoliuyang
+# 进程方式启动
+#daemon=true
+# mysql-proxy故障时会尝试重启
+keepalive=true
+log-file=/usr/local/mysql-proxy/roxy.log
+```
+
+
+
+**启动**
+
+```php
+root@yaoliuyang:/usr/local/mysql-proxy/bin# ./mysql-proxy --defaults-file=../proxy.cnf
 ```
 
