@@ -17,6 +17,16 @@
 
 ![image-20230927142244383](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230927142244383.png)
 
+**linux下载**
+
+```shell
+wget https://downloads.mysql.com/archives/get/p/21/file/mysql-proxy-0.8.5-linux-glibc2.3-x86-64bit.tar.gz
+
+# 解压
+
+tar -zxvf mysql-proxy-0.8.5-linux-glibc2.3-x86-64bit.tar.gz
+```
+
 
 
 ```shell
@@ -107,8 +117,12 @@ Application Options:
 
 **对应配置文件**
 
+> <font color='red'>配置文件需要设置权限为 0660</font>  
+
 ```php
 root@yaoliuyang:/usr/local/mysql-proxy# cat proxy.cnf 
+    
+    
 [mysql-proxy]
 user=root
 proxy-address=0.0.0.0:4406
@@ -123,6 +137,12 @@ admin-password=yaoliuyang
 # mysql-proxy故障时会尝试重启
 keepalive=true
 log-file=/usr/local/mysql-proxy/roxy.log
+```
+
+**设置权限**
+
+```shell
+chmod 0660 proxy.cnf 
 ```
 
 
