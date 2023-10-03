@@ -10,6 +10,8 @@
 **简介**
 
 > MySQL Proxy 是一个用于在 MySQL 服务器和客户端之间进行代理的工具，它可以用于实现负载均衡、故障转移、查询分析等功能。下面是 MySQL Proxy 的安装和使用步骤
+>
+> <font color='red'>需要注意的是，MySQL Proxy的开发已经停止，并且不再维护。官方建议使用MySQL Router来实现类似的功能。MySQL Router是MySQL官方提供的一个高可用性和负载均衡的代理工具，它可以将客户端的请求转发到多个MySQL服务器上。</font>
 
 ## **下载**
 
@@ -152,4 +154,19 @@ chmod 0660 proxy.cnf
 ```php
 root@yaoliuyang:/usr/local/mysql-proxy/bin# ./mysql-proxy --defaults-file=../proxy.cnf
 ```
+
+## 补充
+
+## 端口被占用情况
+
+> 使用netstat查看占用的端口
+
+```php
+root@yaoliuyang:/usr/local/mysql-proxy/bin# netstat -anp | grep 4406
+tcp        0      0 0.0.0.0:4406            0.0.0.0:*               LISTEN      842400/mysql-proxy  
+tcp        0      0 192.168.0.161:4406      14.221.51.66:2783       ESTABLISHED 842400/mysql-proxy  
+root@yaoliuyang:/usr/local/mysql-proxy/bin# kill 842400
+```
+
+#  不推荐使用暂未研究清楚
 
