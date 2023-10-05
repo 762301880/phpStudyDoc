@@ -651,6 +651,34 @@ https://blog.csdn.net/robinson_911/article/details/120370772?utm_medium=distribu
 
 ##  [thinkphp链式操作会保留上一个变量查询出来的值](http://www.360doc.com/content/21/0720/15/65839659_987450259.shtml)
 
+###  **错误示例**
+
+```php
+$query=Db::table('think_user');
+$query=$query->order('create_time')
+->where('status',1);
+$count=$query->count();
+$list=$query->select();
+
+# 以上写法是错误的
+# 你在执行 $count 语句之后，再次执行 $list 语句时，实际上是在同一个查询对象上进行操作。这意味着 $list 的查询条件也会包括 $count 的条件，因此可能会得到错误的结果。
+# 为了避免这个问题，你可以使用 clone 关键字来创建一个新的查询对象，然后在新对象上执行 $list 的查询。这样就能确保 $count 和 $list 的查询条件是独立的。
+
+# 下面是修正后的代码示例：
+
+$query = Db::table('think_user');
+$query = $query->order('create_time')->where('status', 1);
+$countQuery = clone $query; // 克隆一个新的查询对象
+$count = $countQuery->count();
+$list = $query->select();
+
+# 通过使用 clone 关键字，我们创建了一个新的查询对象 $countQuery，它和 $query 对象具有相同的查询条件。然后，我们分别在 $countQuery 和 $query 上执行了 $count 和 $list 的查询。这样就可以在 $count 查询中携带上一个 $query 对象的查询条件了。
+```
+
+### 解决方案
+
+![image-20231005133729238](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231005133729238.png)
+
 ```php
 ->removeOption()        # 使用removeOption链式移除查询条件,例如  ->removeOption("where")   弊端会直接移除所有的条件不建议使用  
     
