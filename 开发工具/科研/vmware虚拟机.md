@@ -1,3 +1,5 @@
+# [官方文档](https://docs.vmware.com/cn/)
+
 # [安装ubuntu](https://blog.csdn.net/Passerby_Wang/article/details/123745479)
 
 > 这种比较属于无脑操作了不做叙述请自行百度查阅安装方法
