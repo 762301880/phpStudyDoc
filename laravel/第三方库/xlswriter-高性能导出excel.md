@@ -269,3 +269,16 @@ apk add php7-pecl-xlswriter
 > 目前比较坑的就是作者也说了,只支持xlsx格式坑爹的玩意
 >
 > 如果有补充后续添加
+
+#  补充
+
+## 模拟导出数据
+
+```php
+// 模拟一个包含100000行数据的数组
+        $data = [];
+        for ($i = 1; $i <= 100000; $i++) {
+            $data[] = ["Column1_Value_$i", "Column2_Value_$i"];
+        }
+```
+

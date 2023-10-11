@@ -306,8 +306,6 @@ array:703 [▼
         return true;
 ```
 
-## 补充
-
 ## 导出图片到excel
 
 **资料**
@@ -502,5 +500,15 @@ array:703 [▼
         if (!empty($num)||$num=='0') return $yCode[$num];
         return $yCode;
     }
+```
+
+##  模拟导出数据
+
+```php
+// 模拟一个包含100000行数据的数组
+        $data = [];
+        for ($i = 1; $i <= 100000; $i++) {
+            $data[] = ["Column1_Value_$i", "Column2_Value_$i"];
+        }
 ```
 
