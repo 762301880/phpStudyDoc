@@ -147,21 +147,6 @@ class OrderResponse
         }
         return "";
     }
-
-
-
-# 补充
-
-## 头部赋值优化
-  $headings = [
-            '名称',
-            '性别',
-            '生日'
-        ];
-        foreach ($headings as $key => $heading) {
-            $cellCoordinate = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($key + 1) . ($startRow);
-            $sheet->setCellValueExplicit($cellCoordinate, $heading, DataType::TYPE_STRING);
-        }
 ```
 
 # bug记录
@@ -509,6 +494,22 @@ array:703 [▼
         $data = [];
         for ($i = 1; $i <= 100000; $i++) {
             $data[] = ["Column1_Value_$i", "Column2_Value_$i"];
+        }
+```
+
+## 头部标题自动动态赋值优化
+
+```php
+
+## 头部赋值优化
+  $headings = [
+            '名称',
+            '性别',
+            '生日'
+        ];
+        foreach ($headings as $key => $heading) {
+            $cellCoordinate = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($key + 1) . ($startRow);
+            $sheet->setCellValueExplicit($cellCoordinate, $heading, DataType::TYPE_STRING);
         }
 ```
 
