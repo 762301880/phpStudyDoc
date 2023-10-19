@@ -141,3 +141,49 @@ array(3) {
   }
 }
 ```
+
+##  二维数组比较差集
+
+**参考资料**
+
+| name     | url                                                          |
+| -------- | ------------------------------------------------------------ |
+| 参考博客 | [link](https://blog.csdn.net/weixin_43674113/article/details/106834127) |
+
+**个人解决示例**
+
+```php
+/**
+ * 比较二位数组的交集
+ * @param $array1
+ * @param $array2
+ * @return array
+ */
+function array_intersect_2d($array1,$array2){
+    $intersectedData = array();
+
+    foreach ($array1 as $item1) {
+        foreach ($array2 as $item2) {
+            if ($item1 === $item2) {
+                $intersectedData[] = $item1;
+                break;
+            }
+        }
+    }
+    return $intersectedData;
+}
+
+# 自定义一个二维数组
+$array1 = array(
+    array("id" => 1, "name" => "John"),
+    array("id" => 2, "name" => "Jane"),
+);
+
+$array2 = array(
+    array("id" => 2, "name" => "Jane"),
+    array("id" => 3, "name" => "Bob"),
+);
+
+print_r(array_intersect_2d($array1,$array2));
+```
+
