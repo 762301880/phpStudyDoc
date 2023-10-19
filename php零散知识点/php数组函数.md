@@ -95,7 +95,7 @@ $newArr = array_slice($arr, 2);
 var_dump($newArr);
 ```
 
-# php 对二维数组进行排序
+#  二维数组进行排序
 
 ```php
 <?php
@@ -142,7 +142,7 @@ array(3) {
 }
 ```
 
-##  二维数组比较差集
+# 二维数组比较交集
 
 **参考资料**
 
@@ -150,7 +150,7 @@ array(3) {
 | -------- | ------------------------------------------------------------ |
 | 参考博客 | [link](https://blog.csdn.net/weixin_43674113/article/details/106834127) |
 
-**个人解决示例**
+## **个人解决示例(不推荐)**
 
 ```php
 /**
@@ -185,5 +185,114 @@ $array2 = array(
 );
 
 print_r(array_intersect_2d($array1,$array2));
+
+
+## 结果返回示例
+Array
+(
+    [0] => Array
+        (
+            [id] => 2
+            [name] => Jane
+        )
+
+)
+```
+
+## chatgpt解决方案(推荐)
+
+```php
+// 两个示例二维数组
+$array1 = array(
+    array("id" => 1, "name" => "John"),
+    array("id" => 2, "name" => "Jane"),
+    array("id" => 3, "name" => "Bob")
+);
+
+$array2 = array(
+    array("id" => 2, "name" => "Jane"),
+    array("id" => 4, "name" => "Mary")
+);
+
+// 将二维数组展开为一维数组
+$flattened_array1 = array_map('serialize', $array1); 
+$flattened_array2 = array_map('serialize', $array2);
+
+// 计算交集
+$intersection = array_intersect($flattened_array1, $flattened_array2);
+
+// 将结果转回二维数组
+$result = array_map('unserialize', $intersection);
+
+// 输出结果
+print_r($result);
+
+
+## 结果示例
+
+Array
+(
+    [1] => Array
+        (
+            [id] => 2
+            [name] => Jane
+        )
+
+)
+```
+
+
+
+# 二维数组比较差集
+
+```php
+function array_diff_2d($array1,$array2){
+    // 将二维数组展开为一维数组
+    $flattened_array1 = array_map('serialize', $array1);
+    $flattened_array2 = array_map('serialize', $array2);
+
+// 计算差集
+    $difference = array_diff($flattened_array1, $flattened_array2);
+
+// 将结果转回二维数组
+    $result = array_map('unserialize', $difference);
+    return $result;
+}
+
+// 两个示例二维数组
+$array1 = array(
+    array("id" => 1, "name" => "John"),
+    array("id" => 2, "name" => "Jane"),
+    array("id" => 3, "name" => "Bob")
+);
+
+$array2 = array(
+    array("id" => 2, "name" => "Jane"),
+    array("id" => 4, "name" => "Mary")
+);
+
+
+
+// 输出结果
+print_r(array_diff_2d($array1,$array2));
+
+
+## 结果示例
+
+Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [name] => John
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [name] => Bob
+        )
+
+)
 ```
 
