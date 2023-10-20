@@ -651,6 +651,14 @@ https://blog.csdn.net/robinson_911/article/details/120370772?utm_medium=distribu
 
 ##  [thinkphp链式操作会保留上一个变量查询出来的值](http://www.360doc.com/content/21/0720/15/65839659_987450259.shtml)
 
+### 参考资料
+
+| 名称                    | 地址                                                         |
+| ----------------------- | ------------------------------------------------------------ |
+| laravel编码参考实践参考 | [link](https://learnku.com/docs/laravel-tips/8.x/eloquent-model/11336) |
+
+
+
 ###  **错误示例**
 
 ```php
