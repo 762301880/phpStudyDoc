@@ -11,6 +11,8 @@
 
 # 安装
 
+[**官方安装教程**](https://www.deepin.org/zh/installation/)
+
 ## [U盘启动盘制作](http://cdimage.deepin.com/applications/deepin-boot-maker/windows/)
 
 > 请到[点我跳转](http://cdimage.deepin.com/applications/deepin-boot-maker/windows/)，网站下载[^deepin-boot-maker.exe ]软件无脑操作制作镜像即可
