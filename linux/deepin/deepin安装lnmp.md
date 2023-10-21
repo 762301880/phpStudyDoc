@@ -263,23 +263,6 @@ Loaded Configuration File => /etc/php/7.3/cli/php.ini
 echo "extension=swoole.so" >> /etc/php/7.3/cli/php.ini
 ```
 
-## 安装包错
-
-**ERROR: `/tmp/pear/temp/swoole/configure --with-php-config=/usr/bin/php-config --enable-sockets=no --enable-openssl=no --enable-http2=no --enable-mysqlnd=no --enable-swoole-json=no --enable-swoole-curl=no --enable-cares=no' failed**
-
-> https://blog.csdn.net/anzhenxi3529/article/details/103098761
->
-> 需要指定php配置文件位置
-
-```shell
-sudo pecl install swoole-4.8.12 --with-php-config=/usr/bin/php-config
-
-# 查询php-config位置
- sudo find / -name php-config*
-```
-
-
-
 # nginx 安装
 
 **因为deepin自带的apache2**所以安装nginx可能会错
