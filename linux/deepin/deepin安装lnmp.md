@@ -38,6 +38,8 @@ wget https://dev.mysql.com/get/mysql-apt-config_0.8.20-1_all.deb
 **执行安装**
 
 > 跳出的窗口中软件包设置**<font color='red'>debian buster</font>**  然后剩下的统一默认即可, 记得装完存储库执行**sudo apt update**
+>
+> 记住看清楚应该是最上面一个来着别选错了
 
 ```shell
 sudo dpkg -i mysql-apt-config_0.8.20-1_all.deb
