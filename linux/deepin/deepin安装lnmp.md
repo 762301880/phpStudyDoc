@@ -21,9 +21,9 @@
 
 > 打开mysql官网[点我跳转]下载(https://dev.mysql.com/downloads/repo/apt/)	
 
-<img src="https://i.loli.net/2021/11/01/okujFMV4hylmqiA.png" alt="1635726424(1).jpg" style="zoom: 50%;" />
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/okujFMV4hylmqiA.png" alt="1635726424(1).jpg" style="zoom: 50%;" />
 
-<img src="https://i.loli.net/2021/11/01/TlvwtHidM3nzs7Y.png" alt="1635726527(1).jpg" style="zoom:50%;" />
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/TlvwtHidM3nzs7Y.png" alt="1635726527(1).jpg" style="zoom:50%;" />
 
 或者直接在终端使用命令下载
 
@@ -37,7 +37,7 @@ wget https://dev.mysql.com/get/mysql-apt-config_0.8.20-1_all.deb
 
 **执行安装**
 
-> 跳出的窗口中软件包设置**debian buster**  然后剩下的统一默认即可, 记得装完存储库执行**sudo apt u**
+> 跳出的窗口中软件包设置**<font color='red'>debian buster</font>**  然后剩下的统一默认即可, 记得装完存储库执行**sudo apt update**
 
 ```shell
 sudo dpkg -i mysql-apt-config_0.8.20-1_all.deb
@@ -65,7 +65,7 @@ sudo apt-get update
 # 解决方案      https://www.cnblogs.com/2205254761qq/p/11863928.html
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 467B942D3A79BD29(这一串==签名密钥)
 
-sudo apt- upgrade 
+sudo apt-get  upgrade 
 ```
 
 ### 执行安装
