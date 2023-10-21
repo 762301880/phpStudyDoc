@@ -17,5 +17,13 @@
 
 > 请到[点我跳转](http://cdimage.deepin.com/applications/deepin-boot-maker/windows/)，网站下载[^deepin-boot-maker.exe ]软件无脑操作制作镜像即可
 
+> deepin 20.9(Stable)深度操作系统deepin 20.9版本（稳定版本，适用于生产环境）核心目标，是为用户提供稳定的系统运行版本，此版本未对系统新增功能进行集成，主要对20.8版本系统所存在的稳定性问题进行了大量的修复和优化，以保证系统的稳定性，欢迎大家体验！
+>
+> **<font color='red'>[推荐下载_20.9版本](https://mirrors.aliyun.com/deepin-cd/20.9/?spm=a2c6h.25603864.0.0.3cbd2913XMIbQp)</font>**
+
+**记得调整右下角-调整根分区大小(系统分了两个盘  系统盘(调整的盘默认15G))**
+
+![img](https://storage.deepin.org/thread/202308160955467064_5.jpg)
+
 # 有空看一下[统信uos](https://home.uniontech.com/?channel=baidu#)
 
