@@ -38,6 +38,8 @@ source /etc/profile
 ## 安装phpstorm
 
 > 请自行从网络上下载安装包解压到喜欢的目录
+>
+> [推荐下载_2020.3](https://www.jetbrains.com.cn/phpstorm/download/other.html)   因为只有这个版本以下网络提供破解支持
 
 ```shell
 # 例如我的目录
