@@ -44,7 +44,7 @@ sudo apt install fuse
 1.下载Navicat15
 
 ```shell
-wget https://download.navicat.com.cn/download/navicat15-premium-cs.AppImage
+wget --no-check-certificate https://download.navicat.com.cn/download/navicat15-premium-cs.AppImage
 ```
 
 2.文件处理
