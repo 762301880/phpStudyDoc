@@ -191,6 +191,10 @@ sudo find /etc -name "*php*" |xargs  rm -rf
 
 ```shell
 sudo pecl install swoole
+
+
+# 如果提示你需要依赖php8.0开发环境意味着默认安装的swoole版本过高所以请指定版本
+sudo pecl install swoole-4.8.12
 ```
 
 **如果安装过程中出现报错:phpize: not found**
