@@ -2,7 +2,7 @@
 
 | name     | url                                                          |
 | -------- | ------------------------------------------------------------ |
-| 网络博客 | [link](https://www.cnblogs.com/navysummer/p/16263742.html) [link](https://blog.fengzi.info/?p=288) [link](https://www.cnblogs.com/librarookie/p/15109941.html) [link](https://blog.csdn.net/weixin_42489341/article/details/87095114) [link](https://www.bugquit.com/720.html) |
+| 网络博客 | [link](https://www.cnblogs.com/navysummer/p/16263742.html) [link](https://blog.fengzi.info/?p=288) [link](https://www.cnblogs.com/librarookie/p/15109941.html) [link](https://www.bugquit.com/720.html) |
 
 # 破解navicat
 
@@ -67,6 +67,8 @@ sudo apt install libcapstone-dev cmake rapidjson-dev  openssl git
 
 ```shell
 # 需要安装 gcc  g++ 编译  例如:  apt -y  install gcc g++ 
+# 需要安装python  例如  apt -y install python
+navy@DEEPIN:~/Desktop$ apt -y  install gcc g++ python
 navy@DEEPIN:~/Desktop$ git clone https://github.com/keystone-engine/keystone.git
 navy@DEEPIN:~/Desktop/keystone$ cd keystone
 navy@DEEPIN:~/Desktop/keystone$ mkdir build
