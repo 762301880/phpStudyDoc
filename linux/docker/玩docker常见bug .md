@@ -115,3 +115,15 @@ bash-5.0# ps aux|grep cron
 10 * * * *  echo  $(date "+%Y-%m-%d %X")  >> ~/test_cron.txt 
 ```
 
+#  mount挂载报错mount failed: Operation not permitted.
+
+**资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 参考博客 | [link](https://huaweicloud.csdn.net/63311178d3efff3090b51123.html) |
+
+```shell
+# 启动docker的时候加上命令   --privileged=True就OK
+```
+
