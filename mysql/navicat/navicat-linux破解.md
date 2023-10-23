@@ -70,9 +70,7 @@ sudo apt install libcapstone-dev cmake rapidjson-dev  openssl git
 # 需要安装python  例如  apt -y install python
 navy@DEEPIN:~/Desktop$ apt -y  install gcc g++ python
 navy@DEEPIN:~/Desktop$ git clone https://github.com/keystone-engine/keystone.git
-navy@DEEPIN:~/Desktop/keystone$ cd keystone
-navy@DEEPIN:~/Desktop/keystone$ mkdir build
-navy@DEEPIN:~/Desktop/keystone$ cd build
+navy@DEEPIN:~/Desktop/keystone$ cd keystone && mkdir build && cd build
 navy@DEEPIN:~/Desktop/keystone/build$ ../make-share.sh
 navy@DEEPIN:~/Desktop/keystone/build$  sudo make install
 navy@DEEPIN:~/Desktop/keystone/build$ sudo ldconfig
