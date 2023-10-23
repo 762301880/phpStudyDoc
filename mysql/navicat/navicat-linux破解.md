@@ -41,6 +41,12 @@ sudo apt install fuse
 
 # [Linux破解Navicat15](https://www.cnblogs.com/navysummer/p/16263742.html)
 
+**资料**
+
+| name       | url                                                |
+| ---------- | -------------------------------------------------- |
+| github文档 | [link](https://github.com/dalefeng/navicat-keygen) |
+
 1.下载Navicat15
 
 ```shell
