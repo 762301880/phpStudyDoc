@@ -66,6 +66,7 @@ sudo apt install libcapstone-dev cmake rapidjson-dev  openssl git
 4.安装keystone
 
 ```shell
+# 需要安装 gcc  g++ 编译  例如:  apt -y  install gcc g++ 
 navy@DEEPIN:~/Desktop$ git clone https://github.com/keystone-engine/keystone.git
 navy@DEEPIN:~/Desktop/keystone$ cd keystone
 navy@DEEPIN:~/Desktop/keystone$ mkdir build
