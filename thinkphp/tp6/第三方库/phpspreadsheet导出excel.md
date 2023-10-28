@@ -175,6 +175,125 @@ class OrderExcelResponse
 }
 ```
 
+## csv格式无法导入
+
+**参考**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 参考博客 | [link](https://blog.csdn.net/acningping/article/details/109852946) |
+
+**实战逻辑**
+
+```php
+ public function importThirdSister(Request $request)
+    {
+        $file = $request->file('file');
+        $ext = UploadService::getFileExt($file);
+        $importDatas = [];//导入进来的数据列表
+        $insertDatas = [];//需要插入的数据列表
+        $errorMessage = [];
+        $successMessage = [];
+        if (!in_array($ext, ['xlsx', 'csv', 'xls'])) throw new SystemException('上传文件必须是xlsx,csv,xls其中的一种');
+        switch ($ext) {
+            case 'csv':
+                $file_name = uniqid() . '@' . UploadService::getOriginalName($file); # 定义上传图片得唯一名称
+                $savePath = __DIR__ . '/../../../public/static/import';
+//文件路径如果不存在则自动创建 并赋予权限
+                if (!is_dir($savePath)) mkdir($savePath, 0777, true);
+                $file->move($savePath, $file_name); //上传图片
+                $filePathName = $savePath . '/' . $file_name;
+                if (!file_exists($filePathName)) throw new SystemException("上传文件失败");
+                $csv = new Csv();
+                $csv->setInputEncoding('GB2312');
+                $importDatas = $csv->load($filePathName)->getActiveSheet()->toArray();
+//$sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+                unlink($filePathName); //删除文件
+                break;
+            default:
+                $file_name = uniqid() . '@' . UploadService::getOriginalName($file); # 定义上传图片得唯一名称
+                $savePath = __DIR__ . '/../../../public/static/import';
+                //文件路径如果不存在则自动创建 并赋予权限
+                if (!is_dir($savePath)) mkdir($savePath, 0777, true);
+                $file->move($savePath, $file_name); //上传图片
+                $filePathName = $savePath . '/' . $file_name;
+                if (!file_exists($filePathName)) throw new SystemException("上传文件失败");
+                $spreadsheet = IOFactory::load($filePathName, 4);
+                // 获取第一个工作表
+                $worksheet = $spreadsheet->getActiveSheet();
+                $importDatas = $worksheet->toArray();
+                //$sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+                unlink($filePathName); //删除文件
+                break;
+        }
+        if (empty($importDatas)) throw new SystemException("读取{$ext}文件失败请稍后再试");
+        //删除数组中的第一列-标题列
+        array_shift($importDatas);
+
+        $serviceNames = ServiceModel::column('name', 'id');//服务名称列表
+
+        //数据判断处理
+        foreach ($importDatas as $key => &$element) {
+            $line = $key + 1; //读取行数
+            $mobile = $element[1]; //导入的手机号
+            $service_name_string = $element[14];//导入服务名称
+            $customers = CustomerModel::where('mobile', $mobile)->select();
+
+
+            $service_id_string = array_search($service_name_string, $serviceNames);
+            //如果对应服务不存在
+            if (empty($service_id_string)) {
+                $service_name_string = '';
+            }
+
+
+            if (empty($mobile)) { //如果手机号为空的情况下
+                $errorMessage[$key]['error_line'] = '第' . $line . '列报错';
+                $errorMessage[$key]['error_message'] = '第' . $line . '列手机号为空';
+                unset($element);//删除跳过数据
+                continue;//跳过此次循环
+            }
+
+            //如果手机号不为空 服务名称为空的情况下
+            if (!empty($mobile) && empty($service_name_string)) {
+                $service_name_stringArr = $customers->column('service_name_string');
+                if (in_array($service_name_string, $service_name_stringArr)) { //存在为空手机号情况下
+                    $errorMessage[$key]['error_line'] = '第' . $line . '列报错';
+                    $errorMessage[$key]['error_message'] = '对应咨询项目为空的手机号已经存在';
+                    unset($element);//删除跳过数据
+                    continue;//跳过此次循环
+                }
+            }
+
+
+            if (!empty($customers)) {
+                $service_name_stringArr = $customers->column('service_name_string');
+                if (in_array($service_name_string, $service_name_stringArr)) {
+                    $errorMessage[$key]['error_line'] = '第' . $line . '列报错';
+                    $errorMessage[$key]['error_message'] = '对应咨询项目的手机号已经存在';
+                    unset($element);//删除跳过数据
+                    continue;//跳过此次循环
+                }
+            }
+
+
+            //构建写入库的数据
+            $insertDatas[] = [
+                'mobile' => $mobile ?? "", //手机号
+                'service_id_string' => $service_id_string,
+                'service_name_string' => $service_name_string ?? "",//服务名称
+            ];
+            $successMessage[$key]['success_line'] = '第' . $line . '列导入成功';
+            $successMessage[$key]['success_message'] = '导入成功';
+        }
+        $customer = new CustomerModel();
+        $customer->saveAll($insertDatas);
+        return compact('errorMessage', 'successMessage');
+    }
+```
+
+
+
 # 补充
 
 >上述不是说了要做成可以封装的那种(一个函数 三个参数  需要传导出的名称列表，需要导出的数据，需要导出的excel名称)模式这里可以参考一下     https://www.cnblogs.com/laowangbk/p/13321398.html
