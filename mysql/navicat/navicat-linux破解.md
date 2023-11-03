@@ -43,9 +43,10 @@ sudo apt install fuse
 
 **资料**
 
-| name       | url                                                |
-| ---------- | -------------------------------------------------- |
-| github文档 | [link](https://github.com/dalefeng/navicat-keygen) |
+| name       | url                                                          |
+| ---------- | ------------------------------------------------------------ |
+| github文档 | [link](https://github.com/dalefeng/navicat-keygen)           |
+| 参考       | [link](https://ylyhappy.gitee.io/posts/linux/install-navciat.html#%E7%A0%B4%E8%A7%A3navicat16-%E4%BD%BF%E7%94%A8-navicat-keygen-for-linux) |
 
 1.下载Navicat15
 
@@ -88,6 +89,12 @@ navy@DEEPIN:~/Desktop/keystone/build$ sudo ldconfig
 navy@DEEPIN:~/Desktop$ git clone -b linux --single-branch https://gitee.com/andisolo/navicat-keygen.git
 navy@DEEPIN:~/Desktop$ cd navicat-keygen
 navy@DEEPIN:~/Desktop/navicat-keygen$ make all
+
+
+# 如果报错 fatal error: openssl/opensslv.h: No such file or directory
+## 参考https://blog.csdn.net/zzddada/article/details/103531771
+
+apt-get install libssl-dev
 ```
 
 6.通过navicat-patcher命令来修改原公钥
