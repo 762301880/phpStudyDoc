@@ -211,3 +211,19 @@ lsof | grep navicat | grep \\.config
 # 重新打开即可
 ```
 
+#  bug解析
+
+##  docker中 mount挂载Navicat_Premium_15_cs 报错 mount: navicat15-premium-cs: mount failed: Operation not permitted.
+
+**资料**
+
+| name     | url                                                          |
+| -------- | ------------------------------------------------------------ |
+| 参考博客 | [link](https://blog.csdn.net/kunyus/article/details/105531854) |
+
+```shell
+# 启动docker时候添加 --privileged=true   超级权限
+
+docker run -itd --name ubuntu_navicat_pj --privileged=true  71c
+```
+
