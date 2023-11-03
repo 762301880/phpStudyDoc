@@ -46,7 +46,7 @@ sudo apt install fuse
 | name       | url                                                          |
 | ---------- | ------------------------------------------------------------ |
 | github文档 | [link](https://github.com/dalefeng/navicat-keygen)           |
-| 参考       | [link](https://ylyhappy.gitee.io/posts/linux/install-navciat.html#%E7%A0%B4%E8%A7%A3navicat16-%E4%BD%BF%E7%94%A8-navicat-keygen-for-linux) [link](http://www.catmes.com/archives/deepin-navicat.html)  [link](https://zhuanlan.zhihu.com/p/541577910) |
+| 参考       | [link](https://ylyhappy.gitee.io/posts/linux/install-navciat.html#%E7%A0%B4%E8%A7%A3navicat16-%E4%BD%BF%E7%94%A8-navicat-keygen-for-linux) [link](http://www.catmes.com/archives/deepin-navicat.html)  [link](https://zhuanlan.zhihu.com/p/541577910)  [link](http://www.htsjk.com/shujukunews/45210.html) |
 
 1.下载Navicat15
 
@@ -84,6 +84,8 @@ navy@DEEPIN:~/Desktop/keystone/build$ sudo ldconfig
 ```
 
 5.安装navicat-keygen
+
+> 要先安装**keystone** 这个才可以安装成功
 
 ```shell
 navy@DEEPIN:~/Desktop$ git clone -b linux --single-branch https://gitee.com/andisolo/navicat-keygen.git
