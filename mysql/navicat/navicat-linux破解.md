@@ -12,10 +12,10 @@
 
 ```shell
 # 不推荐会下载失败
-wget http://www.navicat.com.cn/download/direct-download?product=navicat15-premium-cs.AppImage&location=1
+wget --no-check-certificate http://www.navicat.com.cn/download/direct-download?product=navicat15-premium-cs.AppImage&location=1
 
 # 推荐命令
-wget https://download.navicat.com.cn/download/navicat15-premium-cs.AppImage
+wget --no-check-certificate https://download.navicat.com.cn/download/navicat15-premium-cs.AppImage
 ```
 
 ## 将下载的镜像设置为可执行文件
