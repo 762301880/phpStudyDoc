@@ -46,7 +46,7 @@ sudo apt install fuse
 | name       | url                                                          |
 | ---------- | ------------------------------------------------------------ |
 | github文档 | [link](https://github.com/dalefeng/navicat-keygen)           |
-| 参考       | [link](https://ylyhappy.gitee.io/posts/linux/install-navciat.html#%E7%A0%B4%E8%A7%A3navicat16-%E4%BD%BF%E7%94%A8-navicat-keygen-for-linux) [link](http://www.catmes.com/archives/deepin-navicat.html) |
+| 参考       | [link](https://ylyhappy.gitee.io/posts/linux/install-navciat.html#%E7%A0%B4%E8%A7%A3navicat16-%E4%BD%BF%E7%94%A8-navicat-keygen-for-linux) [link](http://www.catmes.com/archives/deepin-navicat.html)  [link](https://zhuanlan.zhihu.com/p/541577910) |
 
 1.下载Navicat15
 
