@@ -75,7 +75,7 @@ sudo apt install libcapstone-dev cmake rapidjson-dev  openssl git
 ```shell
 # 需要安装 gcc  g++ 编译  例如:  apt -y  install gcc g++ 
 # 需要安装python  例如  apt -y install python
-navy@DEEPIN:~/Desktop$ apt -y  install gcc g++ python
+navy@DEEPIN:~/Desktop$ apt -y  install gcc g++ python cmake
 navy@DEEPIN:~/Desktop$ git clone https://github.com/keystone-engine/keystone.git
 navy@DEEPIN:~/Desktop/keystone$ cd keystone && mkdir build && cd build
 navy@DEEPIN:~/Desktop/keystone/build$ ../make-share.sh
@@ -97,6 +97,7 @@ navy@DEEPIN:~/Desktop/navicat-keygen$ make all
 ## 参考https://blog.csdn.net/zzddada/article/details/103531771
 
 apt-get install libssl-dev
+apt install rapidjson-dev libcapstone-dev
 ```
 
 6.通过navicat-patcher命令来修改原公钥
