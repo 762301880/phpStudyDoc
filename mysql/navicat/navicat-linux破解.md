@@ -72,6 +72,8 @@ sudo apt install libcapstone-dev cmake rapidjson-dev  openssl git
 
 4.安装keystone
 
+> 安装[官方文档](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md)
+
 ```shell
 # 需要安装 gcc  g++ 编译  例如:  apt -y  install gcc g++ 
 # 需要安装python  例如  apt -y install python
