@@ -44,15 +44,21 @@ php             7.4.3     e66ae809d99a   16 months ago    405MB # 原来的php�
 ```shell
 # myphp 需要保存的镜像名称  187 需要保存镜像的镜像id
 $ docker save -o   f:\ myphp 187
+
+
+#-------------------------------------------------------------------------------
+
 # linux 保存到根目录下
-docker save -o /myphp 187
+docker save -o <镜像名称>.tar <镜像名称>:<标签>
+# 其中，<镜像名称> 是你要保存的镜像的名称，<标签> 是镜像的标签（如果有的话）。例如，如果你要保存名为 my_image 的镜像，其标签为 latest，则输入以下命令：
+docker save -o my_image.tar my_image:latest
 ```
 
 - 加载打包的镜像
 
 ```shell
 # linux 
-docker load -i /myphp
+docker load -i my_image.tar
 # 查看加载的镜像
 docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
