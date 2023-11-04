@@ -81,6 +81,7 @@ navy@DEEPIN:~/Desktop$ apt -y  install gcc g++ python cmake
 navy@DEEPIN:~/Desktop$ git clone https://github.com/keystone-engine/keystone.git 
 #  git clone https://gitee.com/DarrenEpic/keystone-engine.git  keystone                   # 快一点
 navy@DEEPIN:~/Desktop/keystone$ cd keystone && mkdir build && cd build
+# 注意 需要2G以上内存才可以编译成功不然会一直卡在那
 navy@DEEPIN:~/Desktop/keystone/build$ ../make-share.sh
 navy@DEEPIN:~/Desktop/keystone/build$  sudo make install
 navy@DEEPIN:~/Desktop/keystone/build$ sudo ldconfig
