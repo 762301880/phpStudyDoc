@@ -241,3 +241,12 @@ lsof | grep navicat | grep \\.config
 docker run -itd --name ubuntu_navicat_pj --privileged=true  71c
 ```
 
+# 个人封装docker破解版本
+
+```shell
+# docker 拉取个人封装库
+docker pull registry.cn-beijing.aliyuncs.com/yaoliuyang/ubuntu_navicat_pj:latest
+
+# 破解注意 如果需要断网 且在同一个平台下 可以使用screen命令保证不会中断
+```
+
