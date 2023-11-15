@@ -19,17 +19,17 @@
 
 1. 点击导航栏的**Tools**-**Deployment**-**Configuration...**
 
-![1634177504(1).png](https://i.loli.net/2021/10/14/ZcxPleKGzOa7LR9.png)
+![1634177504(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/ZcxPleKGzOa7LR9.png)
 
-![1634178544(1).jpg](https://i.loli.net/2021/10/14/Oi5xzv48kAoyuN6.png)
+![1634178544(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/Oi5xzv48kAoyuN6.png)
 
-![1634178580(1).png](https://i.loli.net/2021/10/14/RA9jMriHkuqKptn.png)
+![1634178580(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/RA9jMriHkuqKptn.png)
 
 2.  配置连接
 
 > 点击右上角的+选择SFTP 编辑连接
 
-![1634177862(1).png](https://i.loli.net/2021/10/14/2flsMqT9YBwKGmV.png)
+![1634177862(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/2flsMqT9YBwKGmV.png)
 
 
 
@@ -39,7 +39,7 @@
 
 > 点击导航栏的**Tools**-**Deployment**-**Options...**-
 
-![1634178390(1).jpg](https://i.loli.net/2021/10/14/W91Mf85ajHBgEux.png)
+![1634178390(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/W91Mf85ajHBgEux.png)
 
 > 自此意见全部配置完成 修改的时候直接点击文件右键点击***Deployment***- **Uploadto*你的项目名称**即可
 

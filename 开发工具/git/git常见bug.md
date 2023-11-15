@@ -17,4 +17,4 @@
 
 **安装身份验证器**
 
-![image-20231013142729857](C:\Users\铺先生技术研发中心\AppData\Roaming\Typora\typora-user-images\image-20231013142729857.png)
+![image-20231013142729857](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231013142729857.png)
