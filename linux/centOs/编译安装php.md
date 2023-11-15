@@ -14,7 +14,7 @@
 
 > 进入php[官网](https://www.php.net/),点击[Downloads](https://www.php.net/downloads)
 
-![1636332939(1).jpg](https://i.loli.net/2021/11/08/1rABOpzM3haU8WQ.png)
+![1636332939(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/1rABOpzM3haU8WQ.png)
 
 **安装编译工具及库文件**
 
