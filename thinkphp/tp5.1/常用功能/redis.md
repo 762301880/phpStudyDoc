@@ -113,3 +113,10 @@ public function index()
     }
 ```
 
+## 官方reids文档地址
+
+```shell
+https://github.com/nicolasff/phpredis
+```
+
+![image-20231118164946289](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231118164946289.png)
