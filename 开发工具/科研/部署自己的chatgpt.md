@@ -40,3 +40,18 @@ docker run -d -p 3000:3000 \
 > 把对应的申请的api key填写到申请的api key 上面
 
 ![image-20231120163328201](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231120163328201.png)
+
+## webdiv搭建
+
+https://zhuanlan.zhihu.com/p/63753517
+
+```dockerfile
+# docker 镜像地址         https://hub.docker.com/r/bytemark/webdav
+
+# 搭建
+
+docker run --restart always -v /srv/dav:/var/lib/dav \
+    -e AUTH_TYPE=Digest -e USERNAME=admin -e PASSWORD=admin \
+    --publish 8083:80 -d bytemark/webdav
+```
+
