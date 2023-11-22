@@ -93,6 +93,10 @@ location / {
 www.fastadmin.com/install.php
 ```
 
+**自动生成的数据表**
+
+![image-20231122101548216](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231122101548216.png)
+
 #  bug解析
 
 ## fastadmin部署出现后台登录404[后台不能伪静态的处理方式
