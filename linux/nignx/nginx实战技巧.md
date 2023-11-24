@@ -7,6 +7,8 @@
 配置nginx
 
 > **在 /etc/nginx/conf.d**   下创建  **对应域名.conf** 配置
+>
+> <font color='red'>注意 /root   不要挂载到这个文件夹下</font>
 
 ```shell
 server {
