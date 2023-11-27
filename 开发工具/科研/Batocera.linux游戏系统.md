@@ -51,3 +51,12 @@
 | DroidJoy | [link](https://play.google.com/store/apps/details?id=com.grill.droidjoy&hl=en)  [link](https://www.upanboot.com/app/205867.html) |
 |          |                                                              |
 
+# 电视盒子游戏系统
+
+**资料**
+
+| name          | url                                                          |
+| ------------- | ------------------------------------------------------------ |
+| b站           | [link](https://www.bilibili.com/video/BV1kw411M73h/?spm_id_from=pageDriver&vd_source=7e2da9cd24687b8e4931e62248cb1ed4) |
+| emuelec中文网 | [link](https://www.emuelec.cn/category/integrate)            |
+
