@@ -38,7 +38,7 @@
 | ------------------------ | ------------------------------------------------------------ |
 | Recalbox                 | [link](https://www.recalbox.com/)                            |
 | RetroPie                 | [link](https://retropie.org.uk/download/)                    |
-| RetroArch-软件不用装系统 | [link](https://www.retroarch.com/)                           |
+| RetroArch-软件不用装系统 | [link](https://www.retroarch.com/)  [old-download](https://buildbot.libretro.com/) |
 | lakka                    | [link](https://www.lakka.tv/) [link](https://www.lakka.tv/get/) |
 | retrobat-收费            | [link](https://www.retrobat.ovh/) [link](https://www.retrobat.org/) |
 
