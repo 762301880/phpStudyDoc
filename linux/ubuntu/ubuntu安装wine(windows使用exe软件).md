@@ -67,7 +67,7 @@ wine  [exe软件路径]
 
 > 问题复现服务器**时区存在问题**请修改时区
 
-[![xYIc0s.jpg](https://s1.ax1x.com/2022/10/10/xYIc0s.jpg)](https://imgse.com/i/xYIc0s) 
+[![xYIc0s.jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/xYIc0s.jpg)](https://imgse.com/i/xYIc0s) 
 
 
 
