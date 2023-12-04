@@ -548,3 +548,17 @@ if (!empty($is_spell_group) && $is_spell_group == OrderModel::IS_SPELL_GROUP_YES
         }
 ```
 
+###  宝塔面板搭建环境无法退款成功  无报错原因
+
+> 把如下一段代码拿到最外层执行之后发现报错**open basedir restriction in effect**
+
+```php
+$app = (new WechatConfig())->app;//实例化支付配置
+$result = $app->refund->byOutTradeNumber("ON20231204874838_656d2f34bb985","RSN20231204631048", 1, 1 ,[
+    'refund_desc' =>  '退款成功',
+]);
+```
+
+![image-20231204133144510](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231204133144510.png)
+
+![image-20231204133151843](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231204133151843.png)
