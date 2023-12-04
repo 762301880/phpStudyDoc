@@ -419,7 +419,7 @@ $response->send(); // return $response;
 
 | 名称             | 地址                                                         |
 | ---------------- | ------------------------------------------------------------ |
-| easywechat-退款  | [link](https://www.easywechat.com/4.x/payment/refund.html#%E7%94%B3%E8%AF%B7%E9%80%80%E6%AC%BE) |
+| easywechat-退款  | [link](https://easywechat.com/4.x/payment/refund.html)       |
 | 微信退款官方文档 | [link](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4) |
 
 **代码示例**
