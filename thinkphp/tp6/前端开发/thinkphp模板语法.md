@@ -1,4 +1,10 @@
-  # 说明
+# 资料
+
+| 名称                 | 地址                                                         |
+| -------------------- | ------------------------------------------------------------ |
+| thinkphp模板引擎语法 | [link](https://www.kancloud.cn/manual/think-template/1286403)  [link](https://www.kancloud.cn/manual/thinkphp6_0/1037613) |
+
+## 分页
 
 > 需要注意分页的个数一定要大于设置的值才会显示分页
 
