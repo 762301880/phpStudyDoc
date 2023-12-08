@@ -6,14 +6,14 @@
 
 配置nginx
 
-> **在 /etc/nginx/conf.d**   下创建  **对应域名.conf** 配置
+> **在 /etc/nginx/conf.d**   下创建  **对应域名.conf** 配置  创建**default.conf**
 >
 > <font color='red'>注意 /root   不要挂载到这个文件夹下</font>
 
 ```shell
 server {
 	    listen 8089; # 设置端口 
-	    server_name 60.204.148.255; # 对应域名
+	    server_name localhost; # 对应域名或公网ip地址_默认域名是localhost
 		location /files {  # 匹配后缀 如果只是 / 就是默认打开根域名直接跳转过来
 		alias /data/;  # 指定映射资源目录
 		autoindex on; 
