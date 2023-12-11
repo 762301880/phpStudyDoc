@@ -25,4 +25,6 @@
 setup-alpine         # 此命令用于设置系统
 ```
 
+> 然后选择硬盘，我这里就一块硬盘，所以直接输入名称 `sda`，当做系统盘，后面输入 `sys`，按照提示确定格式化即可：
+
 ![image-20221220155007659](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221220155007659.png)
