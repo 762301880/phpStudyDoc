@@ -26,7 +26,7 @@
 
 ###  制作U盘启动盘
 
-[微PE工具下载](https://www.wepe.com.cn/download.html?tdsourcetag=s_pcqq_aiomsg)
+#### [微PE工具下载](https://www.wepe.com.cn/download.html?tdsourcetag=s_pcqq_aiomsg)
 
 **下载完成之后双击打开**-点击安装pe到U盘
 ![1635554683(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/FEd6nDJPVkvrQcC.png)
@@ -59,6 +59,23 @@
 
 
 
+#### [ventoy 多系统启动盘-推荐](https://www.ventoy.net/cn/)
+
+> 好处就是这个启动盘**可以一个U盘安装多个系统镜像 可以是linux 也可以是windows**
+
+**资料**
+
+| 名称        | 地址                                                         |
+| ----------- | ------------------------------------------------------------ |
+| ventoy 官网 | [link](https://www.ventoy.net/cn/)                           |
+| 博客参考    | [link](https://blog.csdn.net/weixin_45311714/article/details/126809854?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-0-126809854-blog-132497661.235^v39^pc_relevant_3m_sort_dl_base2&spm=1001.2101.3001.4242.1&utm_relevant_index=3) |
+
+**下载ventoy**
+
+![image-20231214103947814](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231214103947814.png)
+
+
+
 #  分区管理软件
 
 ## [DiskGenius](https://www.diskgenius.cn/)
@@ -66,3 +83,6 @@
 > 各大U盘启动盘官方推荐分区软件
 
 ![image-20231007153345621](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231007153345621.png)
+
+#  
+
