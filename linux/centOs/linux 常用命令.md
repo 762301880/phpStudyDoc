@@ -1698,3 +1698,47 @@ screen -S my_session
 # 杀死会话：对于一些无法正常结束的会话，可以使用screen -X -S session_name kill命令来强制结束它。
 ```
 
+## 后台启动命令 nohup  
+
+> nohup命令是Linux系统中用于在后台运行程序并忽略挂起信号的命令。它可以保证即使用户退出登录或者关闭终端，程序仍然继续运行。
+
+```shell
+# 基本语法
+nohup command [arguments] &
+```
+
+> 详解
+>
+> 1. `command`：需要执行的命令，例如：`python my_script.py`。
+> 2. `[arguments]`：可选参数，传递给命令的参数。
+> 3. `&`：将命令放入后台运行。
+
+使用示例：
+
+1. 安装nohup命令： 对于大多数Linux发行版，nohup命令已经预装。如果没有，可以使用包管理器进行安装。例如，在基于Debian的系统（如Ubuntu）上，可以使用以下命令安装：
+
+   ```shell
+   sudo apt-get install nohup
+   ```
+
+  2 . 使用nohup命令运行程序： 假设我们有一个名为`my_script.py`的Python脚本，我们希望在后台运行它，即使关闭终端也不会停止。可以使用以下命令：
+
+```shell
+nohup python my_script.py &
+```
+
+3. 查看nohup命令的输出： 默认情况下，nohup命令的输出会被重定向到名为`nohup.out`的文件中。可以使用以下命令查看输出：
+
+```shell
+tail -f nohup.out
+```
+
+4. 停止nohup命令： 如果需要停止nohup命令，可以使用`ps`和`kill`命令找到进程ID（PID），然后杀死进程。首先，使用以下命令查找进程ID：
+
+```shell
+ps aux | grep my_script.py
+
+# 然后，使用以下命令杀死进程（将<PID>替换为实际的进程ID）：
+kill <PID>
+```
+
