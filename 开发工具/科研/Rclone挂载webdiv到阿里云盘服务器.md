@@ -214,12 +214,12 @@ Option bearer_token.
 Bearer token instead of user/pass (e.g. a Macaroon).
 Enter a value. Press Enter to leave empty.
 # 设置token
-bearer_token>eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhYWEyYzdkZmZhMTk0NWZiYmFmZWZhZWUxNDdjOGQ0YyIsImF1ZCI6Ijc2OTE3Y2NjY2Q0NDQxYzM5NDU3YTA0ZjYwODRmYjJmIiwiZXhwIjoxNzEwNDg1Njc5LCJpYXQiOjE3MDI3MDk2NzksImp0aSI6IjE5ZTJmYTBlODg2MDQ5ZGI4Njk1MzgyNmZhYzkwZThkIn0.MWaNrMXQ-D9HibgoVHVcY5TwBPVUF-VBt3yZpC8IsIyZCSkASG3ENNbcm_d7fXBm55Tjs3ETBoqNKXftAp6TEg
+bearer_token>        # 直接回车
 
 Edit advanced config?
 y) Yes
 n) No (default)
-y/n> n
+y/n> n       # 选n
 
 Configuration complete.
 Options:
@@ -228,12 +228,12 @@ Options:
 - vendor: other
 - user: admin
 - pass: *** ENCRYPTED ***
-- bearer_token: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhYWEyYzdkZmZhMTk0NWZiYmFmZWZhZWUxNDdjOGQ0YyIsImF1ZCI6Ijc2OTE3Y2NjY2Q0NDQxYzM5NDU3YTA0ZjYwODRmYjJmIiwiZXhwIjoxNzEwNDg1Njc5LCJpYXQiOjE3MDI3MDk2NzksImp0aSI6IjE5ZTJmYTBlODg2MDQ5ZGI4Njk1MzgyNmZhYzkwZThkIn0.MWaNrMXQ-D9HibgoVHVcY5TwBPVUF-VBt3yZpC8IsIyZCSkASG3ENNbcm_d7fXBm55Tjs3ETBoqNKXftAp6TEg
+- bearer_token: 
 Keep this "aliyun" remote?
 y) Yes this is OK (default)
 e) Edit this remote
 d) Delete this remote
-y/e/d> y
+y/e/d> y       # 没问题的话选y
 
 Current remotes:
 
@@ -248,7 +248,7 @@ r) Rename remote
 c) Copy remote
 s) Set configuration password
 q) Quit config
-e/n/d/r/c/s/q> q
+e/n/d/r/c/s/q> q        # q 退出
 
 
 ```
