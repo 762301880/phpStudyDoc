@@ -38,7 +38,7 @@ Now run "rclone config" for setup. Check https://rclone.org/docs/ for more detai
 > **/www/aliyun**目录需要自行创建
 
 ```shell
-rclone mount aliyun:/ /www/aliyun --cache-dir /tmp --allow-other --vfs-cache-mode writes --allow-non-empty --uid root --gid root
+rclone mount aliyun:/ /www/aliyun --cache-dir /tmp --allow-other --vfs-cache-mode writes --allow-non-empty --uid 0 --gid 0
 ```
 
 ## bug解析
