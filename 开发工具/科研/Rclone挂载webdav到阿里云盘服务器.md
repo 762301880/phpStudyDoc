@@ -312,3 +312,8 @@ root@yaoliuyang:/www/aliyun# rclone mount aliyun:/ /www/aliyun --cache-dir /tmp 
 fusermount -u /www/aliyun
 ```
 
+## 通过rclone挂载webdav为本地硬盘，阿里网盘的文件不能播放
+
+> https://github.com/alist-org/alist/discussions/402
+
+> <font color='red'>用alist的webdiv行不通的 要用aliyundrive-webdav</font>
