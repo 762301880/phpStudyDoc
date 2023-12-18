@@ -25,6 +25,8 @@
 **说明**
 
 > 打开配置文件设
+>
+> **配置文件地址  C:\Users\yaoliuyang\.picgo\config.json**
 
 ```shell
 {
