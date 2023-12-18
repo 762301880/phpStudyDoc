@@ -104,7 +104,7 @@ default-character-set=UTF8MB4
  mysql -uroot –p   
 
 # 修改root用户密码
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456’;
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
 
 # 修改root用户权限
 create user 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
