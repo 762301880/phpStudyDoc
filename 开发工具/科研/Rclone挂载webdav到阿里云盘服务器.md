@@ -315,6 +315,8 @@ fusermount -u /www/aliyun
 
 ## 通过rclone挂载webdav为本地硬盘，阿里网盘的文件不能播放
 
+> <font color='red'>通过实验目前阿里云盘不可以挂载   天翼云盘可以挂载视频播放</font>
+
 > https://github.com/alist-org/alist/discussions/402
 
 > <font color='red'>用alist的webdiv行不通的 要用aliyundrive-webdav</font>
