@@ -285,6 +285,11 @@ bearer_token = eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhYWEyYzdkZmZhMTk0
 
 ```shell
 rclone mount aliyun:/ /www/aliyun --cache-dir /tmp --allow-other --vfs-cache-mode writes --allow-non-empty --uid 0 --gid 0
+
+
+# 后台实现挂载
+
+nohup  rclone mount aliyun:/ /www/aliyun --cache-dir /tmp --allow-other --vfs-cache-mode writes --allow-non-empty --uid 0 --gid 0   &
 ```
 
 ## bug解析
