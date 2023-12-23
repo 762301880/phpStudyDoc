@@ -18,3 +18,22 @@
 | ---------------------------------------- | ------------------------------------------------------- |
 | 书栈网 ***Windows 批处理(bat)语法大全*** | [link](https://www.bookstack.cn/books/zhaoqingqing-bat) |
 
+# windows破解 播HEVC视频收费
+
+| 名称                          | 地址                                           |
+| ----------------------------- | ---------------------------------------------- |
+| 网络博客                      | [link](https://zhuanlan.zhihu.com/p/354048233) |
+| Microsoft商店的在线链接生成器 | [link](https://store.rg-adguard.net/)          |
+
+**破解**
+
+> https://www.free-codecs.com/guides/how_to_download_hevc_video_extension_for_free.htm
+>
+> 在**[Microsoft商店的在线链接生成器](https://store.rg-adguard.net/)**中输入以下链接并安装
+
+```shell
+https://www.microsoft.com/en-us/p/hevc-video-extensions-from-device-manufacturer/9n4wgh0z6vhq
+```
+
+[**个人网盘下载**](https://yaoliuyang.lanzoul.com/iW4zz1ipo45i)
+
