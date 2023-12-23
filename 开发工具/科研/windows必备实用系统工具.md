@@ -37,3 +37,23 @@ https://www.microsoft.com/en-us/p/hevc-video-extensions-from-device-manufacturer
 
 [**个人网盘下载**](https://yaoliuyang.lanzoul.com/iW4zz1ipo45i)
 
+#  google play在线下载
+
+> 众所周知我们想下载谷歌商店应用的情况下必须要下载谷歌商店的软件非常麻烦有没有能直接在网页下载的
+>
+> 办法呢
+
+| 名称              | 地址                                                         |
+| ----------------- | ------------------------------------------------------------ |
+| google play(官网) | [link](https://play.google.com/store/games)                  |
+| 第三方软件下载站  | [link-墙](https://apkcombo.com/downloader/)  [link-墙](https://apk.support/apk-downloader) |
+
+**操作步骤**
+
+![image-20231223095517033](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231223095517033.png)
+
+
+
+![image-20231223095545574](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231223095545574.png)
+
+![image-20231223095651362](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231223095651362.png)
