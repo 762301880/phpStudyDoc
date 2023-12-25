@@ -325,3 +325,14 @@ fusermount -u /www/aliyun
 > https://github.com/alist-org/alist/discussions/402
 
 > <font color='red'>用alist的webdiv行不通的 要用aliyundrive-webdav</font>
+
+## 解决阿里云盘不能看视频得问题
+
+> [alist+aliyun+rclone 无法打开文件或播放视频](https://github.com/alist-org/alist/discussions/1402)
+>
+> **Rclone 加上--header "Referer:" 完美解决**
+
+```shell
+nohup rclone --header "Referer:" mount aliyun:/ /www/aliyun --cache-dir /tmp --allow-other --vfs-cache-mode writes --allow-non-empty --uid 0 --gid 0  &
+```
+
