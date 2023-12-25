@@ -213,3 +213,128 @@ $sku_id = 1; // SKU ID
 $result = $sku_service->deleteSku($product_id, $sku_id);
 ```
 
+#  扩展补充
+
+##  [笛卡尔积算法](https://learnku.com/articles/63323)
+
+**原数据**
+
+```shell
+[{
+    "name": "颜色",
+    "attr_values": "白色,黑色"
+}, {
+    "name": "内存",
+    "attr_values": "64G,128G"
+}, {
+    "name": "型号",
+    "attr_values": "X,pro"
+}]
+```
+
+**目标数据**
+
+```php
+ [{
+     "price": "0",
+     "内存": "64G",
+     "型号": "X",
+     "颜色": "白色"
+ }, {
+     "price": "0",
+     "内存": "64G",
+     "型号": "pro",
+     "颜色": "白色"
+ }, {
+     "price": "0",
+     "内存": "128G",
+     "型号": "X",
+     "颜色": "白色"
+ }, {
+     "price": "0",
+     "内存": "128G",
+     "型号": "pro",
+     "颜色": "白色"
+ }, {
+     "price": "0",
+     "内存": "64G",
+     "型号": "X",
+     "颜色": "黑色"
+ }, {
+     "price": "0",
+     "内存": "64G",
+     "型号": "pro",
+     "颜色": "黑色"
+ }, {
+     "price": "0",
+     "内存": "128G",
+     "型号": "X",
+     "颜色": "黑色"
+ }, {
+     "price": "0",
+     "内存": "128G",
+     "型号": "pro",
+     "颜色": "黑色"
+ }]
+```
+
+**代码**
+
+```php
+<?php
+/**
+ * 设置规格
+ *
+ * @param array $attr_group  例:[['name'=>'颜色','attr_values'=>'白色,红色']]
+ * @param integer $index 第几轮
+ * @param integer $row 第几行
+ * @param array $keys
+ * @param array $attrs
+ * @return array
+ */
+function setAttr(array $attr_group, int $index = 0, array $keys = [], array $attrs = []) 
+{
+    static $row = 0;
+
+    if ($index == 0) {
+        foreach($attr_group as $i) {
+            $keys[] = 0;
+        }
+    }
+
+    if (isset($attr_group[$index])) {
+        $attr_values = explode(',', $attr_group[$index]['attr_values']);
+        foreach($attr_values as $key => $attr_value) {
+            $keys[$index] = $key;
+            if ($index + 1 == count($attr_group)) {
+                foreach($keys as $i => $item) {
+                    $attrs[$row][$attr_group[$i]['name']] = explode(',', $attr_group[$i]['attr_values'])[$item];
+                }
+                $attrs[$row]['price'] = '0';
+                $row++;
+            } else {
+                $attrs = setAttr($attr_group, $index + 1, $keys, $attrs);
+            }
+        }
+    }
+
+    return $attrs;
+}
+
+//调用
+$attr_group = [
+    [
+        'name' => '颜色',
+        'attr_values' => '白色,红色'
+    ], 
+    [
+        'name' => '内存',
+        'attr_values' => '64G,128'
+    ]
+];
+$attrs = setAttr($attr_group);
+var_dump($attrs);
+
+?>
+```
+
