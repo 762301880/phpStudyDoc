@@ -338,3 +338,10 @@ var_dump($attrs);
 ?>
 ```
 
+# 实战参考
+
+![image-20231226172131058](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231226172131058.png)
+
+
+
+![image-20231226172157060](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231226172157060.png)
