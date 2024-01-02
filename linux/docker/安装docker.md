@@ -43,3 +43,24 @@ sudo yum clean all
 sudo yum makecache fast
 ```
 
+## windows安装docker
+
+**资料**
+
+| name                        | url                                                          |
+| --------------------------- | ------------------------------------------------------------ |
+| wsl安装官方文档             | [link](https://learn.microsoft.com/zh-cn/windows/wsl/install-manual) |
+| 菜鸟教程-win-docker安装教程 | [link](https://www.runoob.com/docker/windows-docker-install.html) |
+
+
+
+
+
+
+
+
+
+
+
+
+

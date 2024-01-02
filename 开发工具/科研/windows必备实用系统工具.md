@@ -57,3 +57,48 @@ https://www.microsoft.com/en-us/p/hevc-video-extensions-from-device-manufacturer
 ![image-20231223095545574](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231223095545574.png)
 
 ![image-20231223095651362](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231223095651362.png)
+
+# windows10-wsl安装
+
+**资料**
+
+| name            | url                                                          |
+| --------------- | ------------------------------------------------------------ |
+| wsl安装官方文档 | [link](https://learn.microsoft.com/zh-cn/windows/wsl/install) |
+
+
+
+
+
+##  xshell连接wsl
+
+**资料**
+
+| name         | url                                                       |
+| ------------ | --------------------------------------------------------- |
+| 网络博客参考 | [link](https://www.cnblogs.com/taylorshi/p/13698345.html) |
+
+
+
+```shell
+# 进入wsl  输入命令 wsl
+PS C:\Users\铺先生技术研发中心> wsl
+yaoliuyang@DESKTOP-GHQ23UN:/mnt/c/Users/铺先生技术研发中心$
+
+# 编辑ssh配置文件
+vim /etc/ssh/sshd_config
+
+# 添加配置
+
+Port 22   # 代表启用端口号22
+ListenAddress 0.0.0.0   # 代表监听所有地址
+PasswordAuthentication yes  # yes,代表支持账号密码形式的登录
+
+# 设置后 重启SSH服务
+sudo service ssh restart
+```
+
+**xshell连接**
+
+![image-20240102094059757](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240102094059757.png)
+

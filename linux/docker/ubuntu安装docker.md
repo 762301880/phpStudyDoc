@@ -20,6 +20,7 @@ ubuntu@VM-123-64-ubuntu:~$ sudo apt-get update
 ## 1.3 安装docker
 
 ```shell
+# sudo apt install -y docker.io
 ubuntu@VM-123-64-ubuntu:~$ sudo apt-get install -y docker.io
 ```
 
