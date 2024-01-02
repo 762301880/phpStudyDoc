@@ -155,3 +155,11 @@ bcdedit /set hypervisorlaunchtype off
 ```
 
 我的Hyper-v启动不了又是另一个情况，我是不知道什么时候手贱把services.msc里面有关Hyper-v的功能禁用了几个，取消禁用，设置为自动或手动即可。让我白白浪费了好几晚上。。。
+
+# windows-Desktop转移到D盘
+
+> https://www.haozhuangji.com/xtjc/133515871.html
+>
+> **在D盘下创建 Desktop文件夹 然后将桌面文件移动到D盘即可**
+
+![image-20240102115549903](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240102115549903.png)
