@@ -68,6 +68,19 @@ https://www.microsoft.com/en-us/p/hevc-video-extensions-from-device-manufacturer
 
 
 
+## 安装wsl
+
+> https://blog.csdn.net/q20010619/article/details/120660346
+
+```shell
+# 更新 wsl
+wsl --update
+## 将 wsl 版本设置为 wsl2
+wsl --set-default-version 2
+## 执行安装
+wsl --install 
+```
+
 
 
 ##  xshell连接wsl
@@ -107,3 +120,29 @@ sudo service ssh restart
 **wsl不支持systemctl命令**
 
 > https://blog.csdn.net/Ying_ph/article/details/134344910
+
+### WSL2安装Linux子系统报0x80370102解决方法
+
+> https://zhuanlan.zhihu.com/p/391422861
+
+![WSL2安装Linux子系统报0x80370102解决方法](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/v2-f25274f7ab3efe1f63a202a35d9db8a9_1440w.image)
+
+解决办法也简单：
+
+以管理员权限打开cmd，输入一下命令，然后重启，
+
+```shell
+bcdedit /set hypervisorlaunchtype auto
+```
+
+此命令的作用是在让Win10启动时，加载Hyper-V的必要程序资源。
+
+重启后若Hyper-v能正常运行，那么WSL2差不多也能了。
+
+题外话：此命令执行后，VMware就不能很好兼容了，鱼和熊掌不可兼得，若想完美使用VMware，管理员执行以下命令关闭即可。
+
+```shell
+bcdedit /set hypervisorlaunchtype off
+```
+
+我的Hyper-v启动不了又是另一个情况，我是不知道什么时候手贱把services.msc里面有关Hyper-v的功能禁用了几个，取消禁用，设置为自动或手动即可。让我白白浪费了好几晚上。。。
