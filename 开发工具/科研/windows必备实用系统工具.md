@@ -102,3 +102,8 @@ sudo service ssh restart
 
 ![image-20240102094059757](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240102094059757.png)
 
+##  bug解析
+
+**wsl不支持systemctl命令**
+
+> https://blog.csdn.net/Ying_ph/article/details/134344910
