@@ -98,6 +98,15 @@ wsl --install
 PS C:\Users\铺先生技术研发中心> wsl
 yaoliuyang@DESKTOP-GHQ23UN:/mnt/c/Users/铺先生技术研发中心$
 
+# 安装openssh-server
+sudo apt update
+sudo apt-get remove --purge openssh-server   ## 先删ssh
+sudo apt-get install openssh-server          ## 在安装ssh  
+sudo rm /etc/ssh/ssh_config                  ## 删配置文件，让ssh服务自己想办法链接
+sudo service ssh --full-restart
+
+
+
 # 编辑ssh配置文件
 vim /etc/ssh/sshd_config
 
