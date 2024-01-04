@@ -41,6 +41,7 @@
 | RetroArch-软件不用装系统 | [link](https://www.retroarch.com/)  [old-download](https://buildbot.libretro.com/) |
 | lakka                    | [link](https://www.lakka.tv/) [link](https://www.lakka.tv/get/) |
 | retrobat-收费            | [link](https://www.retrobat.ovh/) [link](https://www.retrobat.org/) |
+| 天马前端                 | [link-官网](https://pegasus-frontend.org/)  [github](https://github.com/mmatyas/pegasus-frontend) |
 
 ## 手柄
 
