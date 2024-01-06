@@ -36,9 +36,17 @@ mysqli
 
 ```shell
 apk add openssh
+
+# Alpine 默认关闭root用户ssh登录。更改 sshd_config 文件，开启root登录。
+echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+# 重启 ssh 服务
+
+service sshd restart
+
 ```
 
-##  安装docker
+# 安装docker
 
 **资料**
 
@@ -46,7 +54,7 @@ apk add openssh
 | -------- | ------------------------------------------------------------ |
 | 参考博客 | [link](https://blog.csdn.net/juesystem/article/details/112981830) |
 
-###  添加镜像源安装
+## 添加镜像源安装
 
 ```shell
     echo http://dl-cdn.alpinelinux.org/alpine/latest-stable/community >> /etc/apk/repositories  # 添加镜像源
@@ -61,7 +69,7 @@ openvswitch-2.17.3-r0
 .........
 ```
 
-###  alpine 启动docker 
+## alpine 启动docker 
 
 ```shell
 service docker start      # 启动
