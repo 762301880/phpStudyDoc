@@ -442,6 +442,25 @@ array:703 [▼
 
         $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         return $writer->save('hello world.xlsx'); # 此命令会自动保存在项目目录的public目录下
+
+
+# 优化 上一种方案是直接从内存中构建图片会导致图片数量过多卡死  这种是保存本地再保存图片
+## https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#add-a-drawing-to-a-worksheet
+
+            $img_url=$img_url.'?x-oss-process=image/quality,Q_50'; //oss压缩图片
+            $imageData = file_get_contents($img_url); // 替换为实际图像的路径
+            $file_path=__DIR__.'/../../../public/static/temp';
+            $temp_file_name=$file_path.'/'.uniqid() . '@.png';
+            if (!is_dir($file_path)) mkdir($file_path);
+            $image = file_put_contents($temp_file_name,$imageData);
+            $drawing = new Drawing();
+            $drawing->setName('Image');
+            $drawing->setDescription('Image');
+            $drawing->setPath($temp_file_name);
+            $drawing->setHeight(40);//照片高度
+            $drawing->setWidth(40); //照片宽度
+            $drawing->setCoordinates($line . $column);
+            $drawing->setWorksheet($spreadsheet->getActiveSheet());
 ```
 
 **基于gd库直接家政oss图片保存到excel**
