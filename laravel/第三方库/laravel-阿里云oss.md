@@ -211,6 +211,31 @@ https://blog.csdn.net/qq_36025814/article/details/124158528
 >
 > 通过OSS的图片处理为图片添加文字水印时，最长不能超过64个字符（1个汉字计为3个字符）。当提示“font content is too large”时，建议您缩短文字长度，然后为图片添加文字水印。更多信息，请参见[示例一：添加文字水印](https://help.aliyun.com/document_detail/44957.htm#section-tj2-dbv-vdb)。
 
+### 图片处理
+
+#### [质量转换](https://help.aliyun.com/zh/oss/user-guide/adjust-image-quality?spm=a2c4g.11186623.0.0.8c9a2b11Rz30BN)
+
+> **阿里云oss读取的时候如何压缩图片**
+
+> 阿里云对象存储（OSS）本身并不提供直接在存储中压缩图片的功能。然而，你可以在读取图片时使用一些第三方工具或库来进行图片压缩。以下是一种常见的方法，使用阿里云的图片处理服务（OSS Image Service）来在读取时压缩图片：
+>
+> 1. **启用OSS图片服务：** 在阿里云控制台中，找到你的OSS Bucket，进入"管理" -> "图片处理"，然后启用图片处理服务。
+>
+> 2. **使用图片处理参数：** 在读取图片的URL中，添加相应的图片处理参数进行压缩。例如，可以使用以下参数：
+>
+>    - `x-oss-process=image/resize,w_500`：将图片宽度调整为500像素，高度按比例缩放。
+>    - `x-oss-process=image/format,jpg`：将图片格式转换为JPG。
+>
+>    组合这些参数，你可以创建一个包含所有所需处理的URL，示例如下：
+
+```shell
+https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-process=image/resize,w_500/format,jpg
+```
+
+> 请替换 "your-bucket-name" 和 "your-image.jpg" 为实际的Bucket名称和图片路径。
+
+
+
 # 问题示例
 
 ## oss配置生命周期
