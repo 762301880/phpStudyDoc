@@ -176,7 +176,7 @@ services:
 server {
     listen 80;
     server_name localhost;
-    root /data/work/laravel_study/public; # 指向laravel 框架的public 目录
+    root /data/work/laravel_study/public;
 
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-XSS-Protection "1; mode=block";
@@ -196,8 +196,7 @@ server {
     error_page 404 /index.php;
 
     location ~ \.php$ {
-        # fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
-        fastcgi_pass  127.0.0.1:9000;
+        fastcgi_pass  app:9000;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         include fastcgi_params;
     }
@@ -205,6 +204,20 @@ server {
     location ~ /\.(?!well-known).* {
         deny all;
     }
+    # 配置websocketnginx转发连结
+    location /ws {
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $host;
+            # 这里的端口号与你的Swoole WebSocket服务器绑定的端口一致
+            #proxy_pass http://127.0.0.1:9501;
+
+            # 因为我们这里使用的是容器配置所以用启动容器的名称创立转发
+            proxy_pass http://app:9501;
+        }
 }
 ```
 
@@ -225,84 +238,157 @@ server {
 
 
 echo -e "======================启动php-fpm========================\n"
-php-fpm7 2>/dev/null
+php-fpm & 2>/dev/null
 echo -e "php-fpm启动成功...\n"
 
-
-echo -e "======================启动nginx========================\n"
-nginx  2>/dev/null
-echo -e "nginx启动成功...\n"
-
 echo -e "======================启动定时任务========================\n"
-crond & 2>/dev/null
+service cron start &  2>/dev/null
 echo -e "定时任务启动成功...\n"
 
-/bin/bash
+echo -e "======================启动守护进程========================\n"
+service supervisor start & 2>/dev/null
+supervisorctl restart all
+echo -e "启动守护进程启动成功...\n"
+
+# 等待程序运行
+wait
+#/bin/bash
+
+
 
 ```
 
 ### **Dockerfile**
 
 ```shell
-FROM  hyperf/hyperf:7.4-alpine-v3.11-swoole
-# 设置项目的路径
-ENV  PROJECT_PATH  /data/work/laravel_study/
-# 设置日志存储目录名称
-ENV  LOG_DIRECTORY_NAME storage
-# 设置日志目录全路径
-ENV  PROJECT_LOG_PATH $PROJECT_PATH$LOG_DIRECTORY_NAME
-# 指定工作目录(进入启动的容器终端会自动进入工作目录)
-WORKDIR $PROJECT_PATH
-# 修改镜像源
-RUN  cd /etc/apk && sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" repositories \
+# 设置基础镜像
+FROM php:7.4-fpm
+
+# 拷贝镜像源
+COPY  ./debian/debian11_source_list /etc/apt/
+# 拷贝php配置
+COPY  ./php/php_ext/ /usr/local/etc/php
+#拷贝swoole软件
+COPY ./php/swoole-4.8.1.tgz /usr/local
+COPY ./ssh/start_service.sh /bin/
+# 拷贝compose配置文件&安装依赖包composer&修改镜像源
+COPY ./php/composer.phar /usr/local/bin/composer
+COPY ./supervisor/ /etc/supervisor/conf.d
+
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.back \
+    && chmod -R 777 /etc/apt/debian11_source_list \
+    && cat  /etc/apt/debian11_source_list > /etc/apt/sources.list \
+    && apt-get update \
+    # zlib1g-dev libpng-dev libjpeg-dev 一定要先后安装为了安装gd库
+    && apt-get install -y git zip unzip vim wget net-tools cron zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev dos2unix supervisor \
+    # 安装swoole
+    && pecl install /usr/local/swoole-4.8.1.tgz \
+    && cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini \
+    && cat /usr/local/etc/php/php_ext >>  /usr/local/etc/php/php.ini \
+    # 安装php扩展
+    && docker-php-ext-configure  gd --with-jpeg --with-freetype \
+    # sockets 用于rabbitmq所需
+    && docker-php-ext-install  mysqli pdo_mysql gd  exif  sockets\
+    # 安装redis扩展
+    && pecl install --alldeps redis \
+    # 开启redis扩展
+    && docker-php-ext-enable redis  \
+    # 添加compose
+    && chmod -R 777 /usr/local/bin/composer \
     && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
-    # 设置修改容器内部时区
-    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-# 拷贝当前项目到容器工作目录
-COPY $PWD  $PROJECT_PATH
-# 设置定时任务脚本
-COPY ./docker/crontab /var/spool/cron/crontabs/root
-# 安装所需软件
-RUN apk add vim net-tools \
-     && apk add dos2unix \
-     && apk add nginx \
-     && mkdir -p  /run/nginx/ && chmod -R 777 /run/nginx/ \
-     && apk add php-fpm \
-     && cd $PROJECT_PATH && chmod -R 777 $PROJECT_LOG_PATH  &&  composer install
-# 将nginx 配置文件拷贝到容器中
-COPY  ./docker/81.69.231.252.conf   /etc/nginx/conf.d/
-COPY  ./docker/start_service.sh   /bin/
-RUN  chmod a+x /bin/start_service.sh
-RUN  dos2unix /bin/start_service.sh
-# 暴露端口号(指的是暴露这些端口 -P 命令可以自动生成暴露的端口)
-EXPOSE 9501 80
-CMD  ["/bin/start_service.sh"]
+    # 设置时区
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    # 添加定时任务
+    && touch ~/crontab \
+    && chmod 600 ~/crontab \
+    && echo "PATH=/usr/local/bin/php:/usr/local/bin:/usr/bin:/bin" >> ~/crontab \
+    && echo "* * * * * cd /data/work/laravel_study && /usr/local/bin/php artisan schedule:run >> /dev/null 2>&1" >> ~/crontab \
+    && mv ~/crontab /var/spool/cron/crontabs/root \
+    # 配置守护进程日志
+    && mkdir /etc/supervisor/log && chmod -R 777 /etc/supervisor/log \
+    # 配置启动文件
+    && chmod a+x  /bin/start_service.sh \
+    && dos2unix  /bin/start_service.sh
+
+
+
+
+
+# 设置工作目录
+WORKDIR /data/work
+
+# 设置容器对外暴露的端口号
+EXPOSE 9000
+
+
+# 配置启动命令
+CMD ["/bin/start_service.sh"]
 ```
 
 ### **docker-compose.yml**
 
 ```shell
-# yaml 配置
 version: '3'
+
 services:
-  web:
-    container_name: laravel_study
-    build: .
-    ports:
-      - "1997:80"
+  app:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: php7.4-fpm
+    restart: always
+    privileged: true
     tty: true
-    restart: always # 默认重启
-#    command:
-#      - /bin/bash
-#      - -c
-#      - |
-#        php-fpm7 2>/dev/null
-#        nginx  2>/dev/null
-#        /bin/bash
+    volumes:
+      - .:/data/work/laravel_study/
+    networks:
+      - web
+    ports:
+      - 9501:9501
 
-    
-   # command: ["/bin/start_service.sh"]
-
+  web:
+    container_name: nginx
+    image: nginx:latest
+    restart: always
+    ports:
+      - 1997:80
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - .:/data/work/laravel_study/
+    depends_on:
+      - app
+      - db
+    networks:
+      - web
+  db:
+    container_name: mysql-8.0
+    image: mysql:8.0
+    volumes:
+      - /data/db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - web
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - /data/redis_data:/data
+    networks:
+      - web
+#    environment:
+#      - REDIS_PASSWORD=your_redis_password  # 设置Redis密码
+networks:
+  web:
+    driver: bridge
 ```
 
 # Dockerfile 扩展补充
