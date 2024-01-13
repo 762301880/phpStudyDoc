@@ -164,16 +164,18 @@ services:
 
 ![image-20220929083743040](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220929083743040.png)
 
-### **nginx配置文件81.69.231.252.conf**
+### **nginx配置文件default.conf**
 
-> 目录名对应服务器的ip地址 如果是本地修改为**127.0.0.1.conf**
+> `default.conf` 是 Nginx Web 服务器的配置文件之一，通常用于定义默认的站点配置或全局配置。
 >
-> 对应监听地址也要修改**server_name**
+> `localhost`: 这是一个具体的域名。在这个上下文中，
+>
+> `localhost` 表示服务器块将匹配请求的域名为 `localhost` 的情况。这通常用于配置本地开发环境，因为 `localhost` 通常用于本地主机。
 
 ```shell
 server {
     listen 80;
-    server_name 81.69.231.252;
+    server_name localhost;
     root /data/work/laravel_study/public; # 指向laravel 框架的public 目录
 
     add_header X-Frame-Options "SAMEORIGIN";
