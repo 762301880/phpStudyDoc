@@ -2,6 +2,8 @@
 
 ## docker  安装mysql
 
+> <font color='red'>注意:生产环境不要用docker安装mysql去使用  因该在linux系统中直接安装mysql去使用</font>
+
 **资料**
 
 | 名称                     | 地址                                                         |
