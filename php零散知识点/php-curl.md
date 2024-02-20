@@ -122,7 +122,7 @@ CURLOPT_DNS_CACHE_TIMEOUT #设置在内存中保存DNS信息的时间，默认�
 
 ## 封装的全局助手函数
 
-```shell
+```php
 /**
  * 远程http请求
  * @param $url
@@ -142,6 +142,39 @@ if (!function_exists('curl_request')) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //禁止 cURL 验证对等证书
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); //是否检测服务器的域名与证书上的是否一致
+        if (!empty($post_data)) { # 如果提交的参数请求不为空
+            curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);//提交的参数
+        }
+        if (!empty($cookie)) { # 如果有cookie传递cookie
+            curl_setopt($ch, CURLOPT_COOKIE, $cookie);
+        }
+        $data = curl_exec($ch);//运行curl
+        curl_close($ch); # 关闭curl请求
+        return $data;
+    }
+}
+
+
+## 示例二
+/**
+ * http请求
+ * @param string $url 地址
+ * @param array $post_data 请求数据
+ * @param array $data 更多请求参数
+ * @return bool|string
+ */
+if (!function_exists('request_post')) {
+    function request_post($url = '', $post_data = [], $data = [])
+    {
+        $cookie = !empty($data['cookie']) ? $data['cookie'] : "";
+        $postUrl = $url;
+        $ch = curl_init();//初始化curl
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); //禁止 cURL 验证对等证书
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); //是否检测服务器的域名与证书上的是否一致
+        curl_setopt($ch, CURLOPT_URL, $postUrl);//抓取指定网页
+        curl_setopt($ch, CURLOPT_HEADER, 0);//设置header param:1
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
         if (!empty($post_data)) { # 如果提交的参数请求不为空
             curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);//提交的参数
