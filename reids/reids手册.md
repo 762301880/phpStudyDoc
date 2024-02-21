@@ -2959,7 +2959,14 @@ Redis高可用
 | ------------------------------------ | ------------------------------------------------------------ |
 | 4 种 Redis 集群方案介绍 + 优缺点对比 | [link](https://mp.weixin.qq.com/s?__biz=MzI3MjY1ODI2Ng==&mid=2247486094&idx=1&sn=f727b9fe6f53f4ebc5280dd09d6161ed&chksm=eb2e70bbdc59f9ad8157859f0c6eb5fa881c9e147d7e03ca9693633f7d2bff7215d0f813c847&scene=27) |
 
+###  终端命令行运行redis客户端命令
 
+> 终端输入**redis-cli**命令
+
+```shell
+C:\Users\铺先生技术研发中心>redis-cli
+127.0.0.1:6379>
+```
 
 
 
