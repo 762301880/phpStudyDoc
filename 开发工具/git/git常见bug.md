@@ -18,3 +18,22 @@
 **安装身份验证器**
 
 ![image-20231013142729857](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231013142729857.png)
+
+## 切换分支报错 error: invalid path 'db::name'
+
+> 解决参考          https://blog.csdn.net/Changxing_J/article/details/133910042
+
+**问题原因**
+
+> 代码中包含 NTFS 文件系统不支持的文件名。（源代码可能是在 Mac 或 Linux 等其他系统下开发的）
+>
+> Git 在 Windows 下默认开启了 NTFS 保护机制，导致包含不满足 NTFS 文件名的项目无法被成功拉取，且无法切换到这些不满足 NTFS 文件名规范的文件夹中。
+
+**解决**
+
+> 关闭 NTFS 保护机制的配置，操作命令如下：
+
+```shell
+git config core.protectNTFS false
+```
+
