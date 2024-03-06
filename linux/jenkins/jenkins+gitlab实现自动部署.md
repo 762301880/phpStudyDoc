@@ -78,13 +78,13 @@ jenkins@37b124ebf446:/$ cat /var/jenkins_home/secrets/initialAdminPassword
 
 **安装建议的插件**
 
-![1636452627(1).png](https://i.loli.net/2021/11/09/JiTSRpWZDye6LAs.png)
+![1636452627(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/JiTSRpWZDye6LAs.png)
 
 **发生以下报错解决方案**(这里可以不用看了不是2.60.3版本就行)
 
 >安装过程中出现错误：没有这样的插件：cloudbees-folder
 
-![截图_选择区域_20211225141102.png](https://s2.loli.net/2021/12/25/zGyWpDOHJ83xM6E.png)
+![zGyWpDOHJ83xM6E](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/zGyWpDOHJ83xM6E.png)
 
 ```shell
 # https://updates.jenkins-ci.org/download/plugins/cloudbees-folder/下载cloudbees-folder 插件
@@ -144,13 +144,13 @@ docker restart 容器id
 
 **下载插件**
 
-![1648198573(1).jpg](https://s2.loli.net/2022/03/25/1rvQJBXhYewOAiG.png)
+![1rvQJBXhYewOAiG](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/1rvQJBXhYewOAiG.png)
 
 **创建gitlab访问 令牌**
 
 > 去**gitlab**点击右上角的**头像**-**Preferences**-**Access Tokens**
 
-![1648198709(1).jpg](https://s2.loli.net/2022/03/25/Q42xTme8IvCEnDL.png)
+![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/Q42xTme8IvCEnDL.jpeg)
 
 **创建后返回的访问令牌**
 
@@ -160,7 +160,7 @@ docker restart 容器id
 
 **配置gitlab链接**
 
-![1648203061(1).jpg](https://s2.loli.net/2022/03/25/fLek9lEnqjUbO3P.png)
+![fLek9lEnqjUbO3P](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/fLek9lEnqjUbO3P.png)
 
 **流水线配置**
 
@@ -170,7 +170,7 @@ docker restart 容器id
 
 > 记住对应的源码管理要关闭
 
-![1648203248(1).jpg](https://s2.loli.net/2022/03/25/5a2QU4xjEfg6mLV.png)
+![5a2QU4xjEfg6mLV](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/5a2QU4xjEfg6mLV.png)
 
 ### 添加构建
 
