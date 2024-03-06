@@ -15,15 +15,15 @@
 
 > 点击系统管理插件管理 [DingTalk版本2.4.4](https://plugins.jenkins.io/dingding-notifications)
 
-![1640823951(1).jpg](https://s2.loli.net/2021/12/30/GFPim9MIcuwAKy1.png)
+![1640823951(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/GFPim9MIcuwAKy1.png)
 
  **下载插件**
 
-![1640824385(1).jpg](https://s2.loli.net/2021/12/30/zcLqUA3BmTbGdx5.png)
+![1640824385(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/zcLqUA3BmTbGdx5.png)
 
 **点击系统管理-系统配置**
 
-![1640824515(1).jpg](https://s2.loli.net/2021/12/30/X7gdCiUVpJnWYOf.png)
+![1640824515(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/X7gdCiUVpJnWYOf.png)
 
 
 
@@ -33,20 +33,20 @@
 >
 > 打开群聊-点击右上角的设置按钮-智能群助手-添加机器人
 
-![1640824795(1).jpg](https://s2.loli.net/2021/12/30/DWKGRkqVAOjFbXJ.png)
+![1640824795(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/DWKGRkqVAOjFbXJ.png)
 
 **配置机器人**
 
-![1640824913(1).png](https://s2.loli.net/2021/12/30/ACMUk2OfucKbpj9.png)
+![1640824913(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/ACMUk2OfucKbpj9.png)
 
 **添加钉钉配置**
 
-![1640824629(1).jpg](https://s2.loli.net/2021/12/30/QZbc8M4N7HApeIW.png)
+![1640824629(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/QZbc8M4N7HApeIW.png)
 
 **最后在你的项目配置中勾选钉钉即可**
 
-![1640825014(1).jpg](https://s2.loli.net/2021/12/30/IUcAh465BwrZzoQ.png)
+![1640825014(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/IUcAh465BwrZzoQ.png)
 
 **效果如图所示**
 
-![1640825074(1).jpg](https://s2.loli.net/2021/12/30/mwsEb48SUuH2qXj.png)
+![1640825074(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/mwsEb48SUuH2qXj.png)
