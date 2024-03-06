@@ -124,6 +124,10 @@ use PHPSSH2\PHPSSH2;
 
 #### [**windows安装**](https://www.xp.cn/b.php/77589.html)
 
+> 安装参考
+>
+> https://blog.csdn.net/yule117737767/article/details/125203987
+
 > 在Windows上安装php-ssh2扩展的步骤如下：
 >
 > 1. **下载php-ssh2扩展**：访问php-ssh2扩展的官方下载页面，选择与您的PHP版本相匹配的文件进行下载。如果您的PHP是线程安全的，那么应该选择带有“ts”标记的文件。同时，根据您的系统是32位还是64位，选择相应的“x86”或“x64”版本。
@@ -149,3 +153,152 @@ extension=php_ssh.dll
 > https://windows.php.net/downloads/pecl/releases/ssh2/1.3.1/php_ssh2-1.3.1-7.4-nts-vc15-x64.zip
 >
 > 安装六十四版本
+
+### 使用解析
+
+> **错误使用**
+>
+> > 在你的代码中，问题出现在执行 `cd` 命令和 `git pull` 命令的方式上。`ssh2_exec` 会为每个命令创建一个新的 shell，这意味着你在一个命令里执行 `cd`，然后在下一个命令里执行 `git pull` 时，`git pull` 是在一个新的 shell 中执行的，而不是在你已经改变目录的那个目录里执行的。
+> >
+> > 解决这个问题的方法有几种，下面是两种常用的方法：
+>
+> ```shell
+>         $server = '';//your_server_ip
+>         $port = 22;//you_server_port
+>         $username = ''; //your_username
+>         $password = ''; //your_password
+>         // 连接到远程服务器
+>         $connection = ssh2_connect($server, $port);
+>         if (!$connection) die('连接到服务器失败');
+>         // 使用密码进行认证
+>         if (!ssh2_auth_password($connection, $username, $password)) die('登录失败');
+> 
+>         // 执行命令
+>         $command1 = 'cd /data/work/tp5.1_gateway_worker';
+>         $stream1 = ssh2_exec($connection, $command1);
+>         stream_set_blocking($stream1, true);
+>         $output1 = stream_get_contents($stream1);
+>         echo "命令1输出：\n$output1\n";
+>         fclose($stream1);
+> 
+>         // 执行第二个命令
+>         $command2 = 'git pull';
+>         $stream2 = ssh2_exec($connection, $command2);
+>         stream_set_blocking($stream2, true);
+>         $output2 = stream_get_contents($stream2);
+>         echo "命令2输出：\n$output2\n";
+>         fclose($stream2);
+> 
+> 
+>         //关闭SSH连接
+>         ssh2_disconnect($connection);
+> ```
+
+**正确使用**
+
+> ### 方法 1: 在一个命令中使用分号 `;` 连接多个命令
+>
+> 可以将多个命令连接在一起，使用分号 `;` 分隔。这样这些命令会被当做一个整体来执行，确保它们在同一个 shell 中执行。这里是一个示例：
+
+```shell
+        $server = '';//your_server_ip
+        $port = 22;//you_server_port
+        $username = ''; //your_username
+        $password = ''; //your_password
+        // 连接到远程服务器
+        $connection = ssh2_connect($server, $port);
+        if (!$connection) die('连接到服务器失败');
+        // 使用密码进行认证
+        if (!ssh2_auth_password($connection, $username, $password)) die('登录失败');
+        // 合并多个命令使用分号;
+        $combinedCommand = 'cd /data/work/tp5.1_gateway_worker; git pull';
+        $stream = ssh2_exec($connection, $combinedCommand);
+        stream_set_blocking($stream, true);
+        $output = stream_get_contents($stream);
+        echo "命令输出：\n$output\n";
+        fclose($stream);
+        //关闭SSH连接
+        ssh2_disconnect($connection);
+```
+
+
+在你的代码中，问题出现在执行 `cd` 命令和 `git pull` 命令的方式上。`ssh2_exec` 会为每个命令创建一个新的 shell，这意味着你在一个命令里执行 `cd`，然后在下一个命令里执行 `git pull` 时，`git pull` 是在一个新的 shell 中执行的，而不是在你已经改变目录的那个目录里执行的。
+
+解决这个问题的方法有几种，下面是两种常用的方法：
+
+### 方法 1: 在一个命令中使用分号 `;` 连接多个命令
+
+可以将多个命令连接在一起，使用分号 `;` 分隔。这样这些命令会被当做一个整体来执行，确保它们在同一个 shell 中执行。这里是一个示例：
+
+```
+phpCopy code<?php
+
+$server = '60.204.148.255';
+$port = 22;
+$username = 'root';
+$password = 'Yly274325132';
+
+// 连接到远程服务器
+$connection = ssh2_connect($server, $port);
+if (!$connection) die('连接到服务器失败');
+
+// 使用密码进行认证
+if (!ssh2_auth_password($connection, $username, $password)) die('登录失败');
+
+// 合并多个命令使用分号;
+$combinedCommand = 'cd /data/work/tp5.1_gateway_worker; git pull';
+$stream = ssh2_exec($connection, $combinedCommand);
+stream_set_blocking($stream, true);
+$output = stream_get_contents($stream);
+echo "命令输出：\n$output\n";
+fclose($stream);
+
+// 关闭连接
+ssh2_disconnect($connection);
+
+?>
+```
+
+在这个示例中，我们将 `cd` 和 `git pull` 两个命令使用分号 `;` 连接起来，确保它们在同一个 shell 中执行。
+
+### 方法 2: 使用 `ssh2_shell` 执行多个命令（未执行成功）
+
+另一种方法是使用 `ssh2_shell` 函数，在一个 shell 中交互式地执行多个命令。这样可以更加灵活地控制命令的执行，但相应地需要更多的代码。这里是一个示例：
+
+```shell
+<?php
+
+$server = '';
+$port = 22;
+$username = '';
+$password = '';
+
+// 连接到远程服务器
+$connection = ssh2_connect($server, $port);
+if (!$connection) die('连接到服务器失败');
+
+// 使用密码进行认证
+if (!ssh2_auth_password($connection, $username, $password)) die('登录失败');
+
+// 打开一个 shell
+$shell = ssh2_shell($connection, 'bash');
+if (!$shell) die('无法打开 shell');
+
+// 执行命令
+fwrite($shell, "cd /data/work/tp5.1_gateway_worker\n");
+fwrite($shell, "git pull\n");
+
+// 等待命令执行完成
+while ($line = fgets($shell)) {
+    echo $line;
+}
+
+// 关闭 shell
+fclose($shell);
+
+// 关闭连接
+ssh2_disconnect($connection);
+
+?>
+```
+
