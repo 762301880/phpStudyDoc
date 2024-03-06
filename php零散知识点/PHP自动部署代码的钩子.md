@@ -1,4 +1,4 @@
-[搬运](https://mp.weixin.qq.com/s/0pRQ9VG9opQ7rRDEq_uvWA)
+# [搬运](https://mp.weixin.qq.com/s/0pRQ9VG9opQ7rRDEq_uvWA)
 
 自动化部署代码是一个常见的任务，可以通过编写脚本或使用自动化工具来完成。
 
@@ -81,3 +81,71 @@ chmod +x post-receive
 测试自动部署钩子是否生效，可以手动推送一次代码到远程仓库，观察是否执行了自动部署代码。
 
 需要注意的是，`post-receive`钩子会在每次代码推送到远程仓库之后触发，因此在编写自动部署脚本时需要特别小心，避免在错误的时间或情况下执行部署操作。同时，还需要确保自动部署脚本能够正确地执行，避免出现意外的错误或问题。
+
+##  bug解析
+
+### 报错 Call to undefined function App\Http\Controllers\ssh2_connect() 
+
+> 这个错误提示是因为在App\Http\Controllers中调用了一个未定义的函数ssh2_connect()。要解决这个问题，你需要确保已经安装了php-ssh2扩展，并在代码中引入了正确的命名空间。
+
+#### **linux 安装**
+
+```shell
+sudo apt-get install php-ssh2
+
+# 或者
+
+sudo apt-get install php-ssh2
+```
+
+```
+    
+```
+
+然后，在php.ini文件中添加以下行：
+
+```shell
+extension=ssh2.so
+```
+
+```
+    
+```
+
+重启你的web服务器，例如Apache或Nginx。
+
+1. 在代码中引入正确的命名空间。在你的控制器文件（例如：YourController.php）中，添加以下代码：
+
+```php
+use PHPSSH2\PHPSSH2;
+```
+
+现在，你应该可以在你的控制器中使用ssh2_connect()函数了。
+
+#### [**windows安装**](https://www.xp.cn/b.php/77589.html)
+
+> 在Windows上安装php-ssh2扩展的步骤如下：
+>
+> 1. **下载php-ssh2扩展**：访问php-ssh2扩展的官方下载页面，选择与您的PHP版本相匹配的文件进行下载。如果您的PHP是线程安全的，那么应该选择带有“ts”标记的文件。同时，根据您的系统是32位还是64位，选择相应的“x86”或“x64”版本。
+> 2. **解压下载的文件**：解压下载的zip文件，您将得到`libssh2.dll`、`php_ssh.dll`和`php_ssh2.pdb`三个文件。
+> 3. **复制文件到相应目录**：
+>
+> - 将`php_ssh.dll`和`php_ssh2.pdb`文件复制到您的PHP扩展目录，通常是`php/ext/`目录下。
+> - 将`libssh2.dll`文件复制到`C:/windows/system32`（对于32位操作系统）或`C:/windows/syswow64`（对于64位操作系统）目录下。确保在这两个目录中都有该文件的副本。
+>
+> 1. **配置php.ini文件**：打开您的`php.ini`文件，通常位于PHP安装目录下，添加以下行：
+
+```shell
+extension=php_ssh.dll
+```
+
+> 1. **重启Web服务器**：修改完成后，重启您的Web服务器，例如Apache或Nginx，以使更改生效。
+> 2. **验证安装**：创建一个包含`phpinfo()`函数的PHP文件，通过Web浏览器访问该文件，检查输出的信息中是否包含ssh2扩展的相关信息，以确认扩展已成功安装。
+
+**下载扩展安装**
+
+> https://windows.php.net/downloads/pecl/releases/ssh2/1.3.1/
+>
+> https://windows.php.net/downloads/pecl/releases/ssh2/1.3.1/php_ssh2-1.3.1-7.4-nts-vc15-x64.zip
+>
+> 安装六十四版本
