@@ -302,3 +302,99 @@ ssh2_disconnect($connection);
 ?>
 ```
 
+# 方法二
+
+> 在 PHP 中实现自动部署代码钩子（Automatic Deployment Code Hooks）通常涉及使用版本控制系统（如 Git）和 Web 服务器（如 Apache 或 Nginx）配合。这样，当代码被推送到版本控制系统中时，钩子（Hooks）可以触发自动化脚本来更新部署。
+>
+> 下面是一个基本的自动部署代码钩子的示例，假设你正在使用 Git 和 Apache 服务器。这个示例假设你的服务器上已经安装了 Git，并且你有权限运行 shell 脚本。
+
+### 步骤
+
+#### 1. 创建部署脚本
+
+首先，你需要在你的项目中创建一个用于自动部署的脚本，比如 `deploy.php`。这个脚本将在每次推送到指定分支时运行。
+
+```
+phpCopy code<?php
+// 设置密钥以确保只有你知道的人可以访问该脚本
+$secret = 'your_secret_key';
+
+if ($_GET['secret'] !== $secret) {
+    header('HTTP/1.0 403 Forbidden');
+    die('Access Forbidden.');
+}
+
+// 获取最新的代码
+exec('git pull');
+
+// 可选：运行 composer install 或其他构建步骤
+// exec('composer install');
+
+// 可选：清除缓存或其他必要的步骤
+// exec('php artisan cache:clear');
+
+// 输出结果
+echo 'Deployment successful.';
+```
+
+确保在这个脚本中设置一个安全的密钥，以防止未经授权的访问。在这个例子中，我们将在 URL 中发送这个密钥来触发部署脚本。
+
+#### 2. 配置 Git 钩子
+
+进入你的项目的 `.git` 目录，然后找到或创建 `hooks` 目录。在这个目录中，你可以创建一个 post-receive 钩子，用于在推送后触发部署脚本。
+
+```
+bashCopy code
+cd /path/to/your/repo/.git/hooks
+```
+
+然后创建一个 `post-receive` 文件：
+
+```
+bashCopy code
+nano post-receive
+```
+
+编辑这个文件，添加如下内容：
+
+```
+bashCopy code#!/bin/bash
+curl http://yourdomain.com/deploy.php?secret=your_secret_key
+```
+
+记得给这个文件执行权限：
+
+```
+bashCopy code
+chmod +x post-receive
+```
+
+这样，每次有代码被推送到你的 Git 仓库时，Git 会运行这个 `post-receive` 脚本，并且这个脚本会触发部署脚本。
+
+#### 3. 配置 Web 服务器
+
+最后，在你的 Web 服务器配置中，你需要确保请求到 `deploy.php` 的请求被正确地路由到你的脚本。
+
+对于 Apache，你可以在 `.htaccess` 文件中添加类似下面的规则：
+
+```
+apacheCopy codeRewriteEngine On
+RewriteRule ^deploy.php$ /path/to/deploy.php [L]
+```
+
+对于 Nginx，你可以在配置文件中添加类似下面的配置：
+
+```
+nginxCopy codelocation /deploy.php {
+    alias /path/to/deploy.php;
+    # 其他配置...
+}
+```
+
+### 注意事项
+
+- **安全性**：确保部署脚本和 Git 钩子是安全的。使用一个独特的密钥来验证请求，以防止未经授权的访问。
+- **日志记录**：在部署脚本中添加日志记录可以帮助你跟踪部署的历史和可能出现的问题。
+- **权限**：确保你的部署脚本有足够的权限来运行 Git 命令和其他必要的操作。
+
+这只是一个基本的示例，实际上你可能需要根据你的项目和服务器的配置进行调整。对于更复杂的部署需求，可能需要使用更专业的部署工具或服务。
