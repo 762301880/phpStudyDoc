@@ -248,5 +248,121 @@ FLUSH PRIVILEGES; #刷新
 
 
 
+# mysql 客户端
 
+## [Chat2DB](https://github.com/chat2db/Chat2DB)
+
+> https://mp.weixin.qq.com/s/xHMRaZYDt8SoSx-GgmAfkQ
+
+> Chat2DB 是一款有开源免费的多数据库客户端工具，支持windows、mac本地安装，也支持服务器端部署，web网页访问。和传统的数据库客户端软件Navicat、DBeaver 相比Chat2DB集成了AIGC的能力，能够**将自然语言转换为SQL**，也可以**将SQL转换为自然语言**，可以给出研发人员**SQL的优化建议**，极大的提升人员的效率，是AI时代数据库研发人员的利器，未来即使不懂SQL的运营业务也可以使用快速查询业务数据、生成报表能力。
+
+**特性**
+
+1、AI智能助手，支持自然语言转SQL、SQL转自然语言、SQL优化建议
+
+2、支持团队协作，研发无需知道线上数据库密码，解决企业数据库账号安全问题
+
+3、强大的数据管理能力，支持数据表、视图、存储过程、函数、触发器、索引、序列、用户、角色、授权等管理
+
+4、强大的扩展能力，目前已经支持MySQL、PostgreSQL、Oracle、SQLServer、ClickHouse、OceanBase、H2、SQLite等等，未来会支持更多的数据库
+
+5、前端使用 Electron 开发，提供 Windows、Mac、Linux 客户端、网页版本一体化的解决方案
+
+6、如果你近期准备面试跳槽，建议在ddkk.com在线刷题，涵盖 1万+ 道 Java 面试题，几乎覆盖了所有主流技术面试题，还有市面上最全的技术栈五百套套，精品系列教程，免费提供。
+
+7、支持环境隔离、线上、日常数据权限分离
+
+**支持的数据库**
+
+![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+
+**安装包下载**
+
+| 描述                    | 下载地址                                                     |
+| :---------------------- | :----------------------------------------------------------- |
+| Windows                 | https://oss-chat2db.alibaba.com/release/1.0.11/Chat2DB%20Setup%201.0.11.exe |
+| MacOS ARM64 (Apple芯片) | https://oss-chat2db.alibaba.com/release/1.0.11/Chat2DB-1.0.11-arm64.dmg |
+| MacOS X64 (Intel芯片)   | https://oss-chat2db.alibaba.com/release/1.0.11/Chat2DB-1.0.11.dmg |
+| Jar包                   | https://oss-chat2db.alibaba.com/release/1.0.11/ali-dbhub-server-start.jar |
+
+**Docker 安装**
+
+```shell
+docker pull chat2db/chat2db:latest
+// 前台运行,运行后不能关闭命令行
+docker run -ti --name=chat2db -p 10824:10824 chat2db/chat2db:latest
+// 后台运行,运行后可以关闭命令行
+docker run --name=chat2db -p 10824:10824 chat2db/chat2db:latest
+// 这里正常会提示 Tomcat started on port(s): 10824 (http) with context path 就可以结束了
+  
+// 如果这里提示  The container name "/chat2db" is already in use by container, 代表已经存在容器了 运行
+dcoker run chat2db
+// 如果想更新chat2db 则需要先rm 再运行
+dcoker rm chat2db
+```
+
+**使用**
+
+创建连接
+
+![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+
+**使用**
+
+创建连接
+
+![image-20240314101002999](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240314101002999.png)
+
+
+
+数据源管理
+
+![image-20240314101027959](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240314101027959.png)
+
+
+
+代理配置
+
+使用前需要配置OpenAI的Api Key及本地代理配置
+
+![image-20240314101045054](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240314101045054.png)
+
+自然语言转换
+
+
+
+![image-20240314101105756](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240314101105756.png)
+
+
+
+```mysql
+## ---BEGIN---
+## 查询学生小明的各科目成绩
+
+## ---自然语言转换:---
+SELECT score.score 
+FROM score 
+INNER JOIN student_course ON score.course_id = student_course.course_id 
+INNER JOIN student ON student_course.student_id = student.id 
+WHERE student.name = '小明'
+## --- END ---
+```
+
+sql优化
+
+```mysql
+## ---BEGIN---
+## SELECT score.score 
+FROM score 
+INNER JOIN student_course ON score.course_id = student_course.course_id 
+INNER JOIN student ON student_course.student_id = student.id 
+WHERE student.name = '小明'
+## ---SQL优化:---
+优化建议：
+1. 索引优化：为student表的name字段创建索引，可以加快WHERE条件的查询速度。
+2. JOIN优化：可以使用子查询或者临时表的方式，将student表中name为小明的记录先筛选出来，再进行JOIN操作，可以减少JOIN操作的数据量，提高查询效率。
+3. 数据库设计优化：可以考虑将student表和student_course表合并为一张表，避免JOIN操作，提高查询效率。
+4. 缓存优化：可以将查询结果缓存起来，避免重复查询，提高查询效率。
+## --- END ---
+```
 
