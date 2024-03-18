@@ -15,7 +15,7 @@ SELECT DATE_FORMAT(NOW(), '%Y') FROM DUAL ;
 **代码示例**
 
 ```sql
- # FROM_UNIXTIME('z','%Y-%m-%d')
+ -- FROM_UNIXTIME('z','%Y-%m-%d')
  FROM_UNIXTIME(pxs_aunt_basics.birth,'%Y-%m-%d') as birth,
 ```
 
@@ -54,12 +54,21 @@ select COLUMN_NAME from information_schema.COLUMNS where table_name = '具体表
      * @param array $exceptField
      * @return array
      */
-    public static function getFieldNames($exceptField = [])
+    public static function getAllFieldNames($exceptField = [])
     {
         $selfModel = self::field($exceptField, true)->find();
         $selfModel = !empty($selfModel) ? $selfModel->toArray() : [];
         return array_keys($selfModel);
     }
+
+
+# 方法二
+
+## 在MySQL中，可以使用information_schema数据库中的COLUMNS表来动态获取某张表的所有字段。以下是一个示例查询：
+
+SELECT COLUMN_NAME
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = '数据库名' AND TABLE_NAME = '表名';
 ```
 
 ## 替换字段的部分内容
