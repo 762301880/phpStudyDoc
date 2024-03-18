@@ -1,6 +1,6 @@
 # [Apifox 接口调试](https://www.apifox.cn/)
 
-![1639119171(1).jpg](https://s2.loli.net/2021/12/10/Yf2bXicVTeu7xQU.png)
+![1639119171(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/Yf2bXicVTeu7xQU.png)
 
 # [火绒电脑管家](https://www.huorong.cn/)(必装)
 
