@@ -1,3 +1,7 @@
+
+
+
+
 # 资料
 
 | 说明                                 | 地址                                                         |
@@ -66,6 +70,18 @@
 `Ctrl`+`Shift`+`-`    //折叠方法
 `Ctrl`+`Shift`+`+`    //取消折叠方法    
 ```
+
+# 显示类分割线
+
+![image-20240326110608598](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240326110608598.png)
+
+
+
+![image-20240326110630959](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240326110630959.png)
+
+
+
+![image-20240326110642383](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240326110642383.png)
 
 # 搞笑bug
 
