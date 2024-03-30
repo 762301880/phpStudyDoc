@@ -35,7 +35,7 @@
 
   **点击DLL**下载windows扩展
 
-<img src="https://s2.loli.net/2022/05/13/cBW3qCeNXJitwsS.png" alt="1652404037(1).jpg" style="zoom:50%;" />
+<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/cBW3qCeNXJitwsS.png" alt="1652404037(1).jpg" style="zoom:50%;" />
 
 **下载对应版本**
 
