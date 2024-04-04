@@ -32,3 +32,36 @@
 ![1648867366(1).jpg](https://s2.loli.net/2022/04/02/ZXVQdekJB5wLTr1.png)
 
 # 后续补充
+
+
+
+## navicat快捷键
+
+```sql
+1.打开一个新的查询窗口: Ctrl + Q
+
+2.关闭当前窗口:Ctrl + W
+
+3.运行当前窗口的SQL语句:Ctrl + R
+
+4.运行选中的SQL语句:Ctrl + Shift + R
+
+5.注释选中SQL语句:Ctrl +　/
+
+6.取消注释SQL:Ctrl + Shift + /
+
+7.选中当前行SQL:三击鼠标
+
+8.复制一行内容到下一行:Ctrl + D
+
+9.删除当前行:Ctrl + L
+
+10.在表内容显示页面切换到表设计页面:Ctrl + D
+
+11.在表设计页面，快速切换到表内容显示页面:Ctrl + O
+
+12.打开mysql命令行窗口:F6
+
+13.刷新:F5
+```
+
