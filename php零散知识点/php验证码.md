@@ -10,7 +10,7 @@
 
 **效果图片**
 
-![1652167522.jpg](https://s2.loli.net/2022/05/10/kI629M7a5ZQwcLA.png)
+![1652167522.jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/kI629M7a5ZQwcLA.png)
 
 **原理示例**
 
