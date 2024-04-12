@@ -29,7 +29,7 @@
 
 **左边选择需要同步数据的数据库(测试数据库),右边选择需要同步的数据库(线上数据库)  我们要把测试数据库的表结构同步到线上**
 
-![1648867366(1).jpg](https://s2.loli.net/2022/04/02/ZXVQdekJB5wLTr1.png)
+![1648867366(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/ZXVQdekJB5wLTr1.png)
 
 # 后续补充
 
