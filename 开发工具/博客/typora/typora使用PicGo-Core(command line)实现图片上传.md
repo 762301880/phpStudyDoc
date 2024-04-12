@@ -148,3 +148,10 @@ picgo install gitee-uploader super-prefix
 }
 ```
 
+# 图片迁移
+
+## 阿里云oss图片迁移gitee仓库
+
+> 可以一键替换前缀
+
+![image-20240412151212574](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240412151212574.png)
