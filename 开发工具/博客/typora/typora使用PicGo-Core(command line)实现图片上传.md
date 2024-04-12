@@ -49,7 +49,9 @@
 
 
 
-##  [SM.MS 上传配置](https://blog.csdn.net/netceor/article/details/119705826)
+##  [SM.MS 上传配置-不推荐](https://blog.csdn.net/netceor/article/details/119705826)
+
+> 不推荐原因：访问过于慢且有容量限制 并且容易被封
 
 ```php
 # https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90
@@ -65,7 +67,53 @@
 }
 ```
 
-## [github图床](https://picgo.github.io/PicGo-Doc/zh/guide/config.html#github%E5%9B%BE%E5%BA%8A)
+## [gitee图床](https://picgo.github.io/PicGo-Doc/zh/guide/config.html#github%E5%9B%BE%E5%BA%8A)(推荐)
+
+**参考资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/m0_37952030/article/details/109138431)  [link](https://www.cnblogs.com/iangel/p/15131181.html) |
+
+### 安装picgo插件
+
+**安装picgo**
+
+> ## 安装 picgo (core)
+>
+> 1. 前提是安装好了 nodejs，命令行能运行 npm
+>    具体说明可以参考：[此处廖雪峰博客](https://www.liaoxuefeng.com/wiki/1022910821149312/1023025597810528)
+> 2. 在 cmd 窗口运行 
+
+```shell
+npm install picgo -g
+```
+
+**安装 picgo 插件**
+
+> 1. 用于使用gitee作为图床 和 上传图片时能在文件前缀加上时间戳
+
+```shell
+picgo install gitee-uploader super-prefix
+```
+
+
+
+### 准备步骤
+
+**新建仓库**
+
+![image-20240412135256137](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240412135256137.png)
+
+**设置私人令牌-token**
+
+![image-20240412135438152](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240412135438152.png)
+
+![image-20240412135452541](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240412135452541.png)
+
+### 对应picgo-core代码配置
+
+![image-20240412135529640](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240412135529640.png)
 
 ```shell
 {
@@ -74,6 +122,29 @@
   "path": "", // 自定义存储路径，比如img/
   "customUrl": "", // 自定义域名，注意要加http://或者https://
   "branch": "" // 分支名，默认是main
+}
+
+
+# 个人配置
+
+{
+  "picBed": {
+    "uploader": "gitee",
+    "gitee": {
+      "repo": "yaolliuyang/blogImages",
+      "token": "****************",
+      "path": "blogImages/",
+      "customUrl": "",
+      "branch": "master"
+    }
+  },
+  "picgoPlugins": {
+    "picgo-plugin-gitee-uploader": true,
+    "picgo-plugin-super-prefix": true
+  },
+  "picgo-plugin-gitee-uploader": {
+    "lastSync": "2024-04-12 01:46:57"
+  }
 }
 ```
 

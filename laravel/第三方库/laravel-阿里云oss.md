@@ -244,13 +244,13 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
 
 > 由图片可见我们需要删除的图片未知在**temp临时目录下**
 
-![1655685898492.jpg](https://s2.loli.net/2022/06/20/1R3UpWJQor6eG28.png)
+![1655685898492.jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1R3UpWJQor6eG28.png)
 
 **配置生命周日**
 
 > 点击左侧导航栏的**基础设置-生命周期** <font color="color=#dddd00">**创建规则**</font>  配置匹配的前缀(**可以通过点击图片查看链接查看前缀**),然后设置**文件过期策略删除**即可
 
-![1655685309610.jpg](https://s2.loli.net/2022/06/20/lgOmPr7GVqCNYFs.png)
+![1655685309610.jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/lgOmPr7GVqCNYFs.png)
 
 
 
@@ -307,7 +307,15 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
         dd($res);
 ```
 
+# oss客户端
 
+## oss browser
+
+> [下载](https://oss.console.aliyun.com/services/tools)
+
+![image-20240412141557217](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240412141557217.png)
+
+![image-20240412142052985](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240412142052985.png)
 
 # 重要事情记录
 
