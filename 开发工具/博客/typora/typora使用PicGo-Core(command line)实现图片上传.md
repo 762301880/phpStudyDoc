@@ -52,14 +52,28 @@
 ##  [SM.MS 上传配置](https://blog.csdn.net/netceor/article/details/119705826)
 
 ```php
+# https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90
+
 {
   "picBed": {
-    "current": "smms",
+    "uploader": "smms", // 代表当前的默认上传图床为 SM.MS,
     "smms": {
-      "token": ""   //你的smms_token
+      "token": "" // 从 https://sm.ms/home/apitoken 获取的 token
     }
   },
-  "picgoPlugins": {}
+  "picgoPlugins": {} // 为插件预留
+}
+```
+
+## [github图床](https://picgo.github.io/PicGo-Doc/zh/guide/config.html#github%E5%9B%BE%E5%BA%8A)
+
+```shell
+{
+  "repo": "", // 仓库名，格式是username/reponame
+  "token": "", // github token
+  "path": "", // 自定义存储路径，比如img/
+  "customUrl": "", // 自定义域名，注意要加http://或者https://
+  "branch": "" // 分支名，默认是main
 }
 ```
 
