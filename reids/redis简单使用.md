@@ -25,7 +25,7 @@
 >
 > 为了不影响别人的逻辑只好自己再配置一个连接
 
-![1640920705(1).jpg](https://s2.loli.net/2021/12/31/qKQmwl2hDz5YPVj.png)
+![1640920705(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/qKQmwl2hDz5YPVj.png)
 
 > ## 方案一
 >

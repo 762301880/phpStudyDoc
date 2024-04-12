@@ -74,7 +74,7 @@
         } 
 ```
 
-![1640238629(1).jpg](https://s2.loli.net/2021/12/23/Pj7sGnJSYDO53IX.png)
+![1640238629(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/Pj7sGnJSYDO53IX.png)
 
 ### 利用mysql的悲观锁解决
 
