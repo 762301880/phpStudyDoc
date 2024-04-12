@@ -73,7 +73,7 @@ Speed up your Laravel/Lumen
 
 - laravel 启动命令解释
 
-![命令](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/35dcac73c81020ff6c06e346563fcc34.jpg)
+![命令](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/35dcac73c81020ff6c06e346563fcc34.jpg)
 
 ```php
   /**

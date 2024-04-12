@@ -162,7 +162,7 @@ services:
 
 > 如下图所示首先我们定义了一个docker目录下存放docker相关配置，根目录下新建了**Dockerfile&docker-compose.yml**配置文件
 
-![image-20220929083743040](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220929083743040.png)
+![image-20220929083743040](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220929083743040.png)
 
 ### **nginx配置文件default.conf**
 

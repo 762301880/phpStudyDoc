@@ -151,7 +151,7 @@ Query OK, 0 rows affected (0.00 sec)
 
 > 找到环境变量设置，在**系统变量**-**Path**变量中添加mysql环境变量指向mysql安装的**bin**目录即可
 
-![image-20220605105636303](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220605105636303.png)
+![image-20220605105636303](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220605105636303.png)
 
 # redis 
 

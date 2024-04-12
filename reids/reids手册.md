@@ -1807,7 +1807,7 @@ tcp-keepalive 300
 
 在主从复制中,rdb就是备用的!从机上面!
 
-![image-20230209135159207](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230209135159207.png)
+![image-20230209135159207](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230209135159207.png)
 
 > 在指定的实践间隔内将内存中的数据集快照写入磁盘,也就是行化讲的Snapshot快照,它恢复时是将快照文件直接读到内存里。
 >
@@ -2189,19 +2189,19 @@ AOF重写的基础大小默认值64M太小了,可以设置到5G以上,默认超�
 
 第一个: 消息发送者，第二个:频道    第三个:消息订阅者
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/2404975-20220726225800125-2023426694.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/2404975-20220726225800125-2023426694.png)
 
 
 
 下图展示了频道channel1,以及订阅这个频道的三个客户端--client2,client5和client1之间的关系:
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/pubsub1.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/pubsub1.png)
 
 
 
 当有新消息通过PUBLISH命令发送给频道channel1时,这个消息就会被发送给订阅它的三个客户端:
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/pubsub2.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/pubsub2.png)
 
 #### Redis 发布订阅命令
 
@@ -2292,7 +2292,7 @@ yaoliuyang@yaoliuyang-PC:~/Documents/study_docs/phpStudyDoc$ redis-cli
 
 对于这种场景,我们可以使用如下这种架构
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/u=2063238625,1214794687&fm=253&fmt=auto&app=138&f=PNG)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/u=2063238625,1214794687&fm=253&fmt=auto&app=138&f=PNG)
 
 主从复制,读写分离!80%的情况下都是在进行读操作!减缓服务器的压力!架构中经常使用! 一主二从!
 
@@ -2632,7 +2632,7 @@ http://c.biancheng.net/redis/sentinel-model.html
 
 
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/a9a46e8f72464c75947658754d17da33.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/a9a46e8f72464c75947658754d17da33.png)
 
 这里的哨兵有两个作用
 
@@ -2641,7 +2641,7 @@ http://c.biancheng.net/redis/sentinel-model.html
 
 然而一个哨兵进程对Redis服务器进行监控,可能会出现问题,为此,我们可以使用多个哨兵进行监控。各个哨兵之间还会进行监控,这样就形成了多个哨兵模式。
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/9571610-ab6167bd8963734d.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/9571610-ab6167bd8963734d.png)
 
 假设服务器宕机,哨兵1先检测到这个结果,系统并不会马上进行failover过程,仅仅是哨兵1主管认为主服务器不可用,这个现象成为**主观下线**.
 
@@ -2884,13 +2884,13 @@ Redis缓存的使用，极大的提升了应用程序的性能和效率，特别
 
 布隆过滤器是一种数据结构，对所有可能查询的参数以Hash形式存储，在控制层先进行校验，不符合则丢弃，从而避免存储系统的查询压力。
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/cbbef657bf12b4e2d0d3a214b9008e46.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/cbbef657bf12b4e2d0d3a214b9008e46.png)
 
 **缓存空对象**
 
 当存储层不命中后，即使返回的空对象也将其缓存起来，同时会设置一个过期时间，之后再访问这个数据将会从缓存中获取，保护了后端数据源
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/488f5f809f03a53dea1fdee1e9e41738.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/488f5f809f03a53dea1fdee1e9e41738.png)
 
 **但是这个方法会存在两个问题**
 
@@ -2928,7 +2928,7 @@ Redis缓存的使用，极大的提升了应用程序的性能和效率，特别
 产生原因之一：
 
 比如，双十一零点抢购，会把同一批商品信息比较集中的放入缓存中，假设缓存设置一个小时的过期时间，那么到凌晨一点钟的时候，这批商品的缓存就都过期了。而对这批商品的访问查询，都落到了数据库上，对于数据库而言，就会产生周期性的压抑波峰。于是所有的请求就会向存储层，存储层的调用量会暴增，可能造成存储层奔溃，服务器宕机。
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/fe501710ac11f133173e4a4c8a6179ca.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/fe501710ac11f133173e4a4c8a6179ca.png)
 
 
 

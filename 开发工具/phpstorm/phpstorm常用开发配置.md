@@ -23,17 +23,17 @@
 
 1. 点击导航栏的**Tools**-**Deployment**-**Configuration...**
 
-![1634177504(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/ZcxPleKGzOa7LR9.png)
+![1634177504(1).png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/ZcxPleKGzOa7LR9.png)
 
-![1634178544(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/Oi5xzv48kAoyuN6.png)
+![1634178544(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/Oi5xzv48kAoyuN6.png)
 
-![1634178580(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/RA9jMriHkuqKptn.png)
+![1634178580(1).png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/RA9jMriHkuqKptn.png)
 
 2.  配置连接
 
 > 点击右上角的+选择SFTP 编辑连接
 
-![1634177862(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/2flsMqT9YBwKGmV.png)
+![1634177862(1).png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/2flsMqT9YBwKGmV.png)
 
 
 
@@ -43,7 +43,7 @@
 
 > 点击导航栏的**Tools**-**Deployment**-**Options...**-
 
-![1634178390(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/W91Mf85ajHBgEux.png)
+![1634178390(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/W91Mf85ajHBgEux.png)
 
 > 自此意见全部配置完成 修改的时候直接点击文件右键点击***Deployment***- **Uploadto*你的项目名称**即可
 
@@ -73,15 +73,15 @@
 
 # 显示类分割线
 
-![image-20240326110608598](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240326110608598.png)
+![image-20240326110608598](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240326110608598.png)
 
 
 
-![image-20240326110630959](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240326110630959.png)
+![image-20240326110630959](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240326110630959.png)
 
 
 
-![image-20240326110642383](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240326110642383.png)
+![image-20240326110642383](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240326110642383.png)
 
 # 搞笑bug
 
@@ -89,8 +89,8 @@
 
 > 今天突然发现全文搜索小弹窗没了这很不方便利于修改代码，于是咨询了同事结果人家跟我说往上托就行了，真尴尬啊
 
-![image-20221022162921948](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221022162921948.png)
+![image-20221022162921948](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20221022162921948.png)
 
 **想要的效果**
 
-![image-20221022162837947](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221022162837947.png)
+![image-20221022162837947](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20221022162837947.png)

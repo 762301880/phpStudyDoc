@@ -21,9 +21,9 @@
 
 > 打开mysql官网[点我跳转]下载(https://dev.mysql.com/downloads/repo/apt/)	
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/okujFMV4hylmqiA.png" alt="1635726424(1).jpg" style="zoom: 50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/okujFMV4hylmqiA.png" alt="1635726424(1).jpg" style="zoom: 50%;" />
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/TlvwtHidM3nzs7Y.png" alt="1635726527(1).jpg" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/TlvwtHidM3nzs7Y.png" alt="1635726527(1).jpg" style="zoom:50%;" />
 
 或者直接在终端使用命令下载
 

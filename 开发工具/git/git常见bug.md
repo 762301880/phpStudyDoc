@@ -17,7 +17,7 @@
 
 **安装身份验证器**
 
-![image-20231013142729857](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231013142729857.png)
+![image-20231013142729857](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231013142729857.png)
 
 ## 切换分支报错 error: invalid path 'db::name'
 

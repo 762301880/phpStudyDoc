@@ -4,7 +4,7 @@
 
 **登录接口的时候设置test**
 
-![1642391519(1).jpg](https://s2.loli.net/2022/01/17/O4Eqz8dw2jPYXVA.png)
+![1642391519(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/O4Eqz8dw2jPYXVA.png)
 
 ```shell
 // 响应结果
@@ -19,4 +19,4 @@ console.log(response);
 
 > 使用的时候直接**引用变量即可**
 
-![1642391837(1).jpg](https://s2.loli.net/2022/01/17/Z1qCU72THmbIozg.png)
+![1642391837(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/Z1qCU72THmbIozg.png)

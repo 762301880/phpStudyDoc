@@ -92,7 +92,7 @@ deploy:
 >
 > **Protect variable**  选项导致无法使用变量
 
-![image-20230520094847798](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230520094847798.png)
+![image-20230520094847798](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230520094847798.png)
 
 这个示例中，脚本会将GitLab仓库中的代码同步到远程服务器中的项目路径。其中，$CI_PROJECT_DIR代表GitLab CI在运行时克隆的项目目录，user和remote_server需要替换为实际的用户名和远程服务器的IP地址。
 

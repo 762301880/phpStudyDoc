@@ -30,27 +30,27 @@ github下载[点我跳转](https://github.com/Molunerfinn/PicGo/releases) 或者
 
 > 在里面填写对应的信息
 
-![image-20210426155750258](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210426155750258.png)
+![image-20210426155750258](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210426155750258.png)
 
 `KeyId &&KeySecret` 对应
 
-![image-20210426153948471](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210426153948471.png)
+![image-20210426153948471](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210426153948471.png)
 
 `设定存储空间名`对应
 
-![image-20210426154114077](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210426154114077.png)
+![image-20210426154114077](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210426154114077.png)
 
 `确认存储区域`对应
 
-![image-20210426153255428](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210426153255428.png)
+![image-20210426153255428](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210426153255428.png)
 
 `指定存储路径`对应
 
-![image-20210426154537023](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210426154537023.png)
+![image-20210426154537023](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210426154537023.png)
 
 `上述完成之后可以使用picGo测试以下是否可以上传`
 
-![image-20210426155034764](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210426155034764.png)
+![image-20210426155034764](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210426155034764.png)
 
 ##  阿里云oss设置
 
@@ -58,7 +58,7 @@ github下载[点我跳转](https://github.com/Molunerfinn/PicGo/releases) 或者
 
 `新建bucket`
 
-![image-20210426154855422](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210426154855422.png)
+![image-20210426154855422](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210426154855422.png)
 
 
 
@@ -66,7 +66,7 @@ github下载[点我跳转](https://github.com/Molunerfinn/PicGo/releases) 或者
 
 在typora中点击文件=>偏好设置=>图像
 
-![image-20210426155447146](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210426155447146.png)
+![image-20210426155447146](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210426155447146.png)
 
 #  使用
 

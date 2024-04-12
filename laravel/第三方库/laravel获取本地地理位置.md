@@ -91,13 +91,13 @@ https://apis.map.qq.com/ws/location/v1/ip?ip=111.206.145.41&key=OB4BZ-D4W3U-B7VV
 >
 > 填写自己需要的`应用名称`与涉及的`应用类型`
 
-![image-20210525100329368](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210525100329368.png)
+![image-20210525100329368](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210525100329368.png)
 
 ### 创建key
 
 > 选择webService即可
 
-![image-20210525100633644](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210525100633644.png)
+![image-20210525100633644](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210525100633644.png)
 
 ## 代码中使用示例
 
@@ -178,11 +178,11 @@ composer require geoip2/geoip2:~2.0
 
 > getip2官网下载IP地址库
 
-![image-20210526083444740](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210526083444740.png)
+![image-20210526083444740](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210526083444740.png)
 
 - 将下载的库文件，在项目中找一个目录存放
 
-![image-20210526083559707](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210526083559707.png)
+![image-20210526083559707](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210526083559707.png)
 
 
 

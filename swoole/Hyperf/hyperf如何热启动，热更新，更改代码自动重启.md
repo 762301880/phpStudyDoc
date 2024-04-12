@@ -31,7 +31,7 @@ composer require hyperf/watcher=2.1.* --dev
 php bin/hyperf.php vendor:publish hyperf/watcher
 ```
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/1599860-20210628140812483-1682197992.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1599860-20210628140812483-1682197992.png)
 
 ## 启动
 

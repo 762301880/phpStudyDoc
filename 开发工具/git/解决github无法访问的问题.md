@@ -19,7 +19,7 @@
 
 **搜索dns-ttl值最小的ip地址**
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/IKst3w7WNOzVpnQ.png" alt="1641860987(1).jpg" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/IKst3w7WNOzVpnQ.png" alt="1641860987(1).jpg" style="zoom:50%;" />
 
 **修改虚拟域名访问**
 

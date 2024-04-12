@@ -25,7 +25,7 @@ composer create-project --prefer-dist laravel/lumen blog  #blog==项目名称
 
 * 推荐采用集成环境这里我们采用[phpstudy](https://www.xp.cn/download.html)
 
-![image-20210430095749524](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210430095749524.png)
+![image-20210430095749524](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210430095749524.png)
 
 * 网站中输入指定的虚拟域名即可访问
 

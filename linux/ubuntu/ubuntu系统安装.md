@@ -10,7 +10,7 @@
 
 **[下载`linux-ubuntu`系统](https://ubuntu.com/download/desktop)**
 
-![image-20210621135753140](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210621135753140.png)
+![image-20210621135753140](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210621135753140.png)
 
 | 名称                                                   | 地址                                                         |
 | ------------------------------------------------------ | ------------------------------------------------------------ |
@@ -35,15 +35,15 @@
 
 - 1.打开镜像文件
 
-![image-20210621150855490](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210621150855490.png)
+![image-20210621150855490](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210621150855490.png)
 
 - 2. 写入硬盘印象
 
-![image-20210621151321530](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210621151321530.png)
+![image-20210621151321530](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210621151321530.png)
 
 - 3. 写入（写入U盘）
 
-  ![image-20210621151425275](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210621151425275.png)
+  ![image-20210621151425275](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210621151425275.png)
 
 - 安装完毕之后直接重启即可进行安装程序
 

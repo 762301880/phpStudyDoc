@@ -86,4 +86,4 @@ public function send(Request $request)
 
 > 点击部门人员，右侧弹出的信息旁边有用户id
 
-![image-20220802104448667](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220802104448667.png)
+![image-20220802104448667](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220802104448667.png)

@@ -63,7 +63,7 @@ php artisan krlove:generate:model 需要生成的模型名称  --table-name=指�
 php artisan krlove:generate:model User   --output-path=./Models/ --namespace=App\\Models
 ```
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/5Goi7sgjt1IVBUu.png" alt="1625792623.jpg" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/5Goi7sgjt1IVBUu.png" alt="1625792623.jpg" style="zoom:50%;" />
 
 ### 2.3.1 全局覆盖默认选项
 

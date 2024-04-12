@@ -154,7 +154,7 @@ public static void init() {
 
 `Timer`类是 jdk 专门提供的定时器工具，用来在后台线程计划执行指定任务，在`java.util`包下，要跟`TimerTask`一起配合使用。
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)
 
 `Timer`类其实是一个任务调度器，它里面包含了一个`TimerThread`线程，在这个线程中无限循环从`TaskQueue`中获取`TimerTask`（该类实现了 Runnable 接口），调用其`run`方法，就能异步执行定时任务。我们需要继承`TimerTask`类，实现它的`run`方法，在该方法中加上自己的业务逻辑。
 
@@ -338,7 +338,7 @@ quartz 能做什么？
 
 架构图如下：
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)
 
 quartz 包含的主要接口如下：
 
@@ -457,15 +457,15 @@ CronTrigger 配置格式:
 
 管理界面：
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)
 
 整体架构图如下：
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)
 
 使用 quartz 架构图如下：
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)
 
 ### 项目实战
 
@@ -535,7 +535,7 @@ public class HelloJobHandler extends IJobHandler {
 
 整体架构图：
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)
 
 ### 项目实战
 

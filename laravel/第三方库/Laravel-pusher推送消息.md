@@ -8,7 +8,7 @@
 
 ## 2.1需要在[官网](https://pusher.com/)注册 key&app_id&secret
 
-## <img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210623094627129.png" alt="image-20210623094627129" style="zoom: 50%;" /> 
+## <img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210623094627129.png" alt="image-20210623094627129" style="zoom: 50%;" /> 
 
 ## 2.2安装
 
@@ -69,7 +69,7 @@ encryption_master_key- #一个 32 字符长的密钥。此密钥与通道名称�
 
 - 发送完成之后可以在控制台查看输出的内容
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210623105910893.png" alt="image-20210623105910893" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210623105910893.png" alt="image-20210623105910893" style="zoom:50%;" />
 
 ## 2.4前端接受事件
 

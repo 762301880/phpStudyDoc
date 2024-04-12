@@ -39,7 +39,7 @@ docker run -d -p 3000:3000 \
 >
 > 把对应的申请的api key填写到申请的api key 上面
 
-![image-20231120163328201](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231120163328201.png)
+![image-20231120163328201](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231120163328201.png)
 
 ## webdiv搭建
 

@@ -39,7 +39,7 @@ cat /etc/nginx/nginx.conf
 
 ### 2.2在`http`大括号内，查看`include`配置项。即配置文件的默认路径。
 
-![conf](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/p130116.png)
+![conf](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/p130116.png)
 
 ### 2.3在配置文件的默认路径下，备份默认配置文件。
 

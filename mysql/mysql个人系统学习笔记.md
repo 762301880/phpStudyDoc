@@ -1651,11 +1651,11 @@ source d:/a.sql
 
 举例说明：
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/1218459-20180909201651535-1215699096.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1218459-20180909201651535-1215699096.png)
 
 在上面的表中，“家庭信息”和“学校信息”列均不满足原子性的要求，故不满足第一范式，调整如下：
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/1218459-20180909202243826-1032549277.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1218459-20180909202243826-1032549277.png)
 
 可见，调整后的每一列都是不可再分的，因此满足第一范式（1NF）；
 
@@ -2324,23 +2324,23 @@ public class SQL注入 {
 
 ##  使用IDEA连接数据库
 
-![MySQL学习笔记（狂神说）_数据库_14](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/e16c352913860481d862f28346b602d5.png)
+![MySQL学习笔记（狂神说）_数据库_14](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/e16c352913860481d862f28346b602d5.png)
 
 > 连接成功后，可以选择数据库	
 
-![MySQL学习笔记（狂神说）_sql_15](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/3f16797cfbb1eba846514b65bda22b92.png)
+![MySQL学习笔记（狂神说）_sql_15](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/3f16797cfbb1eba846514b65bda22b92.png)
 
 > 双击数据库
 
-![MySQL学习笔记（狂神说）_mysql_16](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/747cafcb855bd935813adce8c1384ff2.png)
+![MySQL学习笔记（狂神说）_mysql_16](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/747cafcb855bd935813adce8c1384ff2.png)
 
 > 更新数据、
 
-![MySQL学习笔记（狂神说）_数据_17](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/ac7025a3f87f9f3b1e05c057c45b3ab5.png)
+![MySQL学习笔记（狂神说）_数据_17](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/ac7025a3f87f9f3b1e05c057c45b3ab5.png)
 
 > 编写sql代码的地方
 
-![MySQL学习笔记（狂神说）_数据库_18](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20141d68c93570f9c58da689dcb7c551.png)
+![MySQL学习笔记（狂神说）_数据库_18](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20141d68c93570f9c58da689dcb7c551.png)
 
 ## Jdbc事务
 
@@ -2474,7 +2474,7 @@ public class TestTransaction2 {
 
 **对应代码文件配置目录**
 
-![image-20230322095000423](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230322095000423.png)
+![image-20230322095000423](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230322095000423.png)
 
 
 
@@ -2488,15 +2488,15 @@ public class TestTransaction2 {
 >
 > [commons-dbcp2-2.9.0.jar](https://commons.apache.org/proper/commons-dbcp/download_dbcp.cgi)
 >
-> ![image-20230322094447729](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230322094447729.png)
+> ![image-20230322094447729](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230322094447729.png)
 >
 > [commons-logging-1.2.jar](https://commons.apache.org/proper/commons-logging/download_logging.cgi)
 >
-> ![image-20230322094423215](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230322094423215.png)
+> ![image-20230322094423215](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230322094423215.png)
 >
 > [commons-pool2-2.11.1.jar](https://commons.apache.org/proper/commons-pool/download_pool.cgi)
 >
-> ![image-20230322094553082](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230322094553082.png)
+> ![image-20230322094553082](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230322094553082.png)
 
 #### 定义配置文件(dbcpconfig.properties)
 

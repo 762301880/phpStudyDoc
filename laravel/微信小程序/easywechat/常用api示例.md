@@ -457,7 +457,7 @@ $result = $app->refund->byOutTradeNumber('out-trade-no-xxx', 'refund-no-xxx', 20
 ]);
 ```
 
-![1649817302(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/vXah2yfmHU538Ae.png)
+![1649817302(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/vXah2yfmHU538Ae.png)
 
 
 
@@ -559,9 +559,9 @@ $result = $app->refund->byOutTradeNumber("ON20231204874838_656d2f34bb985","RSN20
 ]);
 ```
 
-![image-20231204133144510](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231204133144510.png)
+![image-20231204133144510](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231204133144510.png)
 
-![image-20231204133151843](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231204133151843.png)
+![image-20231204133151843](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231204133151843.png)
 
 ## 补充
 
@@ -569,7 +569,7 @@ $result = $app->refund->byOutTradeNumber("ON20231204874838_656d2f34bb985","RSN20
 
 如图是一个简化的下单流程，首先是提交订单，然后是支付。
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)
 
 > 支付的话，一般是走支付网关（支付中心），然后支付中心与第三方支付渠道（微信、支付宝、银联）交互。
 >
@@ -607,4 +607,4 @@ $result = $app->refund->byOutTradeNumber("ON20231204874838_656d2f34bb985","RSN20
 
 **附上微信支付最佳实践：**
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)

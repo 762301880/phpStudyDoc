@@ -39,13 +39,13 @@ docker run --name mysql -itd -p 3307:3306 -v /data/mysql:/var/lib/mysql -e MYSQL
 >
 > 由于官网下载速度很慢所以我们到开源镜像站下载,**[清华大学开源镜像站-mysql](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/)**
 
-![image-20220709150956479](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220709150956479.png)
+![image-20220709150956479](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220709150956479.png)
 
 **解压软件包**
 
 > 解压后的目录,项目启动后会在里面自动生成一个**data**目录
 
-![image-20220709152617916](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220709152617916.png)
+![image-20220709152617916](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220709152617916.png)
 
 **创建my.ini文件**
 
@@ -79,13 +79,13 @@ default-character-set=UTF8MB4
 >
 > 配置变量完成之后可以**cmd**中 使用`echo %MYSQL_HOME%` 命令查看是否配置成功
 
-![image-20230228114332181](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230228114332181.png)
+![image-20230228114332181](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230228114332181.png)
 
 **配置系统环境**
 
 > 将`MYSQL_HOME`添加到`PATH`环境变量
 
-![image-20230228114502168](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230228114502168.png)
+![image-20230228114502168](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230228114502168.png)
 
 安装服务
 
@@ -168,7 +168,7 @@ Query OK, 0 rows affected (0.03 sec)
 > 1. 先删除`mysqld`进程
 > 2. 再到安装目录删除`data`目录重新操作安装命令即可
 
-![image-20230228113823521](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230228113823521.png)
+![image-20230228113823521](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230228113823521.png)
 
 ## [linux安装mysql](https://www.w3cschool.cn/mysql/mysql-install.html)
 
@@ -274,7 +274,7 @@ FLUSH PRIVILEGES; #刷新
 
 **支持的数据库**
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)
 
 **安装包下载**
 
@@ -305,19 +305,19 @@ dcoker rm chat2db
 
 创建连接
 
-![图片](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/640)
+![图片](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/640)
 
 **使用**
 
 创建连接
 
-![image-20240314101002999](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240314101002999.png)
+![image-20240314101002999](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240314101002999.png)
 
 
 
 数据源管理
 
-![image-20240314101027959](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240314101027959.png)
+![image-20240314101027959](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240314101027959.png)
 
 
 
@@ -325,13 +325,13 @@ dcoker rm chat2db
 
 使用前需要配置OpenAI的Api Key及本地代理配置
 
-![image-20240314101045054](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240314101045054.png)
+![image-20240314101045054](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240314101045054.png)
 
 自然语言转换
 
 
 
-![image-20240314101105756](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240314101105756.png)
+![image-20240314101105756](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240314101105756.png)
 
 
 

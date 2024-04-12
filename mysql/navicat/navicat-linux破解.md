@@ -29,7 +29,7 @@ chmod +x navicat15-premium-cs.AppImage
 
 **如果启动报错**
 
-![image-20221024091459052](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221024091459052.png)
+![image-20221024091459052](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20221024091459052.png)
 
 **解决方案**
 

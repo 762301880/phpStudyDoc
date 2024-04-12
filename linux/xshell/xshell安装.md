@@ -12,7 +12,7 @@
 
 **场景如下：由于找不到mfc140u.dll,无法继续执行代码**
 
-![image-20240226115358106](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240226115358106.png)
+![image-20240226115358106](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240226115358106.png)
 
 **让我们先了解mfc140u.dll是什么文件以及在Windows系统中的功能：**
 
@@ -37,11 +37,11 @@
 
 在电脑浏览器顶部输入：dll修复工具.site【按下键盘的Enter回车键打开】点击dll修复工具下载。（亲测可以修复）
 
-![image-20240226115434937](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240226115434937.png)
+![image-20240226115434937](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240226115434937.png)
 
 2.下载好了以后，一般是压缩文件，需要先把文件解压，然后安装后点击修复【立即修复】，修复的文件都是在系统目录中。如果您的计算机是32位系统，则将文件到C:\Windows\System32，如果是64位系统，则将文件到C:\Windows\SysWOW64。
 
-![image-20240226115451328](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240226115451328.png)
+![image-20240226115451328](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240226115451328.png)
 
 
 3.修复完成后，再打开程序是否已经修复，正常就可以了。
@@ -50,7 +50,7 @@
 
 如果另一台计算机上已经安装了正确的mfc140u.dll文件，可以从该计算机上将该文件复制到当前计算机中。以下是复制步骤：
 
-![image-20240226115502354](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240226115502354.png)
+![image-20240226115502354](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240226115502354.png)
 
 
 将mfc140u.dll文件从其他计算机复制到当前计算机中。
@@ -67,7 +67,7 @@
 
 **方法三：使用Windows SFC扫描**
 
-![image-20240226115516805](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240226115516805.png)
+![image-20240226115516805](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240226115516805.png)
 
 Windows SFC扫描是一种系统文件完整性检查和修复工具，可以帮助找回丢失或损坏的系统文件，包括mfc140u.dll文件。以下是SFC扫描步骤：
 

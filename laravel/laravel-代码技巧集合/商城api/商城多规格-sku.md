@@ -19,7 +19,7 @@
 
 > 例如我们购买手机  机身颜色 套餐类型 储存容量，不同的规格显示的价格也是不一样的
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/Zu5hepCGFmWktDK.png" alt="1651131356(1).jpg" style="zoom: 80%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/Zu5hepCGFmWktDK.png" alt="1651131356(1).jpg" style="zoom: 80%;" />
 
 # **数据库设计**
 
@@ -340,8 +340,8 @@ var_dump($attrs);
 
 # 实战参考
 
-![image-20231226172131058](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231226172131058.png)
+![image-20231226172131058](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231226172131058.png)
 
 
 
-![image-20231226172157060](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231226172157060.png)
+![image-20231226172157060](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231226172157060.png)

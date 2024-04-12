@@ -35,7 +35,7 @@
 
   **点击DLL**下载windows扩展
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/cBW3qCeNXJitwsS.png" alt="1652404037(1).jpg" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/cBW3qCeNXJitwsS.png" alt="1652404037(1).jpg" style="zoom:50%;" />
 
 **下载对应版本**
 
@@ -45,11 +45,11 @@
 >
 >   本人下载的是**Non Thread Safe**
 
-![image-20230811095220357](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230811095220357.png)
+![image-20230811095220357](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230811095220357.png)
 
 > 线程安全:禁用
 
-![image-20230811095423442](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230811095423442.png)
+![image-20230811095423442](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230811095423442.png)
 
 下载完成之后解压
 
@@ -324,4 +324,4 @@ extension_loaded('yar');  # 判断yar扩展是否存在返回 bool类型
 >
 > **PHP Runtime 勾选扩展**点击**确定回到编辑器既可以有提示**
 
-![image-20230811094333727](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230811094333727.png)
+![image-20230811094333727](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230811094333727.png)

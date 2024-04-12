@@ -12,7 +12,7 @@
 
 - 例子可以参考钉钉
 
-![image-20210622164447771](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210622164447771.png)
+![image-20210622164447771](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210622164447771.png)
 
 - 资料
 

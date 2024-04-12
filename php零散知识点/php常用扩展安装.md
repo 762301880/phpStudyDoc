@@ -67,7 +67,7 @@ yum install libpng-devel
 
 **点击dll下载版本***
 
-![image-20230923093413519](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230923093413519.png)
+![image-20230923093413519](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230923093413519.png)
 
 **下载对应版本**
 
@@ -77,11 +77,11 @@ yum install libpng-devel
 >
 >  本人下载的是**Non Thread Safe**
 
-![image-20230811095220357](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230811095220357.png)
+![image-20230811095220357](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230811095220357.png)
 
 **点击下载对应版本**
 
-![image-20230923093318512](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230923093318512.png)
+![image-20230923093318512](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230923093318512.png)
 
 **解压后复制其中的 rabbitmq.dll**
 
@@ -94,11 +94,11 @@ yum install libpng-devel
 >
 > 
 
-![image-20230923112408371](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230923112408371.png)
+![image-20230923112408371](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230923112408371.png)
 
 
 
-![image-20230923094423288](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230923094423288.png)
+![image-20230923094423288](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230923094423288.png)
 
 **修改php.ini**配置文件
 

@@ -9,7 +9,7 @@
 
 > 下载以下图片示例的镜像,如果下载的比较慢记得<font color='red'>用vpn节点下载</font>
 
-![image-20230717140124191](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230717140124191.png)
+![image-20230717140124191](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230717140124191.png)
 
 ## **安装到U盘启动盘**
 
@@ -17,7 +17,7 @@
 >
 > https://win32diskimager.org/
 
-![image-20230717140324244](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230717140324244.png)
+![image-20230717140324244](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230717140324244.png)
 
 # 补充
 

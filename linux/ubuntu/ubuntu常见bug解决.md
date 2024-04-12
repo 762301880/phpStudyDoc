@@ -2,7 +2,7 @@
 
 > 如下图所示桌面图标消失切右键显示**菜单丢失**
 
-![xbG5Bn.png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/xbG5Bn.png)](https://imgse.com/i/xbG5Bn)
+![xbG5Bn.png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/xbG5Bn.png)](https://imgse.com/i/xbG5Bn)
 
 **解决方案**
 

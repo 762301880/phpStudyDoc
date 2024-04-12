@@ -17,7 +17,7 @@
 >
 > 例如以下我自定义了一个保存log的方法
 
-![image-20210812102453851](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210812102453851.png)
+![image-20210812102453851](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210812102453851.png)
 
 ## 定义门面
 
@@ -25,7 +25,7 @@
 >
 > 方法，返回的数据可以自定义但是需要与服务者中的绑定（一致）
 
-![image-20210812102020349](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210812102020349.png)
+![image-20210812102020349](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210812102020349.png)
 
 
 
@@ -42,7 +42,7 @@ php artisan  make:provider 自定义名称+ServiceProvider
 # 创建完成之后其中会有两个内置的方法  1 boot 监听程序,2 register 定义绑定关系 可以绑定自定义的服务类
 ```
 
-![image-20210812102554909](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210812102554909.png)
+![image-20210812102554909](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210812102554909.png)
 
 # 注册服务提供者
 

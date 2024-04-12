@@ -60,7 +60,7 @@ docker run  -itd -p 8080:8080 -p 50000:50000 --restart=always  --name jenkins  -
 
 > 安装完成之后需要进入容器内部找到此路径下的密码输入到下面的文本框中
 
-![1636450936(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/xAjnCo9B8XZOtKN.png)
+![1636450936(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/xAjnCo9B8XZOtKN.png)
 
 ```shell
 # 查看容器
@@ -78,13 +78,13 @@ jenkins@37b124ebf446:/$ cat /var/jenkins_home/secrets/initialAdminPassword
 
 **安装建议的插件**
 
-![1636452627(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/JiTSRpWZDye6LAs.png)
+![1636452627(1).png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/JiTSRpWZDye6LAs.png)
 
 **发生以下报错解决方案**(这里可以不用看了不是2.60.3版本就行)
 
 >安装过程中出现错误：没有这样的插件：cloudbees-folder
 
-![zGyWpDOHJ83xM6E](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/zGyWpDOHJ83xM6E.png)
+![zGyWpDOHJ83xM6E](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/zGyWpDOHJ83xM6E.png)
 
 ```shell
 # https://updates.jenkins-ci.org/download/plugins/cloudbees-folder/下载cloudbees-folder 插件
@@ -106,7 +106,7 @@ docker restart 容器id
 
 > 这里记住下载gitlab的插件
 
-![1640570777(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/9yaLbzjECZteSKk.png)
+![1640570777(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/9yaLbzjECZteSKk.png)
 
 ## **添加服务器地址密码**
 
@@ -114,29 +114,29 @@ docker restart 容器id
 
 **下载ssh插件 SSH plugin**
 
-![image-20211229152002472](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152002472.png)
+![image-20211229152002472](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20211229152002472.png)
 
 **配置ssh**
 
-![image-20211229151814397](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229151814397.png)
+![image-20211229151814397](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20211229151814397.png)
 
 **第一种添加服务器账户&密码的方法**
 
 > 这种方式是可以但是不是我想要的所以做保留**类型为:**<font color='red'>Username with password</font>
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220726105101549.png" alt="image-20220726105101549" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220726105101549.png" alt="image-20220726105101549" style="zoom:50%;" />
 
 ## 新建任务
 
 ### **新建任务名称**
 
-![image-20211229152239564](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152239564.png)
+![image-20211229152239564](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20211229152239564.png)
 
 ### 添加git 信息
 
 > 可以直接选择用户名&密码的形式(**不推荐这样使用**)
 
-![image-20211229152416670](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152416670.png)
+![image-20211229152416670](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20211229152416670.png)
 
 #### 第二种方式(token方式)
 
@@ -144,45 +144,45 @@ docker restart 容器id
 
 **下载插件**
 
-![1rvQJBXhYewOAiG](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/1rvQJBXhYewOAiG.png)
+![1rvQJBXhYewOAiG](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1rvQJBXhYewOAiG.png)
 
 **创建gitlab访问 令牌**
 
 > 去**gitlab**点击右上角的**头像**-**Preferences**-**Access Tokens**
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/Q42xTme8IvCEnDL.jpeg)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/Q42xTme8IvCEnDL.jpeg)
 
 **创建后返回的访问令牌**
 
 > 这里记得自己复制一下令牌，别搞丢了就行
 
-![1648198799(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/ayRl1LItD3TbqMi.png)
+![1648198799(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/ayRl1LItD3TbqMi.png)
 
 **配置gitlab链接**
 
-![fLek9lEnqjUbO3P](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/fLek9lEnqjUbO3P.png)
+![fLek9lEnqjUbO3P](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/fLek9lEnqjUbO3P.png)
 
 **流水线配置**
 
 > 选择自己的gitlab配置
 
-![1648203176(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/QGLF7KdyhisSEav.png)
+![1648203176(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/QGLF7KdyhisSEav.png)
 
 > 记住对应的源码管理要关闭
 
-![5a2QU4xjEfg6mLV](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/5a2QU4xjEfg6mLV.png)
+![5a2QU4xjEfg6mLV](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/5a2QU4xjEfg6mLV.png)
 
 ### 添加构建
 
-![image-20211229152524274](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152524274.png)
+![image-20211229152524274](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20211229152524274.png)
 
 ### **添加钩子**
 
-![image-20211229152635739](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152635739.png)
+![image-20211229152635739](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20211229152635739.png)
 
 **配置gitlab钩子**
 
-![image-20211229152754135](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152754135.png)
+![image-20211229152754135](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20211229152754135.png)
 
 [**脚本注意**](https://yuandongming.blog.csdn.net/article/details/104505624?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7Edefault-1.no_search_link&utm_relevant_index=2)
 
@@ -198,7 +198,7 @@ docker restart 容器id
 cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git stash clear
 ```
 
-![image-20211229152933074](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20211229152933074.png)
+![image-20211229152933074](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20211229152933074.png)
 
 
 
@@ -240,7 +240,7 @@ cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git sta
 >
 > privateKey:是同上传到**git仓库上的私钥** 这里的私钥不是文件形式是以**-----BEGIN OPENSSH PRIVATE KEY-----  开始     -----END OPENSSH PRIVATE KEY----- 结束** 的全部字符（ **cat ~/.ssh/id_rsa** 命令查询私钥复制即可） 
 
-![image-20220726133817478](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220726133817478.png)
+![image-20220726133817478](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220726133817478.png)
 
 **使用**
 
@@ -248,7 +248,7 @@ cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git sta
 >
 > **Credentials**证书,配置即可连接git
 
-![image-20220726134418036](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220726134418036.png)
+![image-20220726134418036](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220726134418036.png)
 
 # bug 解析
 
@@ -308,16 +308,16 @@ cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git sta
 >
 > 如下图所示测试jenkins钩子的时候发生403错误
 
-![1650936648(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/4i32EamkISozdf6.png)
+![1650936648(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/4i32EamkISozdf6.png)
 
-![image-20220214112340916](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220214112340916.png)
+![image-20220214112340916](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220214112340916.png)
 
 
 
 **找到  系统管理-全局安全配置**
 
-![image-20220214112058200](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220214112058200.png)
+![image-20220214112058200](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220214112058200.png)
 
 **放开授权策略**
 
-![image-20220214112203568](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220214112203568.png)
+![image-20220214112203568](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220214112203568.png)

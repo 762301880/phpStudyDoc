@@ -8,7 +8,7 @@
 >
 > 名称
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220802145419494.png" alt="image-20220802145419494" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220802145419494.png" alt="image-20220802145419494" style="zoom:50%;" />
 
 ## **laravel项目配置**
 
@@ -62,7 +62,7 @@ apk add php-sqlite3 # 安装php扩展
 
 > - 您需要下载 **sqlite-tools-win32-\*.zip** 和 **sqlite-dll-win32-\*.zip** 压缩文件。
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220802152316674.png" alt="image-20220802152316674" style="zoom: 67%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220802152316674.png" alt="image-20220802152316674" style="zoom: 67%;" />
 
 **配置环境变量**
 

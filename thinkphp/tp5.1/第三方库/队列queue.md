@@ -404,7 +404,7 @@ show global variables like '%timeout';  # 查看连接超时命令
 
 
 
-![image-20220820112512031](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220820112512031.png)
+![image-20220820112512031](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220820112512031.png)
 
 **解决方案**
 
@@ -424,11 +424,11 @@ show global variables like '%timeout';  # 查看连接超时命令
 >
 > **此电脑右键--管理(下面图中的标记打错字了)--服务和应用程序--服务(找到mysql服务右键重启)**
 
-![image-20220820135548878](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220820135548878.png)
+![image-20220820135548878](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220820135548878.png)
 
 > 重启之后就可以看见**正在执行的队列报错**
 
-![image-20220820140308715](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220820140308715.png)
+![image-20220820140308715](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220820140308715.png)
 
 #  坑注意
 

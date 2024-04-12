@@ -6,7 +6,7 @@
 
 > **点进去之后自行创建沙盒应用**
 
-![image-20230918092233567](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230918092233567.png)
+![image-20230918092233567](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230918092233567.png)
 
 #  统一设置环境
 

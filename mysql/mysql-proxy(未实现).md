@@ -17,7 +17,7 @@
 
 > [点击下载地址](https://downloads.mysql.com/archives/proxy/) 下载对应的版本
 
-![image-20230927142244383](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230927142244383.png)
+![image-20230927142244383](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230927142244383.png)
 
 **linux下载**
 

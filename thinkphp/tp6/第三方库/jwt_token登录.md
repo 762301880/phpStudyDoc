@@ -120,7 +120,7 @@ JWT设置了过期时间以后，一定超过，那么接口就不能访问了�
 
 ### [**单token方案**](https://mp.weixin.qq.com/s?__biz=MzUzMTA2NTU2Ng==&mid=2247487551&idx=1&sn=18f64ba49f3f0f9d8be9d1fdef8857d9&scene=21#wechat_redirect)
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/e5e178a83c6156fd3215b77299dbdcae.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/e5e178a83c6156fd3215b77299dbdcae.png)
 
 - 将 token 过期时间设置为15分钟；
 - 前端发起请求，后端验证 token 是否过期；如果过期，前端发起刷新token请求，后端为前端返回一个新的token；
@@ -141,7 +141,7 @@ JWT设置了过期时间以后，一定超过，那么接口就不能访问了�
 
 微信网页授权是通过OAuth2.0机制实现的，也使用了双token方案。
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/152a9f9d28a4f3721729894e6e378ecb.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/152a9f9d28a4f3721729894e6e378ecb.png)
 
 ### [**微信网页授权方案**](https://mp.weixin.qq.com/s?__biz=MzUzMTA2NTU2Ng==&mid=2247487551&idx=1&sn=18f64ba49f3f0f9d8be9d1fdef8857d9&scene=21#wechat_redirect)
 

@@ -31,7 +31,7 @@ composer require workerman/gatewayclient
 
 [下载地址](https://www.workerman.net/download)
 
-![image-20210609141807052](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210609141807052.png)
+![image-20210609141807052](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210609141807052.png)
 
 ## 2.2 解压到项目中
 

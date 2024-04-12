@@ -283,7 +283,7 @@ if (!function_exists('http_request')) {
 | -------- | ------------------------------------------------------------ |
 | 网络博客 | [link](https://blog.csdn.net/qq_25102811/article/details/110198152?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-110198152-blog-113602872.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-110198152-blog-113602872.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=1)  [link](https://blog.csdn.net/weixin_42728646/article/details/113602872?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-113602872-blog-106052423.pc_relevant_multi_platform_whitelistv3&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-113602872-blog-106052423.pc_relevant_multi_platform_whitelistv3&utm_relevant_index=1) |
 
-![image-20220812155446400](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220812155446400.png)
+![image-20220812155446400](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220812155446400.png)
 
 ### BUG解析
 
@@ -380,13 +380,13 @@ public function getMiniAccessToken()
 
 **效果示例**
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/VxAsHUEIJ5OD3wb.gif" alt="Screenshot_2022_0428_085826.gif" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/VxAsHUEIJ5OD3wb.gif" alt="Screenshot_2022_0428_085826.gif" style="zoom:50%;" />
 
 **页面参数查询**
 
 > **注意这里页面参数可以图片中示例中去取**,<font color="red">注意测试的只能跳线上小程序如果携带参数请携带线上参数</font>
 
-![](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220721143908645.png)
+![](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220721143908645.png)
 
 **代码示例**
 
@@ -451,7 +451,7 @@ public function getMiniAccessToken()
 >
 > 转化出来的时间必须大于当前时间1分钟或者一年之间  推荐修改为   **'expire_time' => strtotime("+11 month")**
 
-![image-20220528111412584](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220528111412584.png)
+![image-20220528111412584](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220528111412584.png)
 
 
 
@@ -461,7 +461,7 @@ public function getMiniAccessToken()
 >
 > 参数使用**query**  传递字符 例子**id=940**
 
-![image-20220721144301942](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220721144301942.png)
+![image-20220721144301942](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220721144301942.png)
 
 # 获取微信群id
 

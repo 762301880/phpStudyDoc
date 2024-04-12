@@ -20,7 +20,7 @@
 
 请在官网[下载](https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox-0.12.6-1.msvc2015-win64.exe)`wkhtmltopdf`
 
-![image-20210605171532987](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210605171532987.png)
+![image-20210605171532987](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210605171532987.png)
 
 
 
@@ -38,7 +38,7 @@
 >
 > 点击 此电脑--鼠标右键选择属性--高级系统设置--环境变量
 
-![image-20210605171938519](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210605171938519.png)
+![image-20210605171938519](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210605171938519.png)
 
 ### 1.2.3 windows使用
 
@@ -51,7 +51,7 @@ wkhmltopdf https://www.baidu.com D:\baidu.pdf
 ```
 
 - 结果示例
-- ![image-20210605172520054](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210605172520054.png)
+- ![image-20210605172520054](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210605172520054.png)
 
 ## 1.3 linux安装`wkhtmltopdf`
 

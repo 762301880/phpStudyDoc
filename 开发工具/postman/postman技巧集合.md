@@ -91,7 +91,7 @@ pm.request.body.raw = GlobalJsonMinify(pm.request.body.raw)
 | -------- | ---------------------------------------------- |
 | 参考博客 | [link](https://zhuanlan.zhihu.com/p/583171655) |
 
-![image-20230828165936809](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230828165936809.png)
+![image-20230828165936809](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230828165936809.png)
 
 ## **设置变量**
 
@@ -104,7 +104,7 @@ console.log(response);
  pm.environment.set("api_token",response.data.token);
 ```
 
-![image-20230828171011218](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230828171011218.png)
+![image-20230828171011218](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230828171011218.png)
 
 ## 发送ajax请求
 
@@ -116,4 +116,4 @@ console.log(response);
 
 > 请在**Headers**中添加      X-Requested-With**:**XMLHttpRequest
 
-![image-20230829152700546](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20230829152700546.png)
+![image-20230829152700546](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230829152700546.png)

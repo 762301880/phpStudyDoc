@@ -204,10 +204,10 @@ public function sendMessage($agentid)
 
 > 类似于下方的企业微信群列表(可以在微信中查看的企业群)
 
-![image-20221123142631465](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221123142631465.png)
+![image-20221123142631465](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20221123142631465.png)
 
 #### 补充
 
 [**企业微信群开发获取secret**](https://developer.work.weixin.qq.com/document/path/92109#%E5%BC%80%E5%A7%8B%E5%BC%80%E5%8F%91)
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20221123144349935.png" alt="image-20221123144349935" style="zoom: 67%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20221123144349935.png" alt="image-20221123144349935" style="zoom: 67%;" />

@@ -1,6 +1,6 @@
 # [Apifox 接口调试](https://www.apifox.cn/)
 
-![1639119171(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/Yf2bXicVTeu7xQU.png)
+![1639119171(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/Yf2bXicVTeu7xQU.png)
 
 # [火绒电脑管家](https://www.huorong.cn/)(必装)
 
@@ -50,13 +50,13 @@ https://www.microsoft.com/en-us/p/hevc-video-extensions-from-device-manufacturer
 
 ## **操作步骤**
 
-![image-20231223095517033](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231223095517033.png)
+![image-20231223095517033](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231223095517033.png)
 
 
 
-![image-20231223095545574](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231223095545574.png)
+![image-20231223095545574](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231223095545574.png)
 
-![image-20231223095651362](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231223095651362.png)
+![image-20231223095651362](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231223095651362.png)
 
 # windows10-wsl安装
 
@@ -122,7 +122,7 @@ sudo service ssh restart
 
 **xshell连接**
 
-![image-20240102094059757](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240102094059757.png)
+![image-20240102094059757](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240102094059757.png)
 
 ##  wsl配置后台启动
 
@@ -138,7 +138,7 @@ sudo service ssh restart
 
 > https://zhuanlan.zhihu.com/p/391422861
 
-![WSL2安装Linux子系统报0x80370102解决方法](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/v2-f25274f7ab3efe1f63a202a35d9db8a9_1440w.image)
+![WSL2安装Linux子系统报0x80370102解决方法](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/v2-f25274f7ab3efe1f63a202a35d9db8a9_1440w.image)
 
 解决办法也简单：
 
@@ -166,4 +166,4 @@ bcdedit /set hypervisorlaunchtype off
 >
 > **在D盘下创建 Desktop文件夹 然后将桌面文件移动到D盘即可**
 
-![image-20240102115549903](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20240102115549903.png)
+![image-20240102115549903](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240102115549903.png)

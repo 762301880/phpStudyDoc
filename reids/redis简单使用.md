@@ -6,7 +6,7 @@
 
 > 这里推荐使用`phpstorm`自带的`RedisClient`
 
-![Client](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210530200809761.png?versionId=CAEQEBiBgIDPw9n0zRciIGFjNmMwOTdiZWQxMzRlYWY4ZDAzYzNlOTY5MDE0ZDBh)
+![Client](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210530200809761.png?versionId=CAEQEBiBgIDPw9n0zRciIGFjNmMwOTdiZWQxMzRlYWY4ZDAzYzNlOTY5MDE0ZDBh)
 
 ## 1.3 参考资料
 

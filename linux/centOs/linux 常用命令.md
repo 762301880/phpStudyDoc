@@ -1290,7 +1290,7 @@ ls -l 路径 # 显示的结果如下图
 >
 > **权限分配中,均是rwx的三个参数组合,且<font color='red'>位置顺序不会变化</font>.没有对应权限就用-替代**
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/file-llls22.jpg)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/file-llls22.jpg)
 
 ### 权限设置
 

@@ -298,7 +298,7 @@ $  curl -F media=@a.jpg "https://api.weixin.qq.com/cgi-bin/media/upload?access_t
 
 - postman上传
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/vWmJ6CdSyYuNt1b.png" alt="1632982890.jpg" style="zoom: 67%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/vWmJ6CdSyYuNt1b.png" alt="1632982890.jpg" style="zoom: 67%;" />
 
 ### 代码示例
 
@@ -410,7 +410,7 @@ client_max_body_size 100m;
 
 微信官网有人提出的[意见](https://developers.weixin.qq.com/community/develop/doc/000a6ca7ae4988a4d9f949d4456800)
 
-![1634031537(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/bsqmQoc7dizn5ah.png)
+![1634031537(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/bsqmQoc7dizn5ah.png)
 
 ```php
 # curl 设置helder打印出来可以看出是412 状态
@@ -1356,7 +1356,7 @@ array:2 [
 
 > 这里我们填写**URL**(校验请求地址),**token**(可以自定义)
 
-![1638251797(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/JnlMZL3VuEgK1T8.png)
+![1638251797(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/JnlMZL3VuEgK1T8.png)
 
 **[接入指南](https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Access_Overview.html)**
 

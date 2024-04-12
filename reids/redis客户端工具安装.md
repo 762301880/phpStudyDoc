@@ -25,7 +25,7 @@ https://github.com/qishibo/AnotherRedisDesktopManager/releases
 | 蓝奏云（windows版本） | https://yaoliuyang.lanzoui.com/iijgcpw3yva |
 | 蓝奏云（mac版本）     | https://yaoliuyang.lanzoui.com/iOA9Gpwbeyb |
 
-![image-20210607095046001](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210607095046001.png)
+![image-20210607095046001](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210607095046001.png)
 
 ## 2.3 linux版本下载
 
@@ -78,11 +78,11 @@ X-Deepin-AppID=another_redis
 
 - 修改语言
 
-  ![image-20210607134157860](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210607134157860.png)
+  ![image-20210607134157860](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210607134157860.png)
 
 - 本地连接
 
-![image-20210607134744191](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210607134744191.png)
+![image-20210607134744191](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210607134744191.png)
 
 以上设置完毕直接在项目中使用即可
 

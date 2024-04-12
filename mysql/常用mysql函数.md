@@ -90,7 +90,7 @@ WHERE TABLE_SCHEMA = '数据库名' AND TABLE_NAME = '表名';
 > 将字符串 abc 中的字符 a 替换为字符 x：    SELECT REPLACE('abc','a','x') --xbc
 > ```
 
-![image-20220728113847340](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220728113847340.png)
+![image-20220728113847340](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220728113847340.png)
 
 **代码示例**
 

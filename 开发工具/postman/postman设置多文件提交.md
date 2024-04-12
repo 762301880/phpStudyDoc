@@ -8,7 +8,7 @@
 
 > 设置参数为数组类型，选择多个文件即可
 
-![1632385363(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/JIZ1vBlPLqobHO9.png)
+![1632385363(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/JIZ1vBlPLqobHO9.png)
 
 - php代码打印文件
 

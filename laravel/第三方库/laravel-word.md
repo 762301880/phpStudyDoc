@@ -80,7 +80,7 @@ $objWriter->save('helloWorld.html');
 
 - 使用到的简历
 
-![image-20210504172644865](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210504172644865.png)
+![image-20210504172644865](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210504172644865.png)
 
 > 例如我们需要修改word文档中的姓名与性别我们需要定义 变量 `${变量名称}`
 
@@ -97,7 +97,7 @@ $templateProcessor->saveAs('jianli.docx');# 保存为新的模板
 
 - 图片例子
 
-![image-20210504193601092](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210504193601092.png)
+![image-20210504193601092](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210504193601092.png)
 
 ```php
 $templateProcessor=new TemplateProcessor(public_path('jianli_moban_742693.docx'));
@@ -117,7 +117,7 @@ $templateProcessor=new TemplateProcessor(public_path('jianli_moban_742693.docx')
 
 - 结果示例
 
-![image-20210504193847507](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210504193847507.png)
+![image-20210504193847507](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210504193847507.png)
 
 ### [替换图片](https://phpword-zh.readthedocs.io/zh_CN/latest/templates-processing.html#setimagevalue)
 
@@ -141,7 +141,7 @@ $templateProcessor->setImageValue('UserLogo', array(
 > * 如下图所示的个人简历word模板 将对应的展示名称修改为`${对应的变量名称}`格式
 > * 进行导出，导出结果就不展示了 
 
-![image-20210520093817849](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210520093817849.png)
+![image-20210520093817849](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210520093817849.png)
 
 - 核心代码示例
 

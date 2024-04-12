@@ -119,7 +119,7 @@
 
 ## 微信公众测试平台添加[测试模板消息](https://mp.weixin.qq.com/debug/cgi-bin/sandboxinfo?action=showinfo&t=sandbox/index)
 
-![添加消息模板](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/hqZK4wPxOJ9YzBC.png)
+![添加消息模板](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/hqZK4wPxOJ9YzBC.png)
 
 ```php
  dd($this->app->template_message->send([

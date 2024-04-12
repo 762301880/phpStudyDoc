@@ -119,4 +119,4 @@ public function index()
 https://github.com/nicolasff/phpredis
 ```
 
-![image-20231118164946289](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231118164946289.png)
+![image-20231118164946289](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231118164946289.png)

@@ -37,7 +37,7 @@
 
 **rz命令将本地文件上传至服务器**
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220627093503429.png" alt="rz-命令上传本地公钥" style="zoom: 80%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220627093503429.png" alt="rz-命令上传本地公钥" style="zoom: 80%;" />
 
 ## **配置 /etc/ssh/sshd_config**
 

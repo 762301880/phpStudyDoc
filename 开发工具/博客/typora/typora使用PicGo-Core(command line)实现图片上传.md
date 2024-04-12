@@ -12,7 +12,7 @@
 >
 > 记得使用时候必须**下载或更新**PicGo-Core(command line)
 
-![image-20210429170919057](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210429170919057.png)
+![image-20210429170919057](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210429170919057.png)
 
 ## [阿里云上传配置](https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#picbed-aliyun)
 
@@ -38,7 +38,7 @@
     "bucket": "yaoliuyang-blog-images", # 存储空间名-Bucket
     "area": "oss-cn-beijing", # 存储区域代号-不知到的可以对照上图资料对照表去查
     "path": "blogImages/", # 自定义存储路径-定义需要存储图片的文件
-    "customUrl": "https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com", # 自定义域名，注意要加 http://或者 https://  可以点击图片然后查询域名
+    "customUrl": "https://gitee.com/yaolliuyang/blogImages/raw/master", # 自定义域名，注意要加 http://或者 https://  可以点击图片然后查询域名
     "options": "" # 针对图片的一些后缀处理参数 PicGo 2.2.0+ PicGo-Core 1.4.0+
              }
     },

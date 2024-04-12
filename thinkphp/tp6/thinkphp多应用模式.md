@@ -134,7 +134,7 @@ Route::get('test','你的控制器名/你需要访问的方法名');
 
 > 默认里面只有一个**Index**控制器文件下面有一个**index**方法
 
-![image-20220218102957568](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220218102957568.png)
+![image-20220218102957568](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220218102957568.png)
 
 **访问demo模块下面的index方法**
 
@@ -161,7 +161,7 @@ Route::get('test','你的控制器名/你需要访问的方法名');
 > </IfModule>
 > ```
 
-![image-20220218103136085](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220218103136085.png)
+![image-20220218103136085](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220218103136085.png)
 
 **自定义控制器&方法**
 
@@ -190,11 +190,11 @@ class Demo extends BaseController
 
 **路由访问**
 
-![image-20220218103855313](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220218103855313.png)
+![image-20220218103855313](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220218103855313.png)
 
 > 自定义**route**文件夹 这里只设置一个闭包用于测试,直接访问**demo**模块下的**demo_test**路由即可访问
 
-![image-20220218103952781](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220218103952781.png)
+![image-20220218103952781](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220218103952781.png)
 
 
 

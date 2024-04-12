@@ -31,7 +31,7 @@ composer require viest/php-ext-xlswriter-ide-helper:dev-master
 
   >php 版本不知道的可以**win+r**输入***cmd*** 输入***php -v***查看对应版本
 
-  <img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210917144950885.png" alt="image-20210917144950885" style="zoom:50%;" />
+  <img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210917144950885.png" alt="image-20210917144950885" style="zoom:50%;" />
 
 - 下载之后配置
 

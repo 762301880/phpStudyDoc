@@ -49,15 +49,15 @@ docker push yaoliuyang/php:latest # latest版本号
 
 - 打开阿里云[镜像容器服务](https://cr.console.aliyun.com/cn-beijing/instances)
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210706163529366.png" alt="image-20210706163529366" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210706163529366.png" alt="image-20210706163529366" style="zoom:50%;" />
 
 - 添加新仓库
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210706163700186.png" alt="image-20210706163700186" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210706163700186.png" alt="image-20210706163700186" style="zoom:50%;" />
 
 - 选择仓库存储类型
 
-![image-20210706163835217](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210706163835217.png)
+![image-20210706163835217](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210706163835217.png)
 
 
 

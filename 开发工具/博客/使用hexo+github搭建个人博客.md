@@ -79,7 +79,7 @@ hexo init <folder> #<folder>等于你的文件夹名称
 
 下载完成之后的文件
 
-![image-20210428154950482](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210428154950482.png)
+![image-20210428154950482](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210428154950482.png)
 
 在本地查看hexo博客
 
@@ -93,7 +93,7 @@ INFO  Hexo is running at http://localhost:4000 . Press Ctrl+C to stop.
 
 然后你就可以在本地使用域名 localhost:4000查看本地博客了
 
-![image-20210428163203529](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210428163203529.png)
+![image-20210428163203529](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210428163203529.png)
 
 ## 3.3 修改hexo的[主题](https://hexo.io/themes/)
 
@@ -111,7 +111,7 @@ git clone git@github.com:liuyib/hexo-theme-stun.git themes/stun
 
 这里注意有的主题包需要安装依赖，(这个在对应的主题包下面有讲解)
 
-![image-20210428170533008](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210428170533008.png)
+![image-20210428170533008](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210428170533008.png)
 
 > 比如我这个主题包安装的依赖
 >
@@ -143,7 +143,7 @@ hexo clean && hexo s    # 启动hexo 启动之后再次打开域名 localhost:40
 >
 > 2.必须必须是public
 
-![image-20210428170830749](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210428170830749.png)
+![image-20210428170830749](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210428170830749.png)
 
 在项目中使用git命令将项目同步到github
 
@@ -184,15 +184,15 @@ hexo d   #  部署  只有你上一步配置了才能成功的上传github
 
 ## 4.3  点击settings
 
-![image-20210428171402598](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210428171402598.png)
+![image-20210428171402598](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210428171402598.png)
 
-![image-20210428173555973](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210428173555973.png)
+![image-20210428173555973](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210428173555973.png)
 
 
 
 然后打开上面的域名即可访问你上传成功的博客
 
-![image-20210428173706898](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210428173706898.png)
+![image-20210428173706898](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210428173706898.png)
 
 
 

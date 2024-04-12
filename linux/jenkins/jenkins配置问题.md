@@ -8,21 +8,21 @@ https://cloud.tencent.com/developer/article/1605104
 
 > 配置东西的时候经常会看见一些凭据重复了这里如何删除呢
 
-![1640758700(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/yBQJftLuzq4EUM5.png)
+![1640758700(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/yBQJftLuzq4EUM5.png)
 
 **1.点击用户-凭据**
 
-![1640758808(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/9K1a6j4cx5pheWg.png)
+![1640758808(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/9K1a6j4cx5pheWg.png)
 
 **2.删除凭据**
 
-![1640758870(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/X6J8GpOrvInQtyP.png)
+![1640758870(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/X6J8GpOrvInQtyP.png)
 
 #  docker-jenkins升级
 
 > 很烦就是软件的内部消息推送如下图所示，于是为了不看到这个烦人的标记想着把jenkins升级一下
 
-![1647311622(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/kaXu2Mo4OwsGiUh.png)
+![1647311622(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/kaXu2Mo4OwsGiUh.png)
 
 
 
@@ -32,7 +32,7 @@ https://cloud.tencent.com/developer/article/1605104
 
 > 由于官网提供的下载速度太慢所以我们去[清华大学镜像站](https://mirrors.tuna.tsinghua.edu.cn/jenkins/war/)下载镜像
 
-![1647312013(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/RTYo93OzLe6MbiE.png)
+![1647312013(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/RTYo93OzLe6MbiE.png)
 
 **下载镜像到服务器内部**
 

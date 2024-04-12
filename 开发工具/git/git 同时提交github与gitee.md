@@ -19,13 +19,13 @@
 
 > 进入项目目录点击导航栏的查看勾选隐藏的项目，linux用户请 **ls -a**可以显示隐藏的项目
 
-![image-20220126114827546](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220126114827546.png)
+![image-20220126114827546](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220126114827546.png)
 
 **选择配置文件**
 
 > 进入**.git** 选择**config**使用编辑器打开
 
-![image-20220126115024702](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220126115024702.png)
+![image-20220126115024702](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220126115024702.png)
 
 ## 设置**config**的两种方式
 

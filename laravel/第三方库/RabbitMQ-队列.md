@@ -180,7 +180,7 @@ public function publish(Request $request)
 
 > A系统调用B系统
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326144550468.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326144550468.png)
 
 2. 通过第三方传递消息
 
@@ -188,7 +188,7 @@ public function publish(Request $request)
    >
    > A系统是发送消息的我们称之为生产者  B系统接收消费消息的我们称之为消费者  那么中间的MQ我们称之为中间件
 
-  ![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326144651334.png)
+  ![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326144651334.png)
 
 
 
@@ -221,7 +221,7 @@ public function publish(Request $request)
    >
    > 再比如我又新增一个Y系统我还要继续修改订单系统业务调用Y系统 假如有无数个系统呢
 
-   ![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326145831499.png)
+   ![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326145831499.png)
 
 系统的耦合性越高，容错性就越低，可维护性就越低。
 
@@ -229,7 +229,7 @@ public function publish(Request $request)
 
 > 还是下单的操作只不过中间引入了一个MQ 当用户点击按钮下订单访问订单系统,那么订单系统只需要发送一条消息到MQ就可以了,这个时候就可以给用户返回说下单成功了
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326150410871.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326150410871.png)
 
 使用MQ使得应用间解耦，提升容错性和可维护性
 
@@ -241,7 +241,7 @@ public function publish(Request $request)
 >
 > 一共花费920毫秒
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326150618648.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326150618648.png)
 
 一个下单操作耗时：20+300+300+300 = 920ms
 用户点击完下单按钮后，需要等待920ms才能得到下单响应，太慢！
@@ -252,7 +252,7 @@ public function publish(Request $request)
   >
   > 后面的消费交给mq进行消费
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326150852924.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326150852924.png)
 
 用户点击完下单按钮后，只需等待25ms就能得到下单响应（20+5 = 25ms）
 提升用户体验和系统吞吐量（单位时间内处理请求的数目）。
@@ -267,17 +267,17 @@ public function publish(Request $request)
      >
      > 会蜂拥而至  那么A系统访问的流量瞬间就增多了
 
-   ![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326151838993.png)
+   ![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326151838993.png)
 
 ​       请求瞬间增多，导致A系统压力过大而宕机
 
 - MQ传递
 
-  ![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/2021032615200161.png)
+  ![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/2021032615200161.png)
 
 
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326152049113.png" alt="在这里插入图片描述" style="zoom:80%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326152049113.png" alt="在这里插入图片描述" style="zoom:80%;" />
 
 使用了MQ之后，限制消费消息的速度为1000，这样一来，高峰期产生的数据势必会挤压在MQ中，高峰就被“削”掉了，但是因为消息积压，在高峰期过后的一段时间内，消费消息的速度还是会维持在1000，直到消费完积压的消息，这就叫做“填谷”。
 使用MQ后，可以提高系统稳定性。
@@ -289,7 +289,7 @@ public function publish(Request $request)
 
 ###  MQ的劣势
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326152739968.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326152739968.png)
 
 - 系统可用性降低
   系统引入的外部依赖越多，系统稳定性越差。一旦MQ宕机，就会对业务造成影响。如何保证MQ的高可用？
@@ -311,7 +311,7 @@ public function publish(Request $request)
 >
 > 也有直接使用Redis充当消息队列的案例，而这些消息队列产品，各有侧重，在实际选型时，需要结合自身需求及MQ产品特征，综合考虑。
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326155130522.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326155130522.png)
 
 由于RabbitMQ综合能力强劲，所以接下来的课程中，我们将主要学习RabbitMQ。
 
@@ -319,7 +319,7 @@ public function publish(Request $request)
 
 > AMQP，即 Advanced Message Queuing Protocol(高级消息队列协议)，是一个网络协议，是应用层协议的一个开放标准，为面向消息的中间件设计。给予此协议的客户端与消息中间件可传递消息，并不受客户端/中间件不同产品，不同的开发语言等条件的限制。2006年，AMQP规范发布。类比http
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326160432214.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326160432214.png)
 
 
 
@@ -328,7 +328,7 @@ Erlang语言由Ericson设计，专门为开发高并发和分布式系统的一�
 
 - RabbitMQ基础架构如下图
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326161047667.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326161047667.png)
 
 RabbitMQ中的相关概念
 
@@ -343,9 +343,9 @@ RabbitMQ中的相关概念
 RabbitMQ提供了6中工作模式：简单模式、work queues、Publish/Subscribe发布与订阅模式、Routing路由模式、Topics主题模式、RPC远程调用模式（远程调用，不太算MQ；暂不做介绍）。
 官网对应模式介绍：https://www.rabbitmq.com/getstarted.html
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326163033586.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326163033586.png)
 
-![在这里插入图片描述](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/20210326163104880.png)
+![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210326163104880.png)
 
 JMS
 

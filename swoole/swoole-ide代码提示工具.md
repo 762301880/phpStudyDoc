@@ -33,11 +33,11 @@ composer require --dev swoole/ide-helper:~4.4.7
 composer require swoole/ide-helper:~4.4.7
 ```
 
-![image-20210607094305230](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210607094305230.png)
+![image-20210607094305230](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210607094305230.png)
 
 ### 2.2.2 添加下载包
 
-![image-20210607094416140](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210607094416140.png)
+![image-20210607094416140](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210607094416140.png)
 
 # 使用
 

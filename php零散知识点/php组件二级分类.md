@@ -8,7 +8,7 @@
 
 > 如图所示有很多我们不需要的字段这个时候我们就需要进行二次组装
 
-![image-20210513082946484](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210513082946484.png)
+![image-20210513082946484](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210513082946484.png)
 
 ## 示例代码
 
@@ -31,4 +31,4 @@
 
 - 示例结果
 
-![image-20210512181516883](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20210512181516883.png)
+![image-20210512181516883](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210512181516883.png)

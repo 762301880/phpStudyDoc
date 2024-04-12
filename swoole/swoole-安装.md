@@ -231,7 +231,7 @@ wget https://github.com/swoole/swoole-src/releases/download/v4.8.11/swoole-cli-v
 
 [**github下载**](https://github.com/swoole/swoole-src/releases)
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220720162305723.png" alt="image-20220720162305723" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220720162305723.png" alt="image-20220720162305723" style="zoom:50%;" />
 
 
 
@@ -273,7 +273,7 @@ D:.
 >
 > 
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220720162744600.png" alt="image-20220720162744600" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220720162744600.png" alt="image-20220720162744600" style="zoom:50%;" />
 
 ## 测试使用
 

@@ -208,7 +208,7 @@ Authorization header
 Authorization: Bearer eyJhbGciOiJIUzI1NiI...   
 ```
 
-![1627627501(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/ahEZCYBNiKgFLTj.png)
+![1627627501(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/ahEZCYBNiKgFLTj.png)
 
 
 
@@ -220,7 +220,7 @@ Query string parameter
 http://example.dev/me?token=eyJhbGciOiJIUzI1NiI...
 ```
 
-![1627627721(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/kEewtNi273UpHvC.png)
+![1627627721(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/kEewtNi273UpHvC.png)
 
 ## 代码中使用详解
 

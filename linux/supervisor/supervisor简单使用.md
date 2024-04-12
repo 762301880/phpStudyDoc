@@ -246,7 +246,7 @@ docker exec -it laravel_study supervisorctl restart laravel_swoole
 
 
 
-![image-20220113150753501](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20220113150753501.png)
+![image-20220113150753501](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220113150753501.png)
 
 # 重要事件
 

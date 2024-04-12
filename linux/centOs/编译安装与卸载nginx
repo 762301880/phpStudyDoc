@@ -99,7 +99,7 @@ yum -y install zlib-devel
 
 [zlib官网](http://www.zlib.net/)
 
-<img src="https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/x58HBYLRFbqlC9K.png" alt="1637131018(1).jpg" style="zoom:33%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/x58HBYLRFbqlC9K.png" alt="1637131018(1).jpg" style="zoom:33%;" />
 
 ```shell
 wget http://www.zlib.net/zlib-1.2.11.tar.gz 

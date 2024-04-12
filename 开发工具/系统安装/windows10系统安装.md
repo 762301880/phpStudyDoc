@@ -22,14 +22,14 @@
 >
 > 然后通过，[aria2](http://aria2.baisheng999.com/#Windows) 下载镜像
 
-![1635553910(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/1haLs7ZVQSmJ6On.png)
+![1635553910(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1haLs7ZVQSmJ6On.png)
 
 ###  制作U盘启动盘
 
 #### [微PE工具下载](https://www.wepe.com.cn/download.html?tdsourcetag=s_pcqq_aiomsg)
 
 **下载完成之后双击打开**-点击安装pe到U盘
-![1635554683(1).png](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/FEd6nDJPVkvrQcC.png)
+![1635554683(1).png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/FEd6nDJPVkvrQcC.png)
 
 **选择U盘**
 
@@ -39,7 +39,7 @@
 >
 > 格式化选择默认即可，最后点击立即安装进U盘
 
-![1635554975(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/XeDIbGFUuSRm7YE.png)
+![1635554975(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/XeDIbGFUuSRm7YE.png)
 
 **转移下载的镜像到U盘启动盘中**
 
@@ -47,11 +47,11 @@
 
 按下图顺序选择“安装分区”和“系统镜像文件”（GHO系统镜像需提前下载好并放置于非系统盘）
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/7cebaefded5d457cb3f9035726bfa328.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/7cebaefded5d457cb3f9035726bfa328.png)
 
 前一步“执行”后，在弹出窗口中勾选“重启”再确定
 
-![img](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/5fc6ce49012e428c85da9d6fa709c040.png)
+![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/5fc6ce49012e428c85da9d6fa709c040.png)
 
 **装机完成后遇到问题**
 
@@ -72,7 +72,7 @@
 
 **下载ventoy**
 
-![image-20231214103947814](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231214103947814.png)
+![image-20231214103947814](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231214103947814.png)
 
 
 
@@ -82,7 +82,7 @@
 
 > 各大U盘启动盘官方推荐分区软件
 
-![image-20231007153345621](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/image-20231007153345621.png)
+![image-20231007153345621](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231007153345621.png)
 
 #  
 

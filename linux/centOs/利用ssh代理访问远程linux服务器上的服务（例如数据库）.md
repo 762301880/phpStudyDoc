@@ -27,13 +27,13 @@
 
 ## 启动软件，在Login配置窗口下配置建立ssh连接信息：红框中选择password
 
-![1648004381(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/cXHnrdiUNL6oyWT.png)
+![1648004381(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/cXHnrdiUNL6oyWT.png)
 
 ## 配置本地端口映射：
 
 > **list.port** 填写自己本地的端口  例如**7306** 是我本地映射的端口 项目中需要用7306连接
 
-![1648004523(1).jpg](https://yaoliuyang-blog-images.oss-cn-beijing.aliyuncs.com/blogImages/GtqTnKy3wSd9L6M.png)
+![1648004523(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/GtqTnKy3wSd9L6M.png)
 
 # **坑记录**
 
