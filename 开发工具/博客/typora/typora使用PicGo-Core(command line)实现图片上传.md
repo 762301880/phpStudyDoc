@@ -73,7 +73,7 @@
 
 | 名称     | 地址                                                         |
 | -------- | ------------------------------------------------------------ |
-| 网络博客 | [link](https://blog.csdn.net/m0_37952030/article/details/109138431)  [link](https://www.cnblogs.com/iangel/p/15131181.html) |
+| 网络博客 | [link](https://blog.csdn.net/m0_37952030/article/details/109138431)  [link](https://www.cnblogs.com/iangel/p/15131181.html)  [link](https://blog.csdn.net/weixin_44491927/article/details/106528795) |
 
 ### 安装picgo插件
 
