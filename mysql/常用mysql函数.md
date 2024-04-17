@@ -234,7 +234,7 @@ DELETE FROM `test` where  DATE_FORMAT(create_time,'%Y-%m-%d') <  DATE_FORMAT( DA
 -- 	test
 ```
 
-## 查询sql语句瓶颈
+## EXPLAIN查询sql语句瓶颈
 
 > EXPLAIN命令是SQL语句中的一个关键字，用于分析查询语句或表结构的性能瓶颈。它可以模拟优化器执行SQL查询语句，从而知道数据库是如何处理SQL语句的。EXPLAIN命令可以帮助我们找出查询语句的瓶颈，从而进行优化。
 >
@@ -248,6 +248,13 @@ EXPLAIN SELECT * FROM table_name WHERE condition;
 >
 > EXPLAIN命令的输出结果中包含了很多信息，其中比较重要的有：
 >
+> 1. **启动方式**：使用EXPLAIN关键字放在SQL语句之前，MySQL将不会执行该语句，而是展示查询的执行计划。
+> 2. **读取顺序**：EXPLAIN可以显示MySQL读取表的顺序，这有助于我们理解查询的工作流程。
+> 3. **索引使用情况**：通过EXPLAIN，我们可以看到哪些索引可以被使用，以及实际上是否被查询所使用。
+> 4. **数据访问类型**：EXPLAIN会展示数据读取操作的类型，例如全表扫描、索引扫描等。
+> 5. **连接类型**：如果查询涉及多个表的连接，EXPLAIN还可以展示连接类型，如内连接、外连接等。
+> 6. **详细字段解释**：
+>
 > - id：每个查询语句都有一个唯一的id。
 > - select_type：查询类型，包括SIMPLE（简单查询）、PRIMARY（主查询）、SUBQUERY（子查询）等。
 > - table：要查询的表名。
@@ -256,7 +263,7 @@ EXPLAIN SELECT * FROM table_name WHERE condition;
 > - possible_keys：可能使用的索引。
 > - key：实际使用的索引。
 > - key_length：使用的索引长度。
-> - ref：连接条件中使用的列或常量。
+> - ref：连接条件中使用的列或常量。（显示索引的哪一列被使用了）
 > - rows：扫描的行数。
 > - filtered：按表条件过滤的行数。
 > - Extra：包含不适合在其他列中显示的额外信息，如Using index（使用覆盖索引）、Using filesort（使用文件排序）等。
