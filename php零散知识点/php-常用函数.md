@@ -101,7 +101,7 @@ $list=$query->select();
 $query = Db::table('think_user');
 $query = $query->order('create_time')->where('status', 1);
 $countQuery = clone $query; // 克隆一个新的查询对象
-$count = $countQuery->count();
+$count = $countQuery->count(); //或者简写为 (clone $query)->count();
 $list = $query->select();
 
 # 通过使用 clone 关键字，我们创建了一个新的查询对象 $countQuery，它和 $query 对象具有相同的查询条件。然后，我们分别在 $countQuery 和 $query 上执行了 $count 和 $list 的查询。这样就可以在 $count 查询中携带上一个 $query 对象的查询条件了。
