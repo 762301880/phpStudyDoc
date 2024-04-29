@@ -26,6 +26,7 @@
 | 阮一峰-全文搜索引擎 Elasticsearch 入门教程 | [link](http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html) |
 | 官方扩展文档                               | [link](https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/index.html) |
 | elasticsearch/elasticsearch-packagist      | [link](https://packagist.org/packages/elasticsearch/elasticsearch) |
+| elasticsearch中文档(laravel社区)           | [link](https://learnku.com/docs/elasticsearch-php/6.0/quickstart/2001) |
 
 # windows 安装
 
@@ -100,8 +101,32 @@ docker run -itd --name elasticsearch  -p 9200:9200 -p 9300:9300 -e "discovery.ty
 
 **实战资料**
 
-| 名称             | 地址                                        |
-| ---------------- | ------------------------------------------- |
-| [第三方博客参考] | [link](https://blog.51cto.com/yszr/2818265) |
-|                  |                                             |
+| 名称             | 地址                                                         |
+| ---------------- | ------------------------------------------------------------ |
+| [第三方博客参考] | [link](https://blog.51cto.com/yszr/2818265)                  |
+| 博客参考         | [link](https://www.jb51.net/article/229894.htm) [link](https://mp.weixin.qq.com/s/QIarKj9ab1CSx0OqFKjrjQ) |
+
+## 安装
+
+```php
+composer require 'elasticsearch/elasticsearch'
+```
+
+## 使用
+
+> 创建ES类
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+//如果未设置密码
+$es = \Elasticsearch\ClientBuilder::create()->setHosts(['xxx.xxx.xxx.xxx'])->build();
+
+//如果es设置了密码
+$es = \Elasticsearch\ClientBuilder::create()->setHosts(['http://username:password@xxx.xxx.xxx.xxx:9200'])->build()
+```
+
+
 
