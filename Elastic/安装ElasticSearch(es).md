@@ -130,3 +130,55 @@ $es = \Elasticsearch\ClientBuilder::create()->setHosts(['http://username:passwor
 
 
 
+**写入数据**
+
+```php
+        ini_set('max_execution_time', 300);
+       foreach ($stus as $stu){
+           $params = [
+               'index' => 'stu_index',
+               'type' => 'stu_type',
+               'id' => 'stu_' . $stu['id'],
+               'body' => [
+                   'id' => $stu['id'],
+                   'sname' => $stu['sname'],
+                   'class_id' => $stu['class_id'],
+                   'birthday' => $stu['birthday'],
+                   'updated_at' => $stu['updated_at'],
+                   'sex' => $stu['sex'],
+                   'created_at' => $stu['created_at'],
+               ],
+           ];
+           $response = $client->index($params);
+```
+
+**获取一个文档**
+
+```php
+
+        $params = [
+            'index' => 'stu_index',
+            'type' => 'stu_type',
+            'id' => 'stu_'.'37'
+        ];
+
+        $response = $client->get($params);
+        print_r($response);
+```
+
+**搜索一个文档**
+
+```php
+       //搜索
+        $serparams = [
+            'index' => 'stu_index',
+            'type' => 'stu_type',
+        ];
+
+        $serparams['body']['query']['match']['sname'] = '钱伊丹';
+        $resech = $client->search($serparams);
+
+        dd($resech);
+
+```
+
