@@ -104,7 +104,7 @@ docker run -itd --name elasticsearch  -p 9200:9200 -p 9300:9300 -e "discovery.ty
 | 名称             | 地址                                                         |
 | ---------------- | ------------------------------------------------------------ |
 | [第三方博客参考] | [link](https://blog.51cto.com/yszr/2818265)                  |
-| 博客参考         | [link](https://www.jb51.net/article/229894.htm) [link](https://mp.weixin.qq.com/s/QIarKj9ab1CSx0OqFKjrjQ) |
+| 博客参考         | [link](https://www.jb51.net/article/229894.htm) [link](https://mp.weixin.qq.com/s/QIarKj9ab1CSx0OqFKjrjQ)  [link](https://learnku.com/articles/48200) |
 
 ## 安装
 
@@ -181,4 +181,48 @@ $es = \Elasticsearch\ClientBuilder::create()->setHosts(['http://username:passwor
         dd($resech);
 
 ```
+
+## 补充
+
+### 创建索引
+
+> 创建名为 test 的索引 
+
+```php
+curl -X PUT http://localhost:9200/test
+```
+
+> 服务器返回一个 JSON 对象，里面的 acknowledged 字段表示操作成功。
+
+```shell
+{"acknowledged":true,"shards_acknowledged":true,"index":"test"}
+```
+
+### 删除索引
+
+> 服务器返回值为，里面的 acknowledged 字段表示操作成功
+
+```shell
+curl -X DELETE http://localhost:9200/test
+
+# 返回
+{"acknowledged":true}
+```
+
+### 查看索引
+
+```shell
+curl -X GET http://localhost:9200/_cat/indices?v
+```
+
+> 服务器会列出所有索引
+
+```shell
+health status index            uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+green  open   .geoip_databases if2iRDr1QDGyuBsBZW-rMg   1   0         33            0     31.1mb         31.1mb
+yellow open   stu_index        taXvtyClTWqxnTrbHtmQnA   1   1        500            0     85.8kb         85.8kb
+yellow open   my_index         Wir5HsZoRR2ytXKWwnEAsQ   1   1          1            0      3.8kb          3.8kb
+```
+
+
 
