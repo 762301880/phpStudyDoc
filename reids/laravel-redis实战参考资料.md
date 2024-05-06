@@ -187,3 +187,140 @@ public static function ipRequestLimit($methodName, $ip, $timeout = 10*60,$limit=
     }
 ```
 
+# redis限制多次请求只计算一次
+
+## 说明
+
+> 以前有一个bug就是说用户签到如果用户手速过快于点击则会请求多次url，如果
+>
+> 其中包含派发积分等总要操作则会产生越权行为
+
+## 第一版在中间件中使用 
+
+> 此方案在签到等只能请求一次的方式上很好的实现解决
+>
+> 但是如果是那种点赞 可以取消点赞&再次点赞的操作此方案就
+>
+> 不适用了
+
+```php
+  public function handle($request, Closure $next)
+    {
+        $user_token = $request->header('xcx-token');//token
+        $method=$request->getMethod();//请求方法
+        $path=$request->path();//路径
+        $params=$request->all();
+        $hashKey=md5(json_encode(compact('user_token','method','path','params')));
+        $limit = 1;// 最大请求次数(可配置化)
+        $time = 10;// 过期时间秒
+        $redis = Redis::connection()->client(); // 实例化redis
+        // 如果ip不存在的情况下才会创建
+        if ($redis->get("request:{$hashKey}") == null) {
+            $redis->set("request:{$hashKey}", $limit);//设置请求的ip与最多访问次数
+            $redis->expire("request:{$hashKey}", $time);// 当请求开始的时候即刻设置请求时间
+        }
+        $expirationTime = floor($redis->pttl("request:{$hashKey}") / 1000);//过期时间
+        if ($redis->get("request:{$hashKey}") == 0 && $expirationTime != 0) {
+            return $this->error('请勿重复请求');
+        }
+        if ($redis->get("request:{$hashKey}") != 0) {
+            $redis->decr("request:{$hashKey}");// 请求即自减
+        }
+        return $next($request);
+    }
+```
+
+## 第二种方案(此方案果断放弃,经过实验可以用但是接口延迟很大)
+
+> 此次想的是如果用户特定时间内比如5秒多次获1此点击
+>
+> 请求api的时候只通过第一次或则最后一次请求
+>
+> 防抖功能 ：
+>
+> 防抖就是将多次高频操作优化为只在最后一次执行（某个函数在某段时间内，无论触发了多少次回调，都只执行最后一次）。通常的使用场景是：用户输入，只需在输入完成后做一次输入校验即可。
+
+```shell
+        $user_token = $request->header('xcx-token');//token
+        $method = $request->getMethod();//请求方法
+        $path = $request->path();//路径
+        $params = $request->all();
+        $hashKey = md5(json_encode(compact('user_token', 'method', 'path', 'params')));
+        $time = 5;// 过期时间秒
+        $redis = Redis::connection()->client(); // 实例化redis
+        // 如果ip不存在的情况下才会创建
+        $redis->incr("request:{$hashKey}");
+        $redis->expire("request:{$hashKey}", $time);// 当请求开始的时候即刻设置请求时间
+        if ($redis->get("request:{$hashKey}")<=1) return $next($request);
+        sleep(1);
+        return $next($request);
+        
+```
+
+# reids 实现统计页面日点击量(pv uv)统计
+
+参考 https://www.jianshu.com/p/3ea95c0fc814
+
+## 使用
+
+```php
+$redis = new Client();
+$date=date('Ymd');# 定义存储的名称
+$redis->setbit($date,user_id,1);#  第二个参数是用户的id
+dd($redis->bitcount($date));# 得到统计的个数
+```
+
+## 使用sadd函数实现
+
+```php
+# 核心二：使用redis的sAdd()方法
+/**
+ * sadd()命令将一个或多个成员元素加入到集合中，已经存在于集合的成员元素将被忽略。
+ * 查询sadd()添加的个数sCard()
+ **/
+# 控制器代码示例
+  public function setPvAndUv(Request $request)
+    {
+        $store_id = $request->input('store_id');
+        if ($store_id == null) {
+            throw new ErrorCodeException('商店主键不能为空');
+        }
+        $today = date('Ymd');
+        $pvKey = "tw:pv:$store_id:$today"; //pvKey
+        $uvKey = "tw:uv:$store_id:$today"; //uvKey
+        $expiration_time = 3600 * 24 * 2;//过期时间2天
+        //pv
+        $isCrPv = $this->redis->incr($pvKey);
+        $this->redis->expire($pvKey, $expiration_time);//设置redis过期时间
+        //uv
+        $isCrUv=$this->redis->sAdd($uvKey,56456);//参数2 user_id由于目前不知道此参数的具体位置所以写死代替
+        $this->redis->expire($uvKey, $expiration_time);//设置redis过期时间
+        return compact('isCrPv','isCrUv');
+    }
+# 自动同步代码示例
+ public function __construct()
+  {
+        parent::__construct();
+        $this->redis = Redis::connection()->client();
+  }
+   public function handle()
+    {
+        $store = Store::get(['store_id']);
+        $date = date('Ymd');
+        //构建昨天的时间戳
+        $yesterday = strtotime(date('Y-m-d')) - 86400;
+        $yesterday = date('Y-m-d', $yesterday);
+        foreach ($store as $value) {
+            $pvKey = "tw:pv:$value->store_id:$date"; //pvKey
+            $uvKey = "tw:uv:$value->store_id:$date"; //uvKey
+            //查询是本商店并且日期为昨天的数据
+            $store = StoreOrderStatistical::firstOrNew(['store_id' => $value->store_id, 'date' => $yesterday]);
+            $store->store_id = $value->store_id;
+            $store->date = $yesterday;//昨天的数据
+            $store->pv = $this->redis->get($pvKey) ?? 0;
+            $store->uv = $this->redis->sCard($uvKey) ?? 0;
+            $store->save();
+        }
+    }
+```
+
