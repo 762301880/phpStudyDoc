@@ -1,4 +1,4 @@
-# [Apifox 接口调试](https://www.apifox.cn/)
+# [ Apifox 接口调试](https://www.apifox.cn/)
 
 ![1639119171(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/Yf2bXicVTeu7xQU.png)
 
@@ -173,6 +173,32 @@ bcdedit /set hypervisorlaunchtype off
 ## Windows11右键菜单修改为Windows10风格
 
 > [参考文档](https://blog.csdn.net/WMX_0121/article/details/123231951)
+
+[Windows11](https://so.csdn.net/so/search?q=Windows11&spm=1001.2101.3001.7020)更新后，右键菜单很多功能隐藏起来了，使用时需要点击“显示更多选型”才能获取完整功能。为了能获得Windows10右键菜单丝滑的体验，我总结了以下方法。
+
+![image](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/59704c4ffbd6af9764dd5ab84c0fc7bf.gif)
+
+## 方法一：控制台操作法
+
+- 按住win+R打开运行窗口
+
+输入cmd，打开控制台
+在控制泰中输入下方代码，回车，显示操作成功
+开启旧版右键菜单：
+
+```shell
+reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
+```
+
+恢复windows11新版右键菜单：
+
+```shell
+reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" /f
+```
+
+- 打开任务管理器，重新启动资源管理器，即完成设置
+
+![image](https://img-blog.csdnimg.cn/img_convert/8e65e7a7bd31dbba11cceb33a67235b5.png)
 
 
 
