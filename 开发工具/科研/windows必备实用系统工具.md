@@ -167,3 +167,12 @@ bcdedit /set hypervisorlaunchtype off
 > **在D盘下创建 Desktop文件夹 然后将桌面文件移动到D盘即可**
 
 ![image-20240102115549903](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240102115549903.png)
+
+# windows11
+
+## Windows11右键菜单修改为Windows10风格
+
+> [参考文档](https://blog.csdn.net/WMX_0121/article/details/123231951)
+
+
+
