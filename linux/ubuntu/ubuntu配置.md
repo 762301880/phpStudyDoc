@@ -2,7 +2,7 @@
 
 > 我们在下载软件的时候可能会遇到**无法定位软件包 sshd**这种情况,需要修改默认的软件源,点击左下角的**显示应用程序**,点击**软件和更新**
 
-[![xtZuM8.png](https://s1.ax1x.com/2022/10/10/xtZuM8.png)](https://imgse.com/i/xtZuM8)
+[![xtZuM8.png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/xtZuM8.png)](https://imgse.com/i/xtZuM8)
 
 #  配置虚拟域名
 
