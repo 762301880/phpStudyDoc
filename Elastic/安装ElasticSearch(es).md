@@ -226,3 +226,10 @@ yellow open   my_index         Wir5HsZoRR2ytXKWwnEAsQ   1   1          1        
 
 
 
+# 可视化工具
+
+## Kibana
+
+> Kibana是Elasticsearch的可视化工具，便于查看和分析数据。
+>
+> 下载并安装Kibana，可以参考[官方安装指南](https://www.elastic.co/guide/en/kibana/current/install.html)
