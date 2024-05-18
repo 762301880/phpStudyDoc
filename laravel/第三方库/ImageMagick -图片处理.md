@@ -80,7 +80,7 @@ extension=imagick.so
 
 > 刷新一下php即可
 
-<img src="https://s2.loli.net/2021/12/22/ParqNY8XtSegf4w.png" alt="1640155074(1).jpg" style="zoom:50%;" />
+![image-20240518134811163](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240518134811163.png)
 
 ```shell
 [root@92201f5a71ce php]# netstat -anp | grep 9000
