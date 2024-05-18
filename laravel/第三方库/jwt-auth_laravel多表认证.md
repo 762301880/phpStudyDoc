@@ -49,7 +49,7 @@
 | JWT.IO            | [link](https://jwt.io/)                                      |
 | 网络上好的jwt博客 | [link](https://learnku.com/articles/12616/about-jwt-you-should-know) |
 
-![1639309721(1).jpg](https://s2.loli.net/2021/12/12/OtSFRlnJpeTcD9w.png)
+![image-20240518140408815](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240518140408815.png)
 
 > 可以看出加密返回的***jswebtoken***分为三部分返回 使用***.***分割,右边是对应的解密信息
 >

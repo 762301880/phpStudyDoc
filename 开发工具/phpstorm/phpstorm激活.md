@@ -11,7 +11,7 @@
 
 > 下载完成之后直接拉到项目中然后点击导航栏的**help->EvalReset**勾选自动重置，一本万利无限使用美滋滋
 
-![1643158617(1).jpg](https://s2.loli.net/2022/01/26/YQqacPemiF5DVXZ.png)
+![1643158617(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/YQqacPemiF5DVXZ.png)
 
 # 扩展
 

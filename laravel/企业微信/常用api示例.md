@@ -86,7 +86,7 @@
 
 > agentid	是	企业应用的id，整型。企业内部开发，可在应用的设置页面查看；第三方服务商，可通过接口 获取企业授权信息 获取该参数值
 
-<img src="https://s2.loli.net/2021/12/31/gCi7Eh5UXO9DwqS.png" alt="1640912288(1).jpg" style="zoom: 50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/gCi7Eh5UXO9DwqS.png" alt="1640912288(1).jpg" style="zoom: 50%;" />
 
 **代码示例**
 

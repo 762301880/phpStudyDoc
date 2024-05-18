@@ -79,11 +79,11 @@ sudo apt-get install mysql-server
 
 **过程会提示输入root用户新密码**
 
-![fa89610d55b76283e2faf52c49c4fc8.png](https://i.loli.net/2021/11/01/pznmwYJgo2DsljA.png)
+![fa89610d55b76283e2faf52c49c4fc8.png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/pznmwYJgo2DsljA.png)
 
 **校验新密码**
 
-![ee6f57d83825d9007e2c9b98a9be6e5.png](https://i.loli.net/2021/11/01/rnVxa1GcW6jhDBy.png)
+![ee6f57d83825d9007e2c9b98a9be6e5.png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/rnVxa1GcW6jhDBy.png)
 **安装完成之后直接使用即可**
 
 > 登录用户并输入密码

@@ -34,7 +34,7 @@
 
 > 例如我将类库放在**app\Lib**目录中
 
-![1650003912(1).jpg](https://s2.loli.net/2022/04/15/5zw2FdpNVhk6tX8.png)
+![1650003912(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/5zw2FdpNVhk6tX8.png)
 
 **引用类库**
 
