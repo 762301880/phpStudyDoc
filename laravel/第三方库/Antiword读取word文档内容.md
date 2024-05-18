@@ -18,7 +18,7 @@
 鼠标右键-此电脑-属性-高级系统设置-环境变量-系统变量-将下载解压的Antiword目录写在Path里
 ```
 
-![1640311387(1).jpg](https://s2.loli.net/2021/12/24/Yzl6NHe7udwmT5M.png)
+![1640311387(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/Yzl6NHe7udwmT5M.png)
 
 [**简单测试**](https://blog.csdn.net/qq_29099209/article/details/79904417)
 

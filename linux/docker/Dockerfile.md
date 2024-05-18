@@ -218,7 +218,7 @@ mkdir mytomcat && cd mytomcat && touch Dockerfile && wget https://dlcdn.apache.o
 
 > 官方命名[^Dockerfile], ***build***会自动寻找这个文件，就不需要**-f**指定了！
 
-![b7310ac12099f9906aa63fbce7430a0.jpg](https://i.loli.net/2021/10/26/qawJNgz3vVrPDpk.jpg)
+![b7310ac12099f9906aa63fbce7430a0.jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/qawJNgz3vVrPDpk.jpg)
 
 ```dockerfile
 # 选择镜像

@@ -12,7 +12,7 @@
 
 1. [打开官网下载历史版本](https://typora.io/#download)
 
-![1640567921(1).jpg](https://s2.loli.net/2021/12/27/aWtT6uI1beiOyNS.png)
+![1640567921(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/aWtT6uI1beiOyNS.png)
 
 2. [下载beta版本下载](https://typora.io/releases/all)
 

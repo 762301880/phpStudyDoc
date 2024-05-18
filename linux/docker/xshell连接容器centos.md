@@ -66,11 +66,11 @@ passwd: all authentication tokens updated successfully.
 
 **创建连接**
 
-![1635411964(1).jpg](https://i.loli.net/2021/10/28/1de6CLnsoMG84Ew.png)
+![1635411964(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1de6CLnsoMG84Ew.png)
 
 **连接后的界面**
 
 > 直接输入用用户名**root**&设置修改的密码即可连接
 
-![1635412093(1).png](https://i.loli.net/2021/10/28/H1mCvPOQa2b3ewz.png)
+![1635412093(1).png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/H1mCvPOQa2b3ewz.png)
 

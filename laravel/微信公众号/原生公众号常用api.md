@@ -110,7 +110,7 @@ array:2 [▼
 >
 > 只有一个解决方案**除线上之外的所有获取access_token的地方都统一请求线上access_token即可解决**
 
-[<img src="https://s1.ax1x.com/2022/10/12/xUkXP1.png" alt="xUkXP1.png" style="zoom: 80%;" />](https://imgse.com/i/xUkXP1)
+[<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/xUkXP1.png" alt="xUkXP1.png" style="zoom: 80%;" />](https://imgse.com/i/xUkXP1)
 
 **优化代码示例**
 
@@ -1532,9 +1532,9 @@ $json = [
 >
 > 这里需要加**http**
 
-<img src="https://s2.loli.net/2022/01/04/cqESUfIpeDw2JQy.png" alt="1641282368(1).jpg" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/cqESUfIpeDw2JQy.png" alt="1641282368(1).jpg" style="zoom:50%;" />
 
-![1641282427(1).jpg](https://s2.loli.net/2022/01/04/7ebGcPZvRJnVs9S.png)
+![1641282427(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/7ebGcPZvRJnVs9S.png)
 
 ### [第一步：用户同意授权，获取code](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#0)
 
@@ -1617,5 +1617,5 @@ array:9 [
 
 > 效果类似于**瑞幸咖啡**的优惠券链接点击跳转到小程序领券
 
-[<img src="https://s1.ax1x.com/2022/11/07/xvpORx.png" alt="xvpORx.png" style="zoom: 67%;" />](https://imgse.com/i/xvpORx)
+[<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/xvpORx.png" alt="xvpORx.png" style="zoom: 67%;" />](https://imgse.com/i/xvpORx)
 

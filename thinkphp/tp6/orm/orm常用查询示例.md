@@ -70,7 +70,7 @@ $model->column('需要查询的字段');
 
 > 先合并多个字段然后再一起查询
 
-![1649667832(1).jpg](https://s2.loli.net/2022/04/11/FM6cNWa3lgRIxB4.png)
+![1649667832(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/FM6cNWa3lgRIxB4.png)
 
 ```php
 //三合一查询(流水号/支付账号/支付单号)
