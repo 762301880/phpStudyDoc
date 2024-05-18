@@ -68,7 +68,7 @@ php think build 你的模块名
 
   > 在app目录下
 
-![2021-08-14 21-51-55屏幕截图.png](https://i.loli.net/2021/08/14/fTCMhoRBd2LpwOg.png)
+![2021-08-14 21-51-55屏幕截图.png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/fTCMhoRBd2LpwOg.png)
 
 ## 下载安装think-view模板引擎驱动扩展：
 

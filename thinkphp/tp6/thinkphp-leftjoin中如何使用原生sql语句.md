@@ -12,9 +12,9 @@
 
 ## 对应使用的数据表
 
-![2021-08-16 21-40-28屏幕截图.png](https://i.loli.net/2021/08/16/x1XZvoEd3twWJHB.png)
+![2021-08-16 21-40-28屏幕截图.png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/x1XZvoEd3twWJHB.png)
 
-![2021-08-16 21-40-07屏幕截图.png](https://i.loli.net/2021/08/16/XHWsPh5Dynzrd8v.png)
+![2021-08-16 21-40-07屏幕截图.png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/XHWsPh5Dynzrd8v.png)
 
 ```shell
  Stu::where('id',1)->LeftJoin('(SELECT cname , id AS c_id FROM class_s GROUP BY id ) AS class_s','stu.class_id = class_s.c_id',[])->select();

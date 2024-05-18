@@ -141,5 +141,5 @@ class TestController extends Controller
 
 **结果示例**
 
-![res.jpg](https://s2.loli.net/2021/12/13/NsY9mjecKJuSaft.png)
+![res.jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/NsY9mjecKJuSaft.png)
 

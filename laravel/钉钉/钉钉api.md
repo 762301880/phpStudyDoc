@@ -24,7 +24,7 @@
 
 ## 钉钉机器人api消息推送
 
-![1640845383.jpg](https://s2.loli.net/2021/12/30/4aCWK3JfAmRbr9h.png)
+![image-20240518141937162](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240518141937162.png)
 
 > ## 加签
 >

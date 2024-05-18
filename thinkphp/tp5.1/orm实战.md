@@ -67,7 +67,7 @@ return UsersModel::where(function ($query) use ($data) {
 
 ## 按照年龄区间查询(兼容多年龄)
 
-![1646904210(1).jpg](https://s2.loli.net/2022/03/10/kPRxuC6FBN4vLyX.png) ![1646904274(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/sC7UeYmMfJrDVPX.png)
+![1646904210(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/kPRxuC6FBN4vLyX.png) ![1646904274(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/sC7UeYmMfJrDVPX.png)
 
 > 遇到这么一个坑需求倒是不难是可以筛选不同的年龄段, 只要点了**不限** 不管点别的什么都是返回全部年龄段
 >

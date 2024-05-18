@@ -75,7 +75,7 @@ message	"Hello Hyperf."
 
 ## 端口访问问题
 
-![lALPDg7mSNyFfUzNAkvNA-w_1004_587.png](https://i.loli.net/2021/10/14/1lyxkrdUbHPI6u3.png)
+![lALPDg7mSNyFfUzNAkvNA-w_1004_587.png](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1lyxkrdUbHPI6u3.png)
 
 ## **swoole配置问题**
 

@@ -69,7 +69,7 @@ class Test
 
   > 由此图可以看见只需要访问控制器名+方法名就可以充当我们的路由使用
 
-<img src="https://i.loli.net/2021/08/13/tjpXcEIe5lTZxd9.png" alt="1628845646(1).jpg" style="zoom:50%;" />
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/tjpXcEIe5lTZxd9.png" alt="1628845646(1).jpg" style="zoom:50%;" />
 
 
 
