@@ -2,7 +2,7 @@
 
 **先上效果**
 
-![image-20231108155732385](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231108155732385.png)
+![image-20231108155732385](https://gitee.com/yao_liuyang/blogImages/raw/master/blogImages/image-20231108155732385.png)
 
 配置nginx
 
