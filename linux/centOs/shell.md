@@ -215,3 +215,23 @@ echo "所有子任务已完成"
 ```
 
 > 在这个例子中，`command1`、`command2`和`command3`是三个并行执行的子进程。`wait`命令会等待这些子进程全部完成后，才会继续执行脚本后面的语句。这样可以确保在执行`echo`语句之前，所有的子任务都已经完成了。
+
+## 实现-利用shell脚本实现秒级定时任务
+
+> https://www.yisu.com/zixun/486965.html
+> 实现-利用shell脚本实现秒级定时任务
+> 利用shell脚本实现
+> 编写shell脚本-seconds.sh
+
+```shell
+#!/bin/bash
+step=1 #间隔的秒数
+
+for (( i = 0; i < 60; i=(i+step) )); do
+   cd ~ && echo  $(date "+%Y-%m-%d %X") >> a.txt  # 需要执行的定时脚本-这里为了模拟写入文件执行时间
+ sleep $step # 随眠定义的秒
+done
+
+exit 0
+```
+
