@@ -1752,9 +1752,11 @@ kill <PID>
 
 **参考资料**
 
-| name     | url                                                          |
-| -------- | ------------------------------------------------------------ |
-| 网络博客 | [1](https://www.cnblogs.com/uthnb/p/9367875.html) [2](https://blog.csdn.net/dengjin20104042056/article/details/100045269) [3](https://blog.csdn.net/weixin_40228200/article/details/120914453) |
+| name        | url                                                          |
+| ----------- | ------------------------------------------------------------ |
+| 网络博客    | [1](https://www.cnblogs.com/uthnb/p/9367875.html) [2](https://blog.csdn.net/dengjin20104042056/article/details/100045269) [3](https://blog.csdn.net/weixin_40228200/article/details/120914453) |
+| openssh官网 | [link](https://www.openssh.com/)                             |
+| sshd手册    | [link](https://man.openbsd.org/sshd.8)  [sshd_config](https://man.openbsd.org/sshd_config.5) |
 
 ### Linux sshd详解：
 
