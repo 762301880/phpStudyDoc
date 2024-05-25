@@ -246,6 +246,36 @@ ALTER USER root@localhost IDENTIFIED WITH mysql_native_password BY '123456';
 FLUSH PRIVILEGES; #刷新
 ```
 
+## 连接mysql报错is not allowed to connect to this MySQL server
+
+> https://www.jb51.net/database/294905uw3.htm
+
+```shell
+# 修改本地链接为所有地址都可以链接 
+# 显示数据库
+mysql> show databases;
+# 选择 数据库
+mysql> use mysql;
+# 显示表名 
+mysql> show tables;
+
+mysql> select host,user from user;
++-----------+---------------+
+| host      | user          |
++-----------+---------------+
+| localhost | mysql.session |
+| localhost | mysql.sys     |
+| localhost | root          |
++-----------+---------------+
+
+mysql> update user set host = "%" where user = "root"; # 修改本地地址可以远程访问
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> FLUSH PRIVILEGES; #刷新
+Query OK, 0 rows affected (0.00 sec) 
+```
+
 
 
 # mysql 客户端
