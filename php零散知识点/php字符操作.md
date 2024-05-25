@@ -22,6 +22,26 @@ mb_strlen() 函数
 ```php
 str_repeat(0, 3);//自动填充0
 # 输出 000
+
+# 案例  生成规则当天日期+四位编号0001开头 如果超过0001 向前补一位
+
+        $redis_key='signed_number';
+        $redis=RedisService::getInstance();
+        //每天的日期
+        $key=date('Ymd');
+        $minLength=4;//最少四位
+        $lastNum=$redis->lIndex($redis_key,0)??0;
+        $redis->lPush($redis_key,$lastNum+1);
+        $lastNum=$redis->lIndex($redis_key,0)??0;
+        if ($lastNum<9999){
+            $digitNum=mb_strlen($lastNum);//判断位数
+            $no=str_repeat( 0,($minLength-$digitNum));
+            $no=$key.$no.$lastNum;
+        }
+       if ($lastNum>=9999){
+           $no=$key.$lastNum;
+       }
+       return $no;
 ```
 
 ## 删除指定的字符
