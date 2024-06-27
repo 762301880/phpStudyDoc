@@ -94,3 +94,53 @@
 **想要的效果**
 
 ![image-20221022162837947](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20221022162837947.png)
+
+# phpstorm优化内存设置
+
+**资料**
+
+| name       | url                                                 |
+| ---------- | --------------------------------------------------- |
+| 第三方博客 | [link](https://segmentfault.com/a/1190000013914840) |
+
+> PHPStorm依赖java运行环境，说白了也就是java虚拟机，找到`help > Edit Custom VM Options`，然后在这个文件里可以根据需要增加或减少PHPstorm使用的内存
+
+
+
+**对应设置**
+
+```shell
+# 原文件设置备份
+-Xms128m
+-Xmx2042m
+-XX:ReservedCodeCacheSize=512m
+-XX:+UseConcMarkSweepGC
+-XX:SoftRefLRUPolicyMSPerMB=50
+-XX:CICompilerCount=2
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:-OmitStackTraceInFastThrow
+-ea
+-Dsun.io.useCanonCaches=false
+-Djdk.http.auth.tunneling.disabledSchemes=""
+-Djdk.attach.allowAttachSelf=true
+-Djdk.module.illegalAccess.silent=true
+-Dkotlinx.coroutines.debug=off
+
+# 修改后的设置
+
+-Xms128m
+-Xmx1024m
+-XX:ReservedCodeCacheSize=512m
+-XX:+UseConcMarkSweepGC
+-XX:SoftRefLRUPolicyMSPerMB=50
+-XX:CICompilerCount=2
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:-OmitStackTraceInFastThrow
+-ea
+-Dsun.io.useCanonCaches=false
+-Djdk.http.auth.tunneling.disabledSchemes=""
+-Djdk.attach.allowAttachSelf=true
+-Djdk.module.illegalAccess.silent=true
+-Dkotlinx.coroutines.debug=off
+```
+
