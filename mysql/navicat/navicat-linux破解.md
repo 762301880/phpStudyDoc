@@ -250,3 +250,10 @@ docker pull registry.cn-beijing.aliyuncs.com/yaoliuyang/ubuntu_navicat_pj:latest
 # 破解注意 如果需要断网 且在同一个平台下 可以使用screen命令保证不会中断
 ```
 
+# Navicat Premium Lite  全平台免费破解版本
+
+> https://zhuanlan.zhihu.com/p/705878915
+>
+> [下载地址](https://www.navicat.com.cn/download/navicat-premium-lite)
+>
+> ps:个人阿里云盘有备份
