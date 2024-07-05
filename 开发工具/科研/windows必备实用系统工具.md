@@ -219,3 +219,7 @@ reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" 
 > 例如，PATH环境变量指定了操作系统应该在哪些目录中搜索可执行文件。当你在命令行中输入一个命令时，系统会在PATH指定的目录中查找可执行文件，从而执行相应的操作。这使得你可以在任何目录下直接运行命令，而不必输入完整的路径。
 >
 > 总之，Windows环境变量为操作系统和应用程序提供了一种灵活、可配置的方式来获取和使用系统级别的信息和设置。
+
+# [Windows Terminal _windows10全新命令行工具](https://www.cnblogs.com/yaoliuyang/p/12969627.html)
+
+[安装链接](https://github.com/microsoft/terminal/releases)
