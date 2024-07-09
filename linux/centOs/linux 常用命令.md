@@ -1650,6 +1650,8 @@ rsync [选项] 用户名@远程主机IP地址或主机名:/远程路径/目录�
 
 ## screen多终端命令
 
+第三方博客参考  https://www.mintimate.cn/2021/09/02/howToUseScreen/
+
 [**screen 菜鸟教程**](https://www.runoob.com/linux/linux-comm-screen.html)
 
 > **screen**是一个可以在终端中创建多个虚拟终端会话的命令行工具。它可以让你在一个物理终端窗口中同时运行多个程序，并且可以自由地在这些程序之间切换。
