@@ -971,6 +971,77 @@ OK
 
 ```
 
+**hash实战**
+
+`单例模式redis`
+
+```shell
+<?php
+
+
+namespace App\Services;
+
+
+use Illuminate\Support\Facades\Redis;
+
+class RedisService
+{
+    private static $instance = null;
+
+    private function __construct()
+    {
+        // 私有化构造函数以避免类被实例化，只能通过 getInstance 方法获得类的唯一实例。
+    }
+
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = Redis::connection()->client();
+        }
+        return self::$instance;
+    }
+
+    public function __call($method, $arguments)
+    {
+        return call_user_func_array([self::getInstance(), $method], $arguments);
+    }
+}
+```
+
+`实战`
+
+```shell
+    public function test(Request $request)
+    {
+        $redis=RedisService::getInstance();
+        $redis->hMSet('myhash:'.date('Ymd'),['field1'=>json_encode(['id'=>1,'name'=>'张三'],JSON_UNESCAPED_UNICODE )]);
+        $redis->hMSet('myhash:'.date('Ymd'),['field2'=>json_encode(['id'=>2,'name'=>'李四'],JSON_UNESCAPED_UNICODE )]);
+
+        /**
+         * 获取单个值的key
+         * 返回
+         * array:1 [
+            0 => "{"id":1,"name":"张三"}"
+            ]
+         */
+        $field1=$redis->hMGet('myhash:'.date('Ymd'),['field1']);
+        //dd($field1);
+
+        /**
+         * 获取多个值的key
+         * array:2 [
+            "field1" => "{"id":1,"name":"张三"}"
+            "field2" => "{"id":2,"name":"李四"}"
+            ]
+         */
+
+        $allField=$redis->hGetAll('myhash:'.date('Ymd'));
+        dd($allField);
+    }
+```
+
+
+
 #### **Zset(有序集合)**
 
 > 在set的基础上,增加了一个值，set k1 v1 k2
