@@ -17,6 +17,8 @@
 **修改hosts文件**
 
 > **windows:hosts地址**   `C:\Windows\System32\drivers\etc\hosts`
+>
+> dns 查询  https://tool.chinaz.com/dns/translate.google.cn
 
 ##  [github 扫描端口插件](https://github.com/Ponderfly/GoogleTranslateIpCheck?tab=readme-ov-file)
 
