@@ -1802,5 +1802,87 @@ kill <PID>
 
 综上所述，可以看到SSHD及其配置文件提供了丰富的工具来确保远程访问的安全性和灵活性。正确理解和配置这些设置将极大地增强您的系统安全和网络效率。
 
+## [wget命令 – 下载网络文件](https://www.linuxcool.com/wget)
 
+> `wget` 是一个在 Linux 系统中常用的命令行工具，用于从网络上下载文件。它支持 HTTP、HTTPS 和 FTP 协议，并且可以通过多种方式进行下载，包括断点续传、批量下载等。下面是 `wget` 命令的常用参数及其详细解释：
+
+**基本用法**
+
+```shell
+wget [参数] [URL]
+```
+
+**常用参数**
+
+```shell
+# -O [文件名] 将下载的文件保存为指定的文件名。
+wget -O example.html https://example.com
+
+# -P [目录] 将下载的文件保存到指定目录中。
+wget -P /path/to/directory https://example.com/file.zip
+
+# -c 继续下载已经开始但未完成的文件
+wget -c https://example.com/largefile.zip
+
+# -b 后台下载文件
+wget -b https://example.com/largefile.zip
+```
+
+## [curl命令 – 文件传输工具](https://www.linuxcool.com/curl)
+> `curl` 是一个用于在命令行中进行网络请求的工具，支持多种协议，如 HTTP、HTTPS、FTP 等。它非常强大，可以用来下载文件、提交表单、发送请求等。以下是 `curl` 常用的用法与参数的详细解释：
+
+**基本用法**
+
+```shell
+curl [options...] <url>
+```
+
+**常用参数**
+
+```shell
+# -o, --output <file>    将输出保存到指定的文件中。
+curl -o example.html http://www.example.com/
+
+# -O, --remote-name     使用 URL 中的文件名将文件保存到本地。
+curl -O http://www.example.com/index.html
+
+# -L, --location   如果服务器返回 3XX 重定向，自动跟随重定向。
+curl -L http://www.example.com/
+
+# -C, --continue-at <offset>   断点续传，从指定的位置继续下载
+curl -C - -O http://www.example.com/largefile.zip
+
+# -u, --user user:password   使用指定的用户名和密码进行身份验证。
+curl -u username:password http://www.example.com/
+
+# -d, --data <data>   发送 POST 请求的数据，可以指定 URL 编码的数据
+curl -d "param1=value1&param2=value2" http://www.example.com/form
+
+#  -H, --header <header>    添加请求头
+curl -H "Content-Type: application/json" http://www.example.com/
+
+#  -X, --request <command>    指定请求方法，如 GET、POST、PUT、DELETE 等。
+curl -X DELETE http://www.example.com/resource/1
+
+# -I, --head  获取响应头信息，而不获取响应体。
+curl -I http://www.example.com/
+ 
+# -k, --insecure    允许不安全的 SSL 连接（如忽略 SSL 证书验证）
+curl -k https://self-signed.badssl.com/
+
+# -F, --form <name=content>  提交表单数据，支持文件上传。
+curl -F "file=@/path/to/file" http://www.example.com/upload
+
+# -s, --silent  静默模式，不输出任何信息（错误信息除外）。
+curl -s http://www.example.com/
+
+# -w, --write-out <format> 输出详细信息，例如响应时间等。
+curl -w "Time: %{time_total}\n" -o /dev/null -s http://www.example.com/
+
+# -x, --proxy [protocol://]host[]   使用代理服务器。
+curl -x http://proxy.example.com:8080 http://www.example.com/
+
+# --limit-rate <speed>  限制传输速度。
+curl --limit-rate 100K http://www.example.com/largefile.zip
+```
 
