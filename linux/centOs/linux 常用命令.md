@@ -1886,3 +1886,55 @@ curl -x http://proxy.example.com:8080 http://www.example.com/
 curl --limit-rate 100K http://www.example.com/largefile.zip
 ```
 
+#  疑问知识点
+
+## linux 命令中参数因该在什么位置使用
+
+在 Linux 命令中，参数的位置有一定的规则。通常，Linux 命令的格式是：
+
+```shell
+command [options] [arguments]
+```
+
+> **命令 (command)**：这是执行的操作，如 `ls`, `cp`, `rm` 等。
+>
+> **选项 (options)**：选项通常以一个或两个破折号（`-` 或 `--`）开头，用于修改命令的行为。单破折号后的选项一般是单字符，例如 `-l`，双破折号后的选项是全称，例如 `--long`。选项可以放在命令之后的任意位置，但通常是紧跟在命令之后。
+>
+> **参数 (arguments)**：参数是命令作用的对象，比如文件名或目录名。参数通常放在所有选项之后。
+
+例如：
+
+```shell
+ls -l /home/user
+```
+
+在这个命令中：
+
+- `ls` 是命令，
+- `-l` 是选项，
+- `/home/user` 是参数。
+
+再比如：
+
+```sh
+cp -r source_directory destination_directory
+```
+
+在这个命令中：
+
+- `cp` 是命令，
+- `-r` 是选项，
+- `source_directory` 和 `destination_directory` 是参数。
+
+有些命令的选项和参数可以混合使用，但最好保持选项在前，参数在后的规则，这样更易于阅读和避免错误。例如：
+
+```sh
+tar -cvf archive.tar file1 file2
+```
+
+在这个命令中：
+
+- `tar` 是命令，
+- `-cvf` 是选项（组合选项），
+- `archive.tar` 和 `file1 file2` 是参数。
+
