@@ -117,3 +117,53 @@ console.log(response);
 > 请在**Headers**中添加      X-Requested-With**:**XMLHttpRequest
 
 ![image-20230829152700546](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230829152700546.png)
+
+## postman设置自动添加全局变量
+
+
+
+**登录接口的时候设置test**
+
+![1642391519(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/O4Eqz8dw2jPYXVA.png)
+
+```shell
+// 响应结果
+const response = JSON.parse(responseBody)
+//在控制台打印结果（在postman软件底部 Console 标签查看）
+console.log(response);
+ //储存到环境变量token
+pm.environment.set("api_token",response.data.jwtToken);
+```
+
+**使用**
+
+> 使用的时候直接**引用变量即可**
+
+![1642391837(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/Z1qCU72THmbIozg.png)
+
+##  发送脚本之前执行请求
+
+> Postman中的Pre-request Script是一种在发送请求之前执行的脚本，用于设置环境变量、修改请求参数或执行其他预处理操作。这些脚本通常使用JavaScript编写，并在发送请求之前运行。
+
+**示例脚本**
+
+![image-20240719102133399](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240719102133399.png)
+
+```js
+// 创建一个Date对象
+		let date = new Date();
+
+		// 获取年份、月份和日期
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1; // 月份从0开始，所以需要加1
+		let day = date.getDate();
+
+		// 使用模板字面量格式化日期
+		let formattedDate = `${year}${month.toString().padStart(2, '0')}${day.toString().padStart(2, '0')}`;
+		// 如果你想要设置当前的日期和时间，可以这样做
+		pm.environment.set("current_date", formattedDate);
+```
+
+**使用变量**
+
+![image-20240719102209274](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240719102209274.png)
