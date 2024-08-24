@@ -272,3 +272,37 @@ array:1 [
 ]
 ```
 
+
+
+#  laravel配置主从复制
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 官方文档 | [laravel-读写分离](https://learnku.com/docs/laravel/8.x/eloquent/9400#dd145f) |
+| 网络博客 | [link](https://blog.csdn.net/raoxiaoya/article/details/105573182) |
+
+## 配置示例
+
+```php
+        'mysql' => [
+            'read' => [
+                'host' => env('DB_READ1_HOST', '121.40.207.192'),
+                'username' => env('DB_READ1_USERNAME', 'root'),
+                'password' => env('DB_READ1_PASSWORD', '123456'),
+                'port' => 3308
+            ],
+            'write' => [
+                'host' => env('DB_WRITE1_HOST', '121.40.207.192'),
+                'username' => env('DB_WRITE1_USERNAME', 'root'),
+                'password' => env('DB_WRITE1_PASSWORD', '123456'),
+                'port' => 3307
+            ],
+            'sticky' => true,
+            'driver' => 'mysql',
+            'database' => 'laravel_study',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+        ],
+```
+
