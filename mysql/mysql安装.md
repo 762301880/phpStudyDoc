@@ -214,6 +214,17 @@ Query OK, 0 rows affected (0.02 sec)
 
 ```
 
+**直接更改配置文件(可配置)**
+
+> 需要在my.cnf 加上这个用户认证方式，再来创建用户
+
+```shell
+[mysqld]
+default_authentication_plugin=mysql_native_password
+```
+
+
+
 **docker创建mysql容器时挂载文件路径后无法启动已解决**
 
 ```php
