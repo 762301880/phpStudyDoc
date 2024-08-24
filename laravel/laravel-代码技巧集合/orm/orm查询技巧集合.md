@@ -304,5 +304,35 @@ array:1 [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
         ],
+
+# 配置多个读库
+  'mysql' => [
+       'read' => [
+                 [
+                     'host' => env('DB_READ1_HOST', '121.40.207.192'),
+                     'username' => env('DB_READ1_USERNAME', 'root'),
+                     'password' => env('DB_READ1_PASSWORD', '123456'),
+                     'port' => 3308
+                 ],
+                [
+                    'host' => env('DB_READ1_HOST', '121.40.207.192'),
+                    'username' => env('DB_READ1_USERNAME', 'root'),
+                    'password' => env('DB_READ1_PASSWORD', '123456'),
+                    'port' => 3309
+                ]
+            ],
+            'write' => [
+                'host' => env('DB_WRITE1_HOST', '121.40.207.192'),
+                'username' => env('DB_WRITE1_USERNAME', 'root'),
+                'password' => env('DB_WRITE1_PASSWORD', '123456'),
+                'port' => 3307
+            ],
+            'sticky' => true,
+            'driver' => 'mysql',
+            'database' => 'laravel_study',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+        ],
 ```
 
