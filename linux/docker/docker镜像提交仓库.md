@@ -82,7 +82,9 @@ $ docker pull registry.cn-beijing.aliyuncs.com/yaoliuyang/php:[镜像版本号]
 ### 2.2.3  将镜像推送到Registry
 
 ```shell
-$ docker login --username=76230****@qq.com registry.cn-beijing.aliyuncs.com$ docker tag [ImageId] registry.cn-beijing.aliyuncs.com/yaoliuyang/php:[镜像版本号]$ docker push registry.cn-beijing.aliyuncs.com/yaoliuyang/php:[镜像版本号]
+$ docker login --username=76230****@qq.com registry.cn-beijing.aliyuncs.com
+$ docker tag [ImageId] registry.cn-beijing.aliyuncs.com/yaoliuyang/php:[镜像版本号]
+$ docker push registry.cn-beijing.aliyuncs.com/yaoliuyang/php:[镜像版本号]
 ```
 
 请根据实际镜像信息替换示例中的[ImageId]和[镜像版本号]参数。
@@ -98,7 +100,10 @@ $ docker login --username=76230****@qq.com registry.cn-beijing.aliyuncs.com$ doc
 使用"docker tag"命令重命名镜像，并将它通过专有网络地址推送至Registry。
 
 ```shell
-$ docker imagesREPOSITORY                                                         TAG                 IMAGE ID            CREATED             VIRTUAL SIZEregistry.aliyuncs.com/acs/agent                                    0.7-dfb6816         37bb9c63c8b2        7 days ago          37.89 MB$ docker tag 37bb9c63c8b2 registry-vpc.cn-beijing.aliyuncs.com/acs/agent:0.7-dfb6816
+$ docker images
+REPOSITORY                                        TAG                 IMAGE ID        CREATED             SIZE registry.aliyuncs.com/acs/agent                   0.7-dfb6816         37bb9c63c8b2        7 days ago          37.89 MB
+
+$ docker tag 37bb9c63c8b2 registry-vpc.cn-beijing.aliyuncs.com/acs/agent:0.7-dfb6816
 ```
 
 使用 "docker push" 命令将该镜像推送至远程。
