@@ -223,3 +223,17 @@ reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" 
 # [Windows Terminal _windows10全新命令行工具](https://www.cnblogs.com/yaoliuyang/p/12969627.html)
 
 [安装链接](https://github.com/microsoft/terminal/releases)
+
+
+
+# dll修复工具
+
+**参考资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/Cybertronnnnnn/article/details/140595309) |
+
+## [dll-files网站修复](https://www.dll-files.com/)
+
+> 直接搜索缺失得dll文件
