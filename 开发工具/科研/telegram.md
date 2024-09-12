@@ -1,4 +1,4 @@
-# 纸飞机申请 api_id and api_hash
+# [纸飞机申请 api_id and api_hash](https://my.telegram.org/)
 
 **参考资料**
 
