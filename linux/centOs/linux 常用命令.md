@@ -1,4 +1,4 @@
-	[^author:姚留洋]
+[^author:姚留洋]
 
 [^created_at:2021/10/24]
 
