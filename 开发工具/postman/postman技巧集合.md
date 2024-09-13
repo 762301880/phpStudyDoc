@@ -169,3 +169,5 @@ pm.environment.set("api_token",response.data.jwtToken);
 **使用变量**
 
 ![image-20240719102209274](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240719102209274.png)
+
+## [postman如何导出变量](https://zhuanlan.zhihu.com/p/689554613)
