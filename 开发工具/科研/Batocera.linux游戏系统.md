@@ -2,7 +2,7 @@
 
 | 名称                                        | 地址                                                         |
 | ------------------------------------------- | ------------------------------------------------------------ |
-| 安装到U盘博客                               | [link](https://www.zhihu.com/tardis/bd/art/510765431?source_id=1001) |
+| 安装到U盘博客                               | [link](https://www.zhihu.com/tardis/bd/art/510765431?source_id=1001)  [link](https://pecmd.net/thread-607.htm) |
 | [Batocera.linux](https://batocera.org/)官网 | [Batocera.linux](https://batocera.org/)                      |
 
 # Batocera.linux安装到U盘
@@ -51,6 +51,10 @@
 | -------- | ------------------------------------------------------------ |
 | DroidJoy | [link](https://play.google.com/store/apps/details?id=com.grill.droidjoy&hl=en)  [link](https://www.upanboot.com/app/205867.html) |
 |          |                                                              |
+
+## 拷贝游戏到硬盘
+
+> 用DiskGenius 打开U盘 然后可以拷贝
 
 # 电视盒子游戏系统
 
