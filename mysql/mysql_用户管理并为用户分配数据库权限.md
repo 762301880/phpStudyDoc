@@ -24,6 +24,12 @@
  grant select, insert, update, delete on 数据库名称.* to 用户名@'ip地址'; # 设置所有权限
 
  FLUSH PRIVILEGES; #刷新权限
+
+# 只创建只读数据库
+
+CREATE USER 'readonly_user'@'localhost' IDENTIFIED BY 'your_password';
+GRANT SELECT ON database_name.* TO 'readonly_user'@'localhost';
+FLUSH PRIVILEGES;
 ```
 
 
