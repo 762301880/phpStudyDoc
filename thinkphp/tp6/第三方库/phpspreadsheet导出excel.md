@@ -651,3 +651,56 @@ array:703 [▼
         }
 ```
 
+## 大批量excel导出
+
+### 推荐直接使用csv进行导出
+
+```php
+    $data = \app\common\model\Stu::select()->toArray();
+// 指定文件路径
+    $filename = 'data.csv';
+
+// 打开文件，如果文件不存在则创建
+    $file = fopen($filename, 'w');
+// 写入 BOM（Byte Order Mark），以支持 UTF-8 编码
+    fputs($file, $bom = chr(0xEF) . chr(0xBB) . chr(0xBF));
+// 写入 CSV 头部和数据
+    foreach ($data as $row) {
+        fputcsv($file, $row);
+    }
+
+// 关闭文件
+    fclose($file);
+
+```
+
+**优化后**
+
+```php
+    set_time_limit(0);
+    $filename = 'large_data_export.csv';
+    $file = fopen($filename, 'w');
+    fputs($file, $bom = chr(0xEF) . chr(0xBB) . chr(0xBF));
+    // 写入表头
+    fputcsv($file, ['ID', 'sname', 'class_id','birthday','updated_at','sex','created_at']);
+
+    // 分批查询并写入数据
+    $limit = 5000;
+    $offset = 0;
+
+    while (true) {
+        $result = Stu::limit($offset,$limit)->select();
+
+        if ($result->count() == 0) break;
+
+
+        foreach ($result->toArray() as $data) {
+            fputcsv($file, $data);
+        }
+
+        $offset += $limit;
+    }
+
+    fclose($file);
+```
+
