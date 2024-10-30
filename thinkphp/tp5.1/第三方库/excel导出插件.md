@@ -41,3 +41,11 @@ composer require dcat/easy-excel
         return Excel::export($data)->headings($headings)->download('users.xlsx');
 ```
 
+# **[XLSXWriter](https://github.com/mk-j/PHP_XLSXWriter)**(不推荐使用 只是做记录 太老的东西了)
+
+## 资料
+
+| 名称   | 地址                                           |
+| ------ | ---------------------------------------------- |
+| github | [link](https://github.com/mk-j/PHP_XLSXWriter) |
+
