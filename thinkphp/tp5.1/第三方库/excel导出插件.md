@@ -45,7 +45,44 @@ composer require dcat/easy-excel
 
 ## 资料
 
-| 名称   | 地址                                           |
-| ------ | ---------------------------------------------- |
-| github | [link](https://github.com/mk-j/PHP_XLSXWriter) |
+| 名称     | 地址                                                |
+| -------- | --------------------------------------------------- |
+| github   | [link](https://github.com/mk-j/PHP_XLSXWriter)      |
+| 网盘备份 | [link](https://yaoliuyang.lanzoul.com/ixDnS2dpy18j) |
+
+**使用**
+
+> 克隆仓库之后直接复制**[xlsxwriter.class.php](https://github.com/mk-j/PHP_XLSXWriter/blob/master/xlsxwriter.class.php)**
+
+```php
+<?php
+namespace app\lib;
+/*
+ * @license MIT License
+ * */
+use ZipArchive;
+class XLSXWriter
+{
+    //...... 忽略复制代码
+}
+```
+
+## 简单使用
+
+> 50000 rows: (1.4s, 0MB memory usage)
+
+```php
+use app\lib\XLSXWriter;
+
+public function test(){
+    $writer = new XLSXWriter();
+    $writer->writeSheetHeader('Sheet1', array('c1'=>'integer','c2'=>'integer','c3'=>'integer','c4'=>'integer') );
+    for($i=0; $i<50000; $i++)
+    {
+        $writer->writeSheetRow('Sheet1', array($i, $i+1, $i+2, $i+3) );
+    }
+    $writer->writeToFile('huge.xlsx');
+    echo '#'.floor((memory_get_peak_usage())/1024/1024)."MB"."\n";
+}
+```
 
