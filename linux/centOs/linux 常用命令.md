@@ -166,7 +166,13 @@ reboot
 
 ### 替换文件中的字符
 
+> **sed** 的全称是 **Stream Editor**，即流编辑器。它是一个强大的文本处理工具，常用于在 Linux 和 Unix 系统中进行文本替换、删除、插入等操作。sed 可以直接在命令行中使用，也可以在脚本中调用，非常适合批量处理文本文件
+>
 > 假如现在有一个文件a.txt，如下图所示我想将 www.baidu.com 修改为 www.aliyun.com
+>
+> s：表示替换操作。
+> g：表示全局替换，即在同一行内替换所有匹配的模式。
+> 希望这些解释能帮助你更好地理解 sed 命令中的 s 和 g。如果有更多问题，请随时提问！
 
 ```shell
 [root@VM-16-5-centos ~]# cat a.txt 
@@ -185,6 +191,33 @@ reboot
 "www.aliyun.com@5"
 
 ```
+
+**参数解释**
+
+s 命令
+
+> 全称：Substitute（替换）
+> 作用：用于替换文本中的模式。
+> 语法：`s/pattern/replacement/flags`
+>
+> old_pattern：要被替换的文本模式。
+> new_pattern：用于替换的文本。
+> flags：可选的标志，用于控制替换行为。
+
+```shell
+sed 's/old_pattern/new_pattern/' file.txt
+```
+
+g 标志
+
+> 全称：Global（全局）
+> 作用：表示在同一行内进行全局替换，即替换该行中所有匹配的模式，而不仅仅是第一个匹配的模式。
+
+```shell
+sed 's/www.baidu.com/www.aliyun.com/g' file.txt
+```
+
+
 
 
 
