@@ -250,3 +250,24 @@ reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" 
 | 网络博客   | [link](https://blog.csdn.net/was172/article/details/99705855) |
 
 > **注意手机需要开启  USB调试**
+
+**使用**
+
+```shell
+adb.exe devices
+scrcpy.exe --video-codec=h265 --max-size=800 --max-fps=60 --no-audio --window-title='phone'
+```
+
+**参数介绍**
+
+> --window-title          默认情况下，窗口标题是设备型号。可以更改
+>
+> --always-on-top      要使窗口始终位于最前面：
+>
+>  --no-audio            禁用音频
+>
+>  --max-size=1920   将尺寸限制为 1920
+>
+> --video-codec=h265   （质量更好）捕获屏幕
+>
+> --max-fps=60   将帧速率限制为 60fps
