@@ -237,3 +237,16 @@ reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" 
 ## [dll-files网站修复](https://www.dll-files.com/)
 
 > 直接搜索缺失得dll文件
+
+#  手机投屏电脑
+
+##  Genymobile/scrcpy
+
+**资料**
+
+| 名称       | 地址                                                         |
+| ---------- | ------------------------------------------------------------ |
+| github源码 | [link](https://github.com/Genymobile/scrcpy?tab=readme-ov-file) |
+| 网络博客   | [link](https://blog.csdn.net/was172/article/details/99705855) |
+
+> **注意手机需要开启  USB调试**
