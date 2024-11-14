@@ -237,6 +237,8 @@ wget https://github.com/swoole/swoole-src/releases/download/v4.8.11/swoole-cli-v
 
 ## 安装(解压并配置环境变量)
 
+> [下载](https://github.com/swoole/swoole-src/releases/tag/v4.8.11)  [个人网盘备份](https://yaoliuyang.lanzoul.com/ibWQR2f0h9pe)
+
 **将项目解压到喜欢的目录**
 
 ```shell
