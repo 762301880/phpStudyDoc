@@ -57,3 +57,15 @@
 > 操作完了记得重启**fiddler**
 
 ![img](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1570232-20240326103409468-637844980.png)
+
+## 工具栏没了怎么找
+
+**资料**
+
+| name     | url                                                          |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/weixin_41665637/article/details/88949851) |
+
+**开启菜单**
+
+> 勾选 --view》show Toolbar
