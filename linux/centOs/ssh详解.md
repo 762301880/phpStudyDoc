@@ -6,10 +6,11 @@
 
 ## 资料
 
-| 名称     | 地址                                                         |
-| -------- | ------------------------------------------------------------ |
-| 博客     | [link](https://mp.weixin.qq.com/s?src=11&timestamp=1680311541&ver=4441&signature=iFCE42pyZRhiZjZxAzUw7j7OXTpznQ2eZAduCG-iSEzo5En4eOSTVbI2K5l7LWhMOL*jM4TpmnkKdGlsZjdD37749aLxPZMBrlwiw7Kcyl7AVvkmE0d0ewGmyRc2Y4w9&new=1)  [link](https://blog.51cto.com/u_15127685/3378085)  [link](https://betheme.net/yidongkaifa/82934.html?action=onClick)  [link](https://abcdabcd987.com/ssh/) |
-| 备份文档 | [link](https://gitee.com/yaolliuyang/pdf_doc_backup/raw/master/SSH%20%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95.pdf) |
+| 名称          | 地址                                                         |
+| ------------- | ------------------------------------------------------------ |
+| 博客          | [link](https://mp.weixin.qq.com/s?src=11&timestamp=1680311541&ver=4441&signature=iFCE42pyZRhiZjZxAzUw7j7OXTpznQ2eZAduCG-iSEzo5En4eOSTVbI2K5l7LWhMOL*jM4TpmnkKdGlsZjdD37749aLxPZMBrlwiw7Kcyl7AVvkmE0d0ewGmyRc2Y4w9&new=1)  [link](https://blog.51cto.com/u_15127685/3378085)  [link](https://betheme.net/yidongkaifa/82934.html?action=onClick)  [link](https://abcdabcd987.com/ssh/) |
+| 备份文档      | [link](https://gitee.com/yaolliuyang/pdf_doc_backup/raw/master/SSH%20%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95.pdf) |
+| 菜鸟教程  SSH | [link](https://www.runoob.com/python3/linux-comm-ssh.html)   |
 
 
 
