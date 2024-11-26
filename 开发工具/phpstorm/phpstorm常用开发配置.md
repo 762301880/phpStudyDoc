@@ -69,6 +69,8 @@
 # 折叠&取消折叠方法  https://www.cnblogs.com/kevin-yang123/p/10138633.html
 `Ctrl`+`Shift`+`-`    //折叠方法
 `Ctrl`+`Shift`+`+`    //取消折叠方法    
+    
+`Ctrl`+`Shift`+`u`   //调整大小写    
 ```
 
 # 显示类分割线
