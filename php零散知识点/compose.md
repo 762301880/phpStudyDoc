@@ -102,3 +102,92 @@ composer self-update
 **总结**
 composer install：安装锁定的依赖版本，适合生产环境。
 composer update：更新依赖到最新版本，适合开发环境。
+
+##  php 原生扩展 与composer 包的区别
+
+### 定义和用途
+
+**PHP 原生扩展**：
+
+- 定义：PHP 原生扩展是用 C 语言编写的动态链接库（.so 文件在 Linux 上，.dll 文件在 Windows 上），它们可以直接被 PHP 解释器加载和使用。
+- 用途：原生扩展通常用于实现高性能的功能，如数据库连接、图像处理、加密解密等。这些功能在纯 PHP 代码中难以高效实现。
+
+**Composer 包**：
+
+- 定义：Composer 是 PHP 的依赖管理工具，它允许开发者通过 composer.json 文件声明项目所需的第三方库（包）。这些包通常是用 PHP 编写的类库或框架。
+- 用途：Composer 包主要用于管理和安装项目的依赖，简化开发和维护过程。常见的包包括 ORM 框架、日志库、缓存库等。
+
+### 安装和使用
+
+**PHP 原生扩展**:
+
+- 安装：通常需要编译安装，可以通过 PECL（PHP Extension Community Library）来安装。例如，安装 mysqli 扩展
+
+  ```shell
+  pecl install mysqli
+  ```
+
+- 使用：在 php.ini 文件中启用扩展，例如
+
+  ```shell
+   extension=mysqli.so
+  ```
+
+**Composer 包**
+
+- 安装：通过 Composer 命令安装，例如，安装 monolog 日志库：
+
+  ```shell
+  composer require monolog/monolog
+  ```
+
+- 使用：在项目中通过 require 或 use 语句引入并使用包中的类或函数。例如：
+
+  ```shell
+      use Monolog\Logger;
+      use Monolog\Handler\StreamHandler;
+  
+      $logger = new Logger('name');
+      $logger->pushHandler(new StreamHandler(__DIR__ . '/app.log', Logger::WARNING));
+      $logger->warning('This is a warning');
+  ```
+
+###  性能和灵活性
+
+**PHP 原生扩展：**
+
+- 性能：由于是用 C 语言编写，原生扩展通常具有更高的性能，尤其是在处理大量数据或复杂计算时。
+- 灵活性：相对较低，因为需要编译和配置，且对操作系统和 PHP 版本有依赖。
+
+**Composer 包：**
+
+- 性能：性能一般，但足以满足大多数应用的需求。对于性能要求极高的场景，可以考虑使用原生扩展。
+- 灵活性：非常高，因为包是用 PHP 编写的，易于安装和卸载，且不依赖于特定的操作系统或 PHP 版本。
+
+### 社区和支持
+
+**PHP 原生扩展：**
+
+- 社区：相对较小，主要由核心开发者和高级用户维护。
+- 支持：文档和资源相对较少，遇到问题时可能需要深入研究源代码或寻求社区帮助。
+
+**Composer 包:**
+
+- 社区：非常活跃，有大量的开发者和贡献者。
+- 支持：文档丰富，社区支持强大，遇到问题时容易找到解决方案
+
+###  适用场景
+
+**PHP 原生扩展：**
+
+- 适用于需要高性能、低延迟的应用，如高性能数据库驱动、图像处理库等。
+- 适用于需要直接访问底层系统资源的场景。
+
+**omposer 包：**
+
+- 适用于大多数 Web 开发场景，如 MVC 框架、ORM、日志库、缓存库等。
+- 适用于快速开发和迭代的项目。
+
+### 总结
+
+PHP 原生扩展和 Composer 包各有优缺点，选择哪种方式取决于具体的应用需求。原生扩展适合高性能和低延迟的场景，而 Composer 包则更适合快速开发和维护。
