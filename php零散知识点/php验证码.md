@@ -70,3 +70,77 @@ public function randNum($type=null){
 }
 ```
 
+# 通过抓包分析业务实现
+
+##  **请求返回对应的图片**
+
+```shell
+# 请求接口
+https://shop.bangsales.com/api/user/account/sendSms?mobile=17538397579&sms_type=login&src=ZXZ
+```
+
+**返回数据**
+
+> 可以看出 **title**对应需要选择的 标题图片
+>
+> **anser**  是所有的答案选项
+
+```shell
+{
+  "code": 200,
+  "msg": "success",
+  "message": "success",
+  "data": {
+    "title": "https://shop.bangsales.com/api/user/images/picVerify/953c9fd2136f1abb4fc9280bb359eadf/1170151715674a74728a61d6.34669241.png",
+    "anser": [
+      "https://shop.bangsales.com/api/user/images/picVerify/953c9fd2136f1abb4fc9280bb359eadf/956270388674a74728a9203.11358865.png",
+      "https://shop.bangsales.com/api/user/images/picVerify/953c9fd2136f1abb4fc9280bb359eadf/1337095556674a74728ac3f3.79773408.png",
+      "https://shop.bangsales.com/api/user/images/picVerify/953c9fd2136f1abb4fc9280bb359eadf/990985005674a74728acc30.43073560.png",
+      "https://shop.bangsales.com/api/user/images/picVerify/953c9fd2136f1abb4fc9280bb359eadf/743413645674a74728ac772.64311903.png",
+      "https://shop.bangsales.com/api/user/images/picVerify/953c9fd2136f1abb4fc9280bb359eadf/94542530674a74728abfd1.29660816.png",
+      "https://shop.bangsales.com/api/user/images/picVerify/953c9fd2136f1abb4fc9280bb359eadf/1986769679674a74728a81c6.41232000.png"
+    ]
+  }
+}
+```
+
+## 提交请求
+
+```shell
+https://shop.bangsales.com/api/user/account/sendSms?mobile=17538397579&sms_type=login&pic=https%3A%2F%2Fshop.bangsales.com%2Fapi%2Fuser%2Fimages%2FpicVerify%2F953c9fd2136f1abb4fc9280bb359eadf%2F1642003216674a748fde4645.14611068.png&src=ZXZ
+```
+
+**失败请求返回**
+
+```json
+{
+  "code": 200,
+  "msg": "success",
+  "message": "success",
+  "data": {
+    "un_verify": 1,
+    "msg": "验证码失效，请重新获取"
+  }
+}
+```
+
+**成功返回**
+
+```json
+{
+    "code": 200,
+    "msg": "success",
+    "message": "success",
+    "data": [
+
+    ]
+}
+```
+
+## 简单刨析业务代码实现
+
+> 每次随机的返回一个答案标题 
+>
+> 然后封装出几个随机图片 随机不重复的图片 但是其中有一个图片对应 答案标题  (这里进行缓存 可以用redis 也可以用 系统缓存 将携带过来的手机号跟答案图片进行绑定  可以缓存添加有效时间 进行失效校验)
+>
+> 再次请求提交 进行校验   因为参数里携带了  手机号 这个时候就可以 进行图片校验  如果比对成功  通过 反之 失败
