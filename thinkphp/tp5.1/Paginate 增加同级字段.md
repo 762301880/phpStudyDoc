@@ -1,4 +1,14 @@
+## 参考资料
 
+| 名称         | 地址                                            |
+| ------------ | ----------------------------------------------- |
+| 官方文档参考 | [link](https://doc.thinkphp.cn/v5_1/fenye.html) |
+
+
+
+## 代码实现
+
+### 自定义服务层级
 
 ```php
 <?php
@@ -63,7 +73,7 @@ class PaginateService extends Paginator
 <?php
 //分页配置
 return [
-    'type'     => \app\common\service\PaginateService::class,
+    'type'     => \app\common\service\PaginateService::class,  # 分页类名
 ];
 ```
 
