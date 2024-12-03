@@ -700,3 +700,24 @@ $list = $query->select();
         $retData['rest_days'] = $auntLeaveQuery($aunt_id)->where('type', AuntLeaveModel::TYPE_REST)->count() * $once_date; //休息天数    
 ```
 
+## [thinkphp 高级查询](https://doc.thinkphp.cn/v5_1/gaojichaxun.html)
+
+> 官方文档  `数据库>查询构造器>高级查询`
+
+### 快捷查询
+
+快捷查询方式是**一种多字段相同查询条件**的简化写法，可以进一步简化查询条件的写法，在多个字段之间用`|`分割表示`OR`查询，用`&`分割表示`AND`查询，可以实现下面的查询，例如：
+
+```php
+Db::table('think_user')
+    ->where('name|title','like','thinkphp%') 
+    ->where('create_time&update_time','>',0)
+    ->find();
+```
+
+生成的查询SQL是：
+
+```php
+SELECT * FROM `think_user` WHERE ( `name` LIKE 'thinkphp%' OR `title` LIKE 'thinkphp%' ) AND ( `create_time` > 0 AND `update_time` > 0 ) LIMIT 1
+```
+
