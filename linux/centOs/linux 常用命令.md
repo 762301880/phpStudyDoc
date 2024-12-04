@@ -1919,6 +1919,27 @@ curl -x http://proxy.example.com:8080 http://www.example.com/
 curl --limit-rate 100K http://www.example.com/largefile.zip
 ```
 
+## sshpass命令 – 非交互式验证SSH密码
+
+原文链接：https://www.linuxcool.com/sshpass
+
+> 此命令可以让你让你执行远程服务器命令
+
+**查看命令执行**
+
+```shell
+     sshpass -p "password" ssh -v 用户名@服务器ip "cd /data/flask_demo && git pull"
+   
+```
+
+
+
+
+
+
+
+
+
 #  疑问知识点
 
 ## linux 命令中参数因该在什么位置使用

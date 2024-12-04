@@ -111,3 +111,24 @@ deploy:
 #### Warning: Permanently added '60.204.148.255' (ED25519) to the list of known hosts. Permission denied, please try again.
 
 > 这种情况就是密码没有设置好,看看变量那边的密码是否被保护了设置错了实在不行就在配置文件里面写死去测试
+
+#### SSHPASS: Failed to run command: No such file or directory
+
+**资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://blog.csdn.net/weixin_45536921/article/details/115630227) |
+
+报错请安装**openssh-client**
+
+```shell
+/code # apk add openssh-client
+(1/4) Installing openssh-keygen (8.8_p1-r1)
+(2/4) Installing libedit (20210910.3.1-r0)
+(3/4) Installing openssh-client-common (8.8_p1-r1)
+(4/4) Installing openssh-client-default (8.8_p1-r1)
+Executing busybox-1.34.1-r3.trigger
+OK: 143 MiB in 53 packages
+```
+
