@@ -1932,11 +1932,30 @@ curl --limit-rate 100K http://www.example.com/largefile.zip
    
 ```
 
+## tail命令，轻松洞悉文件末端
+**资料**
 
+| 名称                                          | 地址                                           |
+| --------------------------------------------- | ---------------------------------------------- |
+| linux 命令手册-掌握Tail命令，轻松洞悉文件末端 | [link](https://www.linuxcool.com/lxtglydmjzwt) |
+| 菜鸟教程-tail 命令                            |                                                |
 
+**使用场景**
 
+> ail 命令可用于查看文件的内容，有一个常用的参数 **-f** 常用于查阅正在改变的日志文件。
+>
+> **tail -f filename** 会把 filename 文件里的最尾部的内容显示在屏幕上，并且不断刷新，只要 filename 更新就可以看到最新的文件内容。
+>
+> 例如我们需要经常定位日志中正在改变的日志信息排查问题
 
+```shell
+# 对应代码
+Log::info("排查某处报错信息为:".$exception->getMessage().":".$exception->getFile().":".$exception->getLine());
 
+# linux tail命令追踪代码报错信息  使用管道符 + grep 找文件里符合条件的字符串
+
+tail -f * |  grep "排查某处报错信息为*"
+```
 
 
 
