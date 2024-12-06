@@ -1957,6 +1957,19 @@ Log::info("排查某处报错信息为:".$exception->getMessage().":".$exception
 tail -f * |  grep "排查某处报错信息为*"
 ```
 
+## du命令显示目录或文件的大小
+
+> https://www.runoob.com/linux/linux-comm-du.html
+
+```shell
+# 显示当前文件夹下所有文件夹的大小
+[root@iZwz99lbqird8va3nfzb2bZ wwwroot]# du -sh *
+37M	ac_admin.51wpu.com.cn
+155M	b3.51wpu.com.cn
+20K	butlerhome.51.wpu.com.cn
+....
+```
+
 
 
 #  疑问知识点
