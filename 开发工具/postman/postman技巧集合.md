@@ -171,3 +171,7 @@ pm.environment.set("api_token",response.data.jwtToken);
 ![image-20240719102209274](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240719102209274.png)
 
 ## [postman如何导出变量](https://zhuanlan.zhihu.com/p/689554613)
+
+## postman 取消自动更新
+
+> [link](https://blog.csdn.net/haocm08/article/details/125821740?spm=1001.2101.3001.6650.9&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-125821740-blog-129944586.235%5Ev43%5Epc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-125821740-blog-129944586.235%5Ev43%5Epc_blog_bottom_relevance_base6&utm_relevant_index=12)
