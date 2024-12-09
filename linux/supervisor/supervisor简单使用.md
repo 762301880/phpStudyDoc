@@ -6,13 +6,13 @@
 
 # 资料
 
-| 名称                                   | 链接                                                         |
-| -------------------------------------- | ------------------------------------------------------------ |
-| Supervisor-官方文档  第三方中文文档-RD | [链接](http://www.supervisord.org/index.html)  [链接](https://www.rddoc.com/doc/Supervisor/3.3.1/zh/#api-documentation) |
-| hyperf-Supervisor                      | [链接](https://hyperf.wiki/2.2/#/zh-cn/tutorial/supervisor)  |
-| laravel supervisor介绍                 | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#e45763) |
-| 书栈(守护进程二三事与Supervisor)       | [链接](https://www.bookstack.cn/read/swoole_study/%E7%95%AA%E5%A4%96%EF%BC%9A%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E4%BA%8C%E4%B8%89%E4%BA%8B%E4%B8%8ESupervisor.md) |
-| 第三方博客参考                         | [链接](https://www.jianshu.com/p/0036e8e6b882) [链接](https://www.cnblogs.com/yezigege/p/13530850.html) [链接](https://blog.51cto.com/lixcto/1539136) [链接](https://www.cnblogs.com/zhoujinyi/p/6073705.html)  [链接](https://blog.csdn.net/weixin_37008947/article/details/108107216) |
+| 名称                             | 链接                                                         |
+| -------------------------------- | ------------------------------------------------------------ |
+| Supervisor-官方文档              | [链接](http://www.supervisord.org/index.html)                |
+| hyperf-Supervisor                | [链接](https://hyperf.wiki/2.2/#/zh-cn/tutorial/supervisor)  |
+| laravel supervisor介绍           | [链接](https://learnku.com/docs/laravel/8.x/queues/9398#e45763) |
+| 书栈(守护进程二三事与Supervisor) | [链接](https://www.bookstack.cn/read/swoole_study/%E7%95%AA%E5%A4%96%EF%BC%9A%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E4%BA%8C%E4%B8%89%E4%BA%8B%E4%B8%8ESupervisor.md) |
+| 第三方博客参考                   | [链接](https://www.jianshu.com/p/0036e8e6b882) [链接](https://www.cnblogs.com/yezigege/p/13530850.html) [链接](https://blog.51cto.com/lixcto/1539136) [链接](https://www.cnblogs.com/zhoujinyi/p/6073705.html)  [链接](https://blog.csdn.net/weixin_37008947/article/details/108107216) |
 
 # 安装
 
