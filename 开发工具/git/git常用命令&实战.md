@@ -50,3 +50,44 @@ ssh-keygen -t rsa -C "您的邮箱@qq.com"
 在代码库中添加公匙
 
 <img src='https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1922055-20200607154148138-609470938.png' width='600px' heigth='400px' title='示例'>
+
+##  git 提交代码忽略文件或目录
+
+**资料**
+
+| 名称                      | 地址                                                         |
+| ------------------------- | ------------------------------------------------------------ |
+| 官方文档                  | [link](https://git-scm.com/docs/gitignore)                   |
+| 菜鸟教程`.gitignore` 说明 | [link](https://www.runoob.com/w3cnote/android-tutorial-git-repo-operate.html) |
+
+在使用 Git 提交代码时，如果希望忽略某些文件或目录，可以通过以下几种方法实现：
+
+- `.gitignore` 文件：
+  1. 在项目根目录下创建或编辑` .gitignore` 文件。
+  2. 在 `.gitignore` 文件中添加需要忽略的文件或目录路径。例如：
+
+```shell
+    # 忽略所有 .log 文件
+    *.log
+
+    # 忽略 build 目录
+    /build/
+
+    # 忽略特定文件
+    config.php
+```
+
+- 全局 `.gitignore `文件：
+  1. 如果有一些文件是你在多个项目中都不希望被跟踪的，可以设置一个全局的` .gitignore `文件。
+  2. 使用以下命令设置全局` .gitignore `文件：
+
+```shell
+git config --global core.excludesfile ~/.gitignore_global
+```
+
+
+
+
+
+
+
