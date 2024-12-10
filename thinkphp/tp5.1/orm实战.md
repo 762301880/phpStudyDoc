@@ -231,7 +231,7 @@ public function getStatusTextAttr($value,$data)
 
 **实战示例**
 
-> **说明** 这里有一个**坑**就是<font color='red'>如果需要调用别的变量中的方法需要赛选字段的时候带入别的变量</font>
+> **说明** 这里有一个**坑**就是<font color='red'>如果需要调用别的变量中的方法需要筛选字段的时候带入别的变量</font>
 
 ```shell
 
@@ -266,6 +266,26 @@ public function getStatusTextAttr($value,$data)
         return $city_path_id_text . '' . $value;
     }
 ```
+
+### 获取器获取原始数据
+
+> 如果你定义了获取器的情况下，希望获取数据表中的原始数据，可以使用：
+>
+> **补充:**`getOrigin` 也可以获取原始数据      
+>
+> 方法保存在`项目目录\thinkphp\library\think\model\concern\Attribute.php`
+
+```php
+$user = User::get(1);
+// 通过获取器获取字段
+echo $user->status;
+// 获取原始字段数据
+echo $user->getData('status');
+// 获取全部原始数据
+dump($user->getData());
+```
+
+
 
 ## thinkphp 插入批量数据
 
