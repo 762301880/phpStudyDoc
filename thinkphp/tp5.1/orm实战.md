@@ -285,6 +285,43 @@ echo $user->getData('status');
 dump($user->getData());
 ```
 
+## [关闭全局查询范围](https://doc.thinkphp.cn/v5_1/ORM/mingmingfanwei.html)
+
+**全局查询范围**
+
+```php
+<?php
+namespace app\index\model;
+
+use think\Model;
+
+class User extends Model
+{
+    // 定义全局的查询范围
+    protected function base($query)
+    {
+        $query->where('status',1);
+    }
+}
+
+# 然后，执行下面的代码：
+$user = User::get(1);
+
+# 最终的查询条件会是
+status = 1 AND id = 1
+```
+
+**关闭/开启全局查询访问**
+
+```php
+// 关闭全局查询范围
+User::useGlobalScope(false)->select();
+// 开启全局查询范围
+User::useGlobalScope(true)->select();
+```
+
+
+
 
 
 ## thinkphp 插入批量数据
@@ -740,4 +777,6 @@ Db::table('think_user')
 ```php
 SELECT * FROM `think_user` WHERE ( `name` LIKE 'thinkphp%' OR `title` LIKE 'thinkphp%' ) AND ( `create_time` > 0 AND `update_time` > 0 ) LIMIT 1
 ```
+
+
 
