@@ -2001,6 +2001,33 @@ ssh-copy-id alice@192.168.1.100
 
 > 执行上述命令后，ssh-copy-id 会提示你输入远程服务器的密码。输入密码后，公钥将被复制到远程服务器的 ~/.ssh/authorized_keys 文件中，下次连接时就可以实现无密码登录了。
 
+###  bug补充
+
+####  [解决低版本ssh连接高版本，出现no key alg问题](https://blog.csdn.net/2301_82102680/article/details/139114204)
+
+1. 登录高版本服务器(这里指需要无密码登录的服务器)
+
+2. 修改sshd_config配置文件
+
+    ```shell
+vim /etc/ssh/sshd_config
+
+# 在末尾编辑  用快捷键  shift + g   实现快速定位末尾
+    ```
+
+3. 在配置文件末行添加HostKeyAlgorithms +ssh-rsa，退出并保存
+
+   ```shell
+HostKeyAlgorithms +ssh-rsa
+：wq!
+   ```
+
+4. 重启sshd服务器
+
+   ```shell
+systemctl restart sshd
+   ```
+
 
 
 
