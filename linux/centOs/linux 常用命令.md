@@ -1997,6 +1997,22 @@ ssh-copy-id user@remote_host
 
 ```shell
 ssh-copy-id alice@192.168.1.100
+
+# 效果展示
+[root@VM-16-7-centos .ssh]# ssh-copy-id root@121.40.207.192
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+The authenticity of host '121.40.207.192 (121.40.207.192)' can't be established.
+ECDSA key fingerprint is SHA256:jhPpnAFRxpIl+vCC4rl5cY7t7vthVe0STvdgzNbJ75c.
+ECDSA key fingerprint is MD5:7f:c5:04:1c:f1:41:4a:80:c3:9c:e8:ea:30:1b:ab:34.
+Are you sure you want to continue connecting (yes/no)? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@121.40.207.192's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@121.40.207.192'"
+and check to make sure that only the key(s) you wanted were added.
 ```
 
 > 执行上述命令后，ssh-copy-id 会提示你输入远程服务器的密码。输入密码后，公钥将被复制到远程服务器的 ~/.ssh/authorized_keys 文件中，下次连接时就可以实现无密码登录了。
@@ -2010,7 +2026,8 @@ ssh-copy-id alice@192.168.1.100
 2. 修改sshd_config配置文件
 
     ```shell
-vim /etc/ssh/sshd_config
+    vim /etc/ssh/sshd_config
+    ```
 
 # 在末尾编辑  用快捷键  shift + g   实现快速定位末尾
     ```
