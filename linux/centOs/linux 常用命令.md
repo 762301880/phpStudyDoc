@@ -2001,7 +2001,7 @@ ssh-copy-id alice@192.168.1.100
 
 > 执行上述命令后，ssh-copy-id 会提示你输入远程服务器的密码。输入密码后，公钥将被复制到远程服务器的 ~/.ssh/authorized_keys 文件中，下次连接时就可以实现无密码登录了。
 
-###  bug补充
+###  bug解决
 
 ####  [解决低版本ssh连接高版本，出现no key alg问题](https://blog.csdn.net/2301_82102680/article/details/139114204)
 
@@ -2027,6 +2027,14 @@ HostKeyAlgorithms +ssh-rsa
    ```shell
 systemctl restart sshd
    ```
+
+###  补充
+
+#### 如果 ssh-copy-id 命令不可用，可以手动复制公钥
+
+```shell
+cat ~/.ssh/id_rsa.pub | ssh root@121.40.207.192 "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+```
 
 
 
