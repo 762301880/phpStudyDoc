@@ -625,3 +625,103 @@ class JwtVerify
 }
 ```
 
+## jwt 中 前端什么情况下判断可以请求刷新token
+
+在使用 JWT (JSON Web Token) 进行身份验证时，前端通常会遇到 token 过期的情况。为了确保用户在 token 过期后仍能继续使用应用，可以通过以下几种情况判断是否需要请求刷新 token：
+
+1. **token 过期时间接近**：
+   - 当 token 的过期时间（`exp` 声明）接近当前时间时，前端可以提前请求刷新 token。例如，可以在 token 过期前 5 分钟发送刷新请求。
+
+2. **API 请求返回 401 Unauthorized**：
+   - 当前端向后端发送 API 请求时，如果后端返回 401 Unauthorized 状态码，表示 token 已经过期或无效。此时，前端应该立即请求刷新 token，并在刷新成功后重新发送之前的请求。
+
+3. **用户长时间未操作**：
+   - 如果用户在一段时间内没有进行任何操作，可以认为用户可能已经离开页面或关闭了浏览器。在这种情况下，当用户再次进行操作时，前端可以检查 token 是否仍然有效，如果即将过期或已过期，则请求刷新 token。
+
+4. **定期刷新**：
+   - 可以设置一个定时任务，每隔一段时间（例如每小时）自动请求刷新 token，以确保 token 始终有效。
+
+### 示例代码
+
+以下是一个简单的示例，展示了如何在前端实现上述逻辑：
+
+```javascript
+// 假设有一个函数 getToken() 获取当前的 token
+function getToken() {
+    return localStorage.getItem('token');
+}
+
+// 假设有一个函数 refreshToken() 请求刷新 token
+async function refreshToken() {
+    const response = await fetch('/api/refresh-token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token: getToken() })
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.newToken);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// 检查 token 是否即将过期
+function isTokenAboutToExpire(token) {
+    const decodedToken = jwt_decode(token);
+    const currentTime = Math.floor(Date.now() / 1000);
+    const expirationTime = decodedToken.exp;
+    const threshold = 300; // 5 分钟
+    return (expirationTime - currentTime) < threshold;
+}
+
+// 在每次 API 请求前检查 token
+async function makeApiRequest(url, options) {
+    const token = getToken();
+
+    if (!token || isTokenAboutToExpire(token)) {
+        const refreshed = await refreshToken();
+        if (!refreshed) {
+            // 处理刷新失败的情况，例如重定向到登录页
+            window.location.href = '/login';
+            return;
+        }
+    }
+
+    options.headers = {
+        ...options.headers,
+        Authorization: `Bearer ${getToken()}`
+    };
+
+    const response = await fetch(url, options);
+
+    if (response.status === 401) {
+        const refreshed = await refreshToken();
+        if (refreshed) {
+            // 重新发送请求
+            options.headers.Authorization = `Bearer ${getToken()}`;
+            return fetch(url, options);
+        } else {
+            // 处理刷新失败的情况
+            window.location.href = '/login';
+        }
+    }
+
+    return response;
+}
+
+// 使用示例
+makeApiRequest('/api/some-endpoint', { method: 'GET' })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+```
+
+
+### 总结
+
+通过以上方法，前端可以在 token 即将过期或已过期时及时请求刷新 token，从而确保用户能够持续使用应用而不会因为 token 过期而被强制登出。
