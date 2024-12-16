@@ -52,16 +52,10 @@
 > 总的来说，UUID是一个非常有用的工具，特别是在需要保证在分布式环境中生成的标识符是唯一的情况下。不同版本的UUID适用于不同的应用场景，开发者可以根据具体需求选择合适的版本。
 
 ```php
-# 建议做成全局调用的函数
-/**
- * $userId 如果用户有uuid 则建议q
- */
-public function getOrderNo(){
-        $date = date('YmdHis'); # 日期
-        $userId=\Auth::user()->id; #用户id
-        $randomFourNum=random_int(1000,9999); # 随机四位字符
-        $orderNo = $date.$userId.$randomFourNum; 
-        return $orderNo;
+public function generateOrderNumber(){
+    $timestamp = time(); // 获取当前时间戳
+    $randomNumber = rand(1000, 9999); // 生成一个4位随机数
+    return date('YmdHis') . $randomNumber; // 组合时间戳和随机数
  }
 ```
 
