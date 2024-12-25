@@ -269,3 +269,46 @@ EXPLAIN SELECT * FROM table_name WHERE condition;
 > - Extra：包含不适合在其他列中显示的额外信息，如Using index（使用覆盖索引）、Using filesort（使用文件排序）等。
 >
 > 其中，type和key是最重要的两个字段。type字段表示MySQL如何查找数据，而key字段表示MySQL实际上使用了哪个索引来查找数据。如果type为ALL，则表示MySQL没有使用任何索引来查找数据；如果type为index，则表示MySQL使用了覆盖索引（Covering Index）来查找数据；如果type为range，则表示MySQL使用了范围扫描（Range Scan）来查找数据；如果type为ref，则表示MySQL使用了索引合并扫描（Index Merge Scan）来查找数据。而key字段则表示MySQL实际上使用了哪个索引来查找数据。如果key为NULL，则表示MySQL没有使用任何索引来查找数据；如果key为const，则表示MySQL使用了主键或唯一索引来查找数据；如果key为system，则表示MySQL只扫描了1行数据，并且这1行数据就是system表中的唯一数据。
+
+###  type类型详解
+
+> type 列表示连接类型，它指明了 MySQL 如何找到行
+
+#### **eq_ref**
+
+- 这是最佳的连接类型之一，通常出现在使用主键或唯一索引进行连接时。
+- 对于前一个表中的每一个记录组合，从这个表中读取一行。
+- 简单来说，就是对于每个匹配行，MySQL 都能在索引中找到一个唯一的行。这通常发生在使用 = 操作符并且右边是一个常量或者前一个表中的列时。
+
+- 例如，在两个表通过主键或唯一键连接的情况下，eq_ref 表示 MySQL 可以直接根据索引找到唯一的一行数据，这是非常高效的连接方式。
+
+#### **ref **
+
+在 EXPLAIN 输出中，ref 列表示 MySQL 在查询过程中用于与索引进行比较的列或常量。具体来说：
+
+ref
+
+- 这一列表示了 MySQL 使用哪个列或常量值来查找索引中的记录。
+- 如果 type 是 eq_ref、ref、ref_or_null 等类型，ref 列会显示实际用来比较的列名或常量。
+
+示例解释
+假设有一个查询如下：
+
+```mysql
+SELECT * FROM orders WHERE customer_id = 123;
+```
+
+在这个查询中，如果 customer_id 上有索引，并且 EXPLAIN 的输出显示 type 为 ref，那么 ref 列可能会显示 const，表示使用的是一个常量值（即 123）来进行索引查找。
+再比如：
+
+```mysql
+SELECT * FROM orders o JOIN customers c ON o.customer_id = c.id;
+```
+
+如果 EXPLAIN 显示 type 为 eq_ref 或 ref，那么 ref 列可能会显示 c.id，表示使用 customers 表中的 id 列来进行索引查找。
+
+总结
+
+- ref 列的内容取决于具体的查询和连接条件。
+- 它告诉你是哪些列或常量被用来查找索引中的记录。
+- 对于 eq_ref 类型，ref 列通常显示前一个表中的列或常量，确保每个匹配行都能通过索引找到唯一的一行。
