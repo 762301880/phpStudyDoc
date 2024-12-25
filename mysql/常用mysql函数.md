@@ -284,6 +284,8 @@ EXPLAIN SELECT * FROM table_name WHERE condition;
 
 #### **ref **
 
+> ref 在 EXPLAIN 输出中的全称是 referenced column or constant，即“引用的列或常量”
+
 在 EXPLAIN 输出中，ref 列表示 MySQL 在查询过程中用于与索引进行比较的列或常量。具体来说：
 
 ref
