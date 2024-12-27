@@ -98,5 +98,46 @@ git config --global core.excludesfile ~/.gitignore_global
 
 
 
+#  实战
 
+##  git 同时提交到两个地址 例如gitlab与gitcode
+
+**定义多个远程仓库：分别为每个 Git 服务器定义一个远程仓库名称，比如 origin 和 mirror 或其他你喜欢的名字**
+
+```shell
+  git remote add origin git@gitlab.com:yly_python/py_demo.git
+  git remote add mirror git@gitcode.com:yaoliuyang/py_demo.git
+  
+  
+  
+  
+  
+  
+  # 设置完毕后的.git中的config配置
+  [core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = git@gitlab.com:yly_python/py_demo.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+	vscode-merge-base = origin/main
+[remote "gitcode"]  # 这就是咱们新加的远程推送
+	url = git@gitcode.com:yaoliuyang/py_demo.git
+	fetch = +refs/heads/*:refs/remotes/gitcode/*
+
+```
+
+**然后分别推送**
+
+```shell
+  git push origin main
+  git push mirror main
+```
 
