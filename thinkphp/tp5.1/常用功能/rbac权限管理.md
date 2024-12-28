@@ -90,3 +90,107 @@
 - 根据用户角色和权限进行访问控制，展示或隐藏相应的页面和功能。
 
 以上是一个简单的 RBAC 权限管理系统的 TP5 代码逻辑和数据表设计，具体实现的代码可以根据自己的需求和情况进行编写。
+
+
+
+# 自动权限管理功能研究
+
+## 定义路由
+
+> is_ctl  参与权限控制
+
+```shell
+Route::group('api/pxs', function () {
+    //app 业务模块
+    Route::group('appbss', function () {
+        //抖音客户
+        Route::group('dy_customer',function (){
+
+            //合同
+            Route::post('signedNo', 'appbusiness/dy_message.CustomerSigned/signedNo')->option(['route_txt'=>"APP抖音客户管理/合同模块/获取合同编号","is_ctl"=>0]);
+            .....
+```
+
+
+
+## 自动填充数据结构
+
+> 代码取自`项目\thinkphp\library\think\console\command\RouteList.php`  **getRouteList**方法
+
+```shell
+<?php
+/**
+ * Created by PhpStorm.
+ * User: joy
+ * Date: 19-3-10
+ * Time: 下午8:43
+ */
+
+namespace app\common\command;
+
+
+use app\sys\model\Permission;
+use think\console\Command;
+use think\console\Input;
+use think\console\Output;
+use think\console\Table;
+use think\Container;
+
+class Perm extends Command
+{
+    protected function configure()
+    {
+        $this->setName('pxs:permission')
+            ->setDescription('自动创建权限表');
+    }
+
+    protected function execute(Input $input, Output $output)
+    {
+        Container::get('route')->setTestMode(true);
+        // 路由检测
+        $path = Container::get('app')->getRoutePath();
+
+        $files = is_dir($path) ? scandir($path) : [];
+
+        foreach ($files as $file) {
+            if (strpos($file, '.php')) {
+                $filename = $path . DIRECTORY_SEPARATOR . $file;
+                // 导入路由配置
+                $rules = include $filename;
+
+                if (is_array($rules)) {
+                    Container::get('route')->import($rules);
+                }
+            }
+        }
+
+        if (Container::get('config')->get('route_annotation')) {
+            $suffix = Container::get('config')->get('controller_suffix') || Container::get('config')->get('class_suffix');
+
+            include Container::get('build')->buildRoute($suffix);
+        }
+
+        $routeList = Container::get('route')->getRuleList();        # 实际上只要这一行就够了
+//        file_put_contents('route_list.php', json_encode($routeList));
+//        dd($routeList[""][0]);
+    }
+}
+```
+
+**打印出来的数据**
+
+```php
+[
+  "domain" => ""
+  "method" => "post"
+  "rule" => "api/pxs/appbss/dy_customer/signedNo"
+  "name" => "appbusiness/dy_message.CustomerSigned/signedNo"
+  "route" => "appbusiness/dy_message.CustomerSigned/signedNo"
+  "pattern" => []
+  "option" => array:2 [
+    "route_txt" => "APP抖音客户管理/合同模块/获取合同编号"
+    "is_ctl" => 0
+  ]
+]    
+```
+
