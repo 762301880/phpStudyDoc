@@ -194,3 +194,21 @@ class Perm extends Command
 ]    
 ```
 
+
+
+
+
+**解析数据**
+
+> [文件下载](https://yaoliuyang.lanzoul.com/iKETa2jekpvc)
+
+```php
+[
+    "线索管理/官网资源池/允许跟进部门",
+    "线索管理/官网资源池/详情",
+    "App客户管理/我的客户/分配",
+    "App客户管理/我的客户/退回",
+]
+# 具体文件请下载  https://yaoliuyang.lanzoul.com/iKETa2jekpvc
+```
+
