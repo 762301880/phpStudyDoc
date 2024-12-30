@@ -273,5 +273,57 @@ $parsedData = parseData($data);
 echo json_encode($parsedData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 ?>
 
+
+# 以上代码精简
+
+<?php
+$data = [
+    "财务管理/合同管理/添加合同",
+    "财务管理/合同管理/删除合同",
+    "财务管理/合同管理/修改合同",
+    "财务管理/合同管理/查询合同",
+    "线索管理/官网资源池/添加找店",
+    "线索管理/官网资源池/删除找店",
+    "线索管理/官网资源池/修改找店",
+    "财务管理/合同管理/编辑合同",
+    "电子签管理/模板管理/模板删除",
+    "电子签管理/模板管理/模板添加",
+    "电子签管理/模板管理/模板修改",
+    "财务管理/单独退款/单独退款添加",
+    "线索管理/线索列表/列表",
+    "线索管理/模板管理/列表",
+];
+
+function parseData($data) {
+    $result = [];
+
+    foreach ($data as $item) {
+        $parts = explode('/', $item);
+        $ref = &$result;
+
+        foreach ($parts as $part) {
+            if (!isset($ref[$part])) {
+                $ref[$part] = ["label" => $part, "children" => []];
+            }
+            $ref = &$ref[$part]["children"];
+        }
+    }
+
+    $format = function ($node) use (&$format) {
+        return array_values(array_map(function ($child) use ($format) {
+            return ["label" => $child["label"], "children" => $format($child["children"] ?? [])];
+        }, $node));
+    };
+
+    return $format($result);
+}
+
+$parsedData = parseData($data);
+
+// Output the parsed data
+echo json_encode($parsedData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+?>
+
+
 ```
 
