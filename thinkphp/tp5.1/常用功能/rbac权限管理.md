@@ -214,7 +214,7 @@ class Perm extends Command
 
 **ai实现**
 
-```shell
+```php
 <?php
 $data = [
     "财务管理/合同管理/添加合同",
