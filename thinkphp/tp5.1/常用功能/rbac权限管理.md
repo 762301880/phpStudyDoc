@@ -271,13 +271,14 @@ $parsedData = parseData($data);
 
 // Output the parsed data
 echo json_encode($parsedData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-?>
+```
 
+**以上代码精简**
 
-# 以上代码精简
-
+```php
 <?php
-$data = [
+
+    $data = [
     "财务管理/合同管理/添加合同",
     "财务管理/合同管理/删除合同",
     "财务管理/合同管理/修改合同",
@@ -322,8 +323,6 @@ $parsedData = parseData($data);
 
 // Output the parsed data
 echo json_encode($parsedData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-?>
-
 
 ```
 
