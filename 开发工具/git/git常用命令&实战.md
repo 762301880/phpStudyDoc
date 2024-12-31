@@ -106,7 +106,7 @@ git config --global core.excludesfile ~/.gitignore_global
 
 ```shell
   git remote add origin git@gitlab.com:yly_python/py_demo.git
-  git remote add mirror git@gitcode.com:yaoliuyang/py_demo.git
+  git remote add gitcode git@gitcode.com:yaoliuyang/py_demo.git
   
   
   
