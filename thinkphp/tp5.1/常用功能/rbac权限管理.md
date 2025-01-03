@@ -326,3 +326,26 @@ echo json_encode($parsedData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
 ```
 
+##  laravel 对应路由方法
+
+```php
+# 路由
+Route::any('test', [\App\Http\Controllers\TestController::class, 'test'])->setDefaults(['route_name'=>'测试路由']);
+
+# 方法
+
+use Illuminate\Support\Facades\Route;
+use ReflectionClass;
+use Illuminate\Routing\Route as RouteObject;
+        $routes = Route::getRoutes();
+        foreach ($routes as $route) {
+            // 使用反射获取默认参数
+            $reflection = new ReflectionClass(RouteObject::class);
+            $property = $reflection->getProperty('defaults');
+            $property->setAccessible(true);
+            $defaults = $property->getValue($route);
+            // 打印默认参数dd
+                echo json_encode($defaults);
+        }
+```
+
