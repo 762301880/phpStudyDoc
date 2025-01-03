@@ -143,3 +143,57 @@ class TestController extends Controller
 
 ![res.jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/NsY9mjecKJuSaft.png)
 
+## 使用gd库给图片添加水印
+
+```php
+        $file=Request::file('file');
+        $text=Request::param('text');
+        $imagePath=$file->getRealPath();
+        // 获取图片资源
+        $imageInfo = getimagesize($imagePath);
+        $imageType = $imageInfo[2];
+        $image = null;
+
+        switch ($imageType) {
+            case IMAGETYPE_JPEG:
+                $image = imagecreatefromjpeg($imagePath);
+                break;
+            case IMAGETYPE_PNG:
+                $image = imagecreatefrompng($imagePath);
+                break;
+            case IMAGETYPE_GIF:
+                $image = imagecreatefromgif($imagePath);
+                break;
+            default:
+                throw new \Exception('Unsupported image type');
+        }
+
+        // 设置水印颜色（例如：白色）
+        $color = imagecolorallocate($image, 255, 255, 255);
+
+        // 设置水印字体和大小
+        $fontSize = 10;
+        //$fontFile = 'path/to/font.ttf'; // 确保字体文件存在
+        $fontFile = __DIR__.'/../../../public/font.ttf';
+
+        // 计算水印位置
+        $textBox = imagettfbbox($fontSize, 0, $fontFile, $text);
+        $textWidth = abs($textBox[4] - $textBox[0]);
+        $textHeight = abs($textBox[5] - $textBox[1]);
+        $x = imagesx($image) - $textWidth - 10; // 右下角位置
+        $y = imagesy($image) - $textHeight - 10;
+
+        // 添加水印
+        imagettftext($image, $fontSize, 0, $x, $y, $color, $fontFile, $text);
+
+        // 保存图片
+        #$outputPath = 'path/to/output/image.jpg';
+        $outputPath = __DIR__.'/../../../public/image.jpg';
+        imagejpeg($image, $outputPath);
+
+        // 释放内存
+        imagedestroy($image);
+
+        return $outputPath;
+```
+
