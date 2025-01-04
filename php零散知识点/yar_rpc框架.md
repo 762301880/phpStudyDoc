@@ -306,6 +306,111 @@ class YarService
 return $client->test('张三');
 ```
 
+# 项目中使用实例二
+
+## 服务端
+
+**路由**
+
+```php
+//yar框架测试
+Route::any('yar/{service}', [\App\Http\Controllers\YarController::class, 'handle']);
+```
+
+
+
+**控制器**
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+
+class YarController extends Controller
+{
+    private $secretKey = 'yaoliuyang'; // 设置你的密钥
+    public function handle($serviceName)
+    {
+
+        // 验证请求密钥
+        $requestKey = request()->input('key');
+        if ($requestKey !== $this->secretKey) throw new \Exception("Invalid request key");
+
+
+        // 动态加载 Service 类
+        $serviceClass = 'App\\Services\\' . ucfirst($serviceName) . 'Service';
+
+        if (class_exists($serviceClass)) {
+            $server = new \Yar_Server(new $serviceClass());
+            $server->handle();
+        } else {
+            throw new \Exception("Service class not found: " . $serviceClass);
+        }
+    }
+}
+
+```
+
+**service类**
+
+```php
+<?php
+
+
+namespace App\Services;
+
+
+class TestService
+{
+
+    public function add($a, $b)
+    {
+        return $this->_add($a, $b);
+    }
+
+    /**
+     * Sub
+     */
+    public function sub($a, $b)
+    {
+        return $a - $b;
+    }
+
+    /**
+     * Mul
+     */
+    public function mul($a, $b)
+    {
+        return $a * $b;
+    }
+
+
+    protected function _add($a, $b)
+    {
+        return $a + $b;
+    }
+
+}
+```
+
+
+
+## 客户端
+
+```php
+        # test  TestService
+        try {
+            $client = new \Yar_Client("http://www.cs.com/api/yar/test?key=yaoliuyang");
+            $result = $client->add(1,2);
+        }catch (\Yar_Client_Exception $exception){
+            dd($exception->getTraceAsString(),$exception->getFile(),$exception->getLine());
+        }
+        dd($result);
+```
+
+
+
 # 补充
 
 ## **判断yar扩展是否存在**
