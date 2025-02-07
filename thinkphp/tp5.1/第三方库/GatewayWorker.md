@@ -229,3 +229,31 @@ try {
 > 使用websocket在线测试工具测试连接
 
 ![image-20240305113625977](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240305113625977.png)
+
+# thinkphp 启动`Workerman`
+
+```php
+[root@iZwz99lbqird8va3nfzb2bZ test_pxs]# php think worker:gateway --help
+Usage:
+  worker:gateway [options] [--] [<action>]
+
+Arguments:
+  action                start|stop|restart|reload|status|connections [default: "start"]
+
+Options:
+  -H, --host[=HOST]     the host of workerman server.
+  -p, --port[=PORT]     the port of workerman server.
+  -d, --daemon          Run the workerman server in daemon mode.
+  -h, --help            Display this help message
+  -V, --version         Display this console version
+  -q, --quiet           Do not output any message
+      --ansi            Force ANSI output
+      --no-ansi         Disable ANSI output
+  -n, --no-interaction  Do not ask any interactive question
+  -v|vv|vvv, --verbose  Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
+
+      
+      
+ # php think worker:gateway -d restart 
+```
+
