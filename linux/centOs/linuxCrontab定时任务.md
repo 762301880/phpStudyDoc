@@ -703,3 +703,10 @@ github 地址：https://github.com/taobao/TBSchedule。
 
 总结
 加 & 的主要目的是将命令放到后台执行，防止终端被阻塞，提高工作效率，特别是对于需要长时间运行的任务
+
+##  将定时任务输出到日志
+
+```shell
+0 11 * * * python3 ~/agent301-claimer/bot.py >> /var/log/bot.log 2>&1
+```
+
