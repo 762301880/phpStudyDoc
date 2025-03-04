@@ -45,12 +45,12 @@
 
 ## 手柄
 
-**穷逼使用手机模拟手柄**
 
-| 名称     | 地址                                                         |
-| -------- | ------------------------------------------------------------ |
-| DroidJoy | [link](https://play.google.com/store/apps/details?id=com.grill.droidjoy&hl=en)  [link](https://www.upanboot.com/app/205867.html) |
-|          |                                                              |
+
+| 名称           | 地址                                                         |
+| -------------- | ------------------------------------------------------------ |
+| 雷神G50S(自用) | [link](https://item.jd.com/10088114621452.html?cu=true&utm_source=api.shop.xuelg.com&utm_medium=jingfen&utm_campaign=t_2011134073_&utm_term=13850d6c123b44ec8ff0934f91f62eb3) |
+|                |                                                              |
 
 ## 拷贝游戏到硬盘
 
