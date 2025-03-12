@@ -2844,5 +2844,33 @@ show variables like'%query_log%'
 2rows in set (0.00sec)
 ```
 
+# mysql 设置局部变量
 
+**资料**
+
+| 名称                                            | 地址                                                         |
+| ----------------------------------------------- | ------------------------------------------------------------ |
+| **用户自定义变量**（以 `@` 开头的变量）         | [link](https://dev.mysql.com/doc/refman/8.0/en/user-variables.html) |
+| **系统变量**（如 `GLOBAL` 或 `SESSION` 变量）： | [link](https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html) |
+
+使用场景
+
+> 如下所示如果我们要改动编号查询  如果没有设置局部变量  每个sql语句我们都需要
+>
+> 手动更改一下变量 但是设置了局部变量我们就可以 设置一次全部调用
+
+```shell
+
+SET @fs_no = 'FS20250312000005';
+
+SELECT * FROM pxs_find_shop_save where fs_no=@fs_no
+SELECT * FROM pxs_find_shop where fs_no=@fs_no
+SELECT * FROM pxs_find_shop_custom where fs_no=@fs_no
+SELECT * FROM pxs_find_shop_contact where fs_no=@fs_no
+SELECT * FROM pxs_find_shop_add_log where contact_mobile=@mobile
+
+# 模糊查询如何使用
+SET @mobile = '19913310809'	
+SELECT * FROM pxs_log_action where request_body like CONCAT('%',@mobile,'%');
+```
 
