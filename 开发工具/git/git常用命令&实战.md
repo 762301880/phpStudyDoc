@@ -25,11 +25,15 @@ git push origin --delete 分支名
 
 > 此配置会在本地用户目录下生成`.gitconfig`文件
 * 用户名的配置：
-```
+```shell
+# git config --global user.name "用户名称"
+
 git config --global user.name "yaoliuyang"
 ```
 * 邮箱的配置
-```
+```shell
+ #  git config --global user.email "用户邮箱"
+ 
  git config --global user.email "762301880@qq.com"
 ```
 <img src='https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/1922055-20200607153638000-1303370550.png' width='600px' heigth='400px' title='示例'>
@@ -45,8 +49,10 @@ git config --global user.name "yaoliuyang"
 > id_rsa.pub: 公钥文件，可以安全地分享给需要进行 SSH 认证的服务器。
 > 生成的密钥对可以用于无密码登录远程服务器，提高工作效率
 
-```
-ssh-keygen -t rsa -C "您的邮箱@qq.com"
+```shell
+# 生成密钥
+
+ssh-keygen -t rsa -C "762301880@qq.com"
 ```
 *连续点击三次`回车`会在用户目录下生成==.ssh==目录
 >找到其中的`id_rsa`用记事本打开复制里面的秘钥内容
