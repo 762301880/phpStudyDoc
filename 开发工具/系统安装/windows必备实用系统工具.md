@@ -271,3 +271,9 @@ scrcpy.exe --video-codec=h265 --max-size=800 --max-fps=60 --no-audio --window-ti
 > --video-codec=h265   （质量更好）捕获屏幕
 >
 > --max-fps=60   将帧速率限制为 60fps
+
+# 电脑硬件检测工具
+
+> 鲁大师需要下载
+
+推荐使用腾讯电脑关键-工具箱-硬件检测
