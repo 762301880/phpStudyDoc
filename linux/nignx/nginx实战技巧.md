@@ -48,6 +48,8 @@ systemctl restart nginx
 > - `proxy_pass http://swoole_websocket_container:9501;` ：替换为你的Swoole WebSocket容器的名称和端口，这将告诉Nginx将请求发送到与该容器关联的地址和端口。
 >
 > 通过修改这个示例配置中的注释部分，你可以将其适配到你自己的Nginx和Swoole WebSocket环境中，以实现WebSocket的代理连接。
+>
+> 允许超长连接  https://nginx.p2hp.com/en/docs/http/ngx_http_proxy_module.html#proxy_read_timeout
 
 ```nginx
 server {
@@ -65,6 +67,9 @@ server {
         proxy_pass http://swoole_websocket_container:9501; // 这里的swoole_websocket_container是你的Swoole WebSocket容器的名称
         # 例如我dockercompose.yml services 名称是 app 则上面的对应示例因该改为
         # proxy_pass http://app:9501;   
+            
+        # 允许超长连接  
+        proxy_set_timeout 600s;     
     }
 }
 ```
