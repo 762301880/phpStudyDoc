@@ -69,7 +69,7 @@ server {
         # proxy_pass http://app:9501;   
             
         # 允许超长连接  
-        proxy_set_timeout 600s;     
+        proxy_read_timeout 600s;     
     }
 }
 ```
