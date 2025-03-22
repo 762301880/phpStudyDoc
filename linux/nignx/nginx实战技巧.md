@@ -33,9 +33,10 @@ systemctl restart nginx
 
 **资料**
 
-| 名称                    | 地址                                                      |
-| ----------------------- | --------------------------------------------------------- |
-| 官方文档 WebSocket-代理 | [link](http://nginx.p2hp.com/en/docs/http/websocket.html) |
+| 名称                    | 地址                                                         |
+| ----------------------- | ------------------------------------------------------------ |
+| 官方文档 WebSocket-代理 | [link](http://nginx.p2hp.com/en/docs/http/websocket.html)    |
+| 网络博客                | [link](https://www.zhihu.com/question/11850080815/answer/129326845387) |
 
 **示例配置**
 
