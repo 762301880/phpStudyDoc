@@ -356,3 +356,20 @@ $end_time = end($times);
 echo "数组第一个值是:{$start_time},数组末尾值是:{$end_time}";
 ```
 
+# 判断传递过来的数据是不是json数据
+
+```php
+ /**
+ * 判断是否是json格式
+ */
+if (!function_exists('isJson')) {
+
+    function isJson($string)
+    {
+        json_decode($string);
+        return (json_last_error() === JSON_ERROR_NONE);
+    }
+}
+
+```
+
