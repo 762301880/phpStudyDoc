@@ -8,11 +8,12 @@
 
 ## 资料
 
-| name                           | url                                               |
-| ------------------------------ | ------------------------------------------------- |
-| gitee-laravels文档             | [link](https://gitee.com/zml956/laravel-s)        |
-| laravel学院-swoole从入门到实战 | [link](https://laravelacademy.org/post/9801.html) |
-| 第三方博客                     | [link](https://learnku.com/articles/35992)        |
+| name                                | url                                                          |
+| ----------------------------------- | ------------------------------------------------------------ |
+| gitee-laravels文档   github中文文档 | [link](https://gitee.com/zml956/laravel-s)  [link](https://github.com/hhxsv5/laravel-s/blob/PHP-8.x/README-CN.md) |
+| laravel学院-swoole从入门到实战      | [link](https://laravelacademy.org/post/9801.html)            |
+| 第三方博客                          | [link](https://learnku.com/articles/35992)                   |
+| packagist v3.4.4 php8.0以下可以用   | [link](https://packagist.org/packages/hhxsv5/laravel-s#v3.7.40) |
 
 # 安装&使用
 
@@ -21,7 +22,16 @@
 - 使用***composer***安装**laravelS**
 
 ```shell
-composer require hhxsv5/laravel-s
+# PHP >=8.2
+composer require "hhxsv5/laravel-s:~3.8.0"
+
+# PHP >=5.5.9,<=7.4.33
+# composer require "hhxsv5/laravel-s:~3.7.0"
+
+# 确保你的composer.lock文件是在版本控制中
+
+# 我的
+composer require "hhxsv5/laravel-s:~3.4.4"
 ```
 
 - 安装完成之后发布配置文件
