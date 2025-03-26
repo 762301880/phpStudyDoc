@@ -8,12 +8,12 @@
 
 ## 资料
 
-| name                                | url                                                          |
-| ----------------------------------- | ------------------------------------------------------------ |
-| gitee-laravels文档   github中文文档 | [link](https://gitee.com/zml956/laravel-s)  [link](https://github.com/hhxsv5/laravel-s/blob/PHP-8.x/README-CN.md) |
-| laravel学院-swoole从入门到实战      | [link](https://laravelacademy.org/post/9801.html)            |
-| 第三方博客                          | [link](https://learnku.com/articles/35992)                   |
-| packagist v3.4.4 php8.0以下可以用   | [link](https://packagist.org/packages/hhxsv5/laravel-s#v3.7.40) |
+| name                                              | url                                                          |
+| ------------------------------------------------- | ------------------------------------------------------------ |
+| gitee-laravels文档   github中文文档  个人备份文档 | [link](https://gitee.com/zml956/laravel-s)  [link](https://github.com/hhxsv5/laravel-s/blob/PHP-8.x/README-CN.md)  [link](https://gitee.com/yao_liuyang/pdf_doc_backup/blob/master/laravels.md) |
+| laravel学院-swoole从入门到实战                    | [link](https://laravelacademy.org/post/9801.html)            |
+| 第三方博客                                        | [link](https://learnku.com/articles/35992)                   |
+| packagist v3.4.4 php8.0以下可以用                 | [link](https://packagist.org/packages/hhxsv5/laravel-s#v3.7.40) |
 
 # 安装&使用
 
