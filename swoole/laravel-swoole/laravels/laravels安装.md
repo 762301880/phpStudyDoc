@@ -41,11 +41,10 @@ composer require "hhxsv5/laravel-s:~3.4.4"
 ```shell
 php artisan laravels publish
 # 该命令会发布配置文件 laravels.php 到 config 目录下，以及脚本文件到 bin 目录下：
-yaoliuyang@benben:~/公共的/phpProject/laravel_study$ php artisan laravels publish
-Copied file [/home/yaoliuyang/公共的/phpProject/laravel_study/vendor/hhxsv5/laravel-s/config/laravels.php] To [/home/yaoliuyang/公共的/phpProject/laravel_study/config/laravels.php]
-Linked file [/home/yaoliuyang/公共的/phpProject/laravel_study/vendor/hhxsv5/laravel-s/bin/laravels] To [/home/yaoliuyang/公共的/phpProject/laravel_study/bin/laravels]
-Linked file [/home/yaoliuyang/公共的/phpProject/laravel_study/vendor/hhxsv5/laravel-s/bin/fswatch] To [/home/yaoliuyang/公共的/phpProject/laravel_study/bin/fswatch]
-Linked file [/home/yaoliuyang/公共的/phpProject/laravel_study/vendor/hhxsv5/laravel-s/bin/inotify] To [/home/yaoliuyang/公共的/phpProject/laravel_study/bin/inotify]    
+# 配置文件：config/laravels.php
+# 二进制文件：bin/laravels bin/fswatch bin/inotify
+
+# 注意  请将config/laravels.php  里面的 listen_ip 127.0.0.1 改为0.0.0.0 
 ```
 
 - ### 启动 LaravelS
