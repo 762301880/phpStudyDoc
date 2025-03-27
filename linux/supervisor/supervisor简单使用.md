@@ -178,7 +178,7 @@ start all		Start all processes
 
 > 这个百分之百不要怀疑绝逼是配置文件没有加载  网上说是supervisorctd 没有重启 无奈我重启了docker
 >
-> 刷新配置命令 **supervisorctl updat**  **supervisorctl reload**
+> 刷新配置命令 **supervisorctl update**  **supervisorctl reload**
 
 ```shell
 # 自己的配置
@@ -251,6 +251,8 @@ docker exec -it laravel_study supervisorctl restart laravel_swoole
 # 重要事件
 
 ## 新添加配置一定要重新载入配置新的配置才会生效
+
+> 刷新配置命令 **supervisorctl update**  **supervisorctl reload**
 
 ## 添加配置文件时候注意事项(重要)
 
