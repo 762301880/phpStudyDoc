@@ -191,3 +191,112 @@ class WebSocketService implements WebSocketHandlerInterface
 ],
 ```
 
+### 控制器中发送消息给websocket用户
+
+> 注意踩坑 不可以调用nginx 转发给swoole端口的地址  请直接调用swoole存在的打开的 php端口
+
+```shell
+    public function sendMessage(Request $request)
+    {
+        $fd = $request->input("fd");
+        $message = $request->input("message");
+        if (!$fd || !$message) return response()->json(["error" => "参数fd 或者 message为空"]);
+        $swoole = app('swoole');
+        if (!$swoole->stats()) return response()->json(["error" => "websocket实例不存在"]);
+        if (!$swoole->exist($fd)) return response()->json(["error" => "fd:{$fd},不是有效的websocket链接"]);
+        $swoole->push($fd, $message);
+        return response()->json(["success" => "消息已发送"]);
+     }
+
+# 调用发送
+113.45.29.83:5200/api/websocket/send_message
+```
+
+**如果想让nginx转发可以在控制器中请求websocket**
+
+```nginx
+gzip on;
+gzip_min_length 1024;
+gzip_comp_level 2;
+gzip_types text/plain text/css text/javascript application/json application/javascript application/x-javascript application/xml application/x-httpd-php image/jpeg image/gif image/png font/ttf font/otf image/svg+xml;
+gzip_vary on;
+gzip_disable "msie6";
+map $http_upgrade $connection_upgrade {
+    default upgrade;
+}
+upstream laravels {
+    # By IP:Port
+    server app:5200 weight=5 max_fails=3 fail_timeout=30s;
+    # By UnixSocket Stream file
+    #server unix:/xxxpath/laravel-s-test/storage/laravels.sock weight=5 max_fails=3 fail_timeout=30s;
+    #server 192.168.1.1:5200 weight=3 max_fails=3 fail_timeout=30s;
+    #server 192.168.1.2:5200 backup;
+}
+upstream swoole {
+    # 通过 IP:Port 连接
+    server app:5200 weight=5 max_fails=3 fail_timeout=30s;
+    # 通过 UnixSocket Stream 连接，小诀窍：将socket文件放在/dev/shm目录下，可获得更好的性能
+    #server unix:/yourpath/laravel-s-test/storage/laravels.sock weight=5 max_fails=3 fail_timeout=30s;
+    #server 192.168.1.1:5200 weight=3 max_fails=3 fail_timeout=30s;
+    #server 192.168.1.2:5200 backup;
+    keepalive 16;
+}
+server {
+    listen 9090;
+    # 别忘了绑Host
+    server_name 127.0.0.1;
+    root /data/work/laravel_study/public;
+    access_log /data/work/laravel_study/storage/logs/nginx/$server_name.access.log  main;
+    autoindex off;
+    index index.html index.htm;
+    # Nginx处理静态资源(建议开启gzip)，LaravelS处理动态资源。
+    location / {
+        try_files $uri @laravels;
+    }
+    # 当请求PHP文件时直接响应404，防止暴露public/*.php
+    #location ~* \.php$ {
+    #    return 404;
+    #}
+    location =/ws {
+            # proxy_connect_timeout 60s;
+            # proxy_send_timeout 60s;
+            # proxy_read_timeout：如果60秒内被代理的服务器没有响应数据给Nginx，那么Nginx会关闭当前连接；同时，Swoole的心跳设置也会影响连接的关闭
+            # proxy_read_timeout 60s;
+            proxy_http_version 1.1;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Real-PORT $remote_port;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host $http_host;
+            proxy_set_header Scheme $scheme;
+            proxy_set_header Server-Protocol $server_protocol;
+            proxy_set_header Server-Name $server_name;
+            proxy_set_header Server-Addr $server_addr;
+            proxy_set_header Server-Port $server_port;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            proxy_pass http://swoole;
+        }
+    location @laravels {
+        # proxy_connect_timeout 60s;
+        # proxy_send_timeout 60s;
+        # proxy_read_timeout 120s;
+        proxy_http_version 1.1;
+        # 添加websocket配置让 LaravelS支持websocket
+        proxy_set_header Connection "upgrade";         # 升级为websocket
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Real-PORT $remote_port;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header Scheme $scheme;
+        proxy_set_header Server-Protocol $server_protocol;
+        proxy_set_header Server-Name $server_name;
+        proxy_set_header Server-Addr $server_addr;
+        proxy_set_header Server-Port $server_port;
+        # “laravels”是指upstream
+        proxy_pass http://laravels;
+    }
+}
+
+```
+
