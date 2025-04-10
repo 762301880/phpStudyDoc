@@ -632,6 +632,8 @@ class WebSocketService
 
 ###  方案四:(把php-fpm请求封装为swoolehttp)
 
+> **记得配置nginx 转发**
+
 #### **旧的代码逻辑(废弃)**
 
 ```php
