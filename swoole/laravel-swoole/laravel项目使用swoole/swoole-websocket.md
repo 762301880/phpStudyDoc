@@ -630,3 +630,336 @@ class WebSocketService
         return response()->json(["success" => "消息已发送"]);
 ```
 
+###  方案四:(把php-fpm请求封装为swoolehttp)
+
+#### **旧的代码逻辑(废弃)**
+
+```php
+<?php
+
+
+namespace App\Services;
+
+use Swoole\Http\Server;
+use Swoole\Http\Request as SwooleRequest;
+use Swoole\Http\Response as SwooleResponse;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
+use Illuminate\Foundation\Application;
+
+
+class WebSocketService
+{
+    protected $server;
+
+    public function __construct()
+    {
+        // 加载 Laravel 项目
+        require __DIR__ . '/../../vendor/autoload.php';
+        $app = require __DIR__ . '/../../bootstrap/app.php';
+
+// 创建 Laravel Kernel
+        $kernel = $app->make(Kernel::class);
+
+// 创建 Swoole HTTP + WebSocket Server
+        $server = new \Swoole\WebSocket\Server("0.0.0.0", 9501);
+
+        $server->on("start", function () {
+            echo "Swoole HTTP + WebSocket Server started at http://0.0.0.0:9501\n";
+        });
+
+        $server->on("request", function (SwooleRequest $req, SwooleResponse $res) use ($app, $kernel, $server) {
+            // 初始化 Laravel 请求
+            $_SERVER = [];
+            foreach ($req->server as $key => $value) {
+                $_SERVER[strtoupper($key)] = $value;
+            }
+            foreach ($req->header ?? [] as $key => $value) {
+                $_SERVER['HTTP_' . strtoupper(str_replace('-', '_', $key))] = $value;
+            }
+
+            $_GET = $req->get ?? [];
+            $_POST = $req->post ?? [];
+            $_COOKIE = $req->cookie ?? [];
+            $_FILES = $req->files ?? [];
+
+            $content = $req->rawContent(); // 注意！POST body 在这
+            $parsedBody = [];
+            $contentType = $req->header['content-type'] ?? '';
+
+            if (str_contains($contentType, 'application/json')) {
+                $parsedBody = json_decode($content, true);
+            } elseif (str_contains($contentType, 'application/x-www-form-urlencoded')) {
+                parse_str($content, $parsedBody);
+            }
+
+
+
+            $_SERVER['REQUEST_URI'] = $req->server['request_uri'] ?? '/';
+
+            foreach ($req->header ?? [] as $key => $value) { // 将所有 HTTP 请求头注入 $_SERVER 变量
+                $_SERVER['HTTP_' . strtoupper(str_replace('-', '_', $key))] = $value;
+            }
+
+
+            // 构造 Illuminate Request
+            $laravelRequest = Request::createFromBase(
+                \Symfony\Component\HttpFoundation\Request::create(
+                    $_SERVER['REQUEST_URI'],
+                    $_SERVER['REQUEST_METHOD'] ?? 'GET',
+                    $parsedBody, // <--- 关键在这
+                    $_COOKIE,
+                    $_FILES,
+                    $_GET,
+                    $_SERVER,
+                    $content
+                )
+            );
+
+
+            // 注入 Swoole Server 到容器，供控制器中使用
+            $app->instance('swoole.server', $server);
+
+            // 执行 Laravel
+            $laravelResponse = $kernel->handle($laravelRequest);
+            $res->status($laravelResponse->getStatusCode());
+            foreach ($laravelResponse->headers->allPreserveCase() as $name => $values) {
+                foreach ($values as $value) {
+                    $res->header($name, $value);
+                }
+            }
+            $res->end($laravelResponse->getContent());
+
+            $kernel->terminate($laravelRequest, $laravelResponse);
+        });
+
+// WebSocket 连接事件
+        $server->on('open', function ($server, $request) {
+            echo "WebSocket client {$request->fd} connected\n";
+        });
+
+// WebSocket 消息事件
+        $server->on('message', function ($server, $frame) {
+            echo "Message from {$frame->fd}: {$frame->data}\n";
+            $server->push($frame->fd, "You said: {$frame->data},fd:$frame->fd");
+        });
+
+// WebSocket 关闭事件
+        $server->on('close', function ($server, $fd) {
+            echo "Client {$fd} disconnected\n";
+        });
+
+        $server->start();
+    }
+}
+```
+
+####  美化后的swoole服务端
+
+```php
+<?php
+
+namespace App\Services;
+
+use Swoole\WebSocket\Server;
+use Swoole\Http\Request as SwooleRequest;
+use Swoole\Http\Response as SwooleResponse;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
+use Illuminate\Foundation\Application;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+
+class WebSocketService
+{
+    protected  $server;
+    protected  $app;
+    protected  $kernel;
+
+    public function __construct()
+    {
+        $this->initLaravel();
+        $this->initWebSocket();
+    }
+
+    public function initLaravel(): void
+    {
+        require base_path('vendor/autoload.php');
+        $this->app = require base_path('bootstrap/app.php');
+        $this->kernel = $this->app->make(Kernel::class);
+    }
+
+    public function initWebSocket(): void
+    {
+        $this->server = new Server("0.0.0.0", 9501);
+
+        $this->server->on("start", function () {
+            echo "Swoole HTTP + WebSocket Server started at http://0.0.0.0:9501\n";
+        });
+
+
+        $this->server->on("request", [$this, 'handleHttpRequest']);
+       // $this->server->on("open", [$this, 'onWebSocketOpen']);
+        $this->server->on("open", [$this, 'onWebSocketOpen']);
+        $this->server->on("message", [$this, 'onWebSocketMessage']);
+        $this->server->on("close", [$this, 'onWebSocketClose']);
+
+        $this->server->start();
+    }
+
+    public function handleHttpRequest(SwooleRequest $req, SwooleResponse $res): void
+    {
+        // 转换 Header、Server、Files 等为 Symfony 可识别格式
+        $server = $this->formatServer($req->server ?? []);
+        $headers = $this->formatHeaders($req->header ?? []);
+        //$files = $this->formatFiles($req->files ?? []);
+        $__FILES = isset($req->files) ? $req->files : [];
+        $content = $req->rawContent();
+
+        // 解析请求体内容
+        $parsedBody = $this->parseBody($content, $headers['content-type'] ?? '');
+
+        $symfonyRequest = new SymfonyRequest(
+            $req->get ?? [],
+            $parsedBody,
+            [],
+            $req->cookie ?? [],
+            $__FILES,
+            array_merge($server, $headers),
+            $content
+        );
+
+        // 构造 Laravel Request
+        $laravelRequest = Request::createFromBase($symfonyRequest);
+
+        // 注入 Swoole Server
+        $this->app->instance('swoole.server', $this->server);
+
+        $response = $this->kernel->handle($laravelRequest);
+
+        $res->status($response->getStatusCode());
+
+        foreach ($response->headers->allPreserveCase() as $name => $values) {
+            foreach ($values as $value) {
+                $res->header($name, $value);
+            }
+        }
+
+        $res->end($response->getContent());
+
+        $this->kernel->terminate($laravelRequest, $response);
+    }
+
+    public function onWebSocketOpen(Server $server, $request): void
+    {
+        echo "WebSocket client {$request->fd} connected\n";
+    }
+
+    public function onWebSocketMessage(Server $server, $frame): void
+    {
+        echo "Message from {$frame->fd}: {$frame->data}\n";
+        $server->push($frame->fd, "You said: {$frame->data}, fd:{$frame->fd}");
+    }
+
+    public function onWebSocketClose(Server $server, int $fd): void
+    {
+        echo "Client {$fd} disconnected\n";
+    }
+
+    // 工具方法们
+    public function formatServer(array $server): array
+    {
+        $formatted = [];
+        foreach ($server as $key => $value) {
+            $formatted[strtoupper($key)] = $value;
+        }
+        return $formatted;
+    }
+
+    public function formatHeaders(array $headers): array
+    {
+        $formatted = [];
+        foreach ($headers as $key => $value) {
+            $formatted['HTTP_' . strtoupper(str_replace('-', '_', $key))] = $value;
+        }
+        return $formatted;
+    }
+
+//    public function formatFiles(array $files): array
+//    {
+//        $formatted = [];
+//
+//        foreach ($files as $key => $file) {
+//            if (isset($file['tmp_name'])) {
+//                // 单个文件
+//                $formatted[$key] = new \Symfony\Component\HttpFoundation\File\UploadedFile(
+//                    $file['tmp_name'],
+//                    $file['name'],
+//                    $file['type'],
+//                    $file['size'],
+//                    $file['error'],
+//                    true
+//                );
+//            } elseif (is_array($file)) {
+//                // 嵌套结构，递归调用
+//                $formatted[$key] = $this->formatFiles($file);
+//            }
+//        }
+//
+//        return $formatted;
+//    }
+
+
+    public function parseBody(string $content, string $contentType): array
+    {
+        if (str_contains($contentType, 'application/json')) {
+            return json_decode($content, true) ?? [];
+        }
+
+        if (str_contains($contentType, 'application/x-www-form-urlencoded')) {
+            parse_str($content, $parsed);
+            return $parsed;
+        }
+
+        return [];
+    }
+}
+```
+
+#### 控制器调用
+
+```php
+   public function sendMessage(Request $request)
+    {
+
+
+//        $file=$request->file('file');
+//        if($file){
+//            $file_name = uniqid() . '@' . $file->getClientOriginalName(); # 定义上传图片得唯一名称
+//            $uploadDirectory = '/uploads/' . date('Ymd');  #定义上传文件得路径
+//            $savePath = public_path($uploadDirectory);  # 定义上传绝对路径
+//            //文件路径如果不存在则自动创建 并赋予权限
+//            if (!is_dir($savePath)) mkdir($savePath, 0777, true);
+//            $file->move($savePath, $file_name);
+//            return response()->json(["file" => $file_name]);
+//        }
+//        $header=$request->header('demo');
+//
+//        if($header){
+//            return response()->json(["header" => $header]);
+//        }
+
+
+
+        $fd = $request->input('fd');
+        $message = $request->input('message');
+        if (!$fd || !$message) return response()->json(["error" => "参数fd 或者 message为空"]);
+        $server = app('swoole.server');
+        if ($server->isEstablished((int)$fd)) {
+            $server->push((int)$fd, $message);
+            return response()->json(['status' => 'pushed']);
+        } else {
+            return response()->json(['status' => 'not connected'], 400);
+        }
+    }
+```
+
