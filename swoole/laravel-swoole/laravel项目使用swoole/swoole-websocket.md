@@ -292,7 +292,7 @@ php PushServer.
 
 
 
-###   redis方案:方案一(Laravel 写入 Redis / 消息队列，Swoole Server 消费)
+###   方案一(redis方案:  Laravel 写入 Redis / 消息队列，Swoole Server 消费)
 
 这个方案结构优雅、耦合度低、支持集群，是 laravels 实际上也用的方式之一：
 
@@ -568,4 +568,65 @@ Laravel → HTTP 请求 → Swoole，简单明了
 >
 > - 加个 token 校验，防止别人乱访问这个 HTTP 接口
 > - 可以限制只能本地访问（`127.0.0.1`），或者做个内网保护
+
+###  方案三: (利用swoole  request请求封装)
+
+**swoole服务**
+
+```php
+class WebSocketService
+{
+
+    public function __construct()
+    {
+        $ws = new Server('0.0.0.0', 9501); // 设置Swoole服务地址和端口
+
+        // 设置 WebSocket 事件
+        $ws->on('open', [$this, 'onOpen']);
+        $ws->on('message', [$this, 'onMessage']);
+
+        # 用户路由事件 -在这里面处理
+        $ws->on('request', function (Request $request, Response $response) use ($ws) {
+            $type = $request->get['type'] ?? "";
+            $fd = $request->get['fd'] ?? "";
+            $message = $request->get['message'].':request' ?? "";
+            if (!empty($type) && $type == 'sendToUid'){
+                if ($ws->isEstablished($fd)) {
+                    $ws->push($fd,"{$message}");
+                }
+                if (!$ws->isEstablished($fd)) {
+                    \Log::info('print:request'.$fd.':不存在');
+                }
+
+            }
+        });
+
+
+        $ws->on('close', [$this, 'onClose']);
+
+//        $tcpServer = $ws->addlistener("0.0.0.0", 9502, SWOOLE_TCP);
+//        $tcpServer->on("receive", function ($server, $fd, $reactor_id, $data) {
+//            \Log::info('print:'.$data.'----'.$fd.'----'.$reactor_id.PHP_EOL);
+//            $payload = json_decode($data, true);
+//            if (!$payload || !isset($payload["fd"]) || !isset($payload["message"])) {
+//                return;
+//            }
+//            \Log::info('print:'.'gorun');
+//            $uid = $payload["fd"];
+//            $message = $payload["message"].'66666666666666';
+//            $server->send($uid, $message);
+//        });
+        $ws->start();//启动
+    }
+```
+
+**控制器中调用**
+
+```php
+        $fd = $request->input("fd");
+        $message = $request->input("message");
+        if (!$fd || !$message) return response()->json(["error" => "参数fd 或者 message为空"]);
+        Http::post('127.0.0.1:9501', ['type' => 'sendToUid', 'fd' => $fd, 'message' => $message]);
+        return response()->json(["success" => "消息已发送"]);
+```
 
