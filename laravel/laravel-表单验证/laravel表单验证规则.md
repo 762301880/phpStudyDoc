@@ -82,3 +82,62 @@ Validator::make(
     }
 ```
 
+#  控制器方法中使用验证规则(偷懒不使用自定义验证规则情况)
+
+**Validator::make**
+
+> 完全控制验证流程，可以手动创建验证器实例：
+
+```php
+        $validator=Validator::make($request->all(),[
+            'nick_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ],[
+            'nick_name.required' => '昵称不能为空',
+        ]);
+
+       if ($validator->fails()){  
+          return $this->error($validator->errors()->first());
+       }
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+        if (!$user) return $this->error('注册失败');
+        return $this->success('注册成功');
+```
+
+**request->validate**
+
+> https://learnku.com/docs/laravel/8.x/validation/9374#a0ce44
+>
+> 如果不用**异常接收报错信息** 会重定向到视图模板文件  详细请查询官方文档
+>
+> 那么，如果传入的请求参数未通过给定的验证规则呢？正如前面所提到的，Laravel 会自动将用户重定向到之前的位置。另外，所有的验证错误信息会自动存储到 闪存 session 中。
+>
+> 再次提示，我们没有必要在 GET 路由中显式地绑定错误信息到视图中。这是因为 Laravel 会检查 session 数据中的错误，如果可用的话，将会自动将其绑定到视图中去。其中的 $errors 变量是 Illuminate\Support\MessageBag 的一个实例。要获取关于该对象更多的信息， 请参阅这篇文档 。
+>
+> 技巧：$errors 由 web 中间件组提供的 Illuminate\View\Middleware\ShareErrorsFromSession 中间件绑定到视图中。当该中间件被应用后，$errors 变量在您的视图中总是可用的，因此您可以假设 $errors 变量总是被定义了且总是安全可用的。
+>
+
+```php
+        try {
+             $request->validate([
+                'nick_name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            if (!$user) return $this->error('注册失败');
+            return $this->success('注册成功');
+        }catch (ValidationException $exception){
+            return $this->error($exception->errors());
+        }
+```
+

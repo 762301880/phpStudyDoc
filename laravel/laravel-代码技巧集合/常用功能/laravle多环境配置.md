@@ -16,7 +16,7 @@ $serverName = $_SERVER['SERVER_NAME'];
 
 if (str_contains($serverName, 'local')) {
     $app->loadEnvironmentFrom('.env.local');
-}elseif (str_contains($serverName, 'test')) {
+}if (str_contains($serverName, 'test')) {
     $app->loadEnvironmentFrom('.env.test');
 }else {
     $app->loadEnvironmentFrom('.env');
