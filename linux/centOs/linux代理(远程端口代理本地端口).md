@@ -198,6 +198,8 @@ EOF
 
 > https://www.kobin.cn/frp/
 
+![image-20250414105435513](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250414105435513.png)
+
 ## **方案二：`ngrok` 的 Docker 部署**
 
 ### **自建服务端（可选）**
