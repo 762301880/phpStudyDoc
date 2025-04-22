@@ -175,3 +175,47 @@ pm.environment.set("api_token",response.data.jwtToken);
 ## postman 取消自动更新
 
 > [link](https://blog.csdn.net/haocm08/article/details/125821740?spm=1001.2101.3001.6650.9&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-125821740-blog-129944586.235%5Ev43%5Epc_blog_bottom_relevance_base6&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-125821740-blog-129944586.235%5Ev43%5Epc_blog_bottom_relevance_base6&utm_relevant_index=12)
+>
+> 禁止 Postman 自动更新的方法取决于你使用的是哪个版本（Postman App 桌面版）和你使用的操作系统（Windows、macOS、Linux）。Postman 的官方设置中**并不提供关闭自动更新的选项**，但可以通过一些技巧来实现：
+
+###  方法一：修改系统文件阻止更新（适用于 Windows/macOS）
+
+#### Windows：
+
+1. 找到 Postman 的安装目录，通常在：
+
+> 或者图标鼠标右键>打开文件所在的位置
+
+   ```makefile
+C:\Users\<你的用户名>\AppData\Local\Postman
+   ```
+
+2. 在这个目录下找到一个名为 `Update.exe` 的文件。
+
+3. 重命名该文件，例如改成 `Update_disabled.exe`，或者直接删除它（更推荐重命名，方便还原）。
+
+4. （可选）使用防火墙阻止 `Update.exe` 或 `Postman.exe` 访问网络。
+
+#### macOS：
+
+1. 打开 Finder，前往应用目录，找到 Postman 应用。
+2. 右键点击 → 显示包内容（Show Package Contents）。
+3. 找到类似于 `Contents/MacOS/` 或 `Contents/Resources/app-update.yml` 的路径。
+4. 删除或重命名相关的更新模块（慎用！可能影响功能）。
+5. 可用防火墙工具（如 Little Snitch）限制更新请求。
+
+### 方法二：使用 Postman Portable（绿色便携版）
+
+一些社区或第三方打包的 Postman 便携版不会进行自动更新，可以手动下载并使用：
+
+- 通常可以在 GitHub 或 PortableApps 之类的网站找到。
+- 缺点是更新需要自己动手，但不会被强制推送新版。
+
+### 方法三：使用 Postman 的旧版本
+
+1. 卸载当前版本。
+2. 下载旧版本的 Postman（比如 v9.**）：
+
+- 在这里找： https://www.filehorse.com/download-postman/old-versions/
+
+3. 安装后结合“方法一”禁用更新。

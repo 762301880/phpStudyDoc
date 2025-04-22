@@ -69,15 +69,14 @@
 
 # tymon/jwt-auth
 
-| name                       | url                                                          |
-| -------------------------- | ------------------------------------------------------------ |
-| 第三方博客                 | [link](https://learnku.com/articles/30342)   [link ](http://www.45fan.com/article.php?aid=19121863245239341202671983) [link](https://learnku.com/articles/7264/using-jwt-auth-to-implement-api-user-authentication-and-painless-refresh-access-token) |
-| jwt-auth Wiki文档          | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
-| packagist项目地址          | [link](https://packagist.org/packages/tymon/jwt-auth)        |
-| jwt超详细解释              | [link](https://learnku.com/articles/17883)                   |
-| laravel学院                | [link](https://laravelacademy.org/post/9178)                 |
-| laravel-wikis-jwt认证详解  | [link](https://learnku.com/laravel/wikis/25704)              |
-| laravel学院扩展包-登陆认证 | [link](https://laravelacademy.org/post/3640)                 |
+| name                      | url                                                          |
+| ------------------------- | ------------------------------------------------------------ |
+| 第三方博客                | [link](https://learnku.com/articles/30342)   [link ](http://www.45fan.com/article.php?aid=19121863245239341202671983) [link](https://learnku.com/articles/7264/using-jwt-auth-to-implement-api-user-authentication-and-painless-refresh-access-token) |
+| jwt-auth Wiki文档         | [link](https://jwt-auth.readthedocs.io/en/develop/laravel-installation/) |
+| packagist项目地址         | [link](https://packagist.org/packages/tymon/jwt-auth)        |
+| jwt超详细解释             | [link](https://learnku.com/articles/17883)                   |
+| laravel学院               | [link](https://laravelacademy.org/post/9178)                 |
+| laravel-wikis-jwt认证详解 | [link](https://learnku.com/laravel/wikis/25704)              |
 
 ## [使用实例](https://learnku.com/articles/10885/full-use-of-jwt)  
 
@@ -232,23 +231,30 @@ Route::any('login',[\App\Http\Controllers\AuthUserController::class,'login']);
 # 对应控制器代码
  public function login(Request $request)
     {
-        # 第二种加密方式 
+        # 第二种加密方式
         # use Tymon\JWTAuth\Facades\JWTAuth;
-        # JWTAuth::fromuser(User::where(['email'=>$request->email])->first())
-        $token = Auth('api')->attempt($request->all()); # 采用Auth的attempt验证 密码一定要bcrypt()函数加密
-        if (!$token){
+        # \JWTAuth::fromuser(User::where(['account'=>$request->account])->first())
+        // dd(bcrypt(123456));
+        // dd(date('Y-m-d H:i:s', 1645281381));
+        $account = $request->account ?? "";
+        $password = $request->password ?? "";
+        if (empty($account)) return $this->error('账户不能为空');
+        if (empty($password)) return $this->error('密码不能为空');
+        $token = Auth('api')->attempt(['account' => $account, 'password' => $password]); # 采用Auth的attempt验证 密码一定要bcrypt()函数加密
+        if (!$token) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        return $this->respondWithToken($token);
+        $access_token = $this->respondWithToken($token);
+        return $this->success('', $access_token);
     }
    # 组装成功返回的token
     public function respondWithToken($token)
     {
-        return response()->json([
+      return [
             'access_token' => $token,
             'token_type' => 'Bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
-        ]);
+        ];
     }  
    # 刷新token
    public function refresh()
