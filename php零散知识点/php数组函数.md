@@ -373,3 +373,50 @@ if (!function_exists('isJson')) {
 
 ```
 
+# 数据翻转
+
+> php  有没有像  js一样        data.reverse()     的函数 把数据翻转
+>
+> PHP 也有类似 JavaScript 的 `reverse()` 方法来翻转数组！
+>
+> 你可以使用 **`array_reverse()`** 来实现类似功能。它会返回一个**顺序相反的新数组**，原数组不变
+
+**示例**
+
+```php
+$data = [1, 2, 3, 4, 5];
+$reversed = array_reverse($data);
+
+print_r($reversed);
+```
+
+**输出**
+
+```php
+Array
+(
+    [0] => 5
+    [1] => 4
+    [2] => 3
+    [3] => 2
+    [4] => 1
+)
+```
+
+### 如果你想**保留原来的键**（就像关联数组），可以传第二个参数：
+
+```php
+$data = ['a' => 1, 'b' => 2, 'c' => 3];
+$reversed = array_reverse($data, true);
+
+print_r($reversed);
+
+# 输出
+
+Array
+(
+    [c] => 3
+    [b] => 2
+    [a] => 1
+)
+```
