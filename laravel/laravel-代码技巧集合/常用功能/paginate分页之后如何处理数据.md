@@ -83,3 +83,23 @@ class OrderDeliveryStatusDetails
 }
 ```
 
+## 处理示例二
+
+```php
+        $messages = \DB::table('chat_message as m')
+            ->where('m.session_id', $session->id)
+            ->select('m.*', 'u.nick_name as sender_name', "u2.nick_name as receiver_name")
+            ->join('users as u', 'u.id', '=', 'm.sender_id')
+            ->join('users as u2', 'u2.id', '=', 'm.receiver_id')
+            ->where(function ($q) use ($sent_at) {
+                if (!empty($sent_at)) $q->where('m.sent_at', '<', $sent_at);
+            })
+            ->paginate($limit);
+            
+            
+        foreach ( $messages->items() as $message){
+            $message->sender_avatar = UserController::queryUidAvatar($message->sender_id);//发送者头像
+            $message->receiver_avatar = UserController::queryUidAvatar($message->receiver_id);//接收者头像
+        }
+```
+
