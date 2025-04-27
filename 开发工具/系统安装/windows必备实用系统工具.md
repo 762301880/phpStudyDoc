@@ -277,3 +277,7 @@ scrcpy.exe --video-codec=h265 --max-size=800 --max-fps=60 --no-audio --window-ti
 > 鲁大师需要下载
 
 推荐使用腾讯电脑关键-工具箱-硬件检测
+
+# 桌面整理
+
+## 腾讯桌面整理(强烈推荐)
