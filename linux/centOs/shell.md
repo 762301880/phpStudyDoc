@@ -235,3 +235,19 @@ done
 exit 0
 ```
 
+# shell脚本加密
+
+> https://zhuanlan.zhihu.com/p/1899872786790462703
+
+## 使用 [gzexe](https://www.runoob.com/linux/linux-comm-gzexe.html) 来进行加密
+
+```shell
+# 加密
+gzexe myshell.sh
+# 执行文件
+myshell
+# 解密
+gzexe -d myshell.sh
+```
+
+## 使用 shc 来进行加密
