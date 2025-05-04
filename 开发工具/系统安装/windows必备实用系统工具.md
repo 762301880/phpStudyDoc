@@ -281,3 +281,19 @@ scrcpy.exe --video-codec=h265 --max-size=800 --max-fps=60 --no-audio --window-ti
 # 桌面整理
 
 ## 腾讯桌面整理(强烈推荐)
+
+
+
+##  锁屏时钟屏保
+
+### fliqlo
+
+> 网络博客 [link](https://zhuanlan.zhihu.com/p/484291289)
+
+[官网下载链接](https://fliqlo.com/screensaver/)
+
+
+
+### FlipIt
+
+https://github.com/phaselden/FlipIt
