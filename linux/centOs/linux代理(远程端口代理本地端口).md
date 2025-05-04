@@ -297,3 +297,20 @@ docker run -d \
 - **企业级需求**：结合 Docker Compose 编排多节点穿透服务。
 
 按上述步骤操作，即可通过 Docker 快速实现内网穿透，无需手动编译或管理依赖环境！
+
+
+
+#  补充
+
+## 免费云端搭建frp
+
+地址
+
+> https://run.claw.cloud/
+>
+> https://docs.run.claw.cloud/         文档
+
+https://gitee.com/yao_liuyang/pdf_doc_backup/raw/master/claw.cloud%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3.docx 
+
+
+
