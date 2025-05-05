@@ -8,6 +8,8 @@
 
 ## [linux安装](https://www.runoob.com/redis/redis-install.html)
 
+### 编译安装
+
 > 请在[redis官网](https://redis.io/download)下载开发包：https://redis.io/download
 >
 > 官网提供了三个版本 ***Unstable(不稳定)***,***Stable(稳定版本)***,**Docker Hub(docker版本)**
@@ -106,6 +108,16 @@ cat redis.conf | grep daemonize # 查询是否修改
 # 查看端口是否启用成功
 netstat -anp |grep 6379
 ```
+
+### [docker安装redis](https://www.runoob.com/docker/docker-install-redis.html)
+
+```sh
+docker run -itd --name redis -p 6379:6379 redis
+```
+
+
+
+
 
 ## windows安装redis
 
