@@ -111,8 +111,10 @@ netstat -anp |grep 6379
 
 ### [docker安装redis](https://www.runoob.com/docker/docker-install-redis.html)
 
+> 因为redis rdb 备份恢复目录默认是/data 所以我们这里映射一下
+
 ```sh
-docker run -itd --name redis -p 6379:6379 redis
+docker run -itd --name redis -p 6389:6379 -v /data/redis:/data redis:6.0.9
 ```
 
 
