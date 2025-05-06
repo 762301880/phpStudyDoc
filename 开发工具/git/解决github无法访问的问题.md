@@ -69,3 +69,25 @@ C:\Windows\System32\drivers\etc    # windowsgithub位置
 # GitHub End
 ```
 
+# bug 解析
+
+## ssh connect to host github.com port 22 Connection timed out
+
+**测试使用 linux服务器  ping github.com 可以ping通过**
+
+```shell
+root@hcss-ecs-739f:~# ping github.com
+PING github.com (20.205.243.166) 56(84) bytes of data.
+64 bytes from 20.205.243.166 (20.205.243.166): icmp_seq=1 ttl=109 time=83.9 ms
+.....
+^C
+--- github.com ping statistics ---
+13 packets transmitted, 13 received, 0% packet loss, time 12006ms
+rtt min/avg/max/mdev = 83.890/83.903/83.938/0.012 ms
+
+```
+
+**公司电脑 ping 不通过 同事的电脑也试了**
+
+解决方案 用手机数据线给电脑提供网络测试可以通过
+
