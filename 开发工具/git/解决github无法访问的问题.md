@@ -11,7 +11,7 @@
 | 名称              | 地址                                                         |
 | ----------------- | ------------------------------------------------------------ |
 | 第三方博客参考    | [link](https://www.jianshu.com/p/5969b71548e0)               |
-| DNS查询第三方网站 | [link](http://tool.chinaz.com/dns?type=1&host=github.com&ip=) |
+| DNS查询第三方网站 | [link](http://tool.chinaz.com/dns?type=1&host=github.com&ip=) [link](https://ipw.cn/dns/) |
 
 #  修改ip
 
