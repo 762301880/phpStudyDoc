@@ -297,3 +297,9 @@ scrcpy.exe --video-codec=h265 --max-size=800 --max-fps=60 --no-audio --window-ti
 ### FlipIt
 
 https://github.com/phaselden/FlipIt
+
+# windows玩app游戏
+
+[腾讯应用宝电脑版](https://sj.qq.com/game)
+
+> 支持app游戏
