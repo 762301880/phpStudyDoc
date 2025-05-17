@@ -156,6 +156,46 @@ a.txt  b
 [root@VM-16-5-centos ~]# 
 ```
 
+###  使用abd实现自动刷视频
+
+```shell
+#!/bin/bash
+
+# 颜色定义
+GREEN='\e[32m'
+YELLOW='\e[33m'
+CYAN='\e[36m'
+RESET='\e[0m'
+
+counter=0  # 初始化计数器
+
+while true
+do
+  ((counter++))  # 计数器自增
+
+  # 彩色输出当前次数
+  echo -e "${GREEN}>>> 正在执行第 ${YELLOW}$counter ${GREEN}遍滑动 ${RESET}"
+
+  # 执行滑动操作
+  adb shell input swipe 500 1500 500 500 300
+
+  # 生成随机延迟
+  delay=$(( ( RANDOM % 4 ) + 5 ))
+
+  echo -ne "${CYAN}🕒 倒计时： ${RESET}"
+
+  # 动态倒计时
+  for ((i=delay; i>0; i--)); do
+    echo -ne "${CYAN}${i} 秒...${RESET} \r"
+    sleep 1
+  done
+
+  echo ""  # 换行
+done
+```
+
+
+
 # 注意事项
 
 ### [定义变量之间左右不要有<font color='red'>空格</font>](https://blog.csdn.net/xbnlkdbxl/article/details/52945608?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_title~default-1-52945608-blog-89491253.pc_relevant_aa&spm=1001.2101.3001.4242.2&utm_relevant_index=4)
