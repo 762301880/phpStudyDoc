@@ -24,3 +24,31 @@
 | 第三方软件园下载  对应自己保存外链下载 | [link](https://m.ddooo.com/softdown/172668.htm)   [link](https://yaoliuyang.lanzoui.com/iFI3awg65hg) |
 |                                        |                                                              |
 
+##  脚本实践
+
+###  自动刷视频
+
+```shell
+auto.waitFor();
+toast("开始刷视频");
+
+function swipeUp() {
+    let x = device.width / 2;
+    let y_start = device.height * 0.75;
+    let y_end = device.height * 0.35;
+    let duration = random(300, 800);
+    swipe(x, y_start, x, y_end, duration);
+}
+
+// 在新线程中执行刷视频逻辑
+threads.start(function() {
+    while (true) {
+        swipeUp();
+        let delay = random(5000, 15000); // 5~15秒
+        toast("等待 " + Math.floor(delay / 1000) + " 秒...");
+        sleep(delay);
+    }
+});
+
+```
+
