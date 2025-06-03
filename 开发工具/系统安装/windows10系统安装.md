@@ -84,5 +84,7 @@
 
 ![image-20231007153345621](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20231007153345621.png)
 
-#  
+# 远程开关机
+
+## [开机卡](https://mp.weixin.qq.com/s/ZAul1X3WXb-PbdT836ONDQ)
 
