@@ -329,7 +329,7 @@ class MyService {
 
 ## 示例
 
-```shell
+```php
 <?php
 
 
@@ -363,6 +363,8 @@ trait CommonTraits
 ```
 
 **调用**
+
+> 这样再次调用的好处就是`1.万一公用方法里面有大量的方法有些用不到 就会浪费资源 所以用到那块在调用那块`  `2.可以单独使用公用方法的某个方法`
 
 ```php
 class SomeController 
