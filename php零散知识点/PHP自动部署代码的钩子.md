@@ -314,8 +314,8 @@ ssh2_disconnect($connection);
 
 首先，你需要在你的项目中创建一个用于自动部署的脚本，比如 `deploy.php`。这个脚本将在每次推送到指定分支时运行。
 
-```
-phpCopy code<?php
+```php
+<?php
 // 设置密钥以确保只有你知道的人可以访问该脚本
 $secret = 'your_secret_key';
 
@@ -343,29 +343,26 @@ echo 'Deployment successful.';
 
 进入你的项目的 `.git` 目录，然后找到或创建 `hooks` 目录。在这个目录中，你可以创建一个 post-receive 钩子，用于在推送后触发部署脚本。
 
-```
-bashCopy code
+```bash
 cd /path/to/your/repo/.git/hooks
 ```
 
 然后创建一个 `post-receive` 文件：
 
-```
-bashCopy code
+```bash
 nano post-receive
 ```
 
 编辑这个文件，添加如下内容：
 
-```
-bashCopy code#!/bin/bash
+```bash
+#!/bin/bash
 curl http://yourdomain.com/deploy.php?secret=your_secret_key
 ```
 
 记得给这个文件执行权限：
 
-```
-bashCopy code
+```sh
 chmod +x post-receive
 ```
 
@@ -377,15 +374,15 @@ chmod +x post-receive
 
 对于 Apache，你可以在 `.htaccess` 文件中添加类似下面的规则：
 
-```
-apacheCopy codeRewriteEngine On
+```bash
+RewriteEngine On
 RewriteRule ^deploy.php$ /path/to/deploy.php [L]
 ```
 
 对于 Nginx，你可以在配置文件中添加类似下面的配置：
 
-```
-nginxCopy codelocation /deploy.php {
+```nginx
+location /deploy.php {
     alias /path/to/deploy.php;
     # 其他配置...
 }
