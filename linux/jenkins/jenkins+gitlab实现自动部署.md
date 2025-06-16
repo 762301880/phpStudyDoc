@@ -12,7 +12,7 @@
 > 2. [Circle CI](https://link.jianshu.com/?t=https%3A%2F%2Fcircleci.com%2F)
 > 3. [AppVeyor](https://link.jianshu.com/?t=https%3A%2F%2Fwww.appveyor.com%2F)
 > 4. [CodeShip](https://link.jianshu.com/?t=https%3A%2F%2Fcodeship.com%2F)
-> 5. [Drone](https://link.jianshu.com/?t=http%3A%2F%2Ftry.drone.io%2F)
+> 5. [Drone](https://www.drone.io/)
 > 6. [Semaphore CI](https://link.jianshu.com/?t=https%3A%2F%2Fsemaphoreci.com%2F)
 > 7. [Buildkite](https://link.jianshu.com/?t=https%3A%2F%2Fbuildkite.com%2F)
 > 8. [Wercker](https://link.jianshu.com/?t=http%3A%2F%2Fwww.wercker.com%2F)
