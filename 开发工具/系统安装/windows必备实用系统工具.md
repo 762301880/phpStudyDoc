@@ -311,3 +311,51 @@ https://github.com/phaselden/FlipIt
 ##  更改电脑的存储位置
 
 > 右键**显示设置**> **存储**>**更改新内容的保存位置**(全部更改为C盘以外的盘)
+
+## 关闭windows自动更新
+
+以下分别是 Windows 11 和 Windows 10 系统彻底关闭自动更新的方法：
+
+### Windows 11 系统
+
+- 通过组策略编辑器禁用自动更新（适用于专业版、企业版）
+  - 按【Windows + R】键打开运行窗口，输入 “gpedit.msc”，按 Enter 进入本地组策略编辑器。
+  - 在左侧导航栏依次展开 “计算机配置”>“管理模板”>“Windows 组件”>“Windows 更新”，点击 “Legacy Policies”，找到 “自动更新”。
+  - 在弹出的窗口中，选择 “已禁用”，然后点击 “应用”>“确定”。
+  - 关闭组策略编辑器，重启电脑以使设置生效。
+- 通过服务设置禁用 Windows 更新服务
+  - 按【Windows + R】打开运行窗口，输入 “services.msc”，按 Enter。
+  - 在服务列表中找到 “Windows Update”，右键点击选择 “属性”，在启动类型中选择 “禁用”，点击 “停止” 按钮。
+  - 点击 “恢复”，将 “第一次失败”“第二次失败” 和 “后续失败” 的选项换成 “无操作”，点击 “应用”>“确定”。
+- 通过注册表禁用自动更新（适用于家庭版本）
+  - 按【Windows + R】打开运行窗口，输入 “regedit”，按 Enter。如果弹出用户账户控制窗口，点击 “是”。
+  - 导航到以下路径：HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU。
+  - 在 AU 文件夹中，右键选择新建 “DWORD（32 位）值”，命名为 “NoAutoUpdate”。双击 “NoAutoUpdate”，将其值设置为 1，然后点击 “确定”。
+  - 修改完成后，重启电脑以应用更改。
+
+### Windows 10 系统
+
+- 通过 “服务” 禁用 Windows Update
+  - 按下 Win + R 键，打开 “运行” 窗口，输入 “services.msc”，点击 “确定”。
+  - 在服务列表中找到 “Windows Update” 服务，双击打开。
+  - 在 “启动类型” 中选择 “禁用”，并点击 “停止” 按钮（如果服务正在运行）。
+  - 切换到 “恢复” 选项卡，将 “第一次失败”“第二次失败”“后续失败” 均设置为 “无操作”。
+  - 点击 “应用” 和 “确定” 保存设置。
+- 通过组策略编辑器禁用自动更新（仅限专业版、企业版）
+  - 按下 Win + R 键，输入 “gpedit.msc”，点击 “确定”。
+  - 在组策略编辑器中，依次展开 “计算机配置”>“管理模板”>“Windows 组件”>“Windows 更新”。
+  - 找到 “配置自动更新”，双击打开，选择 “已禁用”，点击 “应用” 和 “确定”。
+  - （可选）找到 “删除使用所有 Windows 更新功能的访问权限”，选择 “已启用”，点击 “应用” 和 “确定”。
+- 通过注册表编辑器禁用自动更新
+  - 按下 Win + R 键，输入 “regedit”，点击 “确定”。
+  - 导航到 HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate。如果没有找到 WindowsUpdate 或 AU 文件夹，右键选择 “新建”>“项”，分别创建 WindowsUpdate 和 AU 文件夹。
+  - 在 AU 文件夹下，新建一个 DWORD (32 位) 值，命名为 NoAutoUpdate，并将值设置为 1。
+  - 点击 “确定” 保存设置。
+- 禁用任务计划中的更新任务
+  - 按下 Win + R 键，输入 “taskschd.msc”，点击 “确定”。
+  - 在任务计划程序中，依次展开 “任务计划程序库”>“Microsoft”>“Windows”>“WindowsUpdate”。
+  - 将所有与 Windows Update 相关的任务设置为 “禁用”。
+
+
+
+关闭自动更新可能会使系统面临安全风险，建议定期手动检查更新
