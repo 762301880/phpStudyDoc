@@ -39,3 +39,43 @@ bash-5.0# php bin/hyperf.php start
 string(31) "sourceCount_2021-11-09 11:29:01"
 ```
 
+##  公网ip请求 无法访问容器内部9502端口
+
+**问题排查**
+
+>  $server = new Server('127.0.0.1', 9502, false);
+>
+> 本来是挺简单的问题  说明还是因为不够心细啊   发现公网ip:9502 端口就是无法请求成功容器内开启的  9502端口 排查了好多问题 重启也没用
+>
+> 突然发现 是因为   ip没设置好 设置为**0.0.0.0**就是可以任意ip请求
+
+**解决问题**
+
+```php
+<?php
+use Swoole\Coroutine\Http\Server;
+use function Swoole\Coroutine\run;
+
+//测试 专用
+/**
+ * Server('0.0.0.0', 9502, false)
+ * 最好设置为0.0.0.0  不然的话 就算你开了容器9502端口也无法访问容器内启动的9502
+ */
+run(function () {
+    $server = new Server('0.0.0.0', 9502, false);
+    $server->handle('/', function ($request, $response) {
+        $response->end("<h1>Index</h1>");
+    });
+    $server->handle('/test', function ($request, $response) {
+        $response->end("<h1>Test</h1>");
+    });
+    $server->handle('/stop', function ($request, $response) use ($server) {
+        $response->end("<h1>Stop</h1>");
+        $server->shutdown();
+    });
+    $server->start();
+});
+echo 1;//得不到执行
+
+```
+
