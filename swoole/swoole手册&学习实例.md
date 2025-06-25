@@ -391,6 +391,77 @@ php复制编辑Swoole\Coroutine\run(function () {
 
 
 
+# 协程案例
+
+### **使用场景举例**
+
+Swoole 协程特别适用于以下场景：
+
+- 并发请求接口（如同时请求多个第三方接口）
+- 并发数据库查询
+- 并发文件 IO
+- 并发 Redis 操作
+- 高频、低延迟的 TCP/UDP 通信
+
+###  **代码1 说明**
+
+> 使用 `microtime(true)` 获取当前时间戳（秒级带毫秒）
+>
+> 使用 `Swoole\Coroutine\WaitGroup` 等待多个协程完成，保证总耗时准确
+>
+> 输出为：
+>
+> ```bash
+> Result 0: array(1) { ... }
+> Result 1: array(1) { ... }
+> Result 2: array(1) { ... }
+> 耗时: 1.003 秒  
+> ```
+>
+> 如果没有使用协程则运行时间为3秒
+
+> ### 输出说明：
+>
+> 这段代码中，我们用 `go()` 启动多个协程，并发去请求多个网站的数据，不会阻塞主进程。相比传统同步请求，它速度更快，资源占用更低。
+
+```php
+<?php
+
+use Swoole\Coroutine;
+use Swoole\Coroutine\MySQL;
+
+Co\run(function () {
+    $start = microtime(true); // 开始时间
+
+    $wg = new Coroutine\WaitGroup(); //等待多个协程完成，保证总耗时准确
+
+    for ($i = 0; $i < 3; $i++) {
+        $wg->add();
+        go(function () use ($i, $wg) {
+            $mysql = new MySQL();
+            $mysql->connect([
+                'host' => '113.45.29.83',
+                'user' => 'root',
+                'password' => '123456',
+                'database' => 'laravel_study',
+                'port' => 3307
+            ]);
+
+            $result = $mysql->query("SELECT SLEEP(1), 'Query $i'");
+            echo "Result $i: ";
+            var_dump($result);
+            $wg->done();
+        });
+    }
+
+    $wg->wait(); // 等待所有协程完成
+    $end = microtime(true); // 结束时间
+    echo "耗时: " . round($end - $start, 3) . " 秒\n";
+});
+```
+
+
+
 #  补充
 
 ##  swoole 线程 协程 进程之间的关系
