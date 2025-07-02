@@ -62,6 +62,31 @@ array:2 [
        # 结果 7
 ```
 
+## [array_intersect_key](https://www.runoob.com/php/func-array-intersect-key.html)
+
+> 比较两个数组的**键名**，并返回交集
+>
+> 
+
+```php
+        $msg_field = [
+            "title", "area_id", "nearby", "square",
+            "rent", "charge_money_real", "run_status",
+            "address", "note","area_id_path","referral_url"
+        ];
+########################优化###########################
+        //        $msg_data = [];
+//        foreach ($request->param() as $k => $item) {
+//            if (in_array($k, $msg_field)) {
+//                $msg_data[$k] = $item;
+//            }
+//        }
+        // 这是改写的  意思是 第一个数组中与第二个数组的键相匹配的部分
+        $msg_data=array_intersect_key($request->param(), array_flip($msg_field));
+```
+
+
+
 # 案例
 
 ## [删除数组中最后面几位](https://blog.csdn.net/weixin_42525582/article/details/115205188)
