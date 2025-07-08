@@ -146,3 +146,9 @@
 -Dkotlinx.coroutines.debug=off
 ```
 
+#  主题
+
+> 导航栏   开发者工具-IDE主题
+
+https://plugins.jetbrains.com/plugin/11938-one-dark-theme
+
