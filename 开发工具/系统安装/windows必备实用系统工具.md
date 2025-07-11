@@ -37,6 +37,18 @@ https://www.microsoft.com/en-us/p/hevc-video-extensions-from-device-manufacturer
 
 [**个人网盘下载**](https://yaoliuyang.lanzoul.com/iW4zz1ipo45i)
 
+###  补充:windows7自带 windows media player 不能预览视频怎么办
+
+> https://jingyan.baidu.com/article/2fb0ba40765d7741f2ec5f83.html
+>
+> 原因 系统版本太老不支持预览 下载一个捆绑插件即可  **K-Lite Codec Pack**解码包
+
+**下载**
+
+https://files2.codecguide.com/K-Lite_Codec_Pack_1905_Standard.exe
+
+
+
 #  google play在线下载
 
 > 众所周知我们想下载谷歌商店应用的情况下必须要下载谷歌商店的软件非常麻烦有没有能直接在网页下载的
