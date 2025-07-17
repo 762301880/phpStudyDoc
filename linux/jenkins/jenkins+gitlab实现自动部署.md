@@ -26,9 +26,9 @@
 | jenkins-docker官网 | [link](https://registry.hub.docker.com/_/jenkins)            |
 | 参考博客           | [link](https://learnku.com/articles/39601?spm=a2c6h.12873639.0.0.6a06b3069048Mh)  [link](https://blog.51cto.com/u_8416177/2129777)  [link](https://blog.51cto.com/bigboss/2129477)  [link](https://blog.csdn.net/zqqiang0307/article/details/120458586) |
 
-#  [安装](https://developer.aliyun.com/article/742451)
+#  [安装jenkins](https://developer.aliyun.com/article/742451)
 
-**安装jenkins**
+## **docker安装jenkins**
 
 > 可以官网下载更多版本 https://hub.docker.com/r/jenkins/jenkins/tags
 >
@@ -42,7 +42,45 @@ docker pull jenkins/jenkins:latest-jdk8
 docker pull jenkins/jenkins:latest
 ```
 
-**启动jenkins镜像**
+###  补充:
+
+#### 如果不小心忘记admin登陆密码怎么办
+
+Jenkins 初始管理员（admin）密码的获取方式取决于部署方式，以下是具体方法：
+
+1. 用 Docker 部署的 Jenkins（含 docker-compose）
+
+通过容器日志或数据卷文件获取：
+
+方法一：查看容器日志（推荐）
+
+```bash
+# 查看 Jenkins 容器日志，初始密码会打印在日志中
+docker logs jenkins
+```
+
+在日志中搜索 `initialAdminPassword`，会看到类似这样的内容：
+
+```shell
+*************************************************************
+*************************************************************
+*************************************************************
+
+Jenkins initial setup is required. An admin user has been created and a password generated.
+Please use the following password to proceed to installation:
+
+abcdef1234567890  # 这就是初始密码
+
+This may also be found at: /var/jenkins_home/secrets/initialAdminPassword
+
+*************************************************************
+```
+
+
+
+
+
+## **启动jenkins镜像**
 
 > 将配置文件、编译日志、结果归档都存储在 *JENKINS_HOME* *目录*挂载到本机目录
 >
