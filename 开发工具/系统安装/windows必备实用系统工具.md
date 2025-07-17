@@ -49,6 +49,12 @@ https://files2.codecguide.com/K-Lite_Codec_Pack_1905_Standard.exe
 
 
 
+
+
+##  windows 电脑前面的耳机接口没有声音
+
+https://www.speed2.net/pcsoft/1223240.html
+
 #  google play在线下载
 
 > 众所周知我们想下载谷歌商店应用的情况下必须要下载谷歌商店的软件非常麻烦有没有能直接在网页下载的
