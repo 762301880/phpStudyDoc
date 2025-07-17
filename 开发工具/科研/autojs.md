@@ -19,10 +19,10 @@
 
 
 
-| 名称                                   | 地址                                                         |
-| -------------------------------------- | ------------------------------------------------------------ |
-| 第三方软件园下载  对应自己保存外链下载 | [link](https://m.ddooo.com/softdown/172668.htm)   [link](https://yaoliuyang.lanzoui.com/iFI3awg65hg) |
-|                                        |                                                              |
+| 名称                         | 地址                                                         |
+| ---------------------------- | ------------------------------------------------------------ |
+| github  对应自己保存外链下载 | [link](https://github.com/SuperMonster003/AutoJs6/releases)   [link](https://yaoliuyang.lanzoui.com/iFI3awg65hg) |
+|                              |                                                              |
 
 ## 用PC 调试开发 AutoJS 
 
