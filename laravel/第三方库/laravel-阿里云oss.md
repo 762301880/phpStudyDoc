@@ -3,7 +3,7 @@
 ## larave
 
 ```php
-  $file = $request->file('file'); //获取上传的文件
+        $file = $request->file('file'); //获取上传的文件
         $file_suffix = $file->getClientOriginalExtension(); //获取图片后缀(jpg,png)
         if (!in_array($file_suffix, ['jpg', 'jpeg', 'png'])) throw new \Exception("图片后缀必须是图片格式");
         $move_path = public_path("/temp_imgs"); //需要上传的临时目录位置
