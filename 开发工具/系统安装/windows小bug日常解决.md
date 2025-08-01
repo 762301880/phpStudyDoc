@@ -69,3 +69,11 @@
 
 
 开启新对话
+
+# C盘清理
+
+##  微信文件搬家
+
+> 发现微信默认文档保存位置在C盘的文档目录的**Wechat Files** 文件夹   搬到D盘瞬间磁盘暴涨10个G舒服
+
+![image-20250801100112265](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250801100112265.png)
