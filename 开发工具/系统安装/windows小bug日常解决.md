@@ -72,8 +72,22 @@
 
 # C盘清理
 
+## 参考资料
+
+| 名称     | 地址                                             |
+| -------- | ------------------------------------------------ |
+| 网络博客 | [link](https://www.zhihu.com/question/379384714) |
+
+
+
 ##  微信文件搬家
 
 > 发现微信默认文档保存位置在C盘的文档目录的**Wechat Files** 文件夹   搬到D盘瞬间磁盘暴涨10个G舒服
 
 ![image-20250801100112265](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250801100112265.png)
+
+## 打开文件存储感知
+
+> 小提示在这里可以看到磁盘为什么占用了这么多  自行删除不需要的文件
+
+![image-20250801100314005](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250801100314005.png)
