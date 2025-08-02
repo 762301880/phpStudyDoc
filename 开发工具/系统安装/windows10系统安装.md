@@ -88,3 +88,15 @@
 
 ## [开机卡](https://mp.weixin.qq.com/s/ZAul1X3WXb-PbdT836ONDQ)
 
+# 系统分区大小设置
+
+> 一下是我第一个笔记本的截图**实际体验来说 C盘100个G根本不够用**
+
+![image-20250802091714188](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250802091714188.png)
+
+| **盘符** | **分区大小** |
+| -------- | ------------ |
+| **C:**   | **100GB**    |
+| **D:**   | **327GB**    |
+| **E:**   | **244GB**    |
+| **F:**   | **244GB**    |
