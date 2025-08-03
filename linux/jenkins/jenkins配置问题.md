@@ -102,3 +102,13 @@ docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 
 
 
+#  陌生用户访问jenkins地址必须是登录界面设置
+
+> **系统管理->全局安全配置**  设置为**登录用户才可以做任何事**  把**匿名用户具有可读权限关了(不然陌生用户也可以看到你的项目)**
+
+![image-20250803142422094](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250803142422094.png)
+
+
+
+
+
