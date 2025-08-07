@@ -21,6 +21,8 @@
 >
 > 1. <font color='red'>authorized_keys</font> 文件添加公钥的时候千万别手动复制进来，不然会一只提示公钥没有注册
 
+### **方案一添加公钥(手动上传)**
+
 ```shell
 # root用户操作
 
@@ -39,6 +41,21 @@
 **rz命令将本地文件上传至服务器**
 
 <img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220627093503429.png" alt="rz-命令上传本地公钥" style="zoom: 80%;" />
+
+###  方案二**ssh-copy-id**命令上传公钥
+
+> 将公钥上传到远程服务器的 `~/.ssh/authorized_keys` 中：
+>
+> 若远程是 Linux 服务器，可通过 `ssh-copy-id` 上传（需确保服务器开启 SSH）
+
+```shell
+ssh-copy-id -i C:\Users\你的用户名\.ssh\id_ed25519.pub 用户名@远程服务器IP
+```
+
+1. 若 `ssh-copy-id` 不可用，可手动复制公钥内容，粘贴到远程服务器的 `~/.ssh/authorized_keys` 文件（注意权限：`~/.ssh` 目录权限为 700，`authorized_keys` 为 600）。
+2. 测试免密登录：`ssh 用户名@远程服务器IP`，若无需输密码直接登录，则配置成功。
+
+
 
 ## **配置 /etc/ssh/sshd_config**
 
