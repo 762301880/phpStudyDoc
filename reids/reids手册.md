@@ -3039,15 +3039,55 @@ C:\Users\铺先生技术研发中心>redis-cli
 127.0.0.1:6379>
 ```
 
+###   禁用redis危险命令
+
+> Redis 中的一些命令如`FLUSHALL`、`FLUSHDB`、`KEYS`等如果使用不当，可能会导致数据丢失或服务性能下降。
+>
+> 以下是几种禁用 Redis 危险命令的方法：
+
+- **修改配置文件（redis.conf）**：通过将危险命令重命名为空字符串来实现禁用。打开`redis.conf`文件，找到`rename-command`设置，添加如下配置：
+
+```plaintext
+rename-command KEYS ""
+rename-command FLUSHALL ""
+rename-command FLUSHDB ""
+rename-command CONFIG ""
+```
+
+保存配置文件后，重启 Redis 服务使更改生效。
+
+- **使用 ACL（访问控制列表）**：Redis 6.0 及以上版本支持 ACL，可以对不同的用户设置不同的权限，从而限制某些命令的使用。例如，要限制默认用户使用危险命令，可以通过以下命令：
+
+```plaintext
+ACL SETUSER default reset
+ACL SETUSER default on +@all -FLUSHALL -FLUSHDB -KEYS -HKEYS -HVALS -HGETALL -LRANGE -SMEMBERS -ZRANGE -ZREVRANGE -ZRANGEBYSCORE
+```
 
 
 
+上述命令先重置默认用户的权限，然后允许默认用户执行所有命令，再禁止执行一些常见的危险命令。
 
 
 
+- **云数据库平台设置**：如果使用的是云数据库 Redis，如腾讯云、京东云、移动云等，通常可以在控制台中直接配置禁用命令。以腾讯云为例，登录 Redis 控制台，选择目标实例，进入实例详情页面的参数配置页面，找到`disable-command-list`参数行，可配置禁用命令名单，支持禁用的命令包括`flushall`、`flushdb`、`keys`、`hgetall`、`eval`、`evalsha`、`script`等，配置后 2 分钟内生效，且无需重启 Redis 服务。
+- **使用 Lua 脚本拦截命令**：可以编写 Lua 脚本在命令执行前进行拦截和评估，判断是否为禁用命令。例如：
 
 
 
+```lua
+local cmd = ARGV(1)
+local forbidden_commands = {'DEL', 'EXISTS', 'KEYS'}
+for _, forbidden in ipairs(forbidden_commands) do
+    if cmd == forbidden then
+        return redis.error_reply('ERR Command is disabled: '.. cmd)
+    end
+end
+return redis.call(cmd, unpack(ARGV, 2))
+```
+
+
+
+将上述脚本保存为文件，如`script.lua`，然后可以通过`redis-cli --eval /path/to/script.lua <command> <arguments>`的方式来执行命令，这样在执行禁用命令时会返回错误提示。但这种方式需要每次执行命令时都通过该脚本调用，使用起来相对不太方便，一般适用于特定场景下的命令拦截。
 
 
 
