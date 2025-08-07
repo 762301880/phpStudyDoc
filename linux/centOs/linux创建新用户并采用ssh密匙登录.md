@@ -57,7 +57,7 @@ ssh-copy-id -i C:\Users\你的用户名\.ssh\id_ed25519.pub 用户名@远程服�
 
 
 
-## **配置 /etc/ssh/sshd_config**
+## [**配置 /etc/ssh/sshd_config**](https://man.openbsd.org/sshd_config)
 
 > 以下配置如果有则取消注释或修改,没有则创建即可
 
