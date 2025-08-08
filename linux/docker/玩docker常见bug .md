@@ -129,6 +129,14 @@ bash-5.0# ps aux|grep cron
 
 # 不同容器写日志权限问题
 
+**问题原因**
+
+> https://learnku.com/docs/laravel/8.x/logging/9376
+>
+> 可以全局搜 **0644**
+
+> 可以看出 laravel 默认生成的日志信息为**0644** 这就导致 其他用户只有 **读**的权限 所以会报错
+
 
 
 **php容器Cli生成的文件**
