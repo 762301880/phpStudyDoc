@@ -127,3 +127,61 @@ bash-5.0# ps aux|grep cron
 # 启动docker的时候加上命令   --privileged=True就OK
 ```
 
+# 不同容器写日志权限问题
+
+
+
+**php容器Cli生成的文件**
+
+> **laravel-2025-08-08.log**这是一个由root用户拥有的 Laravel 日志文件，权限为所有者可读写、所属组和其他用户仅可读
+>
+> 例如 调用 php artisan 自定义命令写入的日志 
+
+```shell
+root@hcss-ecs-739f:/work/php_projects/laravel_study/storage/logs# ls -al
+total 100
+drwxrwxrwx 2 www-data www-data  4096 Aug  8 08:10 .
+drwxrwxrwx 5 root     root      4096 Aug  7 09:53 ..
+...........
+-rwxrwxrwx 1 root     root     26077 Aug  7 23:00 laravel-2025-08-07.log
+-rw-r--r-- 1 root     root       176 Aug  8 09:01 laravel-2025-08-08.log
+```
+
+**nginx生成的文件**
+
+> 把上面一个文件删了调用接口 会通过 ip+地址 会调用 php-fpm  生成一个  nginx用户生成的日志文件
+
+```shell
+root@hcss-ecs-739f:/work/php_projects/laravel_study/storage/logs# ls -al
+total 100
+...........
+-rwxrwxrwx 1 root     root     26077 Aug  7 23:00 laravel-2025-08-07.log
+-rw-r--r-- 1 www-data www-data   154 Aug  8 09:34 laravel-2025-08-08.log
+```
+
+
+
+
+
+## 解决方案
+
+### Laravel 文件配置调整:
+
+在`config/logging.php`中设置日志文件的权限，避免新文件被创建时权限不足：
+
+> 这样其他用户就有写入的权限了
+>
+> 生成的日志 
+>
+> 第 8-10 个字符：其他用户（other）权限
+> `rw-` 表示所有用户都拥有**读（r）** 和**写（w）** 权限，无执行（x）权限。
+>
+> 权限总结：该文件对所有用户开放读写权限，无执行权限。
+
+```php
+'permission' => 0666, // 允许所有用户读写
+
+
+# 生成的日志大概这样   
+-rw-rw-rw- 1 root root  701 Aug  8 11:01 laravel-2025-08-08.log
+```
