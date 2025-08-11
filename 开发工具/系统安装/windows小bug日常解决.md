@@ -91,3 +91,22 @@
 > 小提示在这里可以看到磁盘为什么占用了这么多  自行删除不需要的文件
 
 ![image-20250801100314005](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250801100314005.png)
+
+## 临时文件清理
+
+> **win+r** 输入`%temp%`  打开的目录都是临时缓存文件**可以放心的全部删除**
+
+##  关闭系统休眠文件(亲测自动回归8G 内存)
+
+
+
+**关闭命令**
+
+> [参考](https://blog.csdn.net/likuoelie/article/details/149254982)   
+>
+> 注意:**需要用命令提示符  右键以管理员方式打开**
+
+```shell
+powercfg -h off
+```
+
