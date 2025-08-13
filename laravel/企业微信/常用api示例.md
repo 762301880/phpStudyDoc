@@ -206,6 +206,8 @@ public function sendMessage($agentid)
 
 https://developer.work.weixin.qq.com/document/path/91770
 
+https://open.work.weixin.qq.com/help2/pc/14931
+
 # 客户联系
 
 ## 客户群管理
