@@ -202,6 +202,10 @@ public function sendMessage($agentid)
 | 添加机器人文档 | [link](https://open.work.weixin.qq.com/help2/pc/14931?person_id=1&is_tencent=) |
 | 机器人开发文档 | [link](https://developer.work.weixin.qq.com/document/path/91770) |
 
+###  企业微信机器人发送消息api
+
+https://developer.work.weixin.qq.com/document/path/91770
+
 # 客户联系
 
 ## 客户群管理
