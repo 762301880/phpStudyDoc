@@ -28,6 +28,9 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $host;
+        
+        # 允许超长连接
+        proxy_read_timeout 600s;
 
         proxy_pass http://swoole_websocket_container:9501; // 这里的swoole_websocket_container是你的Swoole WebSocket容器的名称
         # 例如我dockercompose.yml services 名称是 app 则上面的对应示例因该改为

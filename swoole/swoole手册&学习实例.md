@@ -111,8 +111,6 @@ use Swoole\Timer;
 
 > https://blog.csdn.net/walykyy/article/details/105982540
 
-
-
 # 协程
 
 ## 🧠 一句话理解「协程」
@@ -389,9 +387,7 @@ php复制编辑Swoole\Coroutine\run(function () {
 - 协程适合 I/O 密集型任务（网络请求、数据库、文件等）
 - 线程/进程更适合 CPU 密集型任务（图像处理、大量计算）
 
-
-
-# 协程案例
+## 协程案例
 
 ### **使用场景举例**
 
@@ -460,11 +456,9 @@ Co\run(function () {
 });
 ```
 
+## 补充
 
-
-#  补充
-
-##  swoole 线程 协程 进程之间的关系
+### swoole 线程 协程 进程之间的关系
 
 Swoole 是一个高性能的 PHP 异步并发框架，它支持多种并发模型，包括线程、协程和进程。下面是它们之间的关系和区别：
 
@@ -501,3 +495,168 @@ Swoole 是一个高性能的 PHP 异步并发框架，它支持多种并发模�
    - **协程模式**：适用于高并发 I/O 操作，如网络请求、数据库操作。
 
 通过合理选择和组合这些并发模型，可以充分发挥 Swoole 的性能优势。
+
+# swoole-Table([高性能共享内存 Table](https://wiki.swoole.com/zh-cn/#/memory/table?id=高性能共享内存-table))
+
+## 1. **Swoole\Table 是什么？**
+
+`Swoole\Table` 是 Swoole 提供的一个**内存共享数据结构**，专门用于多进程/多协程之间共享数据。
+ 特点：
+
+- **常驻内存**（只要 Master 进程不退出，数据就一直在）
+- **支持多进程并发读写**（内部基于内存锁）
+- **支持行、列数据存储**（类似内存数据库）
+- **非常快**（底层用 C 实现）
+
+常用场景：
+
+- 存储用户在线状态（聊天室、WebSocket）
+- 缓存数据（排行榜、计数器、限流）
+- 进程间共享配置信息
+
+------
+
+## 2. **基本用法**
+
+### 创建 Table
+
+```php
+<?php
+$table = new Swoole\Table(1024); // 1024 行（最大行数，必须是 2 的次方）
+
+// 定义列
+$table->column('id', Swoole\Table::TYPE_INT, 4);      // 整数型，占 4 字节
+$table->column('score', Swoole\Table::TYPE_FLOAT);    // 浮点型
+$table->column('name', Swoole\Table::TYPE_STRING, 64);// 字符串，最大长度 64
+
+$table->create(); // 创建表
+```
+
+------
+
+### 增 / 改 数据
+
+```php
+$table->set('user_1', [
+    'id'    => 1,
+    'score' => 99.5,
+    'name'  => 'Tom'
+]);
+
+// 或者单独设置某列
+$table->set('user_1', ['score' => 100]);
+```
+
+------
+
+### 查 数据
+
+```php
+$data = $table->get('user_1');
+print_r($data); // Array ( [id] => 1 [score] => 100 [name] => Tom )
+
+// 获取单列
+echo $table->get('user_1', 'score'); // 100
+```
+
+------
+
+### 删 数据
+
+```php
+$table->del('user_1');
+```
+
+------
+
+### 遍历数据
+
+```php
+foreach ($table as $key => $row) {
+    echo "Key: {$key}, Name: {$row['name']}, Score: {$row['score']}\n";
+}
+```
+
+------
+
+## 3. **数据类型和大小**
+
+`column()` 定义列时的类型：
+
+- `Swoole\Table::TYPE_INT`（整数）
+- `Swoole\Table::TYPE_FLOAT`（浮点数）
+- `Swoole\Table::TYPE_STRING`（字符串）
+
+**注意事项**：
+
+- `TYPE_INT` 要指定字节大小（1, 2, 4, 8）
+- `TYPE_STRING` 要指定最大长度（必须 <= 64KB）
+- 表的行数必须是 **2 的 N 次方**（比如 1024, 2048, 4096）
+
+------
+
+## 4. **在多进程中使用**
+
+`Swoole\Table` 必须在 **Server 启动前** 创建好，然后作为全局变量传给 Worker。
+
+```php
+use Swoole\Table;
+use Swoole\WebSocket\Server;
+
+$table = new Table(1024);
+$table->column('fd', Table::TYPE_INT, 4);
+$table->create();
+
+$server = new Server("0.0.0.0", 9501);
+
+// 新连接
+$server->on('open', function ($server, $req) use ($table) {
+    $table->set($req->fd, ['fd' => $req->fd]);
+    echo "用户 {$req->fd} 连接\n";
+});
+
+// 收消息
+$server->on('message', function ($server, $frame) {
+    echo "收到消息: {$frame->data}\n";
+});
+
+// 关闭连接
+$server->on('close', function ($server, $fd) use ($table) {
+    $table->del($fd);
+    echo "用户 {$fd} 离线\n";
+});
+
+$server->start();
+```
+
+这样就可以用 `$table->exists($fd)` 来判断用户是否在线。
+
+------
+
+## 5. **常用方法**
+
+| 方法                            | 作用           |
+| ------------------------------- | -------------- |
+| `column($name, $type, $size)`   | 定义列         |
+| `create()`                      | 创建表         |
+| `set($key, $value)`             | 设置一行       |
+| `get($key, $field = null)`      | 获取一行或某列 |
+| `del($key)`                     | 删除一行       |
+| `exists($key)`                  | 判断是否存在   |
+| `count()`                       | 获取当前行数   |
+| `decr($key, $column, $dec = 1)` | 原子递减       |
+| `incr($key, $column, $inc = 1)` | 原子递增       |
+
+------
+
+## 6. **注意事项**
+
+1. 表的容量是固定的，不能动态扩容。
+2. 创建表必须在 `Server->start()` 之前，否则报错。
+3. 字符串列的长度一旦定义就固定，多余部分会被截断。
+4. Swoole\Table 是内存结构，进程退出后数据会丢失（除非自己序列化持久化）。
+
+------
+
+✅ **总结**
+ `Swoole\Table` 就是一个高速共享内存数据表，用法和 Redis 哈希有点像，但不需要网络开销，适合存储在线用户、排行榜、计数器等多进程共享数据。
