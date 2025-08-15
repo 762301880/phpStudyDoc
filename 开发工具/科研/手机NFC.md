@@ -2,10 +2,12 @@
 
 #  nfc工具
 
-| 名称                                     | 地址                                                |
-| ---------------------------------------- | --------------------------------------------------- |
-| NFC Tools_8.11  个人网盘备份             | [link](https://yaoliuyang.lanzoul.com/ihfxu2flkwpg) |
-| MIFARE Classic Tool_4.2.3   个人网盘备份 | [link](https://yaoliuyang.lanzoul.com/iDW6x2fum4wb) |
+| 名称                                     | 地址                                                         |
+| ---------------------------------------- | ------------------------------------------------------------ |
+| NFC Tools_8.11  个人网盘备份             | [link](https://yaoliuyang.lanzoul.com/ihfxu2flkwpg)          |
+| MIFARE Classic Tool_4.2.3   个人网盘备份 | [link](https://yaoliuyang.lanzoul.com/iDW6x2fum4wb)          |
+| NFC Tools_pro 破解版                     | [当下软件园](https://www.downkuai.com/android/174439.html)   [个人网盘备份](https://yaoliuyang.lanzoul.com/ixDUZ33kql9i) |
+| 碰一碰收款码json生成器                   | [link](https://apg.yeelys.cn/)  [link](https://apg.yeelys.cn/Flipper_NFC_Maker/index.html) |
 
 
 
@@ -319,6 +321,8 @@ yaml复制编辑5200 → 成功  ✅ → 选 5200
 ## 支付宝碰一碰写卡
 
 > 支付宝送的碰一碰收款码太大了拿不下且随身携带不方便 所以打算把它弄小一点
+>
+> **注意(一定要写入的时候  地址在前 跳转在后)**
 
 **资料**
 
