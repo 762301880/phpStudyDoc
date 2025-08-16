@@ -26,7 +26,7 @@
 
 > https://seniverse.yuque.com/hyper_data/api_v3/ofoyw2
 
-```shell
+```php
 
     public function test(Request $request)
     {
