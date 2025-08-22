@@ -17,6 +17,7 @@
 > 7. [Buildkite](https://link.jianshu.com/?t=https%3A%2F%2Fbuildkite.com%2F)
 > 8. [Wercker](https://link.jianshu.com/?t=http%3A%2F%2Fwww.wercker.com%2F)
 > 10. [TeamCity](https://link.jianshu.com/?t=https%3A%2F%2Fwww.jetbrains.com%2Fteamcity%2F)
+> 10. [jpom](https://jpom.top/pages/2e4ffc/)  [参考](https://zhuanlan.zhihu.com/p/1941525246843791207)
 
 ## 资料
 
