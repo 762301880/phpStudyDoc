@@ -2,7 +2,11 @@
 
 ## [概述](https://baike.baidu.com/item/rabbitmq/9372144?fr=aladdin)
 
-> RabbitMQ 是实现高级消息队列协议 (AMQP) 的开源消息代理软件（有时称为面向消息的中间件）。RabbitMQ 服务器是用 Erlang 编程语言编写的，并建立在 Open Telecom Platform 框架上，用于集群和故障转移。与代理交互的客户端库可用于所有主要编程语言。
+> RabbitMQ 是实现高级消息队列协议 (AMQP) 的开源消息代理软件（有时称为面向消息的中间件）。
+>
+> RabbitMQ 服务器是用 Erlang 编程语言编写的，并建立在 Open Telecom Platform 框架上，用于集群和故障转移。
+>
+> 与代理交互的客户端库可用于所有主要编程语言。
 
 # 资料
 
@@ -26,6 +30,7 @@
 > 安装后默认用户名&密码为**guest**
 
 ```shell
+# 请用下面的示例安装-这里只是展示基础安装方法
 docker run -itd --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
 ```
 
@@ -33,8 +38,13 @@ docker run -itd --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-m
 
 > 如果要更改 / 的默认用户名和密码，可以使用 和 环境变量执行此操作。这些变量以前在特定于 docker 的入口点 shell 脚本中可用，但现在可以直接在 RabbitMQ 中使用。`guest``guest``RABBITMQ_DEFAULT_USER``RABBITMQ_DEFAULT_PASS`
 
-```php
-docker run -d --hostname my-rabbit --name some-rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password rabbitmq:3-management
+```shell
+docker run -itd \
+    --hostname my-rabbit \ 
+    --name some-rabbit \ 
+    -e RABBITMQ_DEFAULT_USER=user \
+    -e RABBITMQ_DEFAULT_PASS=password \
+    rabbitmq:3-management
 ```
 
 
