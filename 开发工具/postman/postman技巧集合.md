@@ -12,7 +12,7 @@
 | -------- | ------------------------------------------------------------ |
 | 参考博客 | [link](https://learnku.com/articles/66387) [link](https://github.com/fkei/JSON.minify/blob/master/minify.json.js) [link](https://doc.houdunren.com/soft/9%20postman.html#postman) |
 
-**Pre-req.**中添加代码
+### **Pre-req.**中添加代码  [加到全局pre-req里面](#postman全局 Pre-request Script)
 
 ```shell
 //  去除json参数注释方法
@@ -219,3 +219,17 @@ C:\Users\<你的用户名>\AppData\Local\Postman
 - 在这里找： https://www.filehorse.com/download-postman/old-versions/
 
 3. 安装后结合“方法一”禁用更新。
+
+##  postman全局 Pre-request Script
+
+> 例如我点击**佣金系统**  那么 佣金系统下面写的脚本就可以作用整个**集合**
+
+### 作用范围层级（优先级从高到低）
+
+1. **Request 级别**（单个请求的 pre-request script）
+2. **Folder 级别**（对一个文件夹里的所有请求生效）
+3. **Collection 级别**（对整个集合里的所有请求生效）
+
+###  图片示例
+
+![image-20250826093347102](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250826093347102.png)
