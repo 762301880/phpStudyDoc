@@ -1,8 +1,9 @@
 #  资料
 
-| 名称             | 地址                               |
-| ---------------- | ---------------------------------- |
-| **心知天气官网** | [link](https://www.seniverse.com/) |
+| 名称               | 地址                                           |
+| ------------------ | ---------------------------------------------- |
+| **心知天气官网**   | [link](https://www.seniverse.com/)             |
+| 百度地图坐标拾取器 | [link](https://lbs.baidu.com/maptool/getpoint) |
 
 
 
@@ -139,4 +140,8 @@
 > **如果图方便直接使用第一种 私钥请求接口即可**
 
 
+
+# 别的天气平台
+
+## [openweath](https://openweathermap.org/forecast5#min)
 
