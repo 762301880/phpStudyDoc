@@ -32,43 +32,6 @@
 13.114.40.48   www.github.com	
 ```
 
-# [方法二](https://zhuanlan.zhihu.com/p/272741266)
-
-```php
-sudo vi /etc/hosts  # linux hosts未知
-    
-C:\Windows\System32\drivers\etc    # windowsgithub位置
-    
-#添加    
-# GitHub Start 
-140.82.113.3      github.com
-140.82.114.20     gist.github.com
-151.101.184.133    assets-cdn.github.com
-151.101.184.133    raw.githubusercontent.com
-151.101.184.133    gist.githubusercontent.com
-151.101.184.133    cloud.githubusercontent.com
-151.101.184.133    camo.githubusercontent.com
-151.101.184.133    avatars0.githubusercontent.com
-199.232.68.133     avatars0.githubusercontent.com
-199.232.28.133     avatars1.githubusercontent.com
-151.101.184.133    avatars1.githubusercontent.com
-151.101.184.133    avatars2.githubusercontent.com
-199.232.28.133     avatars2.githubusercontent.com
-151.101.184.133    avatars3.githubusercontent.com
-199.232.68.133     avatars3.githubusercontent.com
-151.101.184.133    avatars4.githubusercontent.com
-199.232.68.133     avatars4.githubusercontent.com
-151.101.184.133    avatars5.githubusercontent.com
-199.232.68.133     avatars5.githubusercontent.com
-151.101.184.133    avatars6.githubusercontent.com
-199.232.68.133     avatars6.githubusercontent.com
-151.101.184.133    avatars7.githubusercontent.com
-199.232.68.133     avatars7.githubusercontent.com
-151.101.184.133    avatars8.githubusercontent.com
-199.232.68.133     avatars8.githubusercontent.com
-# GitHub End
-```
-
 # bug 解析
 
 ## ssh connect to host github.com port 22 Connection timed out
@@ -90,4 +53,3 @@ rtt min/avg/max/mdev = 83.890/83.903/83.938/0.012 ms
 **公司电脑 ping 不通过 同事的电脑也试了**
 
 解决方案 用手机数据线给电脑提供网络测试可以通过
-
