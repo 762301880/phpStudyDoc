@@ -32,12 +32,17 @@ docker run --name mysql -itd -p 3307:3306 -v /data/mysql:/var/lib/mysql -e MYSQL
 | 清华大学开源镜像站-mysql | [link](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/)  [点击下载](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/mysql-5.7.36-winx64.zip) |
 | 官方说明文档             | [MySQL ：： MySQL 8.0 参考手册 ：： 2.3.4.1 提取安装归档文件](https://dev.mysql.com/doc/refman/8.0/en/windows-extract-archive.html) |
 | 菜鸟教程mysql安装方式    | [link](https://www.runoob.com/mysql/mysql-install.html)      |
+| 阿里巴巴mysql开源镜像站  | [link](https://mirrors.aliyun.com/mysql/?spm=a2c6h.13651104.d-5173.1.17005dc848NO0I) |
 
 **windows-压缩包安装**
 
 > 官网下载[mysql](https://downloads.mysql.com/archives/community/)版本,这里下载**64位**压缩版本,最好是**5.7版本**
 >
-> 由于官网下载速度很慢所以我们到开源镜像站下载,**[清华大学开源镜像站-mysql](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/)**
+> 由于官网下载速度很慢所以我们到开源镜像站下载
+>
+> **[清华大学开源镜像站-mysql-官网已删除镜像](https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-5.7/)**
+>
+> **[阿里巴巴开源镜像站-mysql-8.0.28-winx64.zip]**(https://mirrors.aliyun.com/mysql/MySQL-8.0/mysql-8.0.28-winx64.zip)
 
 ![image-20220709150956479](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220709150956479.png)
 
