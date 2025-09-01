@@ -221,11 +221,19 @@ done
 
 
 
-**cmd命令配置**
+### **cmd命令配置**
+
+[**使用配对码配对设备**](https://blog.csdn.net/huaqianzkh/article/details/143199399)
+
+> 使用配对码
+>
+> 在手机上生成配对码。
+>
+> 打开电脑终端，输入以下命令：
 
 ```shell
 # 命令
-adb pair ip:port
+adb pair <手机IP地址>:<端口号>
 
 
 # 命令示例
