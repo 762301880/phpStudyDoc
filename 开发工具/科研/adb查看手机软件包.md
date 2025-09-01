@@ -215,6 +215,9 @@ adb shell wm size
 
 # 查看已连接设备列表
 adb devices
+
+# 查看手机的安卓版本号。
+adb shell getprop ro.build.version.release
 ```
 
 
@@ -250,8 +253,16 @@ adb pair <手机IP地址>:<端口号>
 
 # 命令示例
 C:\Users\铺先生技术研发中心>adb pair  192.168.110.89:46419
-Enter pairing code: 425945         # code 输入对应的code
-Successfully paired to 192.168.110.89:46419 [guid=adb-10CF4P0UGY002CU-lLcDqW]
+Enter pairing code: 425945         # code 输入对应的code  
+Successfully paired to 192.168.110.89:46419 [guid=adb-10CF4P0UGY002CU-lLcDqW]  # 表明您的设备已成功配对
+
+# 连接
+C:\Users\铺先生技术研发中心> adb connect 192.168.110.89:42457
+connected to 192.168.110.89:42457
+
+C:\Users\铺先生技术研发中心>adb devices
+List of devices attached
+192.168.110.89:42457    device
 ```
 
 ## 获取手机上的位置坐标方案
