@@ -12,6 +12,7 @@
 | ----------------------------------- | -------------------------------------------- |
 | autojspro-官网                      | [link](https://pro.autojs.org/)              |
 | api文档                             | [link](https://pro.autojs.org/docs/#/zh-cn/) |
+| 官方文档                            | [link](http://autojs.cc/)                    |
 | autojs-博客                         | [link](https://blog.autojs.org/)             |
 | 阿里巴巴-矢量图库(可以用来下载图标) | [link](https://www.iconfont.cn/)             |
 
@@ -26,7 +27,7 @@
 
 ## 用PC 调试开发 AutoJS 
 
-[link](https://blog.csdn.net/qq_16946803/article/details/121339840#:~:text=%E6%9C%AC%E6%96%87%E6%A1%A3%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D%E4%BA%86%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AEVisual%20Studio%20Code%20%28VSCode%29,%E4%B8%8E%20Auto.js%20%E8%BF%9B%E8%A1%8C%E9%9B%86%E6%88%90%E5%BC%80%E5%8F%91%EF%BC%8C%E5%8C%85%E6%8B%AC%E5%9C%A8%E7%94%B5%E8%84%91%E7%AB%AF%E5%AE%89%E8%A3%85%E6%89%80%E9%9C%80%E6%8F%92%E4%BB%B6%EF%BC%8C%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%9C%A8%E6%89%8B%E6%9C%BA%E7%AB%AF%E5%AE%89%E8%A3%85Auto.js%EF%BC%8C%E8%AE%BE%E7%BD%AE%E6%97%A0%E9%9A%9C%E7%A2%8D%E6%9D%83%E9%99%90%E3%80%82%20%E6%AD%A4%E5%A4%96%EF%BC%8C%E5%AF%B9%E4%BA%8E%E7%9C%9F%E6%9C%BA%E8%AE%BE%E5%A4%87%EF%BC%8C%E8%BF%98%E6%8F%90%E4%BE%9B%E4%BA%86%E9%A2%9D%E5%A4%96%E7%9A%84%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4%EF%BC%8C%E5%A6%82%E4%BD%BF%E7%94%A8%E6%89%8B%E6%9C%BA%E6%8A%95%E5%B1%8F%E5%B7%A5%E5%85%B7%E5%92%8C%E5%BC%80%E5%90%AFUSB%E8%B0%83%E8%AF%95%E3%80%82%20%E6%9C%80%E5%90%8E%EF%BC%8C%E9%80%9A%E8%BF%87%E7%BC%96%E5%86%99%E7%AE%80%E5%8D%95%E7%9A%84js%E8%84%9A%E6%9C%AC%E5%B9%B6%E8%BF%9B%E8%A1%8C%E6%B5%8B%E8%AF%95%EF%BC%8C%E7%A1%AE%E4%BF%9DVSCode%E4%B8%8EAuto.js%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F%E3%80%82)
+[link](https://blog.csdn.net/qq_16946803/article/details/121339840#:~:text=%E6%9C%AC%E6%96%87%E6%A1%A3%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D%E4%BA%86%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AEVisual%20Studio%20Code%20%28VSCode%29,%E4%B8%8E%20Auto.js%20%E8%BF%9B%E8%A1%8C%E9%9B%86%E6%88%90%E5%BC%80%E5%8F%91%EF%BC%8C%E5%8C%85%E6%8B%AC%E5%9C%A8%E7%94%B5%E8%84%91%E7%AB%AF%E5%AE%89%E8%A3%85%E6%89%80%E9%9C%80%E6%8F%92%E4%BB%B6%EF%BC%8C%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%9C%A8%E6%89%8B%E6%9C%BA%E7%AB%AF%E5%AE%89%E8%A3%85Auto.js%EF%BC%8C%E8%AE%BE%E7%BD%AE%E6%97%A0%E9%9A%9C%E7%A2%8D%E6%9D%83%E9%99%90%E3%80%82%20%E6%AD%A4%E5%A4%96%EF%BC%8C%E5%AF%B9%E4%BA%8E%E7%9C%9F%E6%9C%BA%E8%AE%BE%E5%A4%87%EF%BC%8C%E8%BF%98%E6%8F%90%E4%BE%9B%E4%BA%86%E9%A2%9D%E5%A4%96%E7%9A%84%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4%EF%BC%8C%E5%A6%82%E4%BD%BF%E7%94%A8%E6%89%8B%E6%9C%BA%E6%8A%95%E5%B1%8F%E5%B7%A5%E5%85%B7%E5%92%8C%E5%BC%80%E5%90%AFUSB%E8%B0%83%E8%AF%95%E3%80%82%20%E6%9C%80%E5%90%8E%EF%BC%8C%E9%80%9A%E8%BF%87%E7%BC%96%E5%86%99%E7%AE%80%E5%8D%95%E7%9A%84js%E8%84%9A%E6%9C%AC%E5%B9%B6%E8%BF%9B%E8%A1%8C%E6%B5%8B%E8%AF%95%EF%BC%8C%E7%A1%AE%E4%BF%9DVSCode%E4%B8%8EAuto.js%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F%E3%80%82)     [vscode官网下载](https://code.visualstudio.com/)
 
 ### 准备工作
 
