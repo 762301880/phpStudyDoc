@@ -207,6 +207,18 @@ done
 | `adb forward <本地端口> <远程端口>` | 设置端口转发               |
 | `adb reverse <远程端口> <本地端口>` | 反向端口转发（适用于开发） |
 
+## 常用命令
+
+```shell
+# 获取屏幕分辨率（宽x高）  例如输出Physical size: 1080x2340，表示屏幕宽度 1080 像素，高度 2340 像素。
+adb shell wm size
+
+# 查看已连接设备列表
+adb devices
+```
+
+
+
 #  补充
 
 ##  无线连接手机adb
@@ -242,3 +254,39 @@ Enter pairing code: 425945         # code 输入对应的code
 Successfully paired to 192.168.110.89:46419 [guid=adb-10CF4P0UGY002CU-lLcDqW]
 ```
 
+## 获取手机上的位置坐标方案
+
+### 显示触摸位置和坐标
+
+在手机上开启「开发者选项」中的：
+
+- **指针位置**（显示触摸点坐标）
+- **显示触摸操作**（可视化触摸反馈）
+
+开启后手动点击目标位置，屏幕会显示该点的实时坐标，记下坐标后再用 ADB 命令模拟点击：
+
+```bash
+adb shell input tap 坐标X 坐标Y
+```
+
+### 通过元素定位（更精准）
+
+如果是针对特定 APP 操作，可以使用`uiautomator`工具分析界面元素：
+
+```bash
+# 生成当前界面的UI层次结构文件
+adb shell uiautomator dump /sdcard/ui.xml
+
+# 将文件导出到电脑
+adb pull /sdcard/ui.xml ./
+```
+
+打开导出的`ui.xml`文件，查找目标元素的`bounds`属性（如`bounds="[x1,y1][x2,y2]"`），取中间点坐标`((x1+x2)/2, (y1+y2)/2)`作为点击位置。
+
+### 使用可视化工具辅助
+
+推荐使用这类工具直观定位坐标：
+
+- **Scrcpy**：投屏到电脑，鼠标悬停时会显示实时坐标
+- **Android Studio 的 Layout Inspector**：精确查看 UI 元素位置
+- **ADB Tools GUI**：部分图形化工具支持点击屏幕直接生成 ADB 命令
