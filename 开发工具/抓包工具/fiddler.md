@@ -2,7 +2,9 @@
 
 
 
+## 手机安装代理
 
+[link](https://www.cnblogs.com/yaoliuyang/p/14651511.html)
 
 # 补充 
 
