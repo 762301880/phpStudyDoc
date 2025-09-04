@@ -3,7 +3,8 @@
 | 名称              | 地址                                                         |
 | ----------------- | ------------------------------------------------------------ |
 | adb工具官方安装包 | [link](https://developer.android.google.cn/tools/adb?hl=en)     [download](https://developer.android.google.cn/tools/releases/platform-tools?hl=en) |
-| 网络博客          | [link](https://www.cnblogs.com/ximaomao/p/14081479.html)     |
+| 网络博客          | [link](https://www.cnblogs.com/ximaomao/p/14081479.html)    [link](https://www.zhihu.com/question/1945235889400840530/answer/1946552391777378582) |
+| adb官方中文文档   | [link](https://developer.android.com/tools/adb?hl=zh-cn)     |
 
 
 
