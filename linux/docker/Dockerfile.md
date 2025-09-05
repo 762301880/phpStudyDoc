@@ -314,3 +314,41 @@ docker run -itd -p 9090:8080 --name mytomcat -v /本地tomcat配置:容器内部
 
 
 
+#  dockerfile优化
+
+> [参考博客](https://mp.weixin.qq.com/s/gJ_BrklqPyVrbaR1fmsj-w)
+>
+> 阿里云盘备份路径>全部文件>备份文件>资料>编程相关>Iinux>docker>编写 Dockerfile：从入门到精通
+
+## **固定镜像版本**
+
+> 避免使用 `latest` 标签作为基础镜像，因为当新版本发布时可能导致环境不一致问题。
+
+```dockerfile
+ FROM python:3.9-alpine
+```
+
+## **优化分层**
+
+- 合并指令以减少层数。每个 `RUN` 指令都会创建新层，最小化层数有助于优化镜像体积。
+
+```dockerfile
+ RUN apt-get update && apt-get install -y curl && apt-get clean
+ 
+  # 换行
+  RUN apt-get update \
+      apt-get install -y curl \ 
+      apt-get \
+      clean
+```
+
+
+
+##  **清理临时文件**
+
+> 安装完成后移除临时文件以减少镜像大小
+
+```dockerfile
+RUN apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+```
+
