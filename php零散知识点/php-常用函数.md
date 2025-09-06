@@ -1,3 +1,7 @@
+## [php函数大全](https://www.p2hp.com/phpfuncs.html)
+
+
+
 ## abs 返回不同数的绝对值:(负数取整)
 
 >  “ABS”是“Absolute”的缩写，意思是“绝对的”
