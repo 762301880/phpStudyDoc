@@ -302,3 +302,31 @@ adb pull /sdcard/ui.xml ./
 - **Scrcpy**：投屏到电脑，鼠标悬停时会显示实时坐标
 - **Android Studio 的 Layout Inspector**：精确查看 UI 元素位置
 - **ADB Tools GUI**：部分图形化工具支持点击屏幕直接生成 ADB 命令
+
+# bug处理
+
+## adb.exe: more than one device/emulator
+
+> 当使用 ADB 命令时，如果连接了多个设备或模拟器，可能会出现 *error: more than one device and emulator* 的错误。
+>
+> 此问题通常是由于未明确指定目标设备导致的。
+
+解决方法
+
+1. 检查连接的设备
+
+首先，使用以下命令查看当前连接的设备和模拟器：
+
+```shell
+C:\Users\铺先生技术研发中心>adb devices
+List of devices attached
+192.168.110.108:34701   offline
+192.168.110.99:39469    offline
+```
+
+**关闭多余的模拟器**
+
+```shell
+adb emu kill
+```
+
