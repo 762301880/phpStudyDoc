@@ -2,6 +2,8 @@
 
 ## centos
 
+> [官方安装文档](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos)
+
 ### 1.打开composer[官网](https://getcomposer.org/)
 
 <a href='https://getcomposer.org/'><img src='https://img2020.cnblogs.com/blog/1922055/202005/1922055-20200518151546172-487261862.png' heigth='400px' width='600px' title='点击图片跳转'></a>
@@ -15,7 +17,7 @@
 #### 3.1下载
 
 >wget是一个下载文件的工具。对于Linux用户是必不可少的工具
-```
+```shell
 wget https://getcomposer.org/download/2.0.2/composer.phar
 ```
 
@@ -23,7 +25,7 @@ wget https://getcomposer.org/download/2.0.2/composer.phar
 
 #### 3.2安装
 
-```
+```shell
 mv composer.phar /usr/local/bin/composer #移动composer.phar到新的目录
 cd /usr/local/bin/ #进入到composer新的目录
 chmod -R 777 /usr/local/bin/composer 修改权限，否则执行会出错
@@ -50,7 +52,7 @@ mv composer.phar /usr/local/bin/composer && cd /usr/local/bin/ && chmod -R 777 /
 
 **这条命令查看你的镜像用的是那个地方的资源**
 
-```php
+```shell
 composer config -g -l repo.packagist
 ```
 
@@ -62,7 +64,7 @@ composer config -g -l repo.packagist
 
 >阿里云的cmoposer镜像
 
-```php
+```shell
 composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 ```
 
@@ -81,27 +83,23 @@ composer self-update
 
 **composer install**
 
-```shell
-作用：根据 composer.lock 文件中记录的版本信息安装依赖。
-场景：适用于首次安装项目依赖或在不同环境中复现相同的依赖环境。
-特点：不会改变 composer.lock 文件中的版本信息。
-```
+> 作用：根据 composer.lock 文件中记录的版本信息安装依赖。
+> 场景：适用于首次安装项目依赖或在不同环境中复现相同的依赖环境。
+> 特点：不会改变 composer.lock 文件中的版本信息。
 
 
 
 **composer update**
 
-```shell
-作用：根据 composer.json 文件中的版本约束更新所有依赖到最新版本，并更新 composer.lock 文件。
-场景：适用于开发过程中需要获取最新依赖版本的情况。
-特点：会修改 composer.lock 文件中的版本信息，确保下次 composer install 时安装的是最新的依赖版本。
-```
+> 作用：根据 composer.json 文件中的版本约束更新所有依赖到最新版本，并更新 composer.lock 文件。
+> 场景：适用于开发过程中需要获取最新依赖版本的情况。
+> 特点：会修改 composer.lock 文件中的版本信息，确保下次 composer install 时安装的是最新的依赖版本。
 
 
 
 **总结**
 composer install：安装锁定的依赖版本，适合生产环境。
-composer update：更新依赖到最新版本，适合开发环境。
+composer update：更新依赖到最新版本，适合开发环境(开发环境万不可用)。
 
 ##  php 原生扩展 与composer 包的区别
 
