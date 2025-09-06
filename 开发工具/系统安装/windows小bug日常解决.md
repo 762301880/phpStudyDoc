@@ -110,3 +110,9 @@
 powercfg -h off
 ```
 
+## 删除win10更新文件
+
+> - C盘–Windows–softwareDistribution–Download–可以删除了
+> - 直接全部选中，删除即可
+>
+> `C:\Windows\SoftwareDistribution\Download`
