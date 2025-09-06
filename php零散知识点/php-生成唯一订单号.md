@@ -85,3 +85,102 @@ public function randNum($type=null){
 }
 ```
 
+#  补充 
+
+##  业务逻辑防止订单号重复
+
+> 防止 **订单号重复** 一般需要从 **生成策略** 和 **数据库约束** 两方面入手。
+
+## 1. 数据库层保证（最可靠）
+
+- 在订单表 `order_number` 字段上加 **唯一索引（UNIQUE KEY）**
+
+  ```sql
+  ALTER TABLE orders ADD UNIQUE (order_number);
+  ```
+
+- 即使高并发时多个请求生成相同的订单号，插入时也会报错，你可以在代码里 **捕获唯一约束异常**，然后重新生成。
+
+------
+
+## 2. 订单号生成策略(推荐)
+
+常见方案：
+
+### 方案A：时间戳 + 随机数(很大几率会重复)
+
+```php
+$orderNo = date('YmdHis') . mt_rand(1000, 9999);
+```
+
+缺点：并发很高时，仍然有概率撞号，所以必须配合数据库唯一索引。
+
+### 方案B：时间戳 + 自增ID
+
+- 使用数据库的自增ID（或雪花算法/Redis自增）来保证唯一。
+
+- 例如：
+
+  ```php
+  $id = getNextIdFromRedisOrDB(); // 唯一递增
+  $orderNo = date('YmdHis') . str_pad($id, 6, '0', STR_PAD_LEFT);
+  ```
+
+  **getNextIdFromRedisOrDB**
+
+    ```php
+class OrderNumberGenerator
+{
+    protected $redis;
+    protected $prefix = 'order_no:';
+
+    public function __construct($redis)
+    {
+        $this->redis = $redis;
+    }
+
+    public function generate()
+    {
+        // 以当天日期作为 key，避免数字无限增长
+        $date = date('Ymd');
+        $key = $this->prefix . $date;
+
+        // Redis 自增
+        $incr = $this->redis->incr($key);
+
+        // 设置过期时间，避免 key 无限累积（比如 2 天）
+        if ($incr === 1) {
+            $this->redis->expire($key, 2 * 24 * 3600);
+        }
+
+        // 拼接订单号：日期 + 6位递增数
+        return $date . str_pad($incr, 6, '0', STR_PAD_LEFT);
+    }
+}
+    ```
+
+调用：
+
+```php
+$redis = new Predis\Client();
+$generator = new OrderNumberGenerator($redis);
+$orderNo = $generator->generate();
+
+echo $orderNo; // 20250906000001
+```
+
+## 3. redis去重
+
+```php
+# 约定订单编号生成规则
+$date = date('Ymd');
+$orderNo = date('YmdHis') . str_pad($id, 6, '0', STR_PAD_LEFT);
+
+# 每次生成订单编号先存入redis
+$key = $date.':'.str_pad($id, 6, '0', STR_PAD_LEFT);
+$this->redis->expire($key, 2 * 24 * 3600); # 设置过期时间 
+# 然后每次生成直接比较redis是否存在如果存在重新生成
+```
+
+
+
