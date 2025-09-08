@@ -285,6 +285,8 @@ adb shell input tap 坐标X 坐标Y
 
 如果是针对特定 APP 操作，可以使用`uiautomator`工具分析界面元素：
 
+> **不用下载 adb自带**
+
 ```bash
 # 生成当前界面的UI层次结构文件
 adb shell uiautomator dump /sdcard/ui.xml
