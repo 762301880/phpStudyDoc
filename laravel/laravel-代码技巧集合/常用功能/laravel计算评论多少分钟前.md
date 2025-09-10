@@ -9,34 +9,8 @@
 > 自己写的感觉可以如果不行日后补充，下次优化的时候打算采用数组取消if
 
 ```php
-  public function getSerializeTime(Request $request)
-    {
-        $serializeTime = strtotime($request->get('time'));//传输过来的时间戳
-        $serializeTime = time() - $serializeTime;//多少时间之前的时间戳
-        $oneMinuteTimestamp = 60;//一分钟的时间戳
-        $oneHourTimestamp = 60 * 60;//一小时的时间戳
-        $oneDayTimestamp = 60 * 60 * 24;//一天的时间戳
-        $oneMonthTimestamp = 60 * 60 * 24 * 30;//一个月的时间戳
-        $oneYearTimestamp = 60 * 60 * 24 * 365;//一年的时间戳
-        if ($serializeTime < $oneMinuteTimestamp) {
-            return $serializeTime . '秒前';
-        } elseif ($serializeTime < $oneHourTimestamp) {
-            return floor($serializeTime / 60) . '分钟前';
-        } elseif ($serializeTime < $oneDayTimestamp) {
-            return floor($serializeTime / (60 * 60)) . '小时前';
-        } elseif ($serializeTime < $oneMonthTimestamp) {
-            return floor($serializeTime / (60 * 60 * 24)) . '天前';
-        } elseif ($serializeTime < $oneYearTimestamp) {
-            return floor($serializeTime / (60 * 60 * 24 * 30)) . '月前';
-        } else {
-            # 如果大于一年直接返回时间
-            return date('Y-m-d H:i:s', strtotime($request->get('time')));
-        }
-    }
+# 优化封装 (全局函数)
 
-# --------------------------------我是分割-----------------------------------------------------------------
-
-# 优化封装二 (全局函数)
 if (!function_exists('getBeforeTime')) {
     /**
      * 计算序列化时间
@@ -55,7 +29,7 @@ if (!function_exists('getBeforeTime')) {
         if ($thisTime < $time) throw new Exception("需要转化的时间不能大于当前的日期");
         $time = $serializeTime($time);
         $seconds = 60;//60秒
-        $minutes = $seconds * $seconds;//1小时
+        $minutes = $seconds * 60;//1小时
         $hours = $minutes * 24;//一天
         $month = $hours * 30;//一个月
         $year = $month * 12;//一年
@@ -95,15 +69,24 @@ if (!function_exists('getBeforeTime')) {
         $oneDayTimestamp = 60 * 60 * 24;//一天的时间戳
 //        $oneMonthTimestamp = 60 * 60 * 24 * 30;//一个月的时间戳
 //        $oneYearTimestamp = 60 * 60 * 24 * 365;//一年的时间戳
-        if ($beforeSerializeTime < $oneMinuteTimestamp) { # 发布时间一分钟内，显示：刚刚
+        # 发布时间一分钟内，显示：刚刚
+        if ($beforeSerializeTime < $oneMinuteTimestamp) { 
             return "刚刚";
-        } elseif ($beforeSerializeTime < $oneHourTimestamp) { # 发布时间一小时内，显示：XX分钟前（45分钟前）
+        } 
+        # 发布时间一小时内，显示：XX分钟前（45分钟前）
+        if ($beforeSerializeTime < $oneHourTimestamp) { 
             return floor($beforeSerializeTime / 60) . '分钟前';
-        } elseif (($beforeSerializeTime < $oneDayTimestamp) && ($serializeTime + ($afterSerializeTime - $serializeTime) > time())) { # 发布时间超过一小时,显示：XX小时前（12小时前）
+        } 
+        # 发布时间超过一小时,显示：XX小时前（12小时前）
+        if (($beforeSerializeTime < $oneDayTimestamp) && ($serializeTime + ($afterSerializeTime - $serializeTime) > time())) { 
             return floor($beforeSerializeTime / (60 * 60)) . '小时前';
-        } elseif (((($serializeTime + ($afterSerializeTime - $serializeTime))) + $oneDayTimestamp) > time()) { # 超过当天23:59:59，显示：昨天 XX:XX（昨天 15:20)
+        } 
+        # 超过当天23:59:59，显示：昨天 XX:XX（昨天 15:20)
+        if (((($serializeTime + ($afterSerializeTime - $serializeTime))) + $oneDayTimestamp) > time()) { 
             return "昨天" . " " . date('H:i', $serializeTime);
-        } elseif (((($serializeTime + ($afterSerializeTime - $serializeTime))) + $oneDayTimestamp) < time()) {
+        } 
+        
+        if (((($serializeTime + ($afterSerializeTime - $serializeTime))) + $oneDayTimestamp) < time()) {
             return date('Y-m-d', $serializeTime);
         }
     }
