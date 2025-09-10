@@ -31,38 +31,81 @@
 
 ### 数据表设计
 
-1. 用户表（user）
+#### 用户表
 
-- id：用户 ID
-- username：用户名
-- password：密码
-- email：电子邮件
-- last_login_time：最后登录时间
-- last_login_ip：最后登录 IP
+```mysql
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) CHARACTER SET utf8 NOT NULL COMMENT '姓名',
+  `header_img` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '头像',
+  `account` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '账户 可以是英文字符或手机号',
+  `password` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '密码',
+  `last_login_time` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '最后登录时间',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='后台管理员表';
+```
 
-1. 角色表（role）
+####  **角色表**
 
-- id：角色 ID
-- name：角色名称
-- description：角色描述
+```mysql
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL COMMENT '角色名称',
+  `description` varchar(255) DEFAULT NULL COMMENT '角色描述',
+  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1 启用 -1 禁用',
+  `update_time` timestamp NULL DEFAULT NULL,
+  `create_time` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色表';
+```
 
-1. 用户角色关联表（user_role）
+#### **用户角色关联表**
 
-- id：关联 ID
-- user_id：用户 ID
-- role_id：角色 ID
+```mysql
+CREATE TABLE `user_role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `role_id` int(11) DEFAULT NULL COMMENT '角色id',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户角色关系表';
+```
 
-1. 权限表（access）
+#### **权限表**
 
-- id：权限 ID
-- name：权限名称
-- description：权限描述
+```mysql
+CREATE TABLE `permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL COMMENT '权限标题',
+  `p_id` int(11) NOT NULL DEFAULT '0' COMMENT '父级id默认0',
+  `controller` varchar(255) DEFAULT NULL COMMENT '控制器名称',
+  `action` varchar(255) DEFAULT NULL COMMENT '方法名称',
+  `param` json DEFAULT NULL COMMENT '参数',
+  `level` tinyint(1) NOT NULL DEFAULT '1' COMMENT '等级',
+  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '默认排序',
+  `update_time` datetime DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='权限表';
+```
 
-1. 角色权限关联表（role_access）
+#### **角色权限关系表**
 
-- id：关联 ID
-- role_id：角色 ID
-- access_id：权限 ID
+```mysql
+CREATE TABLE `role_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) DEFAULT NULL COMMENT '角色id',
+  `permission_id` int(11) DEFAULT NULL COMMENT '对应权限表的权限id',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色权限关系表';
+```
+
+
 
 ### 代码逻辑
 
