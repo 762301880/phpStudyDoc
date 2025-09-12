@@ -377,3 +377,74 @@ https://github.com/phaselden/FlipIt
 
 
 关闭自动更新可能会使系统面临安全风险，建议定期手动检查更新
+
+### [注册表级别取消更新](https://www.khkj6.com/archives/windowszan-t.html)
+
+> Windows 注册表编辑器文件（.reg 格式），其中包含了与 Windows Update 相关的设置。让我为你分析这些内容：
+>
+> 1. **文件版本**：
+>
+>    - `Windows Registry Editor Version 5.00` 表明这是适用于 Windows XP 及以上系统的注册表文件格式
+>
+> 2. **注册表路径**：
+>
+>    - `[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings]`
+>    - 这是 Windows Update 用户体验设置的注册表位置，用于控制系统更新的行为
+>
+> 3. **具体设置分析**：
+>
+>    - ```
+>      FlightSettingsMaxPauseDays"=dword:00001b58
+>      ```
+>
+>      - 十六进制值 1b58 转换为十进制是 6992 天，这是设置最大暂停更新的天数
+>
+>    - ```
+>      PauseFeatureUpdatesStartTime"="2023-07-07T10:00:52Z"
+>      ```
+>
+>      - 功能更新（通常是大版本更新）的暂停开始时间：2023 年 7 月 7 日
+>
+>    - ```
+>      PauseFeatureUpdatesEndTime"="2042-09-05T09:59:52Z"
+>      ```
+>
+>      - 功能更新的暂停结束时间：2042 年 9 月 5 日
+>
+>    - ```
+>      PauseQualityUpdatesStartTime"="2023-07-07T10:00:52Z"
+>      ```
+>
+>      - 质量更新（通常是安全补丁和小更新）的暂停开始时间：2023 年 7 月 7 日
+>
+>    - ```
+>      PauseQualityUpdatesEndTime"="2042-09-05T09:59:52Z"
+>      ```
+>
+>      - 质量更新的暂停结束时间：2042 年 9 月 5 日
+>
+>    - ```
+>      PauseUpdatesStartTime"="2023-07-07T09:59:52Z"
+>      ```
+>
+>      - 所有更新的暂停开始时间：2023 年 7 月 7 日
+>
+>    - ```
+>      PauseUpdatesExpiryTime"="2042-09-05T09:59:52Z"
+>      ```
+>
+>      - 所有更新的暂停过期时间：2042 年 9 月 5 日
+
+```shell
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings]
+"FlightSettingsMaxPauseDays"=dword:00001b58
+"PauseFeatureUpdatesStartTime"="2023-07-07T10:00:52Z"
+"PauseFeatureUpdatesEndTime"="2042-09-05T09:59:52Z"
+"PauseQualityUpdatesStartTime"="2023-07-07T10:00:52Z"
+"PauseQualityUpdatesEndTime"="2042-09-05T09:59:52Z"
+"PauseUpdatesStartTime"="2023-07-07T09:59:52Z"
+"PauseUpdatesExpiryTime"="2042-09-05T09:59:52Z"
+```
+
