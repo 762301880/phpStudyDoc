@@ -448,3 +448,6 @@ Windows Registry Editor Version 5.00
 "PauseUpdatesExpiryTime"="2042-09-05T09:59:52Z"
 ```
 
+##  显卡测试工具
+
+> https://geeks3d.com/furmark/downloads/
