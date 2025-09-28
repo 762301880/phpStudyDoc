@@ -32,7 +32,7 @@ supervisord -v
 
 Supervisor 安装完成后，运行 `echo_supervisord_conf`。这会将“示例”Supervisor 配置文件打印到终端的标准输出。
 
-**配置文件位置**
+## **配置文件位置&配置文件讲解**
 
 > 安装完成之后会在 **/etc/supervisord.conf** 中有配置文件(**注意这里修改了一定要使用supervisorctl reload 来重新加载配置文件，否则不会生效**)
 
@@ -57,8 +57,10 @@ vim /etc/supervisor.d/文件名称.ini # 例如 vim /etc/supervisor.d/laravel_st
 [program:laravel_study_socket]
 # 进程名，当下面的numprocs为多个的时候,才需要。否则默认
 process_name=%(program_name)s_%(process_num)02d  
+# 需要执行命令的目录
+directory=/data/work/laravel_study/ 
 # 需要执行的命令
-command=php /data/work/laravel_study/artisan swoole
+command=php artisan swoole
 # true表示supervisord启动时自动启动
 autostart=true  
 # 是否自动重启
@@ -134,7 +136,8 @@ bash-5.0# kill 4741
 ```shell
 [program:laravel_study_socket]
 process_name=%(program_name)s_%(process_num)02d
-command=php /data/work/laravel_study/artisan swoole
+directory=/data/work/laravel_study/ 
+command=php artisan swoole
 autostart=true
 autorestart=true
 startsecs=0
@@ -184,7 +187,8 @@ start all		Start all processes
 # 自己的配置
 [program:laravel_swoole] 
 process_name=%(program_name)s
-command=php /data/work/laravel_study/artisan swoole
+directory=/data/work/laravel_study/ 
+command=php artisan swoole
 autostart=true
 autorestart=true
 startsecs=0
@@ -261,7 +265,8 @@ docker exec -it laravel_study supervisorctl restart laravel_swoole
 ```shell
 [program:jz_order_share_append]  # 进程名称配置配置错误   应该修改为  jz_send_order_give_coupon
 process_name=%(program_name)s_%(process_num)02d
-command=php /www/wwwroot/home_train/think queue:work --daemon --queue send_order_give_coupon
+directory=/www/wwwroot/home_train/ 
+command=php think queue:work --daemon --queue send_order_give_coupon
 autostart=true
 autorestart=true
 startsecs=0
