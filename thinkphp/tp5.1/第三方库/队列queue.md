@@ -17,13 +17,13 @@ composer require topthink/think-queue=2.*
 
 **配置文件**
 
->配置文件位于 `config/queue.php`
+>配置文件位于   **`config/queue.php`**
 >
 >**驱动配置**
 >
 >各个驱动的具体可用配置项在`think\queue\connector`目录下各个驱动类里的`options`属性中，写在上面的`queue`配置里即可覆盖
 >
->项目/vendor/topthink/think-queue/src/queue/connector/Redis.php
+>项目`/vendor/topthink/think-queue/src/queue/connector/Redis.php`
 
 公共配置
 
@@ -180,50 +180,12 @@ $job` 是任务名
      */
     public function createOrderServiceReserve($data)
     {
-
-        $order_number = $data['order_number'] ?? "";
-        $remark = $data['remark'] ?? "";
-        $is_fixed_aunt = $data['is_fixed_aunt'] ?? "";
-        $reserve_times = $data['reserve_times'] ?? "";
-        $reservation_time = !empty($reserve_times) ? $reserve_times['reservation_time'] : "";
-        $start_time = !empty($reserve_times) ? $reserve_times['start_time'] : "";
-        $end_time = !empty($reserve_times) ? $reserve_times['end_time'] : "";
-        $aunt_id = $data['aunt_id'] ?? "";
-        $auntModel = AuntModel::get($aunt_id);
-        Db::startTrans();
-        $orderServiceReserve = new OrderServiceReserveModel();
-        $orderServiceReserve->reservation_number = OrderServiceReserveModel::generatereServationNumber();//生成预约编号
-        $orderModelInfo = $this->queryOrderNumber($order_number);
-        if ($orderModelInfo->status == OrderModel::STATUS_PENDING_PAYMENT) throw new SystemException("待支付的订单不可以添加预约");
-        $orderServiceReserve->user_name = $orderModelInfo->user_name ?? "";
-        $orderServiceReserve->order_id = $orderModelInfo->id;
-        $orderServiceReserve->user_phone = $orderModelInfo->phone ?? "";
-        $orderServiceReserve->service_name = $orderModelInfo->service_name ?? "";
-        $orderServiceReserve->service_id = $orderModelInfo->service_id ?? 0;
-        $orderServiceReserve->to_door_address = $orderModelInfo->to_door_address ?? "";
-        $orderServiceReserve->reservation_time = $reservation_time;
-        $orderServiceReserve->start_time = $start_time;
-        $orderServiceReserve->end_time = $end_time;
-        $orderServiceReserve->hours = $orderModelInfo->hours ?? 0;
-        $orderServiceReserve->aunt_name = $auntModel->name ?? "";
-        $orderServiceReserve->aunt_id = $auntModel->id ?? 0;
-        $orderServiceReserve->residence_area = $orderModelInfo->residence_area ?? "";
-        if (!empty($auntModel)) {
-            $orderServiceReserve->aunt_name = !empty($auntModel) ? $auntModel->name : "";
-            $orderServiceReserve->aunt_id = !empty($auntModel) ? $auntModel->id : 0;
-        }
-        $orderServiceReserve->status = OrderServiceReserveModel::STATUS_STAY_SERVICE;
-        $orderServiceReserve->is_fixed_aunt = $is_fixed_aunt;
-        $orderServiceReserve->remark = $remark;
-        if (!$orderServiceReserve->save()) {
-            Db::rollback();
-            return false;
-        }
-        # 添加阿姨相关
-        $data['order_service_reserve_id'] = $orderServiceReserve->id;
-        $this->addOrderReserveAunts(OrderModel::get($orderModelInfo->id), $data);
-        Db::commit();
-        Queue::push(SendOrderReserveNoticeJob::class, ['order_service_reserve_id' => $orderServiceReserve->id],'reserve_notice');//推送模板消息
+        //...忽略 业务逻辑订单创建逻辑
+        $orderServiceReserve->save();
+        //
+        
+        //推送模板消息
+        Queue::push(SendOrderReserveNoticeJob::class, ['order_service_reserve_id' => $orderServiceReserve->id],'reserve_notice');
         return true;
     }
 ```
@@ -310,8 +272,10 @@ class SendOrderReserveNoticeJob
 ```shell
 [program:send_notice]
 process_name=%(program_name)s_%(process_num)02d
+# 指定需要执行命令的目录
+directory=/www/wwwroot/home_train/
 # --queue reserve_notice  监听指定的队列
-command=php  /www/wwwroot/home_train/think queue:work --daemon --queue reserve_notice     
+command=php think queue:work --daemon --queue reserve_notice     
 autostart=true
 autorestart=true
 startsecs=0
