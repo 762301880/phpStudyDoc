@@ -29,6 +29,10 @@
 
 **左边选择需要同步数据的数据库(测试数据库),右边选择需要同步的数据库(线上数据库)  我们要把测试数据库的表结构同步到线上**
 
+
+
+> **注意:如果测试与线上结构不一样的情况  需要单独勾选 处理的表  记得查看表修改了那些地方**
+
 ![1648867366(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/ZXVQdekJB5wLTr1.png)
 
 # 后续补充
