@@ -172,7 +172,7 @@ Zend OPcache
 
 ## 安装完成后，在PHP配置文件中启用SQLite扩展。在Ubuntu上，配置文件位于“/etc/php/7.x/apache2/php.ini” （将“7.x”替换为你当前安装的PHP版本号）。将以下行添加到配置文件底部：
 
-   ```
+```
    extension=sqlite3
    ```
 
@@ -183,7 +183,7 @@ Zend OPcache
    ```
 
 #安装完成后，再次运行你的代码，这个问题应该就得以解决了。
-```
+   ```
 
 **windows处理**
 
@@ -199,6 +199,8 @@ Zend OPcache
 
 
 
+
+# 结合docker 自动构建
 
 
 
