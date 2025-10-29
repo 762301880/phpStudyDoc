@@ -1,4 +1,4 @@
-#  对象未重复新建 重复调用
+## 对象未重复新建 重复调用
 
 
 
@@ -105,3 +105,18 @@ public function create($data, $return_id = false, $isFollowLog = true)
 
 一般来说，像 `ContactService` 这种 Service 层不应该持有长期存在的模型实例，
  每次 `create()` 都 `new` 一个是最安全、最清晰的写法。
+
+##  数据 为0 要有效 为""空要无效如何判断
+
+```php
+<?php
+
+$value = 0;
+if ($value !== "") {
+    echo "Not empty";
+} else {
+    echo "Empty";
+}
+
+```
+
