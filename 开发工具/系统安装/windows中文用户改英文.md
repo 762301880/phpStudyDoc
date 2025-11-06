@@ -1,10 +1,16 @@
+##  参考资料
+
+| 名称     | 地址                                                     |
+| -------- | -------------------------------------------------------- |
+| 网络博客 | [link](https://zhuanlan.zhihu.com/p/1920912262664819865) |
+
 
 
 ## Windows 系统
 
 - **开启管理员账户**：以**管理员**身份运行命令提示符，输入 “net user administrator /active:yes”，开启管理员账户。
 - **修改文件夹名称**：注销当前用户，在登录页面选择 Administrator 身份登录。找到 C:\Users 下面的中文名称用户文件夹，将其重命名为英文名。如果出现 “文件夹或里面的文件正在被占用，无法更改” 的问题，可按 Esc+Shift+Ctrl 进入任务管理器，点击性能，再进入资源监视器，在 CPU 选项下，找到 “关联的句柄”，搜索需要重命名的文件夹，右键结束相关进程即可。
-- **修改注册表**：按 Win+R 打开运行，输入 regedit 进入注册表编辑器。找到目录 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList，选择尾巴一长串的对应文件夹，依次点击，找到包含 C:\Users\ 原中文名的路径，将原中文名替换为英文名。
+- **修改注册表**：按 Win+R 打开运行，输入 regedit 进入注册表编辑器。找到目录 `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList`，选择尾巴一长串的对应文件夹，依次点击，找到包含` C:\Users\ `原中文名的路径，将原中文名替换为英文名。
 - **关闭管理员账户**：以管理员身份运行命令提示符，输入 “net user administrator /active:no”，关闭管理员账户。
 - **修改环境变量**：右键点击 “此电脑”，选择 “属性”，进入 “高级系统设置”，点击 “高级” 选项卡下的 “环境变量”。在用户变量中，将所有原来的中文用户名改成新的英文名。
 - **修改用户名**：按 Win+R 打开运行，输入 control userpasswords2，点击确定，进入 “用户账户” 界面，选择要更改的账户，点击 “属性”，修改中文用户名为英文名，修改后点击应用。
