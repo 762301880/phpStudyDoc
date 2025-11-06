@@ -1,7 +1,7 @@
 
 
 - Windows 系统
-  - **开启管理员账户**：以管理员身份运行命令提示符，输入 “net user administrator /active:yes”，开启管理员账户。
+  - **开启管理员账户**：以**管理员**身份运行命令提示符，输入 “net user administrator /active:yes”，开启管理员账户。
   - **修改文件夹名称**：注销当前用户，在登录页面选择 Administrator 身份登录。找到 C:\Users 下面的中文名称用户文件夹，将其重命名为英文名。如果出现 “文件夹或里面的文件正在被占用，无法更改” 的问题，可按 Esc+Shift+Ctrl 进入任务管理器，点击性能，再进入资源监视器，在 CPU 选项下，找到 “关联的句柄”，搜索需要重命名的文件夹，右键结束相关进程即可。
   - **修改注册表**：按 Win+R 打开运行，输入 regedit 进入注册表编辑器。找到目录 HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList，选择尾巴一长串的对应文件夹，依次点击，找到包含 C:\Users\ 原中文名的路径，将原中文名替换为英文名。
   - **关闭管理员账户**：以管理员身份运行命令提示符，输入 “net user administrator /active:no”，关闭管理员账户。
