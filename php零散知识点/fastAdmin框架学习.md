@@ -257,3 +257,158 @@ server {
         </div>
 ```
 
+## 经纬度 获取
+
+
+
+```html
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Lat')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-lat" class="form-control" name="row[lat]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Lng')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-lng" class="form-control" name="row[lng]" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Address')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-address" class="form-control" name="row[address]" type="text">
+            <button type="button" class="btn btn-primary" data-toggle="addresspicker" data-input-id="c-address" data-lng-id="c-lng" data-lat-id="c-lat">点击获取经纬度</button>
+        </div>
+    </div>
+```
+
+## 在线命令管理
+
+![image-20251108093505458](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20251108093505458.png)
+
+#  补充
+
+# fastadmin  列表 按钮开关怎么弄
+
+![image-20251108101822608](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20251108101822608.png)
+
+在 **FastAdmin** 里，列表（即 `Table`）的按钮开关一般是用 `Table.api.formatter.toggle` 来实现的。这个开关按钮可以一键启用/禁用、显示/隐藏、上下架等，非常常用。下面是详细说明和完整示例👇
+
+------
+
+## ✅ 一、功能概览
+
+在 FastAdmin 的 `bootstrapTable` 中，想在某一列显示一个开关按钮（Switch），只要设置：
+
+```
+formatter: Table.api.formatter.toggle
+```
+
+即可自动生成一个可以点击切换状态的开关。
+
+------
+
+## ✅ 二、使用示例
+
+假设我们有一张项目表 `project`，字段有 `status`（状态字段，1=启用，0=禁用）：
+
+### JS 文件（`project.js`）
+
+```
+define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefined, Backend, Table, Form) {
+
+    var Controller = {
+        index: function () {
+            // 初始化表格参数配置
+            Table.api.init({
+                extend: {
+                    index_url: 'project/index' + location.search,
+                    toggle_url: 'ajax/toggle', // 通用切换接口
+                    table: 'project',
+                }
+            });
+
+            var table = $("#table");
+
+            // 初始化表格
+            table.bootstrapTable({
+                url: $.fn.bootstrapTable.defaults.extend.index_url,
+                pk: 'id',
+                sortName: 'id',
+                columns: [[
+                    {checkbox: true},
+                    {field: 'id', title: 'ID'},
+                    {field: 'name', title: '项目名称'},
+                    {
+                        field: 'status',
+                        title: '状态',
+                        searchList: {"1": '启用', "0": '禁用'},
+                        formatter: Table.api.formatter.toggle, // ✅ 开关按钮
+                    },
+                    {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                ]]
+            });
+
+            // 绑定事件
+            Table.api.bindevent(table);
+        },
+        add: function () {
+            Controller.api.bindevent();
+        },
+        edit: function () {
+            Controller.api.bindevent();
+        },
+        api: {
+            bindevent: function () {
+                Form.api.bindevent($("form[role=form]"));
+            }
+        }
+    };
+
+    return Controller;
+});
+```
+
+------
+
+## ✅ 三、后端控制器支持
+
+FastAdmin 已内置通用的 `ajax/toggle` 接口（即 `application/admin/controller/Ajax.php` 中的 `toggle()` 方法）。
+
+如果你表中的 `status` 字段是 `tinyint(1)` 或 `enum('0','1')`，默认就能用，无需额外写接口。
+ 只要在 JS 里设置：
+
+```
+extend: {
+    toggle_url: 'ajax/toggle',
+}
+```
+
+后台会根据主键和字段名自动修改对应值。
+
+------
+
+## ✅ 四、自定义开关样式（可选）
+
+可以在后台设置 `toggleStyle`，或者使用自定义 formatter，比如：
+
+```
+formatter: function (value, row, index) {
+    var color = value == 1 ? 'success' : 'danger';
+    var text = value == 1 ? '启用' : '禁用';
+    return '<a href="javascript:;" class="btn btn-xs btn-' + color + ' btn-toggle" data-id="' + row.id + '" data-field="status">' + text + '</a>';
+}
+```
+
+然后监听点击事件进行 AJAX 请求。
+
+------
+
+## ✅ 五、常见问题
+
+| 问题                 | 原因                   | 解决方法                                                 |
+| -------------------- | ---------------------- | -------------------------------------------------------- |
+| 点击无反应           | 没引入 `toggle_url`    | 在 `Table.api.init()` 里添加 `toggle_url: 'ajax/toggle'` |
+| 提示“此功能未被授权” | 插件未安装或接口被禁用 | 检查是否关闭了 Ajax 控制器的权限                         |
+| 切换后页面不刷新     | 未绑定事件             | 确保最后执行 `Table.api.bindevent(table);`               |
