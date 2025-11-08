@@ -412,3 +412,297 @@ formatter: function (value, row, index) {
 | 点击无反应           | 没引入 `toggle_url`    | 在 `Table.api.init()` 里添加 `toggle_url: 'ajax/toggle'` |
 | 提示“此功能未被授权” | 插件未安装或接口被禁用 | 检查是否关闭了 Ajax 控制器的权限                         |
 | 切换后页面不刷新     | 未绑定事件             | 确保最后执行 `Table.api.bindevent(table);`               |
+
+# 图片上传
+
+![image-20251108104421883](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20251108104421883.png)
+
+**对应数据表展示**
+
+```sql
+CREATE TABLE `hq_company_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `img` varchar(255) DEFAULT NULL COMMENT '介绍图片',
+  `text` text COMMENT '介绍文本',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='企业介绍';
+```
+
+## 一、准备：在后台生成 CURD
+
+在 FastAdmin 后台：
+
+> 开发管理 → 代码生成器 → 生成后台管理
+
+填写以下内容：
+
+| 配置项   | 填写示例                           |
+| -------- | ---------------------------------- |
+| 表名     | `hq_company_info`                  |
+| 控制器名 | `hq/company_info`                  |
+| 菜单名称 | 企业介绍                           |
+| 主键     | `id`                               |
+| 模型名   | `app\admin\model\hq\CompanyInfo`   |
+| 生成选项 | ✅ 生成控制器、模型、视图、JS、菜单 |
+
+点击“生成”。
+
+## ✅ 二、生成后进行手动增强
+
+FastAdmin 生成的 CURD 默认只支持普通文本，我们要让：
+
+- `img` 字段 → 图片上传
+- `text` 字段 → 富文本编辑器
+
+下面分别改这两部分。
+
+------
+
+## ✅ 三、修改 `hq_company_info.js`
+
+文件路径：
+ `/public/assets/js/backend/hq/company_info.js`
+
+找到表格定义 `columns: [[ ... ]]` 的部分，修改如下：
+
+```
+columns: [[
+    {checkbox: true},
+    {field: 'id', title: __('Id')},
+    {
+        field: 'img',
+        title: __('Img'),
+        formatter: Table.api.formatter.image, // ✅ 显示为图片
+        operate: false
+    },
+    {
+        field: 'text',
+        title: __('Text'),
+        operate: false,
+        formatter: function (value) {
+            // ✅ 截取部分内容预览
+            return value ? value.substring(0, 50) + '...' : '';
+        }
+    },
+    {field: 'create_time', title: __('Create_time'), operate:'RANGE', addclass:'datetimerange'},
+    {field: 'update_time', title: __('Update_time')},
+    {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+]]
+```
+
+------
+
+## ✅ 四、修改 `add.html` 与 `edit.html`
+
+路径：
+
+```
+/application/admin/view/hq/company_info/add.html  
+/application/admin/view/hq/company_info/edit.html
+```
+
+找到表单部分，替换对应字段：
+
+### 图片上传
+
+```
+<div class="form-group">
+    <label class="control-label col-xs-12 col-sm-2">介绍图片:</label>
+    <div class="col-xs-12 col-sm-8">
+        <div class="input-group">
+            <input id="c-img" class="form-control" name="row[img]" type="text">
+            <div class="input-group-addon no-border no-padding">
+                <span><button type="button" id="plupload-img" class="btn btn-danger plupload" data-input-id="c-img" data-preview-id="p-img"><i class="fa fa-upload"></i> 上传</button></span>
+            </div>
+            <span class="msg-box n-right"></span>
+        </div>
+        <ul class="row list-inline plupload-preview" id="p-img"></ul>
+    </div>
+</div>
+```
+
+### 富文本编辑器
+
+```
+<div class="form-group">
+    <label class="control-label col-xs-12 col-sm-2">介绍文本:</label>
+    <div class="col-xs-12 col-sm-8">
+        <textarea id="c-text" class="form-control editor" name="row[text]" rows="10"></textarea>
+    </div>
+</div>
+```
+
+------
+
+## ✅ 五、JS 启用上传与编辑器
+
+在 `add` 和 `edit` 页面对应的 JS 中（`Controller.api.bindevent()` 方法中），FastAdmin 默认已经绑定：
+
+```
+Form.api.bindevent($("form[role=form]"));
+```
+
+这行代码自动处理：
+
+- `.plupload` 按钮 → 上传图片（使用 FastAdmin 自带上传组件）
+- `.editor` → 富文本（内置 Summernote 编辑器）
+
+所以不需要手动初始化。
+ 直接保存就能用了 ✅
+
+------
+
+## ✅ 六、效果预览
+
+后台页面：
+
+| 字段   | 效果                               |
+| ------ | ---------------------------------- |
+| img    | 上传图片按钮 + 缩略图预览          |
+| text   | 富文本编辑框                       |
+| 列表页 | 图片显示缩略图、文本显示前50字预览 |
+
+------
+
+## ✅ 七、可选：限制上传图片类型
+
+如果只想上传图片文件，可以在按钮上加上属性：
+
+```
+data-mimetype="image/gif,image/jpeg,image/png,image/jpg"
+```
+
+------
+
+是否要我帮你把完整生成后的 `company_info.js` 文件示例写好（含表格、上传、富文本全部完善）？
+ 我可以直接生成你粘贴即可用的版本。
+
+##### 你说：
+
+编辑没有回显图片
+
+###### ChatGPT 说：
+
+非常好的问题 👍
+ 👉 **FastAdmin 编辑页图片不回显** 是一个常见的小坑。
+ 其实上传功能是好的，只是 **编辑页没正确显示上传图片的预览**。
+
+下面我详细教你如何修好它（完全可复制粘贴版）👇
+
+------
+
+## ✅ 一、确认你使用的上传表单代码
+
+确保你的编辑页 `edit.html`（或 add.html）中 **图片上传部分** 是这个结构：
+
+```html
+<div class="form-group">
+    <label class="control-label col-xs-12 col-sm-2">介绍图片:</label>
+    <div class="col-xs-12 col-sm-8">
+        <div class="input-group">
+            <!--                value="{$row.img|htmlentities}"         这句是回显的关键-->   
+            <input id="c-img" class="form-control" name="row[img]" type="text" value="{$row.img|htmlentities}">
+            <div class="input-group-addon no-border no-padding">
+                <span>
+                    <button type="button" id="plupload-img"
+                        class="btn btn-danger plupload"
+                        data-input-id="c-img"
+                        data-preview-id="p-img"
+                        data-mimetype="image/gif,image/jpeg,image/png,image/jpg"
+                        data-multiple="false">
+                        <i class="fa fa-upload"></i> 上传
+                    </button>
+                </span>
+                <span>
+                    <button type="button" id="fachoose-img"
+                        class="btn btn-primary fachoose"
+                        data-input-id="c-img"
+                        data-preview-id="p-img"
+                        data-mimetype="image/*"
+                        data-multiple="false">
+                        <i class="fa fa-list"></i> 选择
+                    </button>
+                </span>
+            </div>
+        </div>
+        <!-- ✅ 这里是预览区域 -->
+        <ul class="row list-inline plupload-preview" id="p-img"></ul>
+    </div>
+</div>
+```
+
+### 💡关键点：
+
+- `input` 的 `value="{$row.img|htmlentities}"`
+   👉 这行是 **回显的关键**，没有它图片地址不会加载。
+- `data-input-id` 和 `data-preview-id` 必须与上面一致。
+
+------
+
+## ✅ 二、确认模型或表字段中确实有值
+
+进入数据库，看看 `hq_company_info` 表中 `img` 字段是否有值，比如：
+
+```
+/uploads/20251108/xxxxxx.jpg
+```
+
+如果是空的，自然无法回显。
+
+------
+
+## ✅ 三、确认模板中调用了 `Form.api.bindevent`
+
+在 `company_info.js` 的 `edit` 函数里，要确保有这句：
+
+```
+Form.api.bindevent($("form[role=form]"));
+```
+
+这一行负责自动初始化：
+
+- plupload 上传
+- fachoose 文件选择
+- 以及预览加载
+
+------
+
+## ✅ 四、如果依然没显示预览，添加这句
+
+有时候因为页面渲染顺序问题，FastAdmin 没来得及初始化预览，可以在 `edit.html` 最后补一段：
+
+```javascript
+<script>
+    require(['jquery', 'upload'], function ($, Upload) {
+        Upload.api.preview($('#c-img').val(), $('#p-img'));
+    });
+</script>
+```
+
+这样页面加载后会手动触发一次图片预览。
+
+------
+
+## ✅ 五、加上多图时的特殊情况（仅单图请忽略）
+
+如果你将 `data-multiple="true"`，那存储的 `img` 会是 JSON 或逗号分隔的多个地址，需要在模型里加个 `getImgAttr()` 格式化：
+
+```javascript
+public function getImgAttr($value)
+{
+    return $value ? cdnurl($value, true) : '';
+}
+```
+
+------
+
+## ✅ 六、常见错误与解决
+
+| 问题                                              | 原因                            | 解决                                             |
+| ------------------------------------------------- | ------------------------------- | ------------------------------------------------ |
+| 图片地址存了，但编辑页不显示                      | 没写 `value="{$row.img          | htmlentities}"`                                  |
+| 有图片但预览框空白                                | 没有调用 `Form.api.bindevent()` | 补上                                             |
+| 上传后预览OK，刷新后丢失                          | 数据库没保存完整路径            | 检查 `upload.php` 返回路径                       |
+| 控制台报错 `Upload.api.preview is not a function` | 未加载 `upload` 模块            | 确保页面引入 `require(['jquery','upload'], ...)` |
