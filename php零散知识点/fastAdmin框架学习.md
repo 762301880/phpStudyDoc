@@ -185,3 +185,75 @@ if (Config::get('fastadmin.loginip_check')) {
 'loginip_check'         => false,
 ```
 
+##  调用插件返回报错 404
+
+![image-20251108090148387](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20251108090148387.png)
+
+**windows处理**
+
+> D:\phpstudy_pro\Extensions\Nginx1.15.11\conf\vhosts
+>
+> nginx配置文件中新增注释部分   
+>
+> 然后重启nginx
+
+```nginx
+server {
+        listen        80;
+        server_name  www.hqmedia.com;
+        root   "D:/phpstudy_pro/WWW/work/hq_media/public";
+        location / {
+            index index.php index.html error/index.html;
+            error_page 400 /error/400.html;
+            error_page 403 /error/403.html;
+            error_page 404 /error/404.html;
+            error_page 500 /error/500.html;
+            error_page 501 /error/501.html;
+            error_page 502 /error/502.html;
+            error_page 503 /error/503.html;
+            error_page 504 /error/504.html;
+            error_page 505 /error/505.html;
+            error_page 506 /error/506.html;
+            error_page 507 /error/507.html;
+            error_page 509 /error/509.html;
+            error_page 510 /error/510.html;
+            include D:/phpstudy_pro/WWW/work/hq_media/public/nginx.htaccess;
+            autoindex  off;
+            # 处理静态文件
+            if (!-e $request_filename){
+               rewrite  ^(.*)$  /index.php?s=$1  last;   break;
+            }
+        }
+        location ~ \.php(.*)$ {
+            fastcgi_pass   127.0.0.1:9005;
+            fastcgi_index  index.php;
+            fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            fastcgi_param  PATH_INFO  $fastcgi_path_info;
+            fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
+            include        fastcgi_params;
+        }
+}
+```
+
+# 插件使用
+
+**破解插件下载**
+
+| 名称  | 地址                                                         |
+| ----- | ------------------------------------------------------------ |
+| gitee | [下载地址](https://gitee.com/arife/fastadmin-plugin-arife/repository/archive/master.zip) |
+
+
+
+## 富文本
+
+> 下载插件后  添加class   class="form-control editor Summernote"
+
+```php+HTML
+ <div class="col-xs-12 col-sm-8">
+            <textarea id="c-content" class="form-control editor Summernote" rows="5" name="row[content]"
+                      cols="50"></textarea>
+        </div>
+```
+
