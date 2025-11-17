@@ -120,3 +120,10 @@ if ($value !== "") {
 
 ```
 
+```php
+# 这才是最优解 如果传递过来为""        就不会走查询   如果传递 0就走查询
+$is_trans = $queryData['is_trans'] ?? null;
+if ($is_trans !== '' && $is_trans !== null) {
+    $query->where('coo.is_trans', $is_trans);
+}
+```

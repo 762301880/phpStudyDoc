@@ -507,7 +507,7 @@ columns: [[
 
 ### 图片上传
 
-```
+```html
 <div class="form-group">
     <label class="control-label col-xs-12 col-sm-2">介绍图片:</label>
     <div class="col-xs-12 col-sm-8">
@@ -525,7 +525,7 @@ columns: [[
 
 ### 富文本编辑器
 
-```
+```html
 <div class="form-group">
     <label class="control-label col-xs-12 col-sm-2">介绍文本:</label>
     <div class="col-xs-12 col-sm-8">
@@ -540,7 +540,7 @@ columns: [[
 
 在 `add` 和 `edit` 页面对应的 JS 中（`Controller.api.bindevent()` 方法中），FastAdmin 默认已经绑定：
 
-```
+```javascript
 Form.api.bindevent($("form[role=form]"));
 ```
 
@@ -706,3 +706,70 @@ public function getImgAttr($value)
 | 有图片但预览框空白                                | 没有调用 `Form.api.bindevent()` | 补上                                             |
 | 上传后预览OK，刷新后丢失                          | 数据库没保存完整路径            | 检查 `upload.php` 返回路径                       |
 | 控制台报错 `Upload.api.preview is not a function` | 未加载 `upload` 模块            | 确保页面引入 `require(['jquery','upload'], ...)` |
+
+# 自动写入时间戳设置为datetime格式
+
+> https://www.yuencode.cn/2022/04/14/%E8%A7%A3%E5%86%B3fastadmin%E8%87%AA%E5%8A%A8%E5%86%99%E5%85%A5%E6%97%B6%E9%97%B4%E6%88%B3%E9%97%AE%E9%A2%98/
+>
+> https://www.luowebs.com/Skill_desc/151/1036.html
+
+**全局配置(不推荐)**
+
+> 不推荐全局改会有问题
+
+```ini
+#D:\phpstudy_pro\WWW\work\hq_media\application\database.php
+// 自动写入时间戳字段
+'auto_timestamp'  => false,
+// 时间字段取出后的默认时间格式,默认为Y-m-d H:i:s
+'datetime_format' => false,
+
+# 如果需要改为datetime格式需要改为
+'auto_timestamp'  => 'datetime',
+'datetime_format' => 'Y-m-d H:i:s',
+```
+
+**对应数据库**
+
+```sql
+CREATE TABLE `hq_project` (
+  --忽略具体字段
+  `create_time` datetime DEFAULT NULL COMMENT '添加时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `delete_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_name` (`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='项目';
+```
+
+
+
+**修改对应模型配置**
+
+```php
+<?php
+
+namespace app\admin\model;
+
+use think\Model;
+
+
+class Project extends Model
+{
+    // 表名
+    protected $name = 'project';
+
+    protected $autoWriteTimestamp = 'datetime'; # 设置 datetime格式
+    protected $createTime = 'create_time'; # 改为数据库对应字段
+    protected $updateTime = 'update_time';# 改为数据库对应字段
+    protected $deleteTime = 'delete_time';# 改为数据库对应字段
+    protected $dateFormat = 'Y-m-d H:i:s';  # 改时间格式
+
+    // 追加属性
+    protected $append = [
+
+    ];
+}
+
+```
+
