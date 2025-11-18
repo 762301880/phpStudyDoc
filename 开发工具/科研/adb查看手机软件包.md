@@ -329,6 +329,6 @@ List of devices attached
 **关闭多余的模拟器**
 
 ```shell
-adb emu kill
+adb disconnect
 ```
 
