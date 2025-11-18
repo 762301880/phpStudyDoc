@@ -773,3 +773,20 @@ class Project extends Model
 
 ```
 
+#  新增或者编辑后自动刷新首页
+
+这个位置添加 刷新
+
+```shell
+api: {
+            bindevent: function () {
+                Form.api.bindevent($("form[role=form]"), function () {
+                    console.log("提交成功");
+                    // 提交成功自动刷新父页面
+                    // parent.$(".btn-refresh").trigger("click");
+                    parent.$("#table").bootstrapTable('refresh');
+                });
+            }
+        }
+```
+
