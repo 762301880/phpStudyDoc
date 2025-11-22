@@ -87,7 +87,7 @@ location / {
 
 一般都是目录权限问题
 
-## 安装
+## [安装](https://doc.fastadmin.net/doc/install.html)
 
 > 域名/install.php执行安装
 
