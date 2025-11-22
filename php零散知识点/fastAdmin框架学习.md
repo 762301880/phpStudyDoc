@@ -1,8 +1,10 @@
 # 资料
 
-| 名称 | 地址                                            |
-| ---- | ----------------------------------------------- |
-| 官网 | [link](https://www.fastadmin.net/download.html) |
+| 名称         | 地址                                                         |
+| ------------ | ------------------------------------------------------------ |
+| 官网         | [link](https://www.fastadmin.net/download.html)              |
+| 官方文档     | [link](https://doc.fastadmin.net/doc/index.html)  [开发文档](https://doc.fastadmin.net/developer/55.html) |
+| 官方视频教程 | [link](https://www.fastadmin.net/video.html)                 |
 
 # 环境搭建
 
