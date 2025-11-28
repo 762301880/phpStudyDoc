@@ -1,10 +1,8 @@
 # phpStudyDoc
 
-# 作者：姚留洋
+# 作者：Lyon
 
-### QQ:762301880
-
-### 邮箱:762301880@qq.com
+### 邮箱:yaoliuyang@aliyun.com
 
 ## 说明
 
