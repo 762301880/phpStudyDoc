@@ -35,3 +35,30 @@
 > 搜索你的中文用户名（比如“铺先生技术部”）。然后关闭
 
 ![image-20251106115919969](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20251106115919969.png)
+
+### 打开软件报原来的文件夹不存在错误
+
+```tex
+//例如打开 navicat报错
+未知的内部错误(70011706)9011: Error creating directory.C:\Users)铺先生技术研发中心Docume..5bb97005880eb650b7c46305dd07aaf0C:\Users\铺先生技术研发中心Docume..5bb97005880eb650b7c46305dd07aaf0 OK
+```
+
+
+
+#### **方法 1：在 CMD（命令提示符）里运行 mklink** ✅ 推荐
+
+1. **按 Win + R**
+2. 输入 `cmd`，按 **Ctrl + Shift + Enter** → 以管理员身份打开
+3. 输入（完整复制）：
+
+```
+mklink /D "C:\Users\铺先生技术研发中心" "C:\Users\puxiansheng"
+```
+
+1. 回车，如果成功会显示：
+
+```
+已创建的符号链接
+```
+
+然后重新打开 Navicat → 报错消失
