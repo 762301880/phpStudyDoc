@@ -186,7 +186,11 @@ class OrderExcelResponse
 **实战逻辑**
 
 ```php
- public function importThirdSister(Request $request)
+ 
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
+
+public function importThirdSister(Request $request)
     {
         $file = $request->file('file');
         $ext = UploadService::getFileExt($file);
