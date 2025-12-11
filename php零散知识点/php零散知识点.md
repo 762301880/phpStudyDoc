@@ -17,4 +17,4 @@ public function oldMethod() {
 
 当使用该方法时，PHP 会在运行时发出警告，通知开发者该方法已经被弃用，并且推荐使用新的方法来代替它。这样可以防止开发者意外地使用不再维护的方法，同时也可以帮助开发者更好地管理代码库和实现迭代更新。
 
-# [php 注释](https://docs.org/guide/references/phpdoc/tags/index.html)
+# [php 注释](https://docs.phpdoc.org/guide/references/phpdoc/tags/)
