@@ -116,3 +116,11 @@ powercfg -h off
 > - 直接全部选中，删除即可
 >
 > `C:\Windows\SoftwareDistribution\Download`
+
+#  浏览器下载文件 -检测到病毒
+
+> https://zhuanlan.zhihu.com/p/526667214
+
+找到**病毒和威胁防护-管理设置**  全部关闭防护
+
+![image-20251211151115235](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20251211151115235.png)
