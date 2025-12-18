@@ -249,7 +249,9 @@ U 盘的格式决定了它能兼容的设备、支持的文件大小以及功能
 
 # 远程开关机
 
-## [开机卡](https://mp.weixin.qq.com/s/ZAul1X3WXb-PbdT836ONDQ)
+## [远程开机卡](https://mp.weixin.qq.com/s/ZAul1X3WXb-PbdT836ONDQ)
+
+![img](https://t13.baidu.com/it/u=45200692,1220602928&fm=224&app=112&f=JPEG?w=500&h=500)
 
 # 显示屏
 
