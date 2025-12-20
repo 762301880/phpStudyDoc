@@ -1,13 +1,17 @@
 # 代码示例
 
-## 算法1
+##  代码生成日期
+
+### 算法1
 
 ```php
-$data = ['2017-08-24',
+$data = [
+        '2017-08-24',
         '2017-08-26',
         '2017-08-28',
         '2017-08-30',
-        '2017-08-31'];
+        '2017-08-31'
+];
 $len = count($data);
 $oneDaySecond = 86400;
 $newData = array();
@@ -28,7 +32,7 @@ for ($i = 1; $i < $len; $i++) {
 print_r($newData);
 ```
 
-## 算法二
+### 算法二
 
 ```php
 # 更简便的算法
@@ -47,7 +51,19 @@ print_r($newData);
         return $collection;
 ```
 
-# [计算时间是上午还是下午](https://blog.csdn.net/weixin_39771260/article/details/115148038)
+## 批量插入数据库生成日期
+
+### python脚本  按年插入日期
+
+```python
+
+```
+
+
+
+#  补充
+
+## [计算时间是上午还是下午](https://blog.csdn.net/weixin_39771260/article/details/115148038)
 
 
 
@@ -56,10 +72,10 @@ print_r($newData);
 ```php
 $hours=date('H');# 自动获取当前的小时
 if($hours >= 7 && $Datetime =< 12) return "上午";
-if($hours >= 12 && $Datetime =< 18) return "x";
+if($hours >= 12 && $Datetime =< 18) return "下午";
 ```
 
-# **PHP计算两个日期相差几个月多余几天**
+## **PHP计算两个日期相差几个月多余几天**
 
 **参考资料**
 
