@@ -412,3 +412,70 @@ class TestController extends Controller
 }
 ```
 
+# laravel redis分布式锁
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Count;
+use App\Models\DecrementCount;
+use App\Services\RedisService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+
+class TestController extends Controller
+{
+    public function test(Request $request)
+    {
+        // 定义锁名称（唯一标识临界资源）
+        $lockKey = "stock:lock:1";
+        $lockValue = uniqid(); // 唯一值，防止误删其他请求的锁
+        $expireSeconds = 10;
+        // 1. 尝试获取锁：SETNX + 过期时间（原子操作，避免死锁）
+        $redis=RedisService::getInstance();
+        try {
+
+            $acquired = $redis->set($lockKey, $lockValue, 'NX', 'EX', $expireSeconds);
+
+            if (!$acquired) {
+                return response()->json(['code' => 400, 'msg' => '操作中，请稍后']);
+            }
+
+
+            // 核心业务逻辑（临界区）
+            $countModel = Count::where('id', 1)->first();
+            if (!$countModel) {
+                return response()->json(['code' => 404, 'msg' => '计数记录不存在']);
+            }
+
+            $count = $countModel->count;
+            // sleep(1); // 测试并发时可开启
+
+            if ($count > 0) {
+                // 修正递减逻辑：先递减再赋值
+                $newCount = $count - 1;
+                $bool = DecrementCount::create(['count_decrement_id' => $newCount]);
+                if ($bool) {
+                    $countModel->count = $newCount;
+                    $countModel->save();
+                }
+            }
+
+            return response()->json(['code' => 200, 'msg' => '成功', 'data' => $count - ($bool ? 1 : 0)]);
+        } finally {
+            // 2. 释放锁：先判断value是否匹配，再删除（防止误删）
+            $script = <<<LUA
+            if redis.call('get', KEYS[1]) == ARGV[1] then
+                return redis.call('del', KEYS[1])
+            else
+                return 0
+            end
+        LUA;
+            $redis->eval($script, 1, $lockKey, $lockValue);
+        }
+    }
+}
+```
+
