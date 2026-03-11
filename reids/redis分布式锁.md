@@ -346,3 +346,69 @@ class TestController extends Controller
 }
 
 ```
+
+# laravel 内置的 `Cache` 锁（简单易用）
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Count;
+use App\Models\DecrementCount;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+
+class TestController extends Controller
+{
+    public function test(Request $request)
+    {
+        // 定义锁名称（唯一标识临界资源）
+        $lockKey = "seckill:lock:1";
+        // 初始化锁实例变量
+        $lock = false;
+
+        try {
+            // 尝试获取锁：有效期10秒，等待2秒
+            // 兼容两种情况：返回锁实例 或 返回false
+            $lock = Cache::lock($lockKey, 10)->block(2);
+
+            // 判断是否成功获取锁（核心修复点）
+            if (!$lock) {
+                return response()->json(['code' => 400, 'msg' => '请稍后再试（请求太频繁）']);
+            }
+
+            // 核心业务逻辑（临界区）
+            $countModel = Count::where('id', 1)->first();
+            if (!$countModel) {
+                return response()->json(['code' => 404, 'msg' => '计数记录不存在']);
+            }
+
+            $count = $countModel->count;
+            // sleep(1); // 测试并发时可开启
+
+            if ($count > 0) {
+                // 修正递减逻辑：先递减再赋值
+                $newCount = $count - 1;
+                $bool = DecrementCount::create(['count_decrement_id' => $newCount]);
+                if ($bool) {
+                    $countModel->count = $newCount;
+                    $countModel->save();
+                }
+            }
+
+            return response()->json(['code' => 200, 'msg' => '成功', 'data' => $count - ($bool ? 1 : 0)]);
+
+        } catch (\Exception $e) {
+            // 捕获所有异常（包括锁相关、数据库相关）
+            return response()->json(['code' => 500, 'msg' => '系统错误:'.$e->getMessage()]);
+        } finally {
+            // 修复：只有锁是有效实例时，才释放锁
+            if ($lock && method_exists($lock, 'release')) {
+                $lock->release();
+            }
+        }
+    }
+}
+```
+
