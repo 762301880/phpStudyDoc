@@ -149,8 +149,9 @@ export default defineConfig({
 
 ## ▶️ 第四步：运行预览
 
-```
-npm run docs:dev
+```shell
+npm install   # 安装依赖
+npm run dev   # 运行项目 
 ```
 
 打开浏览器：

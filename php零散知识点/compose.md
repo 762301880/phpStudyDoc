@@ -77,6 +77,48 @@ composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 composer self-update
 ```
 
+# 基本使用
+
+## composer移除安装包
+
+```shell
+composer remove 包名
+```
+
+### 示例
+
+```
+composer remove monolog/monolog
+```
+
+👉 这条命令会帮你做三件事：
+
+1. 从 `composer.json` 里移除依赖
+2. 从 `composer.lock` 里移除记录
+3. 删除 `vendor/` 目录里的实际代码
+
+### 手动删除(不推荐-勿用 记录方案使用)
+
+### 1. 编辑 `composer.json`
+
+把对应依赖删掉，比如：
+
+```
+"require": {
+    "monolog/monolog": "^2.0"
+}
+```
+
+删除这一行
+
+### 2. 执行更新(这种方法会更改别的软件包的版本)
+
+```
+composer update
+```
+
+
+
 #  疑问解答
 
 ## Composer install 与 update 的区别
