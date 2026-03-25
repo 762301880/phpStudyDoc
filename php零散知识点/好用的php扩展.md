@@ -110,9 +110,7 @@ echo "缓存命中率：" . round($status['opcache_statistics']['hit_rate'] ,2) 
 echo "<br>已缓存文件：" . $status['opcache_statistics']['num_cached_scripts'];
 ```
 
-------
-
-## 五、常见问题
+### 常见问题
 
 1. 修改代码不生效？
 
