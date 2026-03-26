@@ -40,11 +40,11 @@ docker run -itd --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-m
 
 ```shell
 docker run -itd \
-    --hostname my-rabbit \ 
-    --name some-rabbit \ 
-    -e RABBITMQ_DEFAULT_USER=user \
-    -e RABBITMQ_DEFAULT_PASS=password \
-    rabbitmq:3-management
+--hostname my-rabbit \
+--name some-rabbit \
+-e RABBITMQ_DEFAULT_USER=user \
+-e RABBITMQ_DEFAULT_PASS=password \
+rabbitmq:3-management
 ```
 
 
