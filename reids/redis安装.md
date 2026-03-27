@@ -143,6 +143,8 @@ docker run -itd --name redis -p 6389:6379 -v /data/redis:/data redis:6.0.9
 |             |                                    |
 
 > 怎么配置的不详解就像你注册qq账号这么简单
+>
+> redis-cli -u redis://default:IgJkOF5E5kHq4hDkmNlvhOZqmLuH5Ldf@redis-10729.c73.us-east-1-2.ec2.cloud.redislabs.com:10729
 
 ![1646129429(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/qhmbrvu21RAToQC.png)
 

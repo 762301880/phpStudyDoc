@@ -5,8 +5,6 @@
 | php_callble官网 | [link](https://www.php.net/manual/zh/language.types.callable.php) |
 | 第三方博客      | [link](https://learnku.com/articles/57330)                   |
 
-
-
 # 代码示例
 
 ```php
