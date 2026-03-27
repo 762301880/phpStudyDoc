@@ -134,30 +134,31 @@ use Illuminate\Support\Facades\Redis;
  */
 function deductStock($goodsId, $num = 1)
 {
-    // 库存 key
-    $stockKey = "goods_stock_{$goodsId}";
+        // 库存 key
+        $stockKey = "goods_stock_{$goodsId}";
 
-    // Lua 脚本
-    $lua = <<<LUA
-        -- 获取当前库存
-        local stock = tonumber(redis.call('get', KEYS[1]) or 0)
-        -- 扣减数量
-        local deductNum = tonumber(ARGV[1])
+        // Lua 脚本（核心修复：缩进 + 结束符顶格）
+        $lua = <<<LUA
+-- 获取当前库存
+local stock = tonumber(redis.call('get', KEYS[1]) or 0)
+local deductNum = tonumber(ARGV[1])
 
-        -- 判断库存是否足够
-        if stock >= deductNum then
-            -- 扣减库存
-            redis.call('decrby', KEYS[1], deductNum)
-            return 1 -- 成功
-        else
-            return 0 -- 库存不足
-        end
-    LUA;
+-- 判断库存是否足够
+if stock >= deductNum then
+    -- 扣减库存
+    redis.call('decrby', KEYS[1], deductNum)
+    return 1 -- 成功
+else
+    return 0 -- 库存不足
+end
+LUA;
 
-    // 执行 Lua：1=key 数量，KEYS[1]，ARGV[1]=扣减数量
-    $result = Redis::eval($lua, 1, $stockKey, $num);
+        $redis = RedisService::getInstance();
 
-    return $result === 1;
+        // 执行 Lua：1=key 数量，KEYS[1]，ARGV[1]=扣减数量
+        $result = $redis->eval($lua, 1, $stockKey, $num);
+
+        return $result === 1;
 }
 ```
 
@@ -239,3 +240,7 @@ function lock($key, $expire = 10)
 
 1. **Laravel + Redis Lua** 是高并发一致性操作的**最优方案**
 2. 秒杀、库存、余额、订单、锁都必须用这种方式
+
+###  bug解析
+
+`<<<LUA` 结构的内容**必须严格缩进**，不能顶格写，且结束标记 `LUA;` 必须**顶格、无空格、无缩进**。
