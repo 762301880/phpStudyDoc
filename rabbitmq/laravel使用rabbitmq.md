@@ -1,3 +1,5 @@
+## 注意这种不属于分布式调用,只支持laravel调用rabbitmq
+
 ## 安装第三方扩展包
 
 ```php
@@ -74,6 +76,8 @@ TestRabbitMQ::dispatch();
 
 ```php
 php artisan queue:work rabbitmq
+    
+php artisan queue:listen rabbitmq    
 ```
 
 ## 进阶（常用配置）
