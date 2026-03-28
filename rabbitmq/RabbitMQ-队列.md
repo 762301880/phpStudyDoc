@@ -10,10 +10,11 @@
 
 # 资料
 
-| 名称          | 地址                                       |
-| ------------- | ------------------------------------------ |
-| 第三方博客    | [link](https://learnku.com/articles/43080) |
-| rabbitmq-官网 | [link](https://www.rabbitmq.com/)          |
+| 名称             | 地址                                       |
+| ---------------- | ------------------------------------------ |
+| 第三方博客       | [link](https://learnku.com/articles/43080) |
+| rabbitmq-官网    | [link](https://www.rabbitmq.com/)          |
+| rabbitmq中文文档 | [link](https://rabbitmq.org.cn/docs)       |
 
 # 安装
 
