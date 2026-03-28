@@ -27,6 +27,7 @@
 | 官方扩展文档                               | [link](https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/index.html) |
 | elasticsearch/elasticsearch-packagist      | [link](https://packagist.org/packages/elasticsearch/elasticsearch) |
 | elasticsearch中文档(laravel社区)           | [link](https://learnku.com/docs/elasticsearch-php/6.0/quickstart/2001) |
+| elasticsearch菜鸟教程                      | [link](https://www.cainiaojc.com/elasticsearch/)             |
 
 # windows 安装
 
@@ -233,6 +234,10 @@ yellow open   my_index         Wir5HsZoRR2ytXKWwnEAsQ   1   1          1        
 > Kibana是Elasticsearch的可视化工具，便于查看和分析数据。
 >
 > 下载并安装Kibana，可以参考[官方安装指南](https://www.elastic.co/guide/en/kibana/current/install.html)
+>
+> https://mirrors.huaweicloud.com/kibana/     华为镜像站
+>
+> **注意一定要下载跟 Elasticsearch 一样的版本**
 
 #  补充知识点
 

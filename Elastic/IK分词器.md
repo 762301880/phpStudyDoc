@@ -155,5 +155,15 @@ D:\elasticsearch-7.15.1\plugins\ik
 
 启动日志没有报错，就是装成功了 ✅
 
+#  bug解析
 
+## 报错 access denied ("java.io.FilePermission"
+> `access denied ("java.io.FilePermission"
+> "D:\Program Files\elasticsearch-7.15.2\plugins\ik\config\IKAnalyzer.cfg.xml"
+> "read")`
+>
+> Elasticsearch **没有权限读取 IK 分词器的配置文件**
 
+**解决办法**
+
+windows转移到`D:\elasticsearch-7.15.2`
