@@ -16,6 +16,18 @@
 | rabbitmq-官网    | [link](https://www.rabbitmq.com/)          |
 | rabbitmq中文文档 | [link](https://rabbitmq.org.cn/docs)       |
 
+# Rabbitmq基本概念
+
+RabbitMQ核心就三样：
+
+- **Producer（生产者）**：发消息
+- **Queue（队列）**：存消息
+- **Consumer（消费者）**：处理消息
+
+中间还有个关键东西：
+
+- **Exchange（交换机）**：决定消息发到哪个队列
+
 # 安装
 
 ## docker安装RabbitMQ
