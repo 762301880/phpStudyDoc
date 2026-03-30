@@ -120,55 +120,77 @@ while ($channel->is_consuming()) {
 
 ```php
 <?php
+// 引入 Composer 自动加载文件，加载 RabbitMQ 依赖库
+require_once __DIR__ . '/vendor/autoload.php';
 
-namespace App\Services;
-
+// 引入 RabbitMQ 连接类
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMQService
-{
-    protected $connection;
-    protected $channel;
+// ====================== 1. 创建与 RabbitMQ 服务器的连接 ======================
+// AMQPStreamConnection 参数说明：
+// 1. 主机地址：127.0.0.1（本地）
+// 2. 端口号：5672（RabbitMQ 默认端口）
+// 3. 用户名：guest（默认管理员账号）
+// 4. 密码：guest（默认管理员密码）
+$connection = new AMQPStreamConnection('127.0.0.1', 5672, 'guest', 'guest');
 
-    public function __construct()
-    {
-        $this->connection = new AMQPStreamConnection(
-            env('RABBITMQ_HOST'),
-            env('RABBITMQ_PORT'),
-            env('RABBITMQ_USER'),
-            env('RABBITMQ_PASS')
-        );
+// 创建信道（Channel），所有消息操作都基于信道完成
+$channel = $connection->channel();
 
-        $this->channel = $this->connection->channel();
-    }
+// ====================== 2. 声明队列（如果队列不存在则创建） ======================
+// queue_declare(队列名, 被动声明, 持久化, 独占队列, 自动删除, 其他参数)
+$channel->queue_declare(
+    'task_queue',  // 队列名称：task_queue（任务队列）
+    false,         // 被动声明：false = 不存在则创建，true = 只检查不创建
+    true,          // 持久化：true = 队列会保存到磁盘，RabbitMQ 重启后不丢失
+    false,         // 独占队列：false = 允许其他连接访问，true = 仅当前连接可用
+    false          // 自动删除：false = 消费者断开后不删除队列
+);
 
-    // 发送消息
-    public function publish($queue, $data)
-    {
-        $this->channel->queue_declare($queue, false, true, false, false);
+// ====================== 3. 设置消费限流（非常重要，防止消费者被压垮） ======================
+// basic_qos(预取计数大小, 预取消息数量, 全局设置)
+$channel->basic_qos(
+    null,  // 预取计数大小：null = 不限制字节，按消息数量限制
+    1,     // 预取消息数量：1 = 每次只给消费者发 1 条消息，处理完再发下一条
+    null   // 全局设置：null = 只对当前消费者生效
+);
 
-        $msg = new AMQPMessage(
-            json_encode($data),
-            ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]
-        );
+// ====================== 4. 定义消息消费回调函数（收到消息后执行） ======================
+$callback = function ($msg) {
+    // 输出收到的消息内容
+    echo "收到消息: ", $msg->body, "\n";
 
-        $this->channel->basic_publish($msg, '', $queue);
-    }
+    // 把 JSON 字符串转成 PHP 数组
+    $data = json_decode($msg->body, true);
 
-    // 消费消息
-    public function consume($queue, $callback)
-    {
-        $this->channel->queue_declare($queue, false, true, false, false);
+    // 模拟业务处理耗时（比如发送邮件、生成订单、处理数据）
+    sleep(2);
 
-        $this->channel->basic_qos(null, 1, null);
+    echo "处理完成\n";
 
-        $this->channel->basic_consume($queue, '', false, false, false, false, $callback);
+    // ====================== 5. 手动确认消息已处理完成 ======================
+    // 必须手动 ack，否则 RabbitMQ 会认为消息未处理，重新发给其他消费者
+    $msg->ack();
+};
 
-        while ($this->channel->is_consuming()) {
-            $this->channel->wait();
-        }
-    }
+// ====================== 6. 注册消费者，开始监听队列消息 ======================
+// basic_consume(队列名, 消费者标签, 全局消费, 自动确认, 独占消费, 不等待, 回调函数)
+$channel->basic_consume(
+    'task_queue', // 监听的队列名称
+    '',           // 消费者标签：留空自动生成
+    false,        // 全局消费：false = 仅当前信道生效
+    false,        // 自动确认：false = 关闭自动确认，必须手动 ack（关键）
+    false,        // 独占消费：false = 允许多个消费者同时监听
+    false,        // 不等待：false = 等待服务器响应
+    $callback     // 消息处理回调函数
+);
+
+echo "等待消息...\n";
+
+// ====================== 7. 持续阻塞监听，等待消息到来 ======================
+// 只要信道还在消费，就一直等待
+while ($channel->is_consuming()) {
+    $channel->wait(); // 阻塞等待消息
 }
 ```
 
