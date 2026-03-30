@@ -76,6 +76,91 @@ rabbitmq:3.12-management
 | 第三方扩展包-php-amqplib/php-amqplib | [扩展包地址](https://packagist.org/packages/php-amqplib/php-amqplib)  [文档地址](http://php-amqplib.github.io/php-amqplib/namespaces/phpamqplib.html) |
 | 相关使用文档(推荐这个)               | [RabbitMQ Tutorials — RabbitMQ](https://www.rabbitmq.com/getstarted.html)                          [RabbitMQ教程 - “你好世界！ — 兔子MQ](https://www.rabbitmq.com/tutorials/tutorial-one-php.html) |
 
+###  RabbitMQ单例模式封装
+
+```php
+<?php
+
+namespace App\Services;
+
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+
+class RabbitMQService
+{
+    private static $instance = null;
+
+    private $connection = null;
+    private $channel = null;
+
+    /**
+     * 防止创建实例
+     */
+    private function __construct() {}
+
+    /**
+     * 获取单例
+     */
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * 获取连接（懒加载）
+     */
+    public function getConnection(): AMQPStreamConnection
+    {
+        if (!$this->connection || !$this->connection->isConnected()) {
+
+            $this->connection = new AMQPStreamConnection(
+                config('rabbitmq.host', '47.107.33.56'),
+                config('rabbitmq.port', 5672),
+                config('rabbitmq.username', 'yaoliuyang'),
+                config('rabbitmq.password', 'yaoliuyang'),
+                config('rabbitmq.vhost', '/')
+            );
+
+            // 每次重连，channel 也要重建
+            $this->channel = null;
+        }
+
+        return $this->connection;
+    }
+
+    /**
+     * 获取 channel
+     */
+    public function getChannel()
+    {
+        if (!$this->channel) {
+            $this->channel = $this->getConnection()->channel();
+        }
+
+        return $this->channel;
+    }
+
+    /**
+     * 手动关闭（可选）
+     */
+    public function close()
+    {
+        if ($this->channel) {
+            $this->channel->close();
+            $this->channel = null;
+        }
+
+        if ($this->connection) {
+            $this->connection->close();
+            $this->connection = null;
+        }
+    }
+}
+```
+
 
 
 ### **简单实验**
@@ -126,8 +211,12 @@ class MqSub extends Command
         $exchange = 'Gaming';
         $routerKey = 'lol'; //只订阅LOL消息
 
-        $connection = new AMQPStreamConnection('60.204.148.255', 5672, 'guest', 'guest');
-        $channel = $connection->channel();
+//        $connection = new AMQPStreamConnection('60.204.148.255', 5672, 'guest', 'guest');
+//        $channel = $connection->channel();
+
+        $connection = RabbitMQService::getInstance();
+        $channel = $connection->getChannel();
+        
         $channel->exchange_declare($exchange, 'direct', false, false, false);
         list($queueName, ,) = $channel->queue_declare("", false, false, true, false);
         $channel->queue_bind($queueName, $exchange, $routerKey);
@@ -156,8 +245,11 @@ class MqSub extends Command
 public function publish(Request $request)
     {
         $exchange = 'Gaming';
-        $connection = new AMQPStreamConnection('60.204.148.255', 5672, 'guest', 'guest');
-        $channel = $connection->channel();
+//        $connection = new AMQPStreamConnection('60.204.148.255', 5672, 'guest', 'guest');
+//        $channel = $connection->channel();
+    
+        $connection =RabbitMQService::getInstance();
+        $channel = $connection->getChannel();
         $channel->exchange_declare($exchange, 'direct', false, false, false);
         for ($i = 0; $i < 100; $i++) {
             $routes = ['dota', 'csgo', 'lol'];
