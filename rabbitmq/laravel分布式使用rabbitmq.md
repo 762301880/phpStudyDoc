@@ -137,6 +137,9 @@ $connection = new AMQPStreamConnection('127.0.0.1', 5672, 'guest', 'guest');
 // 创建信道（Channel），所有消息操作都基于信道完成
 $channel = $connection->channel();
 
+// ========== 关键：开启发布确认模式 ==========
+$channel->confirm_select();
+
 // ====================== 2. 声明队列（如果队列不存在则创建） ======================
 // queue_declare(队列名, 被动声明, 持久化, 独占队列, 自动删除, 其他参数)
 $channel->queue_declare(
