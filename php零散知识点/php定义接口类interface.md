@@ -122,3 +122,10 @@ class A implements Interface1, Interface2, Interface3
 3. 用 `implements` 实现
 4. 实现类**必须写完所有方法**
 5. 所有方法都是 `public`
+
+# 注意事项
+
+如果定义接口类文件夹 **文件夹定义为 Interfaces**   因为Interface 是 PHP 的关键字，在 PHP 8.0 之前不能用作命名空间的一部分。
+
+
+
