@@ -565,6 +565,14 @@ docker-compose down --rmi all --volumes --remove-orphans
 
 无论你选择哪种方式，都可以实现在Docker容器中同时启动多个程序。根据你的需求和偏好，选择最适合你的方法即可。
 
+##  已启动的docker-composer如何重新构建镜像
+
+```shell
+# # 停止旧容器 → 重新构建镜像 → 后台启动新容器
+
+docker-compose up -d --build
+```
+
 
 
 # 遇到的bug解析
