@@ -138,6 +138,29 @@ $obj = app(Class::class); // 👈 推荐用这个，更简洁
 2. 替代手动 `new`，自动处理依赖、单例、接口绑定
 3. 日常开发直接用 `app(类名)` 更方便
 
+## app()->make 与 $this->app->singleton区别
+
+```php
+// 第一次 make
+$a = app()->make(Service::class);
+
+// 第二次 make
+$b = app()->make(Service::class);
+
+// 他俩是同一个实例吗？
+var_dump($a === $b); // false（默认每次新建）
+```
+
+如果你在服务提供者里绑定单例：
+
+```php
+$this->app->singleton(Service::class);
+
+var_dump($a === $b); // true（同一个对象）
+```
+
+
+
 # 补充
 
 ### 小白必记 4 条规则
