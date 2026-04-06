@@ -399,3 +399,224 @@ public function update(Request $request, $id)
 }
 ```
 
+# 补充
+
+## 死锁情况下如何解决
+
+### 什么是死锁 → 怎么产生的 → 怎么解决。
+
+### 一、什么是死锁？
+
+两个（或多个）事务
+
+**互相持有对方需要的锁，又都在等对方释放锁**
+
+谁也不让谁，就卡死了 → **死锁**
+
+MySQL 检测到死锁后，会**主动杀掉其中一个事务**，让另一个执行。
+
+所以你程序里会遇到报错：
+
+> Deadlock found when trying to get lock; try restarting transaction
+
+### 二、死锁是怎么产生的？（最经典场景）
+
+## 场景：两个请求，按**相反顺序**锁数据
+
+假设有两个商品：id=1、id=2
+
+### 事务 A（请求 1）
+
+1. 锁 id=1
+2. 想去锁 id=2
+
+### 事务 B（请求 2）
+
+1. 锁 id=2
+2. 想去锁 id=1
+
+结果：
+
+- A 拿着 1，等 2
+
+- B 拿着 2，等 1
+
+  
+
+  → 
+
+  互相等待 → 死锁
+
+## 用 SQL 模拟死锁（你可以直接在 Navicat 开两个窗口试）
+
+窗口 1（事务 A）
+
+```sql
+START TRANSACTION;
+SELECT * FROM product WHERE id=1 FOR UPDATE; -- 锁住1
+```
+
+窗口 2（事务 B）
+
+```sql
+SELECT * FROM product WHERE id=2 FOR UPDATE; -- 等待B释放2
+```
+
+回到窗口 1：
+
+```sql
+SELECT * FROM product WHERE id=2 FOR UPDATE; -- 等待B释放2
+```
+
+回到窗口 2：
+
+```sql
+SELECT * FROM product WHERE id=1 FOR UPDATE; -- 等待A释放1
+```
+
+瞬间：**死锁产生**
+
+### 三、在 Laravel 里怎么写出死锁？
+
+非常常见：**循环锁多行，顺序乱了**
+
+```php
+// 事务A
+DB::transaction(function(){
+    Product::whereIn('id', [1,2])->lockForUpdate()->get();
+});
+
+// 事务B
+DB::transaction(function(){
+    Product::whereIn('id', [2,1])->lockForUpdate()->get();
+});
+```
+
+顺序一反过来，高并发下必出死锁。
+
+### 四、死锁产生的 4 个必要条件（背一下很有用）
+
+只要破坏任意一个，死锁就不会发生
+
+1. **互斥**：资源只能一个人用（锁特性，没法破）
+2. **请求与保持**：拿着锁，又去申请别的锁
+3. **不可剥夺**：锁不能被抢走，只能自己释放
+4. **循环等待**：A 等 B，B 等 A，形成环路
+
+**我们能破的只有：循环等待、请求与保持**
+
+### 五、死锁怎么解决？（实战最有效方案）
+
+#### 1. **固定加锁顺序（最有效、最通用）**
+
+所有事务，锁多行时**必须按 ID 从小到大**
+
+不要一会儿 [1,2] 一会儿 [2,1]
+
+Laravel 写法：
+
+```php
+// 统一排序！
+$ids = [2,1];
+sort($ids); // [1,2]
+
+Product::whereIn('id', $ids)->lockForUpdate()->get();
+```
+
+只要顺序统一，**90% 死锁直接消失**。
+
+#### 2. **缩短事务时间**
+
+事务越长，锁持有越久，越容易死锁
+
+不要在事务里：
+
+- 调用第三方 HTTP（微信 / 支付宝 / 快递接口）
+- 写复杂逻辑、sleep、大计算
+- 读大量无关数据
+
+正确做法：
+
+```php
+// 错误：事务里干太多事
+DB::transaction(function(){
+    $http = file_get_contents('xxx'); // 慢
+    $product->lockForUpdate()->first();
+});
+
+// 正确：事务只做数据库操作
+$http = file_get_contents('xxx');
+DB::transaction(function(){
+    $product->lockForUpdate()->first();
+});
+```
+
+#### 3. **避免同时锁多张表 / 多个资源**
+
+比如：
+
+- 锁 product
+- 又锁 order
+- 又锁 user
+
+不同接口锁表顺序不一样 → 死锁
+
+尽量**一次只锁最关键的一张表一行数据**。
+
+#### 4. **开启死锁重试（Laravel 常用）**
+
+MySQL 会自动杀一个事务，我们代码捕获异常并重试。
+
+```php
+use Illuminate\Database\QueryException;
+
+function updateWithRetry(){
+    $retry = 3;
+    while($retry--){
+        try {
+            return DB::transaction(function(){
+                // 锁逻辑
+            });
+        } catch (QueryException $e) {
+            // 死锁异常
+            if (str_contains($e->getMessage(), 'Deadlock')) {
+                usleep(10000); // 等待10ms
+                continue;
+            }
+            throw $e;
+        }
+    }
+}
+```
+
+#### 5. **少用长事务、少用范围锁**
+
+不要写：
+
+```sql
+SELECT * FROM order WHERE status=1 FOR UPDATE;
+```
+
+没有索引、范围过大 → 锁很多行 → 极易死锁
+
+### 六、最简单总结（你记这个就够）
+
+#### 死锁产生原因
+
+**两个事务互相持有对方需要的锁，循环等待**
+
+#### 死锁解决方法
+
+1. **固定加锁顺序（按 ID 排序）** → 最有效
+2. **缩短事务时间**
+3. **避免同时锁多张表**
+4. **死锁捕获重试**
+5. **避免无索引的锁查询**
+
+### 七、一句话口诀
+
+**顺序统一、事务短小、锁行不锁表、死锁重试**
+
+基本不会遇到死锁。
+
+如果你需要，我可以给你写一段**能稳定复现死锁的 Laravel 压测代码**，让你直观看到报错。
