@@ -430,3 +430,146 @@ extension_loaded('yar');  # 判断yar扩展是否存在返回 bool类型
 > **PHP Runtime 勾选扩展**点击**确定回到编辑器既可以有提示**
 
 ![image-20230811094333727](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20230811094333727.png)
+
+##  请求鉴权
+
+Yar RPC 框架（PHP）提供了内置的 **`__auth` 魔术方法** 用于基础鉴权，同时也支持自定义请求头、签名、JWT 等更安全的扩展方案。
+
+### 一、内置 Provider/Token 鉴权（官方推荐）
+
+Yar 内置通过 `Provider` 和 `Token` 实现简单认证，核心是服务端定义 `__auth` 方法。
+
+#### 1. 服务端实现（Server）
+
+```php
+<?php
+class YarServerService {
+    /**
+     * Yar 内置鉴权方法
+     * @param string $provider 调用方标识
+     * @param string $token 认证令牌
+     * @return bool 认证成功返回true，失败false
+     */
+    protected function __auth($provider, $token) {
+        // 1. 固定密钥验证（简单场景）
+        $validProviders = [
+            'app_server_a' => 'a1b2c3d4e5f6',
+            'app_server_b' => 'x9y8z7w6v5u4'
+        ];
+
+        // 2. 验证provider存在且token匹配
+        if (isset($validProviders[$provider]) && $validProviders[$provider] === $token) {
+            return true;
+        }
+
+        // 3. 失败返回false，Yar自动返回"authentication failed"
+        return false;
+    }
+
+    // 业务方法
+    public function getUserInfo($uid) {
+        return ['id' => $uid, 'name' => '张三'];
+    }
+}
+
+// 启动服务
+$server = new Yar_Server(new YarServerService());
+$server->handle();
+```
+
+####  2. 客户端调用（Client）
+
+```php
+<?php
+$client = new Yar_Client("http://your-domain/yar_server.php");
+
+// 设置鉴权信息
+$client->setOpt(YAR_OPT_PROVIDER, "app_server_a");
+$client->setOpt(YAR_OPT_TOKEN, "a1b2c3d4e5f6");
+
+// 调用业务方法
+try {
+    $result = $client->getUserInfo(1001);
+    var_dump($result);
+} catch (Exception $e) {
+    echo "鉴权失败或调用错误：" . $e->getMessage();
+}
+```
+
+### 二、高级安全鉴权方案（生产环境推荐）
+
+#### 1. 请求签名鉴权（防篡改）
+
+**服务端**
+
+```php
+protected function __auth($provider, $token) {
+    // $token 实际为签名字符串：hash_hmac('sha256', 拼接串, 密钥)
+    $secret = $this->getProviderSecret($provider); // 获取密钥
+    $timestamp = $_SERVER['HTTP_X_YAR_TIMESTAMP'] ?? 0;
+    $nonce = $_SERVER['HTTP_X_YAR_NONCE'] ?? '';
+    $method = $_SERVER['HTTP_X_YAR_METHOD'] ?? '';
+
+    // 1. 过期验证（5分钟有效）
+    if (time() - $timestamp > 300) return false;
+
+    // 2. 防重放（nonce缓存）
+    if ($this->existsNonce($nonce)) return false;
+
+    // 3. 签名计算
+    $signStr = $provider.$timestamp.$nonce.$method;
+    $validSign = hash_hmac('sha256', $signStr, $secret);
+
+    return hash_equals($validSign, $token);
+}
+```
+
+客户端
+
+```php
+$provider = 'app_a';
+$secret = 'your_secret_key';
+$timestamp = time();
+$nonce = uniqid();
+$method = 'getUserInfo';
+
+$signStr = $provider.$timestamp.$nonce.$method;
+$token = hash_hmac('sha256', $signStr, $secret);
+
+$client->setOpt(YAR_OPT_PROVIDER, $provider);
+$client->setOpt(YAR_OPT_TOKEN, $token);
+// 自定义头传递时间戳、随机数
+$client->setOpt(YAR_OPT_HEADER, [
+    'X-Yar-Timestamp: '.$timestamp,
+    'X-Yar-Nonce: '.$nonce
+]);
+```
+
+#### 2. JWT Token 鉴权
+
+- 客户端先获取 JWT；
+- 每次调用将 JWT 放入 `YAR_OPT_TOKEN`；
+- 服务端 `__auth` 内解码验证 JWT。
+
+#### 3. IP 白名单
+
+```php
+protected function __auth($provider, $token) {
+    $allowedIps = ['192.168.1.100', '10.0.0.0/24'];
+    $clientIp = $_SERVER['REMOTE_ADDR'];
+    return in_array($clientIp, $allowedIps);
+}
+```
+
+### 三、鉴权失败处理
+
+- `__auth` 返回 `false` → Yar 抛出异常：`authentication failed`
+- 客户端需 `try/catch` 捕获 `Yar_Exception`
+
+### 四、安全最佳实践
+
+1. **HTTPS 加密**：必须启用 HTTPS，防止 Provider/Token 明文传输
+2. **密钥管理**：密钥存入配置 / 环境变量，不硬编码
+3. **权限分级**：按 `provider` 分配不同接口权限
+4. **日志审计**：记录鉴权成功 / 失败日志
+5. **限流防暴破**：失败次数超限拉黑 IP
