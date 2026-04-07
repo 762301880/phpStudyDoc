@@ -254,16 +254,16 @@ Swoole 协程适合这些场景：
 
 ### ✅ `go` 写法（推荐）
 
-```
-php复制编辑go(function () {
+```php
+go(function () {
     echo "Hello from go()\n";
 });
 ```
 
 ### 🆚 `Coroutine::create()` 写法
 
-```
-php复制编辑Swoole\Coroutine::create(function () {
+```php
+Swoole\Coroutine::create(function () {
     echo "Hello from Coroutine::create()\n";
 });
 ```
@@ -349,8 +349,8 @@ php复制编辑Swoole\Coroutine::create(function () {
 
 ### 用线程处理 1000 个请求
 
-```
-php复制编辑for ($i = 0; $i < 1000; $i++) {
+```php
+for ($i = 0; $i < 1000; $i++) {
     // 每个请求都开一个线程，会吃掉很多资源
     // 并且线程切换开销大
     new Thread(function () {
@@ -361,8 +361,8 @@ php复制编辑for ($i = 0; $i < 1000; $i++) {
 
 ### 用协程处理 1000 个请求（Swoole）
 
-```
-php复制编辑Swoole\Coroutine\run(function () {
+```php
+Swoole\Coroutine\run(function () {
     for ($i = 0; $i < 1000; $i++) {
         go(function () {
             doSomething();
