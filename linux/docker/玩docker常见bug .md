@@ -207,3 +207,172 @@ total 100
 
 `-rw-r--r--` 仅限制普通用户的权限，而 `root` 作为超级用户，拥有超越普通权限的能力，因此可以写入该文件。这是 Linux 系统设计中为了保证管理员对系统的绝对控制权而设定的机制。
 
+#  docker启动后会自动退出
+
+## 先看案例一 (启动后会自动退出)
+
+### dockerfile
+
+```php
+# 设置基础镜像
+FROM golang:1.20-buster
+
+ENV WORK_DIR /www/gin_study
+
+# 将本地文件复制到容器中
+COPY . $WORK_DIR
+
+# 拷贝镜像源
+COPY  docker/debian/debian10_source_list /etc/apt/
+# 拷贝启动软件ssh
+COPY docker/ssh/start_service.sh /bin/
+# 拷贝守护进程任务
+COPY docker/supervisor/ /etc/supervisor/conf.d
+
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.back \
+   && chmod 777 /etc/apt/debian10_source_list \
+   && cat /etc/apt/debian10_source_list > /etc/apt/sources.list \
+   && apt update \
+   && apt install -y zip unzip vim wget net-tools supervisor \
+   && go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/ \
+   && cd $WORK_DIR \
+   && go mod tidy -compat=1.17 \
+   && go mod download \
+   && go mod vendor \
+   && go install github.com/cosmtrek/air@v1.27.4 \
+   && mkdir -p /etc/supervisor/log && chmod -R 777 /etc/supervisor/log \
+   && chmod a+x /bin/start_service.sh
+
+# 构建应用(编译为可执行文件)
+#RUN go build -o main . \
+
+# 设置工作目录
+WORKDIR $WORK_DIR
+
+# 配置启动命令
+CMD ["/bin/start_service.sh"]
+
+```
+
+### start_service
+
+```php
+#!/bin/bash
+
+echo -e "======================启动守护进程========================\n"
+supervisord -c /etc/supervisor/supervisord.conf
+supervisorctl restart all
+echo -e "启动守护进程启动成功...\n"
+
+## 前台运行 supervisord，这是 Docker 标准做法
+#exec supervisord -c /etc/supervisor/supervisord.conf -n
+
+# 关键：让脚本前台阻塞，不退出
+//tail -f /dev/null
+
+#Docker 容器的规则：主进程不结束 → 容器运行
+#主进程结束 → 容器退出
+```
+
+### docker-compose
+
+```php
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gin_study
+    tty: true
+    ports:
+      - 8090:8082
+    volumes:
+      - .:/www/gin_study
+      - ./supervisor_logs:/etc/supervisor/log  # <- 挂载日志
+```
+
+### 问题为什么启动后会自动退出
+
+**核心原因**
+
+Docker 容器启动后，前台必须有一个持续运行的进程，否则容器会认为任务完成，自动退出。
+
+容器的规则：主进程不结束 → 容器运行
+主进程结束 → 容器退出
+
+ `start_service.sh` 执行流程：
+
+1. 启动 supervisord（后台运行）
+2. 执行 supervisorctl restart all
+3. **脚本结束 → 容器主进程退出 → 容器自动停止**
+
+Docker 只认 **PID 1 进程**，这个进程一停，容器就停。
+
+**解决方案**
+
+修改 `start_service.sh`
+
+把最后加上一句 **阻塞前台** 的命令：
+
+bash
+
+```php
+#!/bin/bash
+
+echo -e "======================启动守护进程========================\n"
+supervisord -c /etc/supervisor/supervisord.conf
+supervisorctl restart all
+echo -e "启动守护进程启动成功...\n"
+
+# 关键：让脚本前台阻塞，不退出
+tail -f /dev/null
+```
+
+## 案例二
+
+### start_service
+
+```php
+#!/bin/sh
+
+# 这个脚本的主要功能是依次启动 PHP-FPM、系统定时任务（cron）和 Supervisor 守护进程，并在每个步骤后输出相应的提示信息。最后，脚本会等待所有后台子进程结束
+
+echo -e "======================启动php-fpm========================\n"
+php-fpm & 2>/dev/null
+echo -e "php-fpm启动成功...\n"
+
+echo -e "======================启动定时任务========================\n"
+service cron start &  2>/dev/null
+echo -e "定时任务启动成功...\n"
+
+echo -e "======================启动守护进程========================\n"
+service supervisor start & 2>/dev/null
+supervisorctl restart all
+echo -e "启动守护进程启动成功...\n"
+
+# 等待程序运行
+wait
+#/bin/bash
+```
+
+### 为什么容器没有自动退出
+
+​	脚本执行流程：
+
+1. 启动 `php-fpm &`（**后台运行**）
+2. 启动 `cron &`（**后台运行**）
+3. 启动 `supervisor &`（**后台运行**）
+4. **执行 `wait`**
+
+`wait` 是什么？
+
+**wait = 等待所有后台进程结束，才会继续往下走。**
+
+但问题是：
+
+- php-fpm 一直在跑
+- cron 一直在跑
+- supervisor 一直在跑
+
+所以 **`wait` 永远等不到结束 → 脚本永远不结束 → 容器永远不退出**
