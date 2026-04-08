@@ -22,7 +22,7 @@ add($a);
 echo $a; // 输出 20，原值没变
 ```
 
-### 2. 引用传递（传址）
+###  引用传递（传址）
 
 **把变量的「内存地址」传给函数 / 参数**
 
@@ -57,7 +57,7 @@ echo $a; // 输出 30，原值被修改了
 
 PHP 有几个**不需要写 &，系统自动使用引用**的特殊场景，这是面试必问：
 
-### 1. 对象赋值 / 对象参数传递（PHP 5+）
+###  对象赋值 / 对象参数传递（PHP 5+）
 
 **所有对象默认都是引用传递（指针传递）**
 
@@ -83,4 +83,93 @@ foreach($arr as &$val){ // 这里加了 &
 ```
 
 ⚠️ 注意：用完必须 `unset($val)` 防止意外覆盖变量。
+
+
+
+## PSR-4 自动加载原理
+
+- PSR-4 是 PHP-FIG 制定的自动加载标准，核心是「命名空间前缀 → 目录」映射 + 类名直接转文件名，无需多级冗余目录，Composer 主流实现。
+
+### 一、PSR-4 核心规则
+
+**完整类名格式**
+
+```shell
+\<命名空间前缀>(\<子命名空间>)*\<最终类名>
+```
+
+**命名空间分隔符**：`\`
+
+**类、接口、Trait 都适用**
+
+**下划线无特殊含义**（区别于 PSR-0）
+
+**映射规则**
+
+1. **命名空间前缀** ↔ **基目录（Base Directory）** 一一对应
+2. **子命名空间** ↔ **子目录**（`\` → `/`）PHP-FIG
+3. **最终类名** ↔ **文件名.php**（大小写严格一致）PHP-FIG
+
+### 二、文件路径转换原理（示例）
+
+假设 `composer.json` 配置：
+
+```json
+{
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "Foo\\Bar\\": "lib/FooBar/"
+        }
+    }
+}
+```
+
+#### 例 1：`App\Http\Controllers\UserController`
+
+1. 匹配前缀 `App\\` → 基目录 `src/`
+2. 去掉前缀：`Http\Controllers\UserController`
+3. `\` → `/`：`Http/Controllers/UserController`
+4. 加 `.php` → **`src/Http/Controllers/UserController.php`**
+
+#### 例 2：`Foo\Bar\Baz\Qux`
+
+1. 前缀 `Foo\Bar\\` → `lib/FooBar/`
+2. 剩余：`Baz\Qux`
+3. 转换：`Baz/Qux.php`
+4. 路径：**`lib/FooBar/Baz/Qux.php`**
+
+### 三、自动加载执行流程（Composer 版）
+
+1. **入口**：`require __DIR__.'/vendor/autoload.php';`
+
+2. 注册 autoloader：
+
+   - Composer 生成 `vendor/composer/autoload_psr4.php`（前缀→目录映射数组）
+   - 调用 `spl_autoload_register` 注册加载器PHP-FIG
+
+   
+
+3. **类未找到时触发**：
+
+```php
+// 伪代码逻辑
+function autoload($class) {
+    foreach ($psr4Map as $prefix => $dir) {
+        // 检查类名是否以该前缀开头
+        if (strpos($class, $prefix) === 0) {
+            // 截取相对类名
+            $relative = substr($class, strlen($prefix));
+            // 拼接路径
+            $file = $dir . str_replace('\\', '/', $relative) . '.php';
+            // 存在则加载
+            if (file_exists($file)) {
+                require $file;
+                return;
+            }
+        }
+    }
+}
+​```{insert\_element\_3\_}
+```
 
