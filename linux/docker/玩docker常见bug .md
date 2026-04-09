@@ -376,3 +376,57 @@ wait
 - supervisor 一直在跑
 
 所以 **`wait` 永远等不到结束 → 脚本永远不结束 → 容器永远不退出**
+
+# docker-compose up -d 无法自动拉取镜像
+
+##  解决方案一
+
+```shell
+DOCKER_BUILDKIT=0 docker-compose up -d
+```
+
+##  它到底干了啥？
+
+这行的意思是：
+
+👉 **关闭 Docker 的 BuildKit 构建引擎，改用老的构建方式**
+
+报错：
+
+```
+failed size validation
+```
+
+就是 **BuildKit 在校验镜像层时更严格**，一旦发现数据不一致就直接失败。
+
+而旧构建器会：
+
+- 更“宽松”
+- 有时候能自动重试
+- 不那么容易因为网络抖动挂掉
+
+## ⚠️ 但要注意一点
+
+这个方法属于：
+
+👉 **“绕过问题”，不是彻底解决问题**
+
+可能的根本原因还是：
+
+- 网络不稳定
+- Docker Hub 访问慢 / 被限速
+- 云服务器出口问题
+
+## 进阶：如果想长期关闭 BuildKit
+
+可以全局关掉：
+
+```shell
+export DOCKER_BUILDKIT=0
+```
+
+或者写进：
+
+```shell
+~/.bashrc
+```
