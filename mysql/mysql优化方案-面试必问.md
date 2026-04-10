@@ -641,3 +641,116 @@ MySQL 索引快，就 3 点：
 - **无索引 = 逐行翻书**
 - **有索引 = 看目录定位**
 - **B+ 树 = 让目录超级高效、超级矮胖**
+
+#  分布式事务
+
+##  mq处理分布式
+
+Laravel + MQ（比如 RabbitMQ）实现分布式事务/最终一致性
+
+### 结论（你最关心的点）
+
+👉 **Laravel 里用 MQ 做分布式事务，本质不是“强一致”，而是：最终一致性**
+
+核心思路就一句话：
+
+> **本地事务成功 → 发MQ消息 → 其他服务消费并完成自己的事务**
+
+### 典型业务：订单 + 库存
+
+你刚才问的其实就是这个场景：
+
+- 下单（订单服务）
+- 扣库存（库存服务）
+
+### 分布式
+
+MQ 分布式事务标准玩法
+
+核心流程
+
+1️⃣ 订单服务（生产者）
+
+```php
+DB::transaction(function () use ($data) {
+    // 1. 创建订单（状态：待扣库存）
+    $order = Order::create([
+        'status' => 'pending'
+    ]);
+
+    // 2. 记录消息（本地消息表）
+    DB::table('mq_messages')->insert([
+        'order_id' => $order->id,
+        'status' => 'pending'
+    ]);
+});
+```
+
+注意：**订单 + 消息记录 必须在同一个事务里**
+
+**发送 MQ（异步）**
+
+```php
+// 定时任务 or 事务后触发
+$messages = DB::table('mq_messages')
+    ->where('status', 'pending')
+    ->get();
+
+foreach ($messages as $msg) {
+    // 发MQ
+    $mq->publish('stock.deduct', $msg);
+
+    // 标记已发送
+    DB::table('mq_messages')
+        ->where('id', $msg->id)
+        ->update(['status' => 'sent']);
+}
+```
+
+这一步解决：**消息不丢**
+
+**库存服务（消费者）**
+
+```php
+public function handle($msg)
+{
+    DB::transaction(function () use ($msg) {
+
+        // 幂等处理（防止重复消费）
+        $exists = DB::table('mq_log')
+            ->where('msg_id', $msg->id)
+            ->exists();
+
+        if ($exists) return;
+
+        $stock = Stock::where('product_id', $msg->product_id)
+            ->lockForUpdate()
+            ->first();
+
+        if ($stock->num <= 0) {
+            throw new \Exception('库存不足');
+        }
+
+        $stock->decrement('num');
+
+        // 记录已消费
+        DB::table('mq_log')->insert([
+            'msg_id' => $msg->id
+        ]);
+    });
+}
+```
+
+**回调 or 状态更新**
+
+库存成功后，可以：
+
+- 发一个 MQ 回去
+- 或订单服务查询状态
+
+更新订单：
+
+```php
+Order::where('id', $msg->order_id)->update(['status' => 'success']);
+```
+
