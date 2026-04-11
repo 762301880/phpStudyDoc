@@ -573,7 +573,130 @@ docker-compose down --rmi all --volumes --remove-orphans
 docker-compose up -d --build
 ```
 
+## Docker Compose 构建时 COPY 路径问题（最常见原因 + 解决方案）
 
+### 一、记住 1 个铁律（必看）
+
+**Dockerfile 里的所有路径，都是相对于 `docker build` 的上下文目录，不是 Dockerfile 自己所在的目录！**
+
+用 `docker-compose up -d` 时：
+
+- 默认**上下文目录 = `docker-compose.yml` 所在的文件夹**
+- COPY 源路径 = **相对于 yml 文件的路径**
+- 不是相对于 Dockerfile 的路径！
+
+### 二、最常见的 2 种错误场景
+
+#### 场景 1：目录结构如下（最典型）
+
+```shell
+项目根目录/
+├── docker-compose.yml
+├── app/
+│   ├── Dockerfile    ❌ 你在这个文件里写 COPY . /app
+│   └── index.php
+```
+
+**错误写法（Dockerfile 里）：**
+
+```dockerfile
+COPY . /app
+```
+
+❌ 报错：`no such file or directory` 或找不到文件
+
+**原因：**
+
+上下文是 **项目根目录**，不是 `app/` 文件夹。
+
+COPY 会去**项目根目录**找文件，而不是去 `app/` 里找。
+
+#### 场景 2：COPY 上级目录文件（绝对禁止）
+
+```shell
+项目根目录/
+├── docker-compose.yml
+├── src/
+│   └── code.js
+└── docker/
+    └── Dockerfile
+```
+
+❌ 错误：
+
+```dockerfile
+COPY ../src /app
+```
+
+### 三、正确写法（3 种万能方案）
+
+ 方案 1：在 docker-compose.yml 里指定 context（最推荐）
+
+让上下文直接指向 Dockerfile 所在目录：
+
+```yaml
+services:
+  web:
+    build:
+      context: ./app   # 👈 关键：上下文 = app 文件夹
+      dockerfile: Dockerfile
+```
+
+然后 Dockerfile 里就可以正常写：
+
+```dockerfile
+COPY . /app
+```
+
+方案 2：不修改 yml，直接写相对于 yml 的路径
+
+如果不改 `docker-compose.yml`，就必须**从 yml 所在位置开始写路径**：
+
+```dockerfile
+COPY app /app
+```
+
+因为上下文是项目根目录。
+
+ 方案 3：把上下文设为项目根目录（适合复制多模块文件）
+
+```yaml
+build:
+  context: .
+  dockerfile: docker/Dockerfile
+```
+
+Dockerfile 里：
+
+```dockerfile
+COPY src /app/src
+COPY config /app/config
+```
+
+✅ 可以复制根目录下所有文件。
+
+### 四、快速排错命令
+
+你可以用这条命令看**上下文到底包含什么文件**：
+
+```bash
+docker-compose build --no-cache --progress=plain
+```
+
+看输出里的 `WORKDIR`、`COPY` 路径是否符合预期。
+
+### 五、一句话总结（背会永不踩坑）
+
+**Dockerfile 的 COPY 路径 = 相对于 docker-compose.yml 所在目录，不是 Dockerfile 自己的目录！**
+
+想改相对目录，就在 yml 里用 `context:` 指定。
+
+### 总结
+
+1. **上下文 = docker-compose.yml 所在目录**（默认）
+2. **COPY 路径永远相对于上下文**
+3. 用 `context: ./xxx` 可以修改上下文目录
+4. 绝对不能用 `../` 访问上级目录
 
 # 遇到的bug解析
 
