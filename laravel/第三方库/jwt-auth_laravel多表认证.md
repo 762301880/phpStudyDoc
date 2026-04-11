@@ -731,3 +731,80 @@ makeApiRequest('/api/some-endpoint', { method: 'GET' })
 ### 总结
 
 通过以上方法，前端可以在 token 即将过期或已过期时及时请求刷新 token，从而确保用户能够持续使用应用而不会因为 token 过期而被强制登出。
+
+##  如何保证 token最新登录
+
+### 为什么要判断是最新得token原因
+
+> **原生 JWT 是无状态的，一旦签发，在过期前任何人拿着都能用**。
+>
+> 所以你第一次登录的 Token 被窃取后，就算你重新登录生成了新 Token，**旧 Token 依然能登录你的账号**，这是巨大的安全漏洞。
+
+
+
+###  方案一(推荐)
+
+每次请求获得得token保存到redis或者数据库中  
+
+然后中间件再次加密真得token作比较  
+
+```php
+base64_encode("获取得token");  # 把加密得保存
+```
+
+### 方案二
+
+1. 给每个用户增加一个字段：`token_version`（token 版本号，默认 1）
+2. **签发 Token** 时，把 `token_version` 放进 Payload
+3. **验证 Token** 时，不仅校验签名 + 过期时间，**还要校验 Payload 里的 version 和数据库里的 version 是否一致**
+4. *重新登录 / 退出登录 / 改密** 时：**数据库 `token_version += 1`**→ 所有旧 Token 里的 version 都不匹配，**自动全部失效**
+
+效果
+
+- 重新登录 → 旧 Token 直接报废
+- 改密码 → 所有设备踢下线
+- 管理员强制下线 → 直接失效
+- 永远只有**最新签发的一组 Token**有效
+
+完整 PHP 代码实现（可直接复制使用）
+
+先给用户表加字段
+
+```sql
+ALTER TABLE user ADD COLUMN token_version INT DEFAULT 1 COMMENT 'token版本号，刷新+1';
+```
+
+登录逻辑（关键：刷新版本号）
+
+```php
+// 1. 验证账号密码成功
+$user = DB::table('user')->where('username', $username)->first();
+
+// 2. 【关键】更新 token 版本号（旧Token全部失效）
+DB::table('user')->where('id', $user->id)->increment('token_version');
+
+// 3. 用最新版本号签发新Token
+$newToken = JwtAuth::createToken($user->id, $user->token_version + 1);
+
+// 4. 返回给前端
+return [
+    'token' => $newToken
+];
+```
+
+接口鉴权中间件
+
+```php
+// 所有需要登录的接口都会先执行这里
+$token = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+$userInfo = JwtAuth::verifyToken($token);
+
+if (!$userInfo) {
+    // 旧Token/无效Token → 直接拒绝
+    http_response_code(401);
+    exit(json_encode(['msg' => 'Token已失效，请重新登录']));
+}
+
+// 验证通过，继续执行接口
+```
+
