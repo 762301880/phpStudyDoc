@@ -414,6 +414,8 @@ class TestController extends Controller
 
 # laravel redis分布式锁
 
+##  标准案例
+
 ```php
 <?php
 
@@ -475,6 +477,113 @@ class TestController extends Controller
         LUA;
             $redis->eval($script, 1, $lockKey, $lockValue);
         }
+    }
+}
+```
+
+## 封装为统一得分布式锁
+
+建议放在：`app/Services/RedisLock.php`
+
+```php
+<?php
+
+namespace App\Services;
+
+class RedisLock
+{
+    protected $redis;
+
+    public function __construct()
+    {
+        $this->redis = RedisService::getInstance();
+    }
+
+    /**
+     * 加锁
+     */
+    public function lock(string $key, int $expireSeconds = 10)
+    {
+        $value = uniqid('', true);
+
+        $acquired = $this->redis->set($key, $value, 'NX', 'EX', $expireSeconds);
+
+        if (!$acquired) {
+            return false;
+        }
+
+        return $value; // 返回锁标识（必须保存）
+    }
+
+    /**
+     * 解锁（防误删）
+     */
+    public function unlock(string $key, string $value): bool
+    {
+        $script = <<<LUA
+        if redis.call('get', KEYS[1]) == ARGV[1] then
+            return redis.call('del', KEYS[1])
+        else
+            return 0
+        end
+LUA;
+
+        return $this->redis->eval($script, 1, $key, $value);
+    }
+}
+```
+
+**使用**
+
+```php
+public function test(Request $request)
+{
+    $lock = new \App\Services\RedisLock();
+
+    $lockKey = "stock:lock:1";
+
+    // 1. 获取锁
+    $lockValue = $lock->lock($lockKey, 10);
+
+    if (!$lockValue) {
+        return response()->json(['code' => 400, 'msg' => '操作频繁，请稍后']);
+    }
+
+    try {
+
+        // ===== 业务开始 =====
+
+        $countModel = Count::where('id', 1)->first();
+
+        if (!$countModel) {
+            return response()->json(['code' => 404, 'msg' => '不存在']);
+        }
+
+        if ($countModel->count <= 0) {
+            return response()->json(['code' => 400, 'msg' => '库存不足']);
+        }
+
+        $newCount = $countModel->count - 1;
+
+        $bool = DecrementCount::create([
+            'count_decrement_id' => $newCount
+        ]);
+
+        if ($bool) {
+            $countModel->count = $newCount;
+            $countModel->save();
+        }
+
+        return response()->json([
+            'code' => 200,
+            'msg' => '成功',
+            'data' => $newCount
+        ]);
+
+    } finally {
+
+        // 2. 释放锁（一定执行）
+        $lock->unlock($lockKey, $lockValue);
     }
 }
 ```
