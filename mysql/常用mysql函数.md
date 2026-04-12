@@ -352,6 +352,38 @@ CASE
 END AS "款项类型"
 ```
 
+**实际代码动态拼接**
+
+```php
+# 步骤 1：先定义款项类型映射数组
+// 定义枚举映射（统一管理，后期改值超方便）
+$moneyTypeMap = [
+    1 => '全款',
+    2 => '定金',
+    3 => '尾款',
+    4 => '退款',
+];
+
+
+# 步骤 2：循环拼接 CASE 语句
+
+// 开始拼接 CASE
+$caseSql = 'CASE ';
+foreach ($moneyTypeMap as $key => $value) {
+    // 注意：字符串值要加引号，字段名/表名用`反引号`
+    $caseSql .= "WHEN l.money_type = {$key} THEN '{$value}' ";
+}
+// 最后加 ELSE 和 END
+$caseSql .= "ELSE '其他' END AS '款项类型'";
+
+# 在查询构造器中使用
+
+$data = DB::table('表名 as l')
+    ->selectRaw($caseSql) // 直接放入
+    // 可以继续拼接其他字段
+    ->get();
+```
+
 核心规则（必须记住）
 
 1. **执行逻辑**：从上到下匹配，**找到第一个符合的 WHEN 就立即返回**，不再执行后续判断
