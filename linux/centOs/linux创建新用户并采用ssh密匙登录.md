@@ -50,6 +50,9 @@
 
 ```shell
 ssh-copy-id -i C:\Users\你的用户名\.ssh\id_ed25519.pub 用户名@远程服务器IP
+
+# 可以简化为
+ssh-copy-id user@remote_host
 ```
 
 1. 若 `ssh-copy-id` 不可用，可手动复制公钥内容，粘贴到远程服务器的 `~/.ssh/authorized_keys` 文件（注意权限：`~/.ssh` 目录权限为 700，`authorized_keys` 为 600）。
