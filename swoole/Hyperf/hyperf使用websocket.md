@@ -53,7 +53,9 @@ return [
 
 ### 配置路由
 
-> 在 `config/routes.php` 文件内增加对应 `ws` 的 Server 的路由配置，这里的 `ws` 值取决于您在 `config/autoload/server.php` 内配置的 WebSocket Server 的 `name` 值。
+> 在 `config/routes.php` 文件内增加对应 `ws` 的 Server 的路由配置，
+>
+> 这里的 `ws` 值取决于您在 `config/autoload/server.php` 内配置的 WebSocket Server 的 `name` 值。
 
 ```php
 <?php
@@ -62,6 +64,76 @@ Router::addServer('ws', function () {
     Router::get('/', 'App\Controller\WebSocketController');
 });
 ```
+
+#### 补充
+
+这个看起来像 HTTP GET 路由，但其实在 WS 里，它的意义是：
+
+👉 **定义 WebSocket 握手 (handshake) 的入口**
+
+也就是：
+
+当客户端连接：
+
+```
+ws://你的域名:端口/
+```
+
+👉 就会走这个 `/` 路由
+ 👉 然后进入 `WebSocketController`
+
+ 实际触发流程
+
+浏览器或客户端发起连接：
+
+```
+new WebSocket("ws://127.0.0.1:9502/");
+```
+
+流程是：
+
+1. 发 HTTP Upgrade 请求（握手）
+2. Hyperf 用 WS 路由匹配 `/`
+3. 命中这个 Controller
+4. 然后进入你在 Controller 里的方法，比如：
+
+```php
+public function onOpen($server, $request)
+```
+
+那这个 Controller 干啥用？
+
+在 Hyperf WebSocket 里，这个 Controller 本质上是：
+
+👉 WebSocket 生命周期处理器
+
+通常你会实现：
+
+```php
+public function onOpen($server, $request)
+public function onMessage($server, $frame)
+public function onClose($server, $fd)
+```
+
+为什么看起来像 HTTP？
+
+因为：
+
+👉 WebSocket 握手本质就是 HTTP 请求升级（Upgrade）
+
+所以 Hyperf 复用了 HTTP Router 来匹配路径
+
+一句话总结
+
+这段代码的作用就是：
+
+👉 **指定 WebSocket 连接 `/` 路径时，交给 `WebSocketController` 处理**
+
+
+
+
+
+
 
 ### 创建对应控制器
 
