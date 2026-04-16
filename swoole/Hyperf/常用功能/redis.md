@@ -156,3 +156,24 @@ class RedisService
 }
 ```
 
+**补充**
+
+为什么不（千万别这样做）
+
+```php
+private static $redis;
+
+public static function getInstance()
+{
+    if (!self::$redis) {
+        self::$redis = container()->get(Redis::class);
+    }
+    return self::$redis;
+}
+```
+
+👉 这个就危险了：
+
+- Redis 对象被多个协程复用
+- 连接不会正确释放回连接池
+- 高并发可能异常
