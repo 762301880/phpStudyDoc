@@ -127,3 +127,19 @@ class PathGenerator implements PathGeneratorInterface
    - 文档混在一起，**新手必被坑**
 
    
+
+# 安全性问题
+
+###  创建中间件
+
+> 只能在linux环境中配置
+
+```php
+bash-5.0# php bin/hyperf.php gen:middleware JsonRpcAuthMiddleware
+[DEBUG] Event Hyperf\Framework\Event\BootApplication handled by Hyperf\Config\Listener\RegisterPropertyHandlerListener listener.
+[DEBUG] Event Hyperf\Framework\Event\BootApplication handled by Hyperf\JsonRpc\Listener\RegisterProtocolListener listener.
+[DEBUG] Event Hyperf\Framework\Event\BootApplication handled by Hyperf\ExceptionHandler\Listener\ExceptionHandlerListener listener.
+[DEBUG] Event Hyperf\Framework\Event\BootApplication handled by Hyperf\DbConnection\Listener\RegisterConnectionResolverListener listener.
+App\Middleware\JsonRpcAuthMiddleware created successfully.
+```
+
