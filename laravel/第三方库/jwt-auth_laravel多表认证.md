@@ -372,7 +372,7 @@ auth('admin')->user(); # 获取用户信息
 
    我直接给你**最底层、最直白、带源码逻辑**的讲解，让你彻底懂 `blacklist_enabled` 到底干了什么、为什么会让接口卡 2 秒。
 
-   # 一、先一句话说清作用
+   一、先一句话说清作用
 
    ```
    blacklist_enabled = true
@@ -394,27 +394,13 @@ auth('admin')->user(); # 获取用户信息
 
    = **接口瞬间变快**
 
-   ------
-
-   # 二、底层原理（带源码逻辑）
+   二、底层原理（带源码逻辑）
 
    我直接带你看 **tymon/jwt-auth 底层代码**，你一看就懂。
 
    ## 1. 中间件执行流程（auth:api）
 
    每次请求带 token 访问接口时，JWT 会执行：
-
-   plaintext
-
-   
-
-   
-
-   
-
-   
-
-   
 
    ```
    1. 解析 token
@@ -433,21 +419,7 @@ auth('admin')->user(); # 获取用户信息
 
    文件：**vendor/tymon/jwt-auth/src/Providers/AbstractServiceProvider.php**
 
-   php
-
-   
-
-   运行
-
-   
-
-   
-
-   
-
-   
-
-   ```
+   ```php
    // 当黑名单开启时，才注册黑名单中间件
    if ($this->config->get('jwt.blacklist_enabled')) {
        $this->app['router']->middleware(
@@ -459,21 +431,7 @@ auth('admin')->user(); # 获取用户信息
 
    文件：**vendor/tymon/jwt-auth/src/Middleware/Authenticate.php**
 
-   php
-
-   
-
-   运行
-
-   
-
-   
-
-   
-
-   
-
-   ```
+   ```php
    try {
        // 1. 解析 token
        $this->auth->parseToken();
@@ -489,21 +447,7 @@ auth('admin')->user(); # 获取用户信息
 
    文件：**vendor/tymon/jwt-auth/src/Blacklist.php**
 
-   php
-
-   
-
-   运行
-
-   
-
-   
-
-   
-
-   
-
-   ```
+   ```php
    // 黑名单使用 Laravel 全局缓存
    // 即：CACHE_DRIVER=file / array / redis / database
    protected $storage;
@@ -515,9 +459,7 @@ auth('admin')->user(); # 获取用户信息
    }
    ```
 
-   ------
-
-   # 三、为什么开启会**卡 2 秒**？
+   三、为什么开启会**卡 2 秒**？
 
    因为：
 
@@ -526,18 +468,6 @@ auth('admin')->user(); # 获取用户信息
    - 文件缓存**慢到爆**
 
    - 每次请求都要：
-
-     plaintext
-
-     
-
-     
-
-     
-
-     
-
-     
 
      ```
      打开文件 → 查找key → 关闭文件
@@ -553,27 +483,11 @@ auth('admin')->user(); # 获取用户信息
    - `CACHE_DRIVER=database` → 更卡
    - `CACHE_DRIVER=redis` → 很快（毫秒级）
 
-   ------
-
-   # 四、关闭黑名单（false）后底层发生了什么？
+   四、关闭黑名单（false）后底层发生了什么？
 
    源码：
 
-   php
-
-   
-
-   运行
-
-   
-
-   
-
-   
-
-   
-
-   ```
+   ```php
    if (!$this->config->get('jwt.blacklist_enabled')) {
        // 直接跳过黑名单检查！
        // 不查缓存、不读文件、不连数据库
