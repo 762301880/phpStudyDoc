@@ -415,3 +415,5 @@ WHERE student.name = '小明'
 # 免费的mysql云服务
 
 https://tidbcloud.com
+
+https://console.sqlpub.com(推荐 虽然只有 500M)  网站密码为 YlbAnAPtzvH07p9u
