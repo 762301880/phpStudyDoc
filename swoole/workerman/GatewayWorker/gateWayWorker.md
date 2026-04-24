@@ -39,6 +39,8 @@ unzip GatewayWorker.zip
 #### 启动GatewayWorker
 
 > [参考](https://www.workerman.net/doc/gateway-worker/#GatewayWorker2.x%203.x%20%E6%89%8B%E5%86%8C)
+>
+> [主要参考](https://www.workerman.net/doc/gateway-worker/work-with-other-frameworks.html)
 
 **linux启动**
 
@@ -90,6 +92,10 @@ taskkill /f /pid 这里填查到的PID数字
 ###   安装 gatewayclient
 
 > 类似于 封装后的 swoole 包 可以调用swoole的服务
+>
+> **注意只有2.*版本安装之后才有 worker_server.php 和 worker_server.php   **     
+>
+> **3.* 以上版本没有**
 
 ```php
 # 在你的项目中用composer安装
@@ -159,8 +165,8 @@ use GatewayClient\Gateway;
 use Illuminate\Http\Request;
 public function __construct()
 {
-        //设置Gatewayworker服务的register服务与ip和端口
-        Gateway::$registerAddress='127.0.0.1:8282';
+     //设置Gatewayworker服务的register服务与ip和端口
+     Gateway::$registerAddress='127.0.0.1:8282';
 }
 public function bind(Request $request)
 {
@@ -429,3 +435,7 @@ php start.php start -d
 - 用完即销毁
 
 👉 这俩生命周期完全不同
+
+# 注意事项
+
+## thinkphp5.1只能安装 "topthink/think-worker": "2.0.*"
