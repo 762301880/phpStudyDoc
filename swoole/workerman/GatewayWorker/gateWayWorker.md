@@ -116,27 +116,163 @@ public function bind(Request $request)
 
 
 
+# 补充
 
+##  gatewayworker 与 gatewayworker/gatewayclient什么关系
 
+**`gatewayworker/gatewayclient` 不是给 Gateway 服务内部用的。**
+ 它是给 **“外部 PHP 项目”远程调用 GatewayWorker** 用的。
 
+关系像这样：
 
+```php
+浏览器/App
+    ↓
+Gateway
+    ↓
+BusinessWorker
 
+你的 Laravel/ThinkPHP/Hyperf 后台
+    ↓
+GatewayClient
+    ↓
+GatewayWorker
+```
 
+### 正常情况下（只用 GatewayWorker）
 
+GatewayWorker 自己内部就能完成：
 
+- client连接
+- 消息转发
+- uid绑定
+- 群发
 
+例如：
 
+```php
+Gateway::sendToUid($uid, $msg);
+```
 
+BusinessWorker 内部直接调用就行。
 
+### 那 GatewayClient 是干嘛的？
 
+GatewayClient 的作用是：
 
+> **让外部项目也能操作 GatewayWorker**
 
+比如你有：
 
+- Laravel 后台
+- ThinkPHP 后台
+- Hyperf 服务
+- 普通 PHP 接口
 
+用户下单成功后，你想主动 websocket 推送：
 
+> "你的订单已支付"
 
+但你的订单代码不在 GatewayWorker 里，而是在 Laravel/Hyperf 里。
 
+这时候：
 
+```php
+composer require workerman/gatewayclient
+```
 
+然后：
 
+```php
+GatewayClient\Gateway::$registerAddress = '127.0.0.1:1238';
+
+GatewayClient\Gateway::sendToUid($uid, '支付成功');
+```
+
+它会连接 Register，再找到对应 Gateway，把消息推过去。
+
+###  为什么不直接用 GatewayWorker？
+
+因为你的业务系统可能是：
+
+- HTTP 接口项目
+- Admin 后台
+- 定时任务系统
+
+它们并不是 GatewayWorker 进程。
+
+不能直接调用：
+
+```
+Gateway::sendToUid()
+```
+
+因为：
+
+- 没有启动 GatewayWorker runtime
+- 不在它的进程环境内
+
+所以需要一个“远程客户端”。
+
+### 类比一下
+
+GatewayWorker 像酒店：
+
+- Gateway = 前台
+- BusinessWorker = 服务员
+- Register = 总机
+
+而 GatewayClient：
+
+像外卖电话。
+
+你人在酒店外面：
+
+> “帮我给 302 房送瓶水”
+
+酒店内部完成配送。
+
+### 典型场景
+
+比如：
+
+用户 websocket 在线
+
+同时你有个后台管理系统：
+
+管理员封号用户：
+
+```php
+GatewayClient\Gateway::sendToUid($uid, "你已被封禁");
+```
+
+或者：
+
+定时任务：
+
+```php
+GatewayClient\Gateway::sendToAll("系统维护通知");
+```
+
+所以完整关系是：
+
+```php
+Workerman
+   ↓
+GatewayWorker
+   ↓
+GatewayClient（给外部系统调用）
+```
+
+###   最核心一句话
+
+> **GatewayClient 是 GatewayWorker 提供的“远程控制客户端 SDK”**
+
+###  它们的真实关系
+
+GatewayWorker
+ = 长连接服务端（跑 websocket / TCP / 连接管理）
+
+GatewayClient
+ = 外部 PHP 项目用来“远程调用 GatewayWorker 的工具包”
 
