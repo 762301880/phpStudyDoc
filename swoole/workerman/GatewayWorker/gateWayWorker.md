@@ -92,10 +92,6 @@ taskkill /f /pid 这里填查到的PID数字
 ###   安装 gatewayclient
 
 > 类似于 封装后的 swoole 包 可以调用swoole的服务
->
-> **注意只有2.*版本安装之后才有 worker_server.php 和 worker_server.php   **     
->
-> **3.* 以上版本没有**
 
 ```php
 # 在你的项目中用composer安装
