@@ -440,6 +440,8 @@ php start.php start -d
 
 ## thinkphp5.1为什么有gateway_worker.php和worker_server.php
 
+> 这两个配置文件依赖于 **composer require topthink/think-worker=2.0.***  [tp5.1使用workerman文档](https://doc.thinkphp.cn/v5_1/Workerman.html)
+
 gateway_worker.php 等价于 gatewayworker 所以 不用安装 gatewayworker 直接启动 **worker:gateway**
 
 启动websocket服务就行
@@ -447,4 +449,12 @@ gateway_worker.php 等价于 gatewayworker 所以 不用安装 gatewayworker 直
 worker_server.php 一般跑定时任务  不做websocket
 
 
+
+##  gatewayclient 是什么
+
+用电视机遥控器比喻的话
+
+gatewayclient 就是遥控器
+
+gatewayworker  就是电视机
 
