@@ -13,16 +13,50 @@
 | GatewayWorker2.x 3.x 手册 | [链接](http://doc2.workerman.net/)                           |
 | 安装文档                  | [链接](https://github.com/walkor/GatewayClient)              |
 | workerman-后盾人文档      | [链接](https://doc.houdunren.com/%E6%8F%92%E4%BB%B6%E6%89%A9%E5%B1%95/Laravel/4%20workerman.html#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4) |
+| 下载安装                  | [link](https://www.workerman.net/doc/gateway-worker/#GatewayWorker2.x%203.x%20%E6%89%8B%E5%86%8C)   [link](https://www.workerman.net/download/GatewayWorker.zip) |
 
-## 1.1安装
+## 安装
 
->安装内核
->只安装GatewayWorker内核文件（不包含start_gateway.php start_businessworker.php等启动入口文件）
+### 先下载服务端
 
-- 使用`composer`在项目中安装
+> 可以理解为 php -m  里面的swoole扩展
 
-```shell
-composer require workerman/gatewayclient
+https://www.workerman.net/download/GatewayWorker.zip
+
+```php
+PS C:\Users\puxiansheng\Downloads\GatewayWorker> tree
+文件夹 PATH 列表
+卷序列号为 0083-5CC9
+C:.
+├─Applications
+│  └─YourApp
+└─vendor
+    ├─composer
+    └─workerman
+        ├─gateway-worker
+        │  ├─.github
+        │  └─src
+        │      ├─Lib
+        │      └─Protocols
+        └─workerman
+            ├─.github
+            ├─Connection
+            ├─Events
+            │  └─React
+            ├─Lib
+            └─Protocols
+                └─Http
+                    └─Session
+```
+
+###   安装 gatewayclient
+
+> 类似于 封装后的 swoole 包 可以调用swoole的服务
+
+```php
+# 在你的项目中用composer安装
+
+composer install workerman/gatewayclient
 ```
 
 # 二、使用
@@ -276,3 +310,84 @@ GatewayWorker
 GatewayClient
  = 外部 PHP 项目用来“远程调用 GatewayWorker 的工具包”
 
+## GatewayWorker 一般部署到哪里
+
+❌ GatewayWorker 不应该“放进某个业务项目文件夹里当子模块跑”
+ ✅ 正确做法是：**独立部署成一个常驻服务进程**
+
+## GatewayWorker 应该放哪里？
+
+GatewayWorker 本质是：
+
+> 一个长期运行的 **WebSocket / TCP 服务集群**
+
+所以它通常部署在：
+
+###  1. 独立服务器（最常见）
+
+```php
+服务器A：
+  ├── Nginx / PHP-FPM（业务接口）
+  ├── MySQL / Redis
+  └── GatewayWorker（常驻进程）
+```
+
+### 2. 同一台服务器，但独立进程运行
+
+```php
+/var/www/api（Laravel/TP项目）
+/var/www/gatewayworker（独立目录）
+```
+
+启动方式：
+
+```php
+php start.php start -d
+```
+
+### ❌ 不推荐方式（放在业务代码里）
+
+```
+/A项目
+   ├── controller/
+   ├── model/
+   ├── gatewayworker/   ❌ 放在业务代码里
+```
+
+问题：
+
+- 容易误当“框架模块”
+- 部署混乱
+- 业务代码 reload 会影响 websocket
+- 不能独立扩容
+
+🧩 正确架构（标准工业写法）
+
+```php
+        用户浏览器
+             ↓
+        WebSocket连接
+             ↓
+     GatewayWorker（独立服务）
+             ↓
+   Redis / MQ / DB
+             ↓
+ Laravel / ThinkPHP / Hyperf
+```
+
+##  为什么必须独立部署？
+
+因为 GatewayWorker 是：
+
+- 常驻内存
+- 长连接
+- 多进程
+- 不走 HTTP 请求生命周期
+
+而你的 A 项目（Laravel/TP）是：
+
+- PHP-FPM
+- 请求-响应模式
+- 用完即销毁
+
+👉 这俩生命周期完全不同
