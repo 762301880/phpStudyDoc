@@ -434,4 +434,13 @@ php start.php start -d
 
 # 注意事项
 
-## thinkphp5.1只能安装 "topthink/think-worker": "2.0.*"
+## thinkphp5.1为什么有gateway_worker.php和worker_server.php
+
+gateway_worker.php 等价于 gatewayworker 所以 不用安装 gatewayworker 直接启动 **worker:gateway**
+
+启动websocket服务就行
+
+worker_server.php 一般跑定时任务  不做websocket
+
+
+
