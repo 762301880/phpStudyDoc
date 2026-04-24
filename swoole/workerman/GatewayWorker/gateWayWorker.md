@@ -91,12 +91,16 @@ taskkill /f /pid 这里填查到的PID数字
 
 ###   安装 gatewayclient
 
+> https://github.com/walkor/GatewayClient
+>
+> https://www.workerman.net/doc/gateway-worker/work-with-other-frameworks.html
+>
 > 类似于 封装后的 swoole 包 可以调用swoole的服务
 
 ```php
 # 在你的项目中用composer安装
 
-composer install workerman/gatewayclient
+composer require workerman/gatewayclient
 ```
 
 # 二、使用
