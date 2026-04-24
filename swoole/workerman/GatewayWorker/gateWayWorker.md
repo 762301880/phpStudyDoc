@@ -23,31 +23,69 @@
 
 https://www.workerman.net/download/GatewayWorker.zip
 
+#### 解压
+
 ```php
-PS C:\Users\puxiansheng\Downloads\GatewayWorker> tree
-文件夹 PATH 列表
-卷序列号为 0083-5CC9
-C:.
-├─Applications
-│  └─YourApp
-└─vendor
-    ├─composer
-    └─workerman
-        ├─gateway-worker
-        │  ├─.github
-        │  └─src
-        │      ├─Lib
-        │      └─Protocols
-        └─workerman
-            ├─.github
-            ├─Connection
-            ├─Events
-            │  └─React
-            ├─Lib
-            └─Protocols
-                └─Http
-                    └─Session
+# CentOS / RHEL
+yum install unzip -y
+
+# Ubuntu / Debian
+apt install unzip -y
+
+# 解压  GatewayWorker
+unzip GatewayWorker.zip    
 ```
+
+#### 启动GatewayWorker
+
+> [参考](https://www.workerman.net/doc/gateway-worker/#GatewayWorker2.x%203.x%20%E6%89%8B%E5%86%8C)
+
+**linux启动**
+
+```php
+php start.php start
+```
+
+**windows启动**
+
+```php
+p\start_businessworker.php
+----------------------- WORKERMAN -----------------------------
+Workerman version:4.1.10          PHP version:7.4.3
+------------------------ WORKERS -------------------------------
+worker                        listen                              processes status
+Register             text://0.0.0.0:1238                 1         [ok]
+YourAppGateway       websocket://0.0.0.0:8282            1         [ok]
+YourAppBusinessWorkernone                                1         [ok]
+```
+
+**bug处理**
+
+```php
+# 报错
+#4 {main}
+  thrown in D:\phpstudy_pro\WWW\tp5.1_gateway_worker\GatewayWorker\vendor\workerman\workerman\Worker.php on line 2356"
+YourAppGateway       websocket://0.0.0.0:8282            1         [ok]
+YourAppBusinessWorkernone                                1         [ok]
+process D:\phpstudy_pro\WWW\tp5.1_gateway_worker\GatewayWorker\Applications\YourApp\start_register.php terminated and try to restart
+Register             text://0.0.0.0:1238                 1         [ok]
+Worker process terminated with ERROR: E_ERROR "Uncaught Exception: 以一种访问权限不允许的方式做了一个访问套接字的尝试。
+ in D:\phpstudy_pro\WWW\tp5.1_gateway_worker\GatewayWorker\vendor\workerman\workerman\Worker.php:2356
+     
+ 问题原因 + 一键解决
+这个错误 以一种访问权限不允许的方式做了一个访问套接字的尝试 是 Windows 系统专属错误，原因只有一个：GatewayWorker 需要的端口被占用 / 被系统权限阻止，无法监听。
+报错的核心是：8282、1238 端口被占用 或 被防火墙 / 权限拦截。    
+     
+     
+# 解决 检查 8282 和 1238 端口被谁占用(如果有输出，说明被其他程序占用，直接用下面命令杀死对应 PID：)
+netstat -ano | findstr "8282"
+netstat -ano | findstr "1238"
+     
+# 杀死进程
+taskkill /f /pid 这里填查到的PID数字   
+```
+
+
 
 ###   安装 gatewayclient
 
