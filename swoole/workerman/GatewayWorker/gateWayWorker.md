@@ -722,7 +722,213 @@ php artisan ws:listen
 - Laravel 放一台服务器
 - Redis 共用
 
+#####  方案C实际代码参考
 
+**封装predis**
+
+> 此文件放在 **GatewayWorker\Applications\YourApp**下
+>
+> 记得安装**predis扩展  composer require predis/predis**
+
+```php
+<?php
+use Predis\Client;
+
+class RedisClient
+{
+    private static $instance = null;
+    private static $client = null;
+
+    // 单例
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    // 连接
+    private function __construct()
+    {
+        try {
+            self::$client = new Client([
+                'host'     => 'redis-10729.c73.us-east-1-2.ec2.cloud.redislabs.com',
+                'port'     => 10729,
+                'password' => 'IgJkOF5E5kHq4hDkmNlvhOZqmLuH5Ldf',
+                'database' => 0,
+                'timeout'  => 3,
+            ]);
+            self::$client->ping();
+        } catch (\Exception $e) {
+            self::$client = null;
+            error_log("Redis 连接失败：" . $e->getMessage());
+        }
+    }
+
+    // ========= 核心：魔术方法，调用所有原生 Redis 方法 =========
+    public function __call($method, $parameters)
+    {
+        if (!self::$client) return null;
+
+        try {
+            return call_user_func_array([self::$client, $method], $parameters);
+        } catch (\Exception $e) {
+            error_log("Redis $method 失败：" . $e->getMessage());
+            return null;
+        }
+    }
+}
+```
+
+**改造Events.php**
+
+```php
+require __DIR__ . '/RedisClient.php'; // 引入封装好的Redis
+    public static function onMessage($client_id, $message)
+    {
+        $uid = Gateway::getUidByClientId($client_id);
+        echo "onMessage用户uid为:$uid\r\n";
+        // 向所有人发送
+        Gateway::sendToAll("$client_id said $message\r\n");
+    }
+
+
+ /**
+     * 当用户断开连接时触发
+     * @param int $client_id 连接id
+     */
+    public static function onClose($client_id)
+    {
+        echo "进入断断开连接触发client_id为:$client_id" . PHP_EOL;
+        // 获取 Redis 单例
+        $redis = RedisClient::getInstance();
+        //$uid = Gateway::getUidByClientId($client_id); //废弃拿不到uid因为进入到onClose绑定的已经销毁 这里采用redis
+        $uid = $redis->get("ws:client:{$client_id}");
+        $redis->del("ws:client:{$client_id}");//得到后销毁就行
+        echo $uid . PHP_EOL;
+        if (empty($uid)) echo "用户未绑定uid" . PHP_EOL;
+        if (!empty($uid)) echo "用户uid为:" . $uid . PHP_EOL;
+        if (!empty($uid)) {
+            // 一行发布消息
+            $redis->publish('websocket:events', json_encode([
+                    'event' => 'client_closed',
+                    'uid' => $uid,
+                    'client_id' => $client_id
+                ])
+            );
+        }
+        echo "333" . PHP_EOL;
+        // 向所有人发送
+        GateWay::sendToAll("$client_id logout\r\n");
+        echo "444" . PHP_EOL;
+    }
+```
+
+**laravel控制器测试绑定**
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Services\RedisService;
+use GatewayClient\Gateway;
+
+class GatewayController extends Controller
+{
+    public function test()
+    {
+        Gateway::$registerAddress = '127.0.0.1:1238';
+//        Gateway::sendToAll('大家好');
+
+
+        $client_id = '7f0000010b5400000004';
+        $uid = 666;
+        Gateway::bindUid($client_id, $uid);
+
+        $redis=RedisService::getInstance();
+        //这里手动绑定是因为 如果GateWay调用onClose事件 uid已经清理掉了 是拿不到usid的
+        $redis->set("ws:client:{$client_id}", $uid);
+
+        $getClientId = Gateway::getClientIdByUid($uid);
+        $getUid = Gateway::getUidByClientId($client_id);
+        dd($getClientId,$getUid);
+
+        return 'ok';
+    }
+}
+```
+
+**command redis监听**
+
+```php
+<?php
+
+namespace App\Console\Commands;
+
+use App\Services\RedisService;
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
+
+class RedisSubscribe extends Command
+{
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'redis:subscribe';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Subscribe to a Redis channel';
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
+    {
+//        $redis = RedisService::getInstance();
+//        $redis->subscribe(['test-channel'], function ($message) {
+//             echo $message;
+//        });
+
+
+        $redis = RedisService::getInstance();
+        // 订阅 Redis 通道
+        $redis->subscribe(['websocket:events'], function ($msg) {
+
+            echo($msg);
+            $data=json_decode($msg,true);
+            print_r($data);
+
+            if (!empty($data) && $data['event'] === 'client_closed') {
+                $uid = $data['uid'];
+                \Log::info("用户 $uid 已离线");
+            }
+        });
+
+
+    }
+}
+
+```
 
 
 
