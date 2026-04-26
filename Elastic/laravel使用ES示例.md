@@ -1,3 +1,9 @@
+## 扩展包安装
+
+```php
+composer require elasticsearch/elasticsearch
+```
+
 
 
 ## 代码示例
