@@ -1,6 +1,24 @@
 [created_at]:2021/12/1
 [author]:yaoliuyang
 
+
+
+
+
+# 文档资料
+
+| 名称                                       | 地址                                                         |
+| ------------------------------------------ | ------------------------------------------------------------ |
+| 第三方博客                                 | [link](https://learnku.com/articles/49763)                   |
+| 阮一峰-全文搜索引擎 Elasticsearch 入门教程 | [link](http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html) |
+| 官方扩展文档                               | [link](https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/index.html) |
+| elasticsearch/elasticsearch-packagist      | [link](https://packagist.org/packages/elasticsearch/elasticsearch) |
+| elasticsearch中文档(laravel社区)           | [link](https://learnku.com/docs/elasticsearch-php/6.0/quickstart/2001) |
+| elasticsearch菜鸟教程                      | [link](https://www.cainiaojc.com/elasticsearch/)             |
+| 官方中文文档                               | [link](https://www.elastic.co/guide/cn/index.html)    [link](https://www.elastic.co/guide/cn/elasticsearch/guide/current/index.html) |
+
+
+
 # 使用场景
 
 > Elasticsearch是一个**用于实时搜索和分析的分布式存储、搜索、分析引擎**，并且它的实用场景包括**站内搜索、日志实时分析、数据分析、数据监控等**。
@@ -81,17 +99,6 @@
 ### 四、一句话总结
 
 当你需要**快、准、稳**地在**海量文本 / 数据**中做**全文检索、实时分析、灵活扩展**时，Elasticsearch 就是最优解。
-
-# 参考资料
-
-| 名称                                       | 地址                                                         |
-| ------------------------------------------ | ------------------------------------------------------------ |
-| 第三方博客                                 | [link](https://learnku.com/articles/49763)                   |
-| 阮一峰-全文搜索引擎 Elasticsearch 入门教程 | [link](http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html) |
-| 官方扩展文档                               | [link](https://www.elastic.co/guide/en/elasticsearch/client/php-api/current/index.html) |
-| elasticsearch/elasticsearch-packagist      | [link](https://packagist.org/packages/elasticsearch/elasticsearch) |
-| elasticsearch中文档(laravel社区)           | [link](https://learnku.com/docs/elasticsearch-php/6.0/quickstart/2001) |
-| elasticsearch菜鸟教程                      | [link](https://www.cainiaojc.com/elasticsearch/)             |
 
 # windows 安装
 
