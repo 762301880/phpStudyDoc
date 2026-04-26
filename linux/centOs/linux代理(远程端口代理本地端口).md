@@ -140,11 +140,7 @@ bindPort = 7000  # 直接使用宿主机的 7000 端口
 
 5. **你的命令解析**
 
-bash
-
-复制
-
-```
+```bash
 docker run --restart=always --network host -d \
   -v /etc/frp/frps.toml:/etc/frp/frps.toml \
   --name frps snowdreamtech/frps
@@ -197,7 +193,7 @@ EOF
 
 #### windows端
 
-> https://www.kobin.cn/frp/
+> https://frpee.com/gui/
 
 ![image-20250414105435513](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250414105435513.png)
 

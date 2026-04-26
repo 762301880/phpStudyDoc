@@ -127,3 +127,151 @@ if ($is_trans !== '' && $is_trans !== null) {
     $query->where('coo.is_trans', $is_trans);
 }
 ```
+
+## 本地环境总是过几秒才能返回最新的接口排查
+
+**原因**
+
+> 我用phpstudy搭建的 laravel项目  
+>
+> 本地域名为 www.cs.com  
+>
+> 然后用postman 请求 接口
+> dd(15);
+>
+> 每次都加一后请求 例如上次是14  这次+1 后是十五 postman要好几秒之后才会返回新的数字
+
+经过测试 如果用**php artisan serv**启动项目 ip:8080 请求接口 没有这个问题,但是请求**phpstudy** 虚拟域名
+
+的接口就会产生这个问题 接口总是过几秒才会返回最新的
+
+八成不是 Laravel 代码执行慢，而是 **PHP OPcache / phpstudy 的缓存 / FPM 进程没及时刷新代码** 导致的。
+
+很典型：
+
+- 代码里 `dd(14)`
+- 改成 `dd(15)`
+- 立刻用 Postman 请求
+- 结果还返回 `14`
+- 等几秒后才变成 `15`
+
+说明请求打到的还是“旧代码”。
+
+检查 opcache
+
+### 先看你phpstudy 是哪种运行方式
+
+如果你是：
+
+- Nginx + PHP-CGI / PHP-FPM
+- Apache + PHP module
+
+都可能受 opcode cache 影响。
+
+尤其 phpstudy 默认很多 PHP 版本会开：
+
+```bash
+opcache.enable=1
+```
+
+## 1. 检查 opcache
+
+创建一个 `phpinfo.php`
+
+```bash
+<?php
+phpinfo();
+```
+
+访问：
+
+```bash
+http://www.cs.com/phpinfo.php
+```
+
+搜索：
+
+```bash
+opcache
+```
+
+如果看到：
+
+```bash
+opcache.enable => On
+```
+
+再看：
+
+```bash
+opcache.revalidate_freq
+```
+
+如果是：
+
+```bash
+2
+```
+
+或者更大：
+
+表示 PHP 每隔几秒才检查文件变更。
+
+你改代码后，它不会立刻重新编译。
+
+## 2. 开发环境直接关闭 opcache（最省事）
+
+找到 phpstudy 对应 PHP 版本的：
+
+```
+php.ini
+```
+
+修改：
+
+```
+opcache.enable=0
+opcache.enable_cli=0
+```
+
+或者至少改成：
+
+```
+opcache.validate_timestamps=1
+opcache.revalidate_freq=0
+```
+
+解释：
+
+- `validate_timestamps=1` → 检查文件更新时间
+- `revalidate_freq=0` → 每次请求都检查
+
+开发环境推荐直接这样。
+
+------
+
+## 3. 重启 phpstudy 服务
+
+改完后：
+
+- 重启 nginx/apache
+- 重启 php 服务
+
+phpstudy 面板里直接重启。
+
+不重启等于白改。
+
+## 4. Laravel 自己的缓存也检查一下
+
+虽然 `dd()` 一般不会受 Laravel cache 影响，但顺手清掉：
+
+```
+php artisan optimize:clear
+```
+
+它会清：
+
+- route cache
+- config cache
+- view cache
+- event cache
