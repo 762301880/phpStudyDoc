@@ -100,11 +100,15 @@
 
 当你需要**快、准、稳**地在**海量文本 / 数据**中做**全文检索、实时分析、灵活扩展**时，Elasticsearch 就是最优解。
 
-# windows 安装
+# 安装elasticsearch
+
+> [官方文档参考](https://www.elastic.co/guide/cn/elasticsearch/guide/current/running-elasticsearch.html)
+
+## windows 安装
 
 [官网下载地址](https://www.elastic.co/cn/downloads/elasticsearch)  [点我直接下载](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.15.2-windows-x86_64.zip)
 
-##  启动***elasticsearch***
+### 启动***elasticsearch***
 
 > 打开下载文件中的`\elasticsearch-7.15.2\bin\` 目录 点击 `elasticsearch.bat` 启动
 
@@ -116,9 +120,9 @@
 
 ![1638341852(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/AghCcSpBPvmz34Z.png)
 
-# 修改配置
+### 修改配置
 
-## 修改端口
+#### 修改端口
 
 > 找到`\elasticsearch-7.15.2\config`下面的`elasticsearch.yml`文件使用编辑器或者txt打开
 >
@@ -135,7 +139,7 @@ http.port: 9700
 network.host: 0.0.0.0  #设成0.0.0.0让任何人都可以访问。线上服务不要这样设置，要设成具体的 IP。
 ```
 
-# docker安装elasticsearch
+## docker安装elasticsearch
 
 **说明**
 
@@ -166,6 +170,14 @@ docker run -itd --name elasticsearch  -p 9200:9200 -p 9300:9300 -e "discovery.ty
   "tagline" : "You Know, for Search"
 }    
 ```
+
+
+
+
+
+
+
+
 
 # [快速开始](https://www.elastic.co/guide/cn/elasticsearch/php/current/_quickstart.html)
 
