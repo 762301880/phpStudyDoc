@@ -302,3 +302,52 @@ UPDATE user SET money = money - 10 WHERE id = 100;
 - **不幂等**：重复执行 = 结果累加 / 错乱
 - 核心目的：**防止重复操作导致数据错误**
 
+## PHP 如何实现单例模式？
+
+```php
+class DB {
+    private static $instance;
+
+    private function __construct() {}
+
+    public static function getInstance() {
+        if (!self::$instance) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+}
+```
+
+## PHP 的垃圾回收机制
+
+PHP 使用引用计数 + 循环引用检测
+
+当引用计数为 0 时自动释放内存
+
+## 如何防止 SQL 注入？
+
+- 使用 PDO 预处理
+- 参数绑定
+- 不拼接 SQL 字符串
+
+❌ 错误：
+
+```php
+$sql = "SELECT * FROM user WHERE name='$name'";
+```
+
+✅ 正确：
+
+```php
+$stmt = $pdo->prepare("SELECT * FROM user WHERE name=?");
+$stmt->execute([$name]);
+```
+
+## PHP 数组有哪些类型
+
+索引数组
+
+关联数组
+
+多维数组
