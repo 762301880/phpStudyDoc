@@ -4,9 +4,18 @@
 composer require elasticsearch/elasticsearch
 ```
 
+## env配置
+
+```php
+# Elasticsearch
+ELASTICSEARCH_HOST=http://127.0.0.1:9200
+ELASTICSEARCH_USER=
+ELASTICSEARCH_PASS=
+```
 
 
-## 代码示例
+
+## 增删改查代码示例
 
 ```php
 <?php
@@ -276,4 +285,6 @@ class EsController extends Controller
 }
 
 ```
+
+##  ES当日志系统(待补充不推荐)
 

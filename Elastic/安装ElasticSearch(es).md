@@ -108,6 +108,8 @@
 
 [官网下载地址](https://www.elastic.co/cn/downloads/elasticsearch)  [点我直接下载](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.15.2-windows-x86_64.zip)
 
+**推荐安装地址 直接放在D盘下 没有权限报错**
+
 ### 启动***elasticsearch***
 
 > 打开下载文件中的`\elasticsearch-7.15.2\bin\` 目录 点击 `elasticsearch.bat` 启动

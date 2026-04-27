@@ -42,6 +42,25 @@ http://localhost:8080
 
 体验比 Kibana 更“数据库管理工具”一点。
 
+####   配置
+
+你必须设置 CORS 才能使用 elasticvue。将以下行添加到你的 **elasticsearch.yml**:
+
+> 配置文件 win在**D:\elasticsearch-7.15.2\config**目录下
+
+```bash
+# 允许 CORS 请求来自 http://47.107.33.56:8088
+http.cors.enabled: true
+http.cors.allow-origin: "http://47.107.33.56:8088"   # elasticvue的公网
+
+# 如果你的集群使用授权:
+http.cors.allow-headers: X-Requested-With,Content-Type,Content-Length,Authorization
+```
+
+然后重启你的集群.
+
+
+
 #### 补充
 
 ##### **我是云端安装了Elasticvue**  ES在本地启动

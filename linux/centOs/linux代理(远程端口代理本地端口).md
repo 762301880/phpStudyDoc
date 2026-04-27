@@ -174,6 +174,7 @@ dashboard_port = 7500  # 管理面板端口（可选）
 dashboard_user = admin   # 管理面板用户名
 dashboard_pwd = admin  # 管理面板密码
 
+################################上下分割#############################################
 
 # 命令创建
 # 创建 frps 配置文件目录
@@ -194,6 +195,8 @@ EOF
 #### windows端
 
 > https://frpee.com/gui/
+>
+> [个人网盘保存](https://yaoliuyang.lanzoul.com/iQPZy3o4sl5g)
 
 ![image-20250414105435513](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20250414105435513.png)
 
