@@ -163,7 +163,7 @@ explain select * from user where name = '张三';
 
 ### 二、Laravel 解决方案（3 种）
 
-#### 1. 首选：使用 `lockForUpdate()`（当前读 + 临键锁）
+#### 1. 首选：使用 `lockForUpdate()`（当前读 + 临键锁）  悲观锁
 
 **原理**：
 
