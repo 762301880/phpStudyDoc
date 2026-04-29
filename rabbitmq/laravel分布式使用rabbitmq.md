@@ -255,3 +255,106 @@ $mq->publish('task_queue', ['id' => 1]);
 php think queue:consume
 ```
 
+##   补充
+
+###   ack是什么
+
+在 RabbitMQ 里，**ack = acknowledgment（确认）**，本质上是 **消费者告诉 RabbitMQ：“这条消息我已经处理完了。”**
+
+可以把它理解成快递签收：
+
+- RabbitMQ = 快递站
+- Producer = 寄件人
+- Consumer = 收件人
+- ack = 签收确认
+
+如果消费者拿到消息后 **没有 ack**：
+
+- RabbitMQ 会认为这条消息可能没处理成功
+- 消费者断开连接 / 崩溃后，这条消息通常会被重新投递给其他消费者
+- 消息不会从队列真正删除
+
+如果消费者 **发送 ack**：
+
+- RabbitMQ 知道消息处理完成
+- 会把消息从队列移除
+
+#### 两种模式
+
+1. 自动 ack（autoAck=true）
+
+```php
+// 6. 开始消费（关闭自动确认）
+        $channel->basic_consume(
+            'task_queue',
+            '',
+            false,
+            true, // 必须 false（手动 ack）  默认是true
+            false,
+            false,
+            $callback
+        );
+```
+
+
+
+这里 `true` 表示：
+
+> RabbitMQ 一把消息发给 consumer，就默认认为处理成功了
+
+优点：
+
+- 简单
+- 性能高
+
+缺点：
+
+- 如果 consumer 刚收到消息就挂了，消息可能丢失
+
+2. 手动 ack（autoAck=false）
+
+```php
+       // 6. 开始消费（关闭自动确认）
+        $channel->basic_consume(
+            'task_queue',
+            '',
+            false,
+            false, // 必须 false（手动 ack）  默认是true
+            false,
+            false,
+            $callback
+        );
+```
+
+然后处理完成后手动确认：
+
+```php
+
+// 4. 消费逻辑
+        $callback = function ($msg) {
+            echo "收到消息: ", $msg->body, "\n";
+
+            $data = json_decode($msg->body, true);
+
+            // 模拟业务处理
+            sleep(2);
+
+            echo "处理完成\n";
+
+            // 5. 手动确认（非常重要！）
+            $msg->ack();
+        };
+```
+
+#### 为什么要手动 ack？
+
+因为自动 ack 可能导致消息丢失：
+
+1. RabbitMQ 发消息
+2. Consumer 还没处理完
+3. Consumer 挂了
+4. RabbitMQ 已经认为消息完成 → 消息丢失
+
+手动 ack 可以保证：
+
+> 至少被消费一次（At-least-once）
