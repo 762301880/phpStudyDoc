@@ -171,21 +171,7 @@ explain select * from user where name = '张三';
 
 **Laravel 写法（推荐）**：
 
-php
-
-
-
-运行
-
-
-
-
-
-
-
-
-
-```
+```php
 use Illuminate\Support\Facades\DB;
 
 DB::beginTransaction();
@@ -211,21 +197,7 @@ try {
 
 **Eloquent 写法**：
 
-php
-
-
-
-运行
-
-
-
-
-
-
-
-
-
-```
+```php
 use App\Models\Order;
 
 DB::transaction(function () {
@@ -249,21 +221,7 @@ DB::transaction(function () {
 
 **Laravel 配置（config/database.php）**：
 
-php
-
-
-
-运行
-
-
-
-
-
-
-
-
-
-```
+```php
 'mysql' => [
     // ...
     'isolation_level' => 'SERIALIZABLE', // 全局设置
@@ -272,21 +230,7 @@ php
 
 **事务内临时设置**：
 
-php
-
-
-
-运行
-
-
-
-
-
-
-
-
-
-```
+```php
 DB::transaction(function () {
     // 仅当前事务生效
     DB::statement("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE");
@@ -309,38 +253,12 @@ DB::transaction(function () {
 
 **示例（防重复创建）**：
 
-sql
-
-
-
-
-
-
-
-
-
-
-
-```
+```sql
 -- 给 (user_id, type) 加唯一索引
 ALTER TABLE orders ADD UNIQUE idx_user_type (user_id, type);
 ```
 
-php
-
-
-
-运行
-
-
-
-
-
-
-
-
-
-```
+```php
 // 原子插入，不存在则插入，存在则更新
 DB::table('orders')->updateOrInsert(
     ['user_id' => 100, 'type' => 'monthly'], // 唯一条件
@@ -376,45 +294,21 @@ DB::table('orders')->updateOrInsert(
 
 3. **Laravel 事务最佳实践**
 
-   
-
-   php
-
-   
-
-   运行
-
-   
-
-   
-
-   
-
-   
-
-   ```
-   DB::transaction(function () {
+   ```php
+DB::transaction(function () {
        // 1. 先锁（越早越好）
-       $data = DB::table('table')->where('x', 1)->lockForUpdate()->get();
+    $data = DB::table('table')->where('x', 1)->lockForUpdate()->get();
        
-       // 2. 仅数据库操作（禁 HTTP/文件/循环等耗时逻辑）
+    // 2. 仅数据库操作（禁 HTTP/文件/循环等耗时逻辑）
        DB::table('table')->insert(...);
-       
+    
        // 3. 快速提交（锁时间越短越好）
-   }, 5); // 死锁重试
+}, 5); // 死锁重试
    ```
 
    
 
 ### 四、方案对比
-
-表格
-
-
-
-
-
-
 
 | 方案                     | 性能  | 防幻读 | 适用场景                      |
 | ------------------------ | ----- | ------ | ----------------------------- |
