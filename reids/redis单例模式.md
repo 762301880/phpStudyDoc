@@ -142,11 +142,13 @@ $singleton1->doSomething(); // 输出: Doing something...
 ```php
 <?php
 
-namespace App\Helpers;
+
+namespace App\Services;
+
 
 use Illuminate\Support\Facades\Redis;
 
-class RedisSingleton
+class RedisService
 {
     private static $instance = null;
 
@@ -158,15 +160,16 @@ class RedisSingleton
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
-            self::$instance = Redis::connection()->client();
+            self::$instance = Redis::connection();
         }
         return self::$instance;
     }
 
-    public function __call($method, $arguments)
-    {
-        return call_user_func_array([self::getInstance(), $method], $arguments);
-    }
+    //因为__call只有在new实例下  未找到对应方法才会触发 所以单例模式下这个无效
+//    public function __call($method, $arguments)
+//    {
+//        return call_user_func_array([self::getInstance(), $method], $arguments);
+//    }
 }
 ```
 
