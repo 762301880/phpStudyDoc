@@ -1,4 +1,4 @@
-
+##  没事多看看官方文档 不要拿过来就用(重要)
 
 ##  [魔术方法](https://www.php.net/manual/zh/language.oop5.magic.php)
 
