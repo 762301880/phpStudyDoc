@@ -1,4 +1,4 @@
-##  没事多看看官方文档 不要拿过来就用(重要)
+##  没事多看看[官方文档](https://php.p2hp.com/manual/zh/langref.php) 不要拿过来就用(重要)
 
 ## 补充[PHP函数大全](https://www.p2hp.com/phpfuncs.html)
 
