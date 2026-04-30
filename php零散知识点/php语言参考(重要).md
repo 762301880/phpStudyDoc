@@ -1,5 +1,7 @@
 ##  没事多看看官方文档 不要拿过来就用(重要)
 
+## 补充[PHP函数大全](https://www.p2hp.com/phpfuncs.html)
+
 ##  [魔术方法](https://www.php.net/manual/zh/language.oop5.magic.php)
 
 ### __call
