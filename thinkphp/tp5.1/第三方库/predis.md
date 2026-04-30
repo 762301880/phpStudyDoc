@@ -18,6 +18,8 @@ composer require predis/predis
 
 **使用**
 
+> **推荐封装为单例模式去调用redis**
+
 ```php
 <?php
 

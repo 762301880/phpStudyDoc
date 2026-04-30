@@ -160,12 +160,12 @@ class RedisService
     public static function getInstance()
     {
         if (is_null(self::$instance)) {
-            self::$instance = Redis::connection();
+            self::$instance = Redis::connection()->client();
         }
         return self::$instance;
     }
 
-    //因为__call只有在new实例下  未找到对应方法才会触发 所以单例模式下这个无效
+    //因为__call只有在new实例下  未找到对应方法才会触发 所以单例模式下这个无效-废弃
 //    public function __call($method, $arguments)
 //    {
 //        return call_user_func_array([self::getInstance(), $method], $arguments);

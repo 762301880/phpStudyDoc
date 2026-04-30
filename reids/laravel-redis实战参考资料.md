@@ -1,12 +1,8 @@
-# 说明
+##  扩展安装
 
+```php
 
-
-laravel-学院[redis实战参考](https://laravelacademy.org/books/high-performance-redis)
-
-有空待研究[redis-json](https://redis.io/json/)
-
-[云redis数据库](https://app.redislabs.com/#/subscriptions/subscription/1703229/bdb)
+```
 
 
 
