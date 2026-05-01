@@ -1,4 +1,4 @@
-## mysql查询优化
+mysql查询优化
 
 > **参考**
 >
@@ -123,6 +123,144 @@ MySQL 优化器会**自动整理条件顺序**，和你写的顺序无关。
 ### 总结口诀
 
 👉 **左列必须用，跳列就报废；范围一出现，右边全作废。**
+
+### 索引会失效场景
+
+联合索引 (a,b,c) 失效的 10 种情况（背会就无敌）
+
+```sql
+CREATE TABLE `test` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `a` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字段a',
+  `b` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字段b',
+  `c` varchar(255) NOT NULL,
+  `d` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `联合索引` (`a`,`b`,`c`) USING BTREE COMMENT '联合索引abc'
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+```
+
+
+
+1. **不按最左前缀，跳过最左字段（最常见）**
+
+索引是 **a → b → c**
+
+你必须**从 a 开始用**，跳过 a 直接查 b、c → **索引直接失效**
+
+## 2. **中间断了（a 有，但跳过 b）**
+
+```sql
+WHERE a='1' AND c='3'  -- 失效！跳过 b
+```
+
+只能用到 **a**，b、c 用不上索引。
+
+------
+
+## 3. **使用 OR 连接条件（致命）**
+
+```sql
+WHERE a='1' AND b='2' OR c='3'  -- 失效！
+```
+
+**OR 会直接破坏最左前缀**，全表扫描。
+
+------
+
+## 4. **字段类型不匹配（隐式转换）**
+
+a 是 varchar，你用数字查：
+
+```sql
+WHERE a=1  -- 失效！字符串 = 数字
+```
+
+必须写成：
+
+```sql
+WHERE a='1'
+```
+
+------
+
+## 5. **使用！=、NOT IN、NOT EXISTS、IS NOT NULL**
+
+```sql
+WHERE a!='1'
+WHERE a NOT IN ('1','2')
+```
+
+**范围否定会导致索引失效**。
+
+------
+
+## 6. **LIKE 以 % 开头（左模糊）**
+
+```sql
+WHERE a LIKE '%123'  -- 失效
+WHERE a LIKE '123%'  -- 有效！
+```
+
+**% 在左边 → 索引失效**
+
+------
+
+## 7. **对索引字段使用函数、运算**
+
+```sql
+WHERE SUBSTRING(a,1,1)='1'
+WHERE UPPER(a)='A'
+WHERE a + 1 = 2
+```
+
+**只要字段被计算 → 索引失效**
+
+------
+
+## 8. **ORDER BY / GROUP BY 违反最左前缀**
+
+```sql
+ORDER BY b,c     -- 没有 a → 失效
+ORDER BY a,c     -- 跳过 b → 失效
+```
+
+------
+
+## 9. **MySQL 优化器判断：全表更快**
+
+表数据**很少**（比如只有 5 行）
+
+MySQL 觉得：**全表扫描比走索引更快**
+
+→ 主动放弃索引，走全表。
+
+**这不是失效，是优化器选择。**
+
+------
+
+## 10. **联合索引字段出现 NULL 判断**
+
+```sql
+WHERE a IS NULL
+```
+
+如果字段允许 NULL，**IS NULL 可能不走索引**。
+
+最核心总结（背这 4 句就够）
+
+1. **必须从最左字段 a 开始用**
+2. **不能跳过中间字段**
+3. **OR、!=、% xxx、函数 → 必失效**
+4. **类型必须匹配，字符串别用数字**
+
+可以直接用的万能判断口诀
+
+**最左不能丢，中间不能断；or 会全扫，% 左会完蛋；类型要匹配，函数别乱算；满足这几条，索引跑满速。**
+
+
+
+
 
 ## 二,AND NOT EXISTS
 
