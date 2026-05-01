@@ -85,6 +85,26 @@ WHERE user_id = 1001 AND order_date >= '2025-09-01' AND status = 1;
 👉 这里 `user_id` 命中，`order_date` 用到了范围查询（>=），但是 **范围条件会阻断后续列**。
  结果：只能用 `(user_id, order_date)`，**status 不再走索引**。
 
+####  案例5： 不按顺序执行(也可以走索引)
+
+```sql
+EXPLAIN SELECT * 
+FROM orders 
+WHERE status = 1 and user_id = 1001 AND order_date = '2025-09-15' ;
+```
+
+**因为 MySQL 有个「查询优化器」，它会自动把你乱序的 WHERE 条件，重新排成索引需要的顺序 → 所以照样走索引！**
+
+不是你写什么顺序，MySQL 就按什么顺序查。
+
+ 一句话核心原理
+
+**联合索引要求：字段必须包含 a → 再包含 b → 再包含 c但不要求：你写 SQL 的顺序必须是 a,b,c**
+
+MySQL 优化器会**自动整理条件顺序**，和你写的顺序无关。
+
+
+
 ###   常见适用场景
 
 1. **多条件过滤查询**
