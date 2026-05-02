@@ -66,6 +66,11 @@ cp php.ini-development php.ini
 
 extension_dir = "ext"     # 配置扩展目录
 extension=openssl         #开启openssl扩展
+```
 
+## gitbash中临时切换php版本
+
+```shell
+export PATH=/d/phpstudy_pro/Extensions/php/php7.4.3nts:$PATH
 ```
 
