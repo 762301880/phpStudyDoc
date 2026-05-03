@@ -425,6 +425,10 @@ VALUES
 
 ![image-20260503194703793](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260503194703793.png)
 
+> 按热度 就是 按照评论的点赞数排序
+>
+> 按时间 就是按时间倒序 最新的时间在最前
+
 # 补充
 
 ## 需要注意的是删除评论的时候 一级评论需要删除连带的评论
