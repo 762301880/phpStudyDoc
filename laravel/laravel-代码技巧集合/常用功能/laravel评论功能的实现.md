@@ -301,7 +301,7 @@ VALUES
 
 # 前端展示
 
-### 小红书评论模式
+## 小红书评论模式
 
 ```shell
 评论A（一级）
@@ -312,18 +312,113 @@ VALUES
   展开 154 条回复(不包含一级还有展示的二级的剩余回复数)
 ```
 
-### ✅ 规则
+✅ 规则
 
-1. 只查一级评论（parent_id = 0）
-2. 每个一级评论：
-   - 只展示前 N 条子评论（比如 1~3 条）
-   - 显示总回复数
-   - 不展示全部
+> 小红书逻辑
+>
+>  ✅ 一级展示 1 条
+>  ✅ 该一级下面 **只展示 1 条子评论（可以是任意层，但通常取“第一条/优先级最高”）**
+>  ✅ 剩余 = **整棵树 - 已展示（一级1 + 子评论1）**
+>  ✅ 剩余评论 **按 5 条分页加载**
 
 ###  代码示例
 
 ```php
+  public function getCommentList($page = 1, $pageSize = 10)
+    {
+        $topComments = DB::table('comment')
+            ->where('parent_id', 0)
+            ->where('status', 1)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
+        $topIds = array_column($topComments->items(), 'id');
+
+        $firstReplies = DB::select("
+    SELECT * FROM (
+        SELECT *,
+               ROW_NUMBER() OVER (PARTITION BY root_id ORDER BY created_at ASC) as rn
+        FROM comment
+        WHERE root_id IN (" . implode(',', $topIds) . ")
+        AND id != root_id
+        AND status = 1
+    ) t
+    WHERE t.rn = 1
+");
+
+        $firstReplyMap = [];
+        foreach ($firstReplies as $item) {
+            $firstReplyMap[$item->root_id] = $item;
+        }
+
+        $replyCounts = DB::table('comment')
+            ->whereIn('root_id', $topIds)
+            ->where('status', 1)
+            ->selectRaw('root_id, COUNT(*) as total')
+            ->groupBy('root_id')
+            ->pluck('total', 'root_id');
+
+        $result = [];
+
+        foreach ($topComments->items() as $comment) {
+
+            $firstReply = $firstReplyMap[$comment->id] ?? null;
+
+            $total = $replyCounts[$comment->id] ?? 1;
+
+            // 已展示：一级 + 子评论
+            $shown = $firstReply ? 2 : 1;
+
+            $remain = max(0, $total - $shown);
+
+            $result[] = [
+                'id' => $comment->id,
+                'content' => $comment->content,
+
+                // 👉 只展示1条子评论
+                'reply' => $firstReply ? [
+                    'id' => $firstReply->id,
+                    'content' => $firstReply->content,
+                    'user_id' => $firstReply->user_id,
+                    'reply_to_user_id' => $firstReply->reply_to_user_id,
+                ] : null,
+
+                // 👉 剩余条数（关键）
+                'reply_count' => $remain,
+
+                'has_more' => $remain > 0,
+            ];
+        }
+        return $result;
+    }
+
+
+    function getRemainReplies($rootId, $page = 1, $pageSize = 5)
+    {
+        // 👉 1. 自动查“首条子评论”（避免依赖前端）
+        $firstReply = DB::table('comment')
+            ->where('root_id', $rootId)
+            ->where('id', '!=', $rootId)
+            ->where('status', 1)
+            ->orderBy('created_at', 'asc')
+            ->first();
+
+        // 👉 2. 构造排除ID
+        $excludeIds = [$rootId];
+
+        if ($firstReply) {
+            $excludeIds[] = $firstReply->id;
+        }
+
+        // 👉 3. 查询剩余评论（稳定分页🔥）
+        return DB::table('comment')
+            ->where('root_id', $rootId)
+            ->where('status', 1)
+            ->whereNotIn('id', $excludeIds)
+            ->orderBy('created_at', 'asc')
+            ->orderBy('id', 'asc') // 👉 防止时间相同导致分页错乱
+            ->paginate($pageSize);
+    }
 ```
 
 
