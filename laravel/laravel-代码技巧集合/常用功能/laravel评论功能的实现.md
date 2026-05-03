@@ -339,7 +339,7 @@ VALUES
         $firstReplies = DB::select("
     SELECT * FROM (
         SELECT *,
-               ROW_NUMBER() OVER (PARTITION BY root_id ORDER BY created_at ASC) as rn
+               ROW_NUMBER() OVER (PARTITION BY root_id ORDER BY id ASC) as rn
         FROM comment
         WHERE root_id IN (" . implode(',', $topIds) . ")
         AND id != root_id
