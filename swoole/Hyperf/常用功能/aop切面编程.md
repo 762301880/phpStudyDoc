@@ -381,3 +381,109 @@ class GoodsService
 - ✅ **非业务核心**：不影响主流程，可插拔
 - ✅ **统一管控**：全局规则、安全、审计、标准化
 - ❌ **不适合**：业务主逻辑、复杂分支、频繁变更的逻辑
+
+# 实战场景
+
+##  全局异常类中间件
+
+
+
+### **代码示例**
+
+**异常切片类**
+
+```php
+<?php
+
+namespace App\Aspect;
+
+use App\Controller\AbstractController;
+use App\Service\LogService;
+use Hyperf\Di\Aop\ProceedingJoinPoint;
+use Hyperf\Di\Aop\AbstractAspect;
+
+class ExceptionAspect extends AbstractController
+{
+    protected $logger = null;
+
+    public function __construct(LogService $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    // 要切入的类或 Trait，可以多个，亦可通过 :: 标识到具体的某个方法，通过 * 可以模糊匹配
+    public $classes = [
+        'App\\Controller\\*',  //切面所有控制器&方法
+    ];
+
+    public $annotations = [
+    ];
+
+    public function process(ProceedingJoinPoint $proceedingJoinPoint)
+    {
+
+        try {
+            // 切面切入后，执行对应的方法会由此来负责
+            // $proceedingJoinPoint 为连接点，通过该类的 process() 方法调用原方法并获得结果
+            // 在调用前进行某些处理
+            echo "异常切片开始" . PHP_EOL;
+            $result = $proceedingJoinPoint->process();
+
+        } catch (\Exception $e) {
+            echo "进入异常切片抛出异常:" . PHP_EOL;
+            // 1. 统一日志
+            $this->logger->logger->error('AOP 捕获异常：' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            // 2. 统一返回 JSON（可按异常类型细分）
+            return $this->response->json([
+                'code' => 500,
+                'msg' => '系统异常：' . $e->getMessage(),
+                'data' => null,
+            ]);
+        }
+        // 在调用后进行某些处理
+        return $result;
+    }
+}
+```
+
+**随便弄一个报错类**
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace App\Controller;
+
+use App\Service\RedisService;
+use Hyperf\DbConnection\Db;
+use Hyperf\HttpServer\Annotation\AutoController;
+
+/**
+ * @AutoController()
+ */
+class TestController extends AbstractController
+{
+
+
+    public function test()
+    {
+        $res = Db::table('aaa')->get(); # aaa表不存在会报错
+        return $res;
+    }
+}
+
+```
+
+#  bug解析
+
+## [ERROR] Argument 1 passed to App\Aspect\ExceptionAspect::process() must be an instance of App\Aspect\ProceedingJoinPoint, instance of Hyperf\Di\Aop\ProceedingJoinPoint given, called in /opt/www/vendor/hyperf/di/src/Aop/Pipeline.php on line 30[27] in  
+
+> 可以判断是切片中有东西报错了  然后我删除切片文件后再删除**/work/hyperf_study/runtime/container/proxy   不删除还有缓存会报错**   再次重启就好了
+>
+> 可以判断是那个切片异常
+
+排查是因为 没有 use Hyperf\Di\Aop\ProceedingJoinPoint;
