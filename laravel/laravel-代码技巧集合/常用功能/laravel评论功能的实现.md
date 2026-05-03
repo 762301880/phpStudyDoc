@@ -421,7 +421,9 @@ VALUES
     }
 ```
 
+## 微博评论模式
 
+![image-20260503194703793](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260503194703793.png)
 
 # 补充
 
