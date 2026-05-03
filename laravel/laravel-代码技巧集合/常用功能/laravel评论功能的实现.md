@@ -303,6 +303,8 @@ VALUES
 
 ## 小红书评论模式
 
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260503195200100.png" alt="image-20260503195200100" style="zoom:33%;" />
+
 ```shell
 评论A（一级）
 
@@ -423,7 +425,7 @@ VALUES
 
 ## 微博评论模式
 
-![image-20260503194703793](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260503194703793.png)
+<img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260503194703793.png" alt="image-20260503194703793" style="zoom:33%;" />
 
 > 按热度 就是 按照评论的点赞数排序
 >
