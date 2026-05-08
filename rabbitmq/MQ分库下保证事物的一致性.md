@@ -41,7 +41,7 @@ CREATE TABLE `message_logs` (
         COMMENT '消息状态 pending:待发送 sent:已发送 failed:发送失败',
 
     `retry_count` INT NOT NULL DEFAULT 0
-        COMMENT '重试次数',
+        COMMENT '重试次数(生产者发送 MQ 失败的重试次数)',
 
     `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP
         COMMENT '创建时间',
@@ -103,7 +103,7 @@ topic = 'lol'
 
 你表里定义了：
 
-######  `pending`(待处理)
+######  pending(待处理)
 
 消息刚创建，还没真正发送到 MQ：
 
@@ -123,7 +123,7 @@ topic = 'lol'
 
 只是“投递成功”。
 
-###### failed`(发送失败)
+###### failed(发送失败)
 
 例如：
 
