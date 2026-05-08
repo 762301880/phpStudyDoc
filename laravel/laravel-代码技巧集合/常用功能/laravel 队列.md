@@ -18,7 +18,7 @@
 
 >1. 注意在使用的时候最好不要在 `.env`中配置请用# 注释#QUEUE_CONNECTION 
 >
->2. 在`config\queue.php`中配置更直观
+>2. 在`config\queue.php`中配置更直观   **推荐改为redis队列**
 >
 >   ```php
 >   'default' => env('QUEUE_CONNECTION', 'database'),
@@ -121,7 +121,7 @@ public function test(Request $request)
 
 ```php
 php artisan queue:work
-#  php artisan queue:work --queue=high,low  加上参数设置队列的优先级 d
+#  php artisan queue:work --queue=high,low  加上参数设置队列的优先级
 ```
 
 > 执行以上命令就会监听数据库是否有未执行的队列如果有则消费队列你就会在`storage\logs\laravel.log`中看见对应的数据

@@ -118,6 +118,8 @@ while ($channel->is_consuming()) {
 
 `app/Services/RabbitMQService.php`
 
+####  示例代码
+
 ```php
 <?php
 // 引入 Composer 自动加载文件，加载 RabbitMQ 依赖库
@@ -196,6 +198,139 @@ while ($channel->is_consuming()) {
     $channel->wait(); // 阻塞等待消息
 }
 ```
+
+#### 封装Service
+
+```php
+<?php
+
+namespace App\Services;
+
+use Exception;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use Illuminate\Support\Facades\Log;
+
+class RabbitMQService
+{
+    private static $instance = null;
+
+    private $connection = null;
+    private $channel = null;
+
+    /**
+     * 防止创建实例
+     */
+    private function __construct() {}
+
+    /**
+     * 获取单例
+     */
+    public static function getInstance(): self
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * 获取连接（懒加载）
+     *
+     * @throws Exception
+     */
+    public function getConnection(): AMQPStreamConnection
+    {
+        try {
+
+            if (
+                !$this->connection ||
+                !$this->connection->isConnected()
+            ) {
+
+                $this->connection = new AMQPStreamConnection(
+                    config('rabbitmq.host', '47.107.33.56'),
+                    config('rabbitmq.port', 5672),
+                    config('rabbitmq.username', 'guest'),
+                    config('rabbitmq.password', 'guest'),
+                    config('rabbitmq.vhost', '/')
+                );
+
+                // 重连后 channel 重建
+                $this->channel = null;
+            }
+
+            return $this->connection;
+
+        } catch (\Throwable $e) {
+
+            Log::error('RabbitMQ 连接失败', [
+                'message' => $e->getMessage(),
+            ]);
+
+            throw new Exception(
+                'RabbitMQ 连接失败: ' . $e->getMessage(),
+                500
+            );
+        }
+    }
+
+    /**
+     * 获取 channel
+     *
+     * @throws Exception
+     */
+    public function getChannel()
+    {
+        try {
+
+            if (!$this->channel) {
+                $this->channel = $this->getConnection()->channel();
+            }
+
+            return $this->channel;
+
+        } catch (\Throwable $e) {
+
+            Log::error('RabbitMQ Channel 创建失败', [
+                'message' => $e->getMessage(),
+            ]);
+
+            throw new Exception(
+                'RabbitMQ Channel 创建失败: ' . $e->getMessage(),
+                500
+            );
+        }
+    }
+
+    /**
+     * 手动关闭
+     */
+    public function close()
+    {
+        try {
+
+            if ($this->channel) {
+                $this->channel->close();
+                $this->channel = null;
+            }
+
+            if ($this->connection) {
+                $this->connection->close();
+                $this->connection = null;
+            }
+
+        } catch (\Throwable $e) {
+
+            Log::warning('RabbitMQ 关闭连接异常', [
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+}
+```
+
+
 
 ### Controller 发送消息
 
