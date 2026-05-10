@@ -23,7 +23,7 @@
 > 安装过程中的选项我们全部选择n，
 
 ```php
-composer create-project hyperf/hyperf-skeleton  + 项目名称
+composer create-project hyperf/hyperf-skeleton my-hyperf "2.2.*"
 ```
 
 # docker启动Hyperf
