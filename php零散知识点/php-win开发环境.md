@@ -72,5 +72,7 @@ extension=openssl         #开启openssl扩展
 
 ```shell
 export PATH=/d/phpstudy_pro/Extensions/php/php7.4.3nts:$PATH
+
+export PATH=/d/phpstudy_pro/Extensions/php/php8.2.9nts:$PATH
 ```
 
