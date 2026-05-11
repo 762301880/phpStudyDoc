@@ -482,7 +482,64 @@ yum -y install libjpeg-devel
 #make && make install
 ```
 
+# 常用扩展补充
 
+> 参考的是**swoole docker**    **hyperf/hyperf:8.3-alpine-v3.19-swoole** 包
+
+```php
+[PHP Modules]
+bcmath
+Core
+ctype
+curl
+date
+dom
+fileinfo
+filter
+gd
+hash
+iconv
+igbinary
+json
+libxml
+mbstring
+msgpack
+mysqlnd
+openssl
+pcntl
+pcre
+PDO
+pdo_mysql
+PDO_ODBC
+pdo_pgsql
+pdo_sqlite
+Phar
+posix
+random
+readline
+redis
+Reflection
+session
+SimpleXML
+sockets
+sodium
+SPL
+standard
+swoole
+sysvmsg
+sysvsem
+sysvshm
+tokenizer
+xml
+xmlreader
+xmlwriter
+Zend OPcache
+zip
+zlib
+
+[Zend Modules]
+Zend OPcache
+```
 
 
 
