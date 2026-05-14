@@ -133,6 +133,8 @@ docker run -itd --name redis -p 6389:6379 -v /data/redis:/data redis:6.0.9
 
 # 云redis
 
+##  redislabs
+
 > 今天无意中找到一款云redis
 
 **资料**
@@ -140,7 +142,6 @@ docker run -itd --name redis -p 6389:6379 -v /data/redis:/data redis:6.0.9
 | 名称        | 地址                               |
 | ----------- | ---------------------------------- |
 | 云redis官网 | [link](https://app.redislabs.com/) |
-|             |                                    |
 
 > 怎么配置的不详解就像你注册qq账号这么简单
 >
@@ -148,7 +149,7 @@ docker run -itd --name redis -p 6389:6379 -v /data/redis:/data redis:6.0.9
 
 ![1646129429(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/qhmbrvu21RAToQC.png)
 
-## 项目中配置云reids
+项目中配置云reids
 
 **laravel配置**
 
@@ -173,3 +174,20 @@ PING redis-13822.c258.us-east-1-4.ec2.cloud.redislabs.com (3.81.36.161) 56(84) b
 # 3.81.36.161
 ```
 
+## upstash 云redis
+
+[官网地址](https://console.upstash.com)
+
+### redis可视化工具如何连接
+
+> **基础选项**
+>
+> - 名称：自定义（如 Upstash-Redis）
+> - 主机：粘贴 Upstash 的 Endpoint 地址**不可以加https**
+> - 端口：`6379`
+> - 用户名：`default`
+> - 密码：粘贴 Upstash 数据库密码
+>
+> **填写完毕之后勾选 SSL不用填任何东西连接即可**
+
+![image-20260514110817593](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260514110817593.png)
