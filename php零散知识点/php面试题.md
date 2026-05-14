@@ -413,8 +413,6 @@ private function __construct(){}
 2. 单元测试不太好 mock
 3. 生命周期跟脚本一致，对象常驻内存不销毁
 
-
-
 ## PHP 的垃圾回收机制
 
 > PHP 使用引用计数 + 循环引用检测
