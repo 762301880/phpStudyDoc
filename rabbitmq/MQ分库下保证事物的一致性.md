@@ -8,12 +8,14 @@
 
 ### 二、完整流程
 
+####  架构一(不推荐)
+
 ```shell
 订单服务（订单库）
    ↓ 本地事务
 订单 + 消息表(message_log)
    ↓
-定时任务/投递器
+定时任务/投递器  # 不推荐此定时任务扫描 如果有三个库 订单库 库存库 支付库 三个定时任务就要三分钟
    ↓
 RabbitMQ
    ↓
@@ -23,6 +25,65 @@ RabbitMQ
    ↓
 失败重试 / 死信队列
 ```
+
+#### 架构库二(推荐)
+
+> 定时任务只是：“兜底机制” 不是主流程。
+
+```shell
+用户下单
+   ↓
+本地事务
+（扣余额 + 写消息表）
+   ↓
+事务提交成功
+   ↓
+立即发送RabbitMQ
+   ↓
+消费者实时处理
+```
+
+只有失败了：
+
+```shell
+MQ没发出去
+或者消费失败
+```
+
+才会：
+
+```shell
+定时任务补偿
+```
+
+**laravel示例**
+
+```php
+use Illuminate\Support\Facades\DB;
+
+DB::transaction(function () {
+
+    // 扣余额
+    DB::table('users')
+        ->where('id', 1)
+        ->decrement('money', 100);
+
+    // 保存消息
+    $messageId = DB::table('mq_messages')->insertGetId([
+        'type' => 'create_order',
+        'status' => 0
+    ]);
+
+    // 伪代码  事务提交后执行 这里建议直接用laravel异步队列
+    DB::afterCommit(function () use ($messageId) {
+        // 立即发送MQ
+        app('mq')->publish('create_order', [
+            'message_id' => $messageId
+        ]);
+    });
+});
+```
+});
 
 ## Laravel 落地实现
 
@@ -509,3 +570,41 @@ DB::transaction(function () {
 
 - 库存可能被扣两次
 - 余额被扣两次
+
+
+
+##  Saga 模式(失败补偿机制)
+
+### 场景定义
+
+1. **订单服务**：创建订单（步骤 A）
+2. **库存服务**：扣减库存（步骤 B）
+3. **支付服务**：扣减余额（步骤 C）
+4. **物流服务**：创建运单（步骤 D，假设此处失败）
+
+### 思想
+
+把事务拆成多个本地事务 + 补偿操作（Compensation）
+
+每一步都有：
+
+- 正向操作
+- 失败后的反向补偿操作
+
+### 流程 Saga 化
+
+#### 正向流程
+
+A → B → C → D
+
+#### 补偿流程（D失败）
+
+如果 D 失败：
+
+```php
+# 流程
+D失败 → 发事件 → C服务执行退款 → B服务恢复库存 → A服务取消订单
+```
+
+*
+
