@@ -597,3 +597,439 @@ echo $users[1]["age"];  // 输出：30
 | 关联数组 |   自定义字符串   |    键值对、配置信息     |
 | 多维数组 |     数组嵌套     | 复杂数据（列表 + 详情） |
 
+## laravel的生命周期
+
+在 Laravel 里，“生命周期（Lifecycle）”通常指：**一次 HTTP 请求从进入框架到返回响应，Laravel 内部经历了哪些阶段。**
+
+核心流程可以概括成：
+
+```php
+public/index.php
+    ↓
+Bootstrap（启动框架）
+    ↓
+Service Container（服务容器）
+    ↓
+Service Provider 注册/启动
+    ↓
+HTTP Kernel
+    ↓
+Middleware（中间件）
+    ↓
+Router（路由）
+    ↓
+Controller / Closure
+    ↓
+Response（响应）
+    ↓
+Terminate（结束阶段）
+```
+
+### 1. 请求入口：public/index.php
+
+所有请求先进入：
+
+```php
+public/index.php
+```
+
+核心代码：
+
+```php
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+)->send();
+
+$kernel->terminate($request, $response);
+```
+
+这里干了几件事：
+
+| 操作                | 作用                   |
+| ------------------- | ---------------------- |
+| bootstrap/app.php   | 创建 Laravel 应用实例  |
+| make(Kernel::class) | 从容器解析 HTTP Kernel |
+| handle()            | 开始处理请求           |
+| send()              | 返回响应               |
+| terminate()         | 执行结束逻辑           |
+
+### 2. 创建 Application 实例
+
+文件：
+
+```php
+bootstrap/app.php
+```
+
+核心：
+
+```php
+$app = new Illuminate\Foundation\Application(
+    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+);
+```
+
+这里创建了：
+
+Application
+
+本质：
+
+```php
+Laravel Application = 服务容器 + 框架核心
+```
+
+它继承：
+
+```php
+Illuminate\Container\Container
+```
+
+所以：
+
+Laravel 的核心其实是 IoC 容器
+
+### 3. 绑定核心接口
+
+接着：
+
+```php
+$app->singleton(
+    Illuminate\Contracts\Http\Kernel::class,
+    App\Http\Kernel::class
+);
+```
+
+绑定：
+
+| 接口              | 实现                   |
+| ----------------- | ---------------------- |
+| Http Kernel       | App\Http\Kernel        |
+| Console Kernel    | App\Console\Kernel     |
+| Exception Handler | App\Exceptions\Handler |
+
+之后：
+
+```php
+$app->make(...)
+```
+
+就能自动解析。
+
+### 4. Kernel 启动流程
+
+进入：
+
+```php
+App\Http\Kernel
+```
+
+继承：
+
+```php
+Illuminate\Foundation\Http\Kernel
+```
+
+调用：
+
+```php
+handle($request)
+```
+
+内部：
+
+```php
+sendRequestThroughRouter()
+```
+
+### 5. Bootstrap 阶段
+
+Laravel 会执行 bootstrap 数组：
+
+```php
+protected $bootstrappers = [
+    LoadEnvironmentVariables::class,
+    LoadConfiguration::class,
+    HandleExceptions::class,
+    RegisterFacades::class,
+    RegisterProviders::class,
+    BootProviders::class,
+];
+```
+
+#### 5.1 加载 .env
+
+```php
+APP_ENV=local
+DB_HOST=127.0.0.1
+```
+
+读取环境变量。
+
+#### 5.2 加载配置
+
+读取：
+
+```php
+config/*.php
+```
+
+生成配置仓库：
+
+```php
+config('app.name')
+```
+
+#### 5.3 异常处理注册
+
+注册：
+
+- error handler
+- exception handler
+- fatal error handler
+
+#### 5.4 注册 Facade
+
+例如：
+
+```php
+Cache::get()
+```
+
+本质：
+
+```php
+Facade -> Container -> Real Object
+```
+
+Facade 不是静态类。
+
+它是：
+
+静态代理
+
+#### 5.5 注册 Service Provider
+
+读取：
+
+```php
+config/app.php
+```
+
+中的：
+
+```php
+'providers' => [
+]
+```
+
+然后执行：
+
+```php
+register()
+```
+
+#### 5.6 Boot Service Provider
+
+执行：
+
+```php
+boot()
+```
+
+注意：
+
+| 方法     | 时机     |
+| -------- | -------- |
+| register | 注册绑定 |
+| boot     | 使用服务 |
+
+这是面试高频题。
+
+### 6. 服务容器解析（核心）
+
+Laravel 最核心部分：
+
+Service Container
+
+例如：
+
+```
+public function __construct(UserService $service)
+```
+
+Laravel 自动：
+
+- 反射
+- 创建对象
+- 注入依赖
+
+本质：
+
+```
+ReflectionClass
+```
+
+递归解析依赖树。
+
+### 7. Middleware 中间件阶段
+
+Kernel：
+
+```
+protected $middleware
+```
+
+全局中间件：
+
+例如：
+
+```
+TrimStrings
+ConvertEmptyStringsToNull
+StartSession
+VerifyCsrfToken
+```
+
+执行方式：
+
+```
+洋葱模型
+```
+
+即：
+
+```
+before
+    before
+        Controller
+    after
+after
+```
+
+类似：
+
+```
+next($request)
+```
+
+### 8. Router 路由分发
+
+Laravel 找匹配路由：
+
+```
+Route::get('/users', ...)
+```
+
+内部：
+
+```
+RouteCollection
+```
+
+匹配：
+
+- URI
+- Method
+- Domain
+- Middleware
+
+### 9. Controller 调用
+
+例如：
+
+```
+UserController@index
+```
+
+Laravel 会：
+
+#### 9.1 解析控制器
+
+通过容器：
+
+```
+$app->make(UserController::class)
+```
+
+#### 9.2 方法依赖注入
+
+例如：
+
+```
+public function index(Request $request)
+```
+
+自动注入 Request。
+
+### 10. 执行业务逻辑
+
+这里才是：
+
+- DB
+- Redis
+- MQ
+- Cache
+- Service
+
+真正业务代码。
+
+### 11. 返回 Response
+
+Laravel 支持：
+
+```
+return 'hello';
+return view(...);
+return response()->json(...);
+```
+
+最终统一转换：
+
+```
+Symfony Response
+```
+
+### 12. Response Send
+
+执行：
+
+```
+$response->send();
+```
+
+输出：
+
+- header
+- body
+- cookies
+
+### 13. terminate 阶段
+
+请求结束后：
+
+```
+$kernel->terminate()
+```
+
+执行：
+
+- terminate middleware
+- session 保存
+- 日志
+- queue after response
+
+例如：
+
+```
+dispatch(function () {
+    //
+})->afterResponse();
+```
+
+
+
