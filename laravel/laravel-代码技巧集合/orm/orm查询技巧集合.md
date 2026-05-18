@@ -4,6 +4,14 @@
 >
 > 先转化为unix时间戳然后加上需要什么时候查看的时间直接<=当前日期即可
 
+## 方案一 [when 语法](https://docs.golaravel.com/docs/5.4/queries)
+
+> 有时候，你希望某个值为 true 时才执行查询。
+>
+> 例如，如果在传入请求中存在指定的输入值的时候才执行这个 `where` 语句。你可以使用 `when` 方法实现：
+>
+> 只有当 `when` 方法的第一个参数为 `true` 时，闭包里的 `where` 语句才会执行。如果第一个参数是 `false`，这个闭包将不会被执行。
+
 ```shell
         $gainPrizeList = $this->gainPrizeList($request)
             ->when(!empty($request->input('date')) && $request->input('type') == PullNewGainPrizeModel::TYPE_FALSE, function ($query) {
