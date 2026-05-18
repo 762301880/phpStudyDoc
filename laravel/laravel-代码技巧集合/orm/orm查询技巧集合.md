@@ -32,12 +32,14 @@
 
 > 利用模型的访问器处理字段并添加到模型中
 
-[资料](https://learnku.com/docs/laravel/8.x/eloquent-mutators/9409#defining-an-accessor)
+## 访问器
 
-**代码示例**
+## [资料](https://learnku.com/docs/laravel/8.x/eloquent-mutators/9409#defining-an-accessor)
+
+## **代码示例**
 
 ```shell
-# 模型中添加访问器
+   # 模型中添加访问器
     protected $appends = ['sex_serialize_int']; # 将访问器添加的字段添加到查询的模型中
 
     public function getSexSerializeIntAttribute()
@@ -63,31 +65,7 @@ array:10 [▼
     "sex" => "男"
     "sex_serialize_int" => 1
   ]
-  1 => array:7 [▼
-    "id" => 2
-    "sname" => "何青"
-    "class_id" => 1
-    "birthday" => "1985-07-22 18:19:13"
-    "updated_at" => "2019-07-17T13:50:38.000000Z"
-    "sex" => "女"
-    "sex_serialize_int" => 2
-  ]
-  2 => array:7 [▶]
-  3 => array:7 [▶]
-  4 => array:7 [▶]
-  5 => array:7 [▶]
-  6 => array:7 [▶]
-  7 => array:7 [▶]
-  8 => array:7 [▶]
-  9 => array:7 [▼
-    "id" => 10
-    "sname" => "刘雷"
-    "class_id" => null
-    "birthday" => "1996-11-08 20:33:13"
-    "updated_at" => "2019-07-20T07:59:28.000000Z"
-    "sex" => null
-    "sex_serialize_int" => ""
-  ]
+ ..........
 ]
 ```
 
