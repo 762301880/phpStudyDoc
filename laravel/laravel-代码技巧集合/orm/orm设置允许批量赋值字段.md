@@ -39,6 +39,6 @@ $fillable = [
  *
  * @var array
  */
-protected $guarded = [];  # 这里设置的是不可以填充字段只要我们设置为空也就是说可以mo'ren
+protected $guarded = [];  # 这里设置的是不可以填充字段只要我们设置为空也就是说可以默认
 ```
 
