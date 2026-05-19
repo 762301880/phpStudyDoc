@@ -103,7 +103,9 @@ http://doc2.10ss.net/337744
     }
 ```
 
-## 铭感词库过滤(待补充)
+## 铭感词库过滤
+
+> 推荐[DFA算法](https://yaoliuyang.gitbook.io/phpstudy/php-ling-san-zhi-shi-dian/gao-ji-suan-fa)
 
 **资料**
 
