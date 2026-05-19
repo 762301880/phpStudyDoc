@@ -2,13 +2,27 @@
 
  
 
-## 得到字符串的个数
+## 得到字符串的个数mb函数
 
+> mb = Multi-Byte（多字节）
+>
+> 一、含义
+>
+> - **mb_strlen**：Multi-Byte String Length → **多字节字符串长度**
+> - 对应的 PHP 扩展叫 **mbstring**，专门处理**中文、日文、韩文**等非 ASCII 字符。
+>
+> 二、和 strlen 的区别（最关键）
+>
+> - strlen：按字节算
+>   - `strlen("你好")` → **6**（UTF-8 每个汉字 3 字节）
+> - mb_strlen：按字符算
+>   - `mb_strlen("你好", "UTF-8")` → **2**（2 个汉字）
+>
 > 举个栗子： 如果我们想得到 `我爱你`这三个字的个数
 
 ```php
-   mb_strlen() 函数
-    使用
+       mb_strlen(); #函数
+       #使用
        $text="我爱你";
        $text=mb_strlen($text);
        var_dump($text);
