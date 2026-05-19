@@ -147,3 +147,55 @@ git config --global core.excludesfile ~/.gitignore_global
   git push mirror main
 ```
 
+#  补充
+
+## .gitignore 为什么会被识别
+
+**Git 软件本身就认识这个文件名** ——
+
+它是 Git 的**内置规则文件**，只要你在项目根目录放一个名字叫 **`.gitignore`** 的文件，Git 会**自动读取它、自动生效**，不需要你配置任何东西。
+
+**它到底是怎么工作的？**
+
+超级简单流程：
+
+1. 你创建文件 → `.gitignore`
+
+2. 里面写要忽略的文件夹，比如：
+
+   ```
+   .idea
+   vendor
+   storage/logs
+   ```
+
+   
+
+3. 当你执行 `git add .` 时
+
+4. Git 会**先读 .gitignore**
+
+5. 自动跳过里面写的所有文件 / 文件夹
+
+6. 不会把它们提交到仓库
+
+### **子目录下存放**``.gitignore``
+
+**子目录的 .gitignore 只对当前目录及子目录生效，不会往上影响父级！**
+
+
+
+```bash
+你的项目/
+├── .gitignore       【根目录：管整个项目】
+├── app/
+├── bootstrap/
+├── config/
+├── public/
+├── routes/
+├── vendor/          👈 由根目录 .gitignore 忽略
+├── .env             👈 由根目录 .gitignore 忽略
+└── backend/         👈 这是一个子目录（比如放另一个 Laravel）
+    └── .gitignore   👈 这个只会管 backend/ 里面
+```
+
