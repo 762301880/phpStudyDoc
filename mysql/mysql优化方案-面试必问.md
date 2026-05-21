@@ -648,3 +648,150 @@ public function handle($msg)
 Order::where('id', $msg->order_id)->update(['status' => 'success']);
 ```
 
+## 什么是mysql长事务
+
+###  一、什么是 MySQL 长事务？
+
+**长事务 = 执行时间特别长的数据库事务**
+
+标准定义：
+
+- 事务开启后，**长时间不提交（commit）** 或 **不回滚（rollback）**
+- 持有锁、占用连接、阻塞其他操作
+- 一般 **超过 1~5 秒** 就算长事务（生产环境更严格）
+
+简单比喻：
+
+你去银行办业务，**取了号（开启事务）→ 一直不办业务、也不走** → 后面所有人都堵死。
+
+### 二、长事务有什么危害？（非常重要）
+
+1. **导致数据库锁等待、死锁**
+2. **大量请求阻塞，接口超时**
+3. **undo log 膨胀**（MySQL 事务日志暴增）
+4. **主从延迟变大**
+5. **数据库连接被占满，服务雪崩**
+
+很多 Laravel 项目线上卡顿、504 超时，都是长事务搞的鬼。
+
+### 三、Laravel 里怎么产生长事务？
+
+Laravel 事务写法主要两种：
+
+```php
+// 写法1：闭包自动提交/回滚
+DB::transaction(function () {
+    // 逻辑
+});
+
+// 写法2：手动开启、提交、回滚
+DB::beginTransaction();
+try {
+    // 逻辑
+    DB::commit();
+} catch (\Exception $e) {
+    DB::rollBack();
+}
+```
+
+### 最容易产生长事务的 4 种场景
+
+**事务里写了慢查询**
+
+```php
+DB::transaction(function () {
+    User::where('age', '>', 100)->get(); // 慢查询，几十毫秒甚至几秒
+    // 事务一直不结束
+});
+```
+
+**事务里处理大文件、循环、批量数据**
+
+```php
+DB::beginTransaction();
+foreach ($bigData as $item) { // 循环 1000 次，耗时很久
+    // ...
+}
+DB::commit();
+```
+
+**忘记提交 / 回滚（代码 bug）**
+
+事务开启后，异常没捕获，一直挂着。
+
+### 四、Laravel 中如何避免长事务？（实战规则）
+
+### 规则 1：**事务里只放数据库操作，不放任何外部 IO**
+
+❌ 错误
+
+```php
+DB::transaction(function () {
+    $this->callThirdPartyApi(); // HTTP请求
+    $this->writeLogToFile();    // 文件IO
+    User::create(...);
+});
+```
+
+✅ 正确
+
+```php
+// 先做外部操作
+$this->callThirdPartyApi();
+$this->writeLogToFile();
+
+// 再开事务，只写DB操作
+DB::transaction(function () {
+    User::create(...);
+    Order::create(...);
+});
+```
+
+### 规则 2：**事务代码越短越好，越快提交越好**
+
+事务的黄金原则：
+
+**最小逻辑、最短时间、立即提交**
+
+### 规则 3：**批量操作不要放在一个事务里**
+
+循环几千条数据，不要放一个事务。
+
+规则 4：**优先用闭包自动事务**
+
+```php
+DB::transaction(function () {
+    // 自动提交/回滚，不容易漏写
+});
+```
+
+### 五、如何查看 MySQL 里有没有长事务？
+
+执行 SQL：
+
+```php
+SELECT * FROM information_schema.innodb_trx 
+WHERE TIME_TO_SEC(TIMEDIFF(NOW(), trx_started)) > 1;
+```
+
+能看到：
+
+- 事务开启时间
+- 执行了多久
+- 事务 SQL
+- 持有锁情况
+
+### 六、一句话总结（最关键）
+
+**Laravel 里的长事务，90% 都是因为在事务里写了 HTTP 请求、慢查询、大循环。**
+
+只要记住：
+
+**事务只做数据库操作，外部操作全部放到事务外面！**
+
+### 总结
+
+1. **长事务**：开启后长时间不提交的事务
+2. **危害**：锁等待、阻塞、超时、数据库雪崩
+3. **Laravel 坑点**：事务里写 HTTP、文件、慢查询
+4. **解决方案**：事务只放 DB 操作，外部操作放外面，代码越短越好
