@@ -67,7 +67,7 @@
 
 
 
-# tymon/jwt-auth
+# tymon/jwt-auth(不推荐不好用)
 
 | name                      | url                                                          |
 | ------------------------- | ------------------------------------------------------------ |
@@ -223,7 +223,7 @@ http://example.dev/me?token=eyJhbGciOiJIUzI1NiI...
 
 ## 代码中使用详解
 
->创建登录路由
+### 登录接口(不推荐)
 
 ```shell
 # 创建登录路由
@@ -263,7 +263,49 @@ Route::any('login',[\App\Http\Controllers\AuthUserController::class,'login']);
    }
 ```
 
-- 获取已经登录的用户
+####  自定义封装返回token(推荐)
+
+```php
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
+// 接收参数
+$account = request('account');
+$password = request('password');
+
+// 1. 查用户
+$user = User::where('account', $account)->first();
+
+// 2. 验证用户 + 密码（必须是 bcrypt 加密）
+if (!$user || !Hash::check($password, $user->password)) {
+    return response()->json([
+        'status' => 'error',
+        'message' => '账号或密码错误'
+    ], 401);
+}
+
+// 3. ✅ 重点：自己自定义 payload，想加什么加什么！
+$customPayload = [
+    'sub' => $user->id,            // 固定用户ID
+    'account' => $user->account,   // 你想加的字段
+    'role' => 'admin',             // 随便加
+    'appid' => 'com.demo.app',     // 随便加
+    'scene' => 'backend',          // 随便加
+];
+
+// 4. 手动生成 Token（携带自定义数据）
+$token = JWTAuth::claims($customPayload)->fromUser($user);
+// 5. 返回
+return response()->json([
+    'status' => 'success',
+    'token' => $token,
+]);
+```
+
+
+
+### 获取已经登录的用户
 
 ```shell
 use Tymon\JWTAuth\Facades\JWTAuth
@@ -334,6 +376,23 @@ auth()->user();
 Auth('admin')->attempt($request->all()); # 采用Auth的attempt验证 密码一定要bcrypt()函数加密
 
 auth('admin')->user(); # 获取用户信息
+```
+
+## 自定义中间件解析
+
+```php
+use Tymon\JWTAuth\Facades\JWTAuth;
+
+// 解析你的 Token（自动从 header 里取）
+$payload = JWTAuth::parseToken()->getPayload();
+
+// 转成数组
+$data = $payload->toArray();
+
+// 单独取值（最常用）
+$userId = $payload->get('sub'); // 
+$request->user_id=$userId;  # 注意这里不要在控制器中__construct 去构建 因为 __construct 比 中间件先执行
+$expire = $payload->get('exp'); // 过期时间
 ```
 
 ## bug解析
