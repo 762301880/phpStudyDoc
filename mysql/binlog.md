@@ -247,9 +247,8 @@ mysql> show variables like 'log_bin_basename';
 
 ### 导出指定时间删除的sql
 
-> 导出到本地
+> 导出到本地 **这里导出的是解析二进制的信息**  **cmd执行**
 
 ```mysql
 mysqlbinlog --no-defaults -vv --start-datetime="2026-05-22 17:00:00" --stop-datetime="2026-05-22 18:55:00" .\binlog.000082 > recovery.sql
 ```
-
