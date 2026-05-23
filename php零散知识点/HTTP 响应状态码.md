@@ -177,3 +177,14 @@ echo JsonResponse::error(ResponseCode::BAD_REQUEST, '参数缺失');
 }
 ```
 
+# 常用状态码 
+
+```php
+#HTTP	含义
+200	请求成功（无论业务成功失败）
+400	参数错误
+401	未登录
+403	无权限
+500	服务异常
+```
+
