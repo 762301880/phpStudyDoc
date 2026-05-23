@@ -588,3 +588,95 @@ public function test(Request $request)
 }
 ```
 
+# 数据写入redis模仿并发
+
+```php
+    public function test(Request $request)
+    {
+        $redis = RedisService::getInstance()->client();
+
+        $stockKey = 'num';
+        $userLogKey = 'num_user';
+        $initValue = 100;
+
+        /**
+         * 1. 初始化（仅用于测试环境）
+         */
+        if (!$redis->exists($stockKey)) {
+            echo "初始化\n";
+            $redis->set($stockKey, $initValue);
+        }
+
+        /**
+         * 2. 读取当前库存
+         */
+        $currentStock = (int)$redis->get($stockKey);
+
+        /**
+         * 3. 模拟并发窗口（仅测试用）
+         */
+        sleep(2);
+
+        /**
+         * 4. 业务判断与处理
+         */
+        if ($currentStock > 0) {
+            $newStock = $currentStock - 1;
+
+            echo "扣减后库存: {$newStock}\n";
+
+            $redis->set($stockKey, $newStock);
+            $redis->rPush($userLogKey, $newStock);
+        }
+
+    }
+```
+
+**插入效果**
+
+```php
+99
+99
+99
+98
+98
+...    
+```
+
+## 疑问 为什么插入数据不能保证原子性
+
+### 核心结论：Redis 是单线程，但**你的业务代码不是原子操作**，并发下依然会超卖
+
+你说得对：**Redis 本身是单线程执行命令**，但这**不代表**你的这段代码在并发下就安全！
+
+问题出在：**你的库存扣减逻辑，不是 Redis 的原子命令**，而是**多步 Redis 操作 + PHP 代码逻辑**，中间存在**并发竞争间隙**。
+
+### 为什么会并发超卖？
+
+代码执行流程是 **3 步分离操作**，不是一步完成：
+
+1. `GET num` （读取库存）
+2. PHP 里计算 `$currentStock - 1` （业务逻辑）
+3. `SET num 新值` （写回库存）
+
+### 并发场景下的灾难（2 个请求同时进来）
+
+```
+请求A：GET num → 拿到 100
+请求B：GET num → 也拿到 100 （关键！此时A还没写回）
+请求A：计算 99，SET num=99
+请求B：计算 99，SET num=99 （覆盖了A的结果！）
+```
+
+ 结果：**库存只扣了 1 次，但两个请求都成功了**，这就是超卖。
+
+### 根本原因
+
+Redis 单线程 = **Redis 命令是排队执行的**
+
+但 **你的代码不是一个 Redis 命令**，是 **读 → 算 → 写** 三个独立操作，中间可以被其他请求插入
+
+
+
+
+
