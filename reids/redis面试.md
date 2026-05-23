@@ -1,3 +1,7 @@
+##  参考资料
+
+> https://lansongxx.github.io/MyStudyNote/handbook/Redis.html
+
 # Redis 原子性如何保持
 
 ## 什么是原子性
