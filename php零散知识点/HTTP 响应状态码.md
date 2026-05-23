@@ -1,8 +1,9 @@
 #  资料
 
-| 名称           | 资料                                                         |
-| -------------- | ------------------------------------------------------------ |
-| 状态码使用网站 | [link](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status)   [link](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml) |
+| 名称               | 资料                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| 状态码使用网站     | [link](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status)   [link](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml) |
+| 菜鸟教程http状态码 | [link]()                                                     |
 
 
 
@@ -188,7 +189,13 @@ echo JsonResponse::error(ResponseCode::BAD_REQUEST, '参数缺失');
 500	服务异常
 ```
 
+
+
 #  laravel统一封装成功失败返回
+
+> 大厂通常都用 **0** 当返回成功 参考小红书
+>
+> 自定义失败从 code**1000** 开始
 
 ```php
 <?php
