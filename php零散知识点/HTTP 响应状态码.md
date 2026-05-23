@@ -197,6 +197,14 @@ echo JsonResponse::error(ResponseCode::BAD_REQUEST, '参数缺失');
 >
 > 自定义失败从 code**1000** 开始
 
+1. **成功**：`code: 0`，HTTP 200
+2. **业务错误**：`code: 1000+`，HTTP 400
+3. **未登录**：`code: 1001`，HTTP 401
+4. **无权限**：`code: 1003`，HTTP 403
+5. **服务器错误**：`code: 9999`，HTTP 500（系统自动抛出）
+
+**示例代码**
+
 ```php
 <?php
 
