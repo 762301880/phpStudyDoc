@@ -10,12 +10,12 @@
 > 控制器中使用
 
 ```php
-        use GuzzleHttp\Client;
+ use GuzzleHttp\Client;
 
-        $client = new Client(['verify' => false]);
-        $res = $client->request('GET', 'https://www.zhipin.com/wapi/zpCommon/data/oldindustry.json');
-        $data=json_decode($res->getBody(),true);
-        return response()->json($data);
+ $client = new Client(['verify' => false]);
+ $res = $client->request('GET', 'https://www.zhipin.com/wapi/zpCommon/data/oldindustry.json');
+ $data=json_decode($res->getBody(),true);
+ return response()->json($data);
 ```
 
 # HTTP客户端

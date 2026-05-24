@@ -1,10 +1,8 @@
-
-
-# 说明
+## 说明
 
 > 本接口采用的是[smms](https://sm.ms/)提供的图床接口
 
-
+## 代码示例
 
 ```shell
 <?php
@@ -18,7 +16,7 @@ class UploadImageController extends Controller
     public function upload(Request $request)
     {
         $file = $request->file('image');
-        if ($file == null) {
+        if (empty($file)) {
             return response()->json(['code' => '501', 'message' => '文件不存在']);
         }
         $file_name = uniqid() . $request->file('image')->getClientOriginalName();//设置唯一的上传图片

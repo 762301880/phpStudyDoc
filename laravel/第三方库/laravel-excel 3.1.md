@@ -16,7 +16,7 @@
 
 ## composer[安装](https://docs.laravel-excel.com/3.1/getting-started/installation.html)
 
-```shell
+```php
 composer require maatwebsite/excel
 ```
 
@@ -25,7 +25,7 @@ composer require maatwebsite/excel
 - laravel<5.6以下需要手动注册
 - 打开config/app.php,以下位置添加ServiceProvider
 
-```shell
+```php
 'providers' => [
     /*
      * Package Service Providers...
@@ -39,7 +39,7 @@ composer require maatwebsite/excel
 - laravel<5.6以下需要手动注册
 - 打开config/app.php,以下位置添加aliases
 
-```shell
+```php
 'aliases' => [
     ...
     'Excel' => Maatwebsite\Excel\Facades\Excel::class,
@@ -50,7 +50,7 @@ composer require maatwebsite/excel
 
 - 在根目录下运行以下命令，会在config目录下生成config/excel.php配置文件
 
-```shell
+```php
 php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider" --tag=config
 ```
 
@@ -279,13 +279,13 @@ private function ExcelToTime(int $date)
 ```shell
  foreach ($collection as $row) {
             PullNewGainPrize::create([
-                'date' => $row[0],//用户昵称
-                'mobile' => (string)$row[1],//用户账号
-                'nickname' => $row[2],//用户昵称
-                'prize_name' => $row[3],//奖品名称
+                'date' => $row[0]??"",//用户昵称
+                'mobile' => (string)$row[1]??"",//用户账号
+                'nickname' => $row[2]??"",//用户昵称
+                'prize_name' => $row[3]??"",//奖品名称
                 'pull_new_prize_id' => PullNewPrize::where('prize_name', $row[3])->first()->id ?? "",
                 'type' => PullNewGainPrize::TYPE_FALSE,//后台excel导入的假数据
-                'headimgurl' => getRandomHeadPortrait() //虚假头像
+                'headimgurl' => getRandomHeadPortrait()??"" //虚假头像
             ]);
         }
 ```

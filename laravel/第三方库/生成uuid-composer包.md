@@ -13,8 +13,6 @@
 | ramsey/uuid   官方文档 | [packagist ](https://packagist.org/packages/ramsey/uuid)    [官方文档](https://uuid.ramsey.dev/en/stable/introduction.html#what-is-a-uuid) |
 | uuid-百度百科介绍      | [link](https://baike.baidu.com/item/UUID/5921266?fr=aladdin) |
 
-> 既然有轮子我们就不需要自己造了
-
 # 使用
 
 ## 安装
