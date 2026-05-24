@@ -63,7 +63,20 @@
 
 
 
-# tymon/jwt-auth(不推荐不好用)
+# tymon/jwt-auth(超级不推荐不好用)
+
+##  注意
+
+> laravel8只能用1.0版本  算了吧 垃圾的很  很多东西都限制死了  比如不能生成双token 自定义效果太差 所以不推荐
+>
+> 删除垃圾 
+>
+> ```php
+> composer remove tymon/jwt-auth  # 删除包
+> rm config/jwt.php  # 删除配置    
+> ```
+>
+> 
 
 | name                      | url                                                          |
 | ------------------------- | ------------------------------------------------------------ |
@@ -377,18 +390,49 @@ auth('admin')->user(); # 获取用户信息
 ## 自定义中间件解析
 
 ```php
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Enums\HttpCodeEnum;
+use App\Models\User;
+use App\Traits\ApplyResponseLayout;
+use Closure;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-// 解析你的 Token（自动从 header 里取）
-$payload = JWTAuth::parseToken()->getPayload();
+class AuthCheck
+{
+    use ApplyResponseLayout;
 
-// 转成数组
-$data = $payload->toArray();
+    /**
+     * Handle an incoming request.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        try {
+            $authHeader = $request->header('Authorization');
+            if (empty($authHeader) || $authHeader === 'Bearer null') return $this->error('token不存在');
+            $payload = JWTAuth::parseToken()->getPayload();
+            $userId = $payload->get('sub');
+            $user = User::find($userId);
+            $request->user = $user;
+            $request->user_id = $userId;
+        } catch (TokenExpiredException $exception) {
+            //tymon/jwt-auth过期会直接抛出异常
+            return $this->error('token已过期', HttpCodeEnum::UNAUTHORIZED);
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage());
+        }
+        return $next($request);
+    }
+}
 
-// 单独取值（最常用）
-$userId = $payload->get('sub'); // 
-$request->user_id=$userId;  # 注意这里不要在控制器中__construct 去构建 因为 __construct 比 中间件先执行
-$expire = $payload->get('exp'); // 过期时间
 ```
 
 ## bug解析
@@ -585,16 +629,20 @@ $expire = $payload->get('exp'); // 过期时间
 
    只要你的 token 过期时间设置合理（1 天～7 天）。
 
+
+
+---
+
 # [firebase/](http://packagist.p2hp.com/packages/firebase/)php-jwt(推荐使用)
 
 > 毕竟jwt官网排行第一的包所以推荐使用
 
 **资料**
 
-| 名称                                                         | 地址                                                        |
-| ------------------------------------------------------------ | ----------------------------------------------------------- |
-| [firebase/](http://packagist.p2hp.com/packages/firebase/)php-jwt | [link](http://packagist.p2hp.com/packages/firebase/php-jwt) |
-| 第三方博客参考                                               | [link ](https://www.cnblogs.com/mg007/p/11293939.html)      |
+| 名称                                                         | 地址                                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------- |
+| [firebase/](http://packagist.p2hp.com/packages/firebase/)php-jwt | [link](https://packagist.org/packages/firebase/php-jwt) |
+| 第三方博客参考                                               | [link ](https://www.cnblogs.com/mg007/p/11293939.html)  |
 
 ## 安装
 
@@ -620,45 +668,214 @@ composer require firebase/php-jwt
 >
 > `jti` JWT唯一标识. 能用于防止 JWT重复使用，一次只用一个token；如果签发的时候这个claim的值是“1”，验证的时候如果这个claim的值不是“1”就属于验证失败(JWT IDJWT提供了惟一的标识符，如果应用程序使用多个发行者，必须在值之间避免冲突，由不同的发行商制作。)
 
-```php
-use Illuminate\Http\Request;
-use Firebase\JWT\JWT;
-Public function authLogin(Request $request){
-      // 用户登录逻辑-请自己补充
-        $user = Admin::first();
-        $userId = $user->admin_id;
-        $modelName = $user->getTable();
-        $jwt = $this->getResponseJwtEncode($userId, $modelName);
-        return response()->json(['code' => '2000', 'msg' => 'success', 'data' => $jwt]);
-}
+###  service层
 
- /**
-     * 返回jwt 加密信息
-     * $data 需要传递的数据
-     * @param integer $id 用户主键
-     * @param string $modelName 模型名称
+```php
+<?php
+
+namespace App\Services;
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Firebase\JWT\ExpiredException;
+use Firebase\JWT\SignatureInvalidException;
+
+class JwtService
+{
+    protected $key = 'yaoliuyang'; // 密钥
+
+    // access_token 有效期 15分钟
+   // protected $access_ttl = 15 * 60;
+    protected $access_ttl = 2 * 60;//测试环境两分钟过期
+    // refresh_token 有效期 7天
+    protected $refresh_ttl = 7 * 24 * 60 * 60;
+
+    /**
+     * 登录生成：双token
      */
-    public function getResponseJwtEncode(int $id, string $modelName)
+    public function createTokens(int $id, string $modelName = 'user')
     {
-        $key = "example_key"; # 密钥可以自定义
-        $time = time();
-        $payload = array(
-            "iss" => "http://example.org", # 可以指定程序的域名
-            "aud" => "http://example.com",
-            "iat" => $time, # 程序的发布时间
-            "nbf" => $time, # token生效时间
-            "exp" => $time + 7200, # 过期时间两小时
-            'id' => $id,
-            'model_name' => $modelName
-        );
-        /*
-         * alg 签名算法 HS256
-         */
-        $jwt = JWT::encode($payload, $key, 'HS256');
-        return $jwt;
+        return [
+            'access_token' => $this->encode($id, $modelName, $this->access_ttl, 'access'),
+            'refresh_token' => $this->encode($id, $modelName, $this->refresh_ttl, 'refresh'),
+            'token_type' => 'Bearer',
+            'access_expires_in' => $this->access_ttl,
+            'refresh_expires_in' => $this->refresh_ttl,
+        ];
     }
 
+    /**
+     * 刷新 access_token (核心！)
+     * 前端传 refresh_token 过来，直接调用这个
+     */
+    public function refreshAccessToken(string $refresh_token)
+    {
+        try {
+            // 1. 解密
+            $decoded = $this->decode($refresh_token);
+        } catch (ExpiredException $e) {
+            throw new \Exception('刷新令牌已过期，请重新登录');
+        } catch (SignatureInvalidException $e) {
+            throw new \Exception('刷新令牌无效');
+        } catch (\Exception $e) {
+            throw new \Exception('刷新令牌解析失败');
+        }
+
+        // 2. 必须验证是 refresh_token
+        if ($decoded->type !== 'refresh') {
+            throw new \Exception('不是有效的刷新令牌');
+        }
+
+        // 3. 生成新的 access_token
+        $new_access = $this->encode(
+            $decoded->id,
+            $decoded->model_name,
+            $this->access_ttl,
+            'access'
+        );
+
+        return [
+            'access_token' => $new_access,
+            'token_type' => 'Bearer',
+            'expires_in' => $this->access_ttl,
+        ];
+    }
+
+    /**
+     * 统一生成 token
+     */
+    protected function encode(int $id, string $modelName, int $ttl, string $type)
+    {
+        $time = time();
+        $payload = [
+            'iss' => 'http://api.com',
+            'iat' => $time,
+            'nbf' => $time,
+            'exp' => $time + $ttl,
+            'id' => $id,
+            'model_name' => $modelName,
+            'type' => $type,
+        ];
+
+        return JWT::encode($payload, $this->key, 'HS256');
+    }
+
+    /**
+     * 解密 token
+     * 删除br开头垃圾前缀  $token = str_replace('Bearer ', '', $authHeader);
+    */
+    public function decode(string $token)
+    {
+        return JWT::decode($token, new Key($this->key, 'HS256'));
+    }
+}
 ```
+
+### 中间件层鉴权
+
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Enums\HttpCodeEnum;
+use App\Models\User;
+use App\Services\JwtService;
+use App\Traits\ApplyResponseLayout;
+use Closure;
+use Firebase\JWT\ExpiredException;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
+class AuthCheck
+{
+    use ApplyResponseLayout;
+
+    /**
+     * Handle an incoming request.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        try {
+            $authHeader = $request->header('Authorization');
+            if (empty($authHeader) || $authHeader === 'Bearer null') return $this->error('token不存在');
+            $token = str_replace('Bearer ', '', $authHeader);
+            $payload = (new JwtService())->decode($token);
+            if (empty($payload)) return $this->error('解析错误用户数据不存在');
+            $user_id = $payload->id ?? "";
+            $request->user_id = $user_id;
+        } catch (ExpiredException $exception) {
+            //tymon/jwt-auth过期会直接抛出异常
+            return $this->error('access_token已过期', HttpCodeEnum::UNAUTHORIZED);
+        } catch (\Exception $exception) {
+            return $this->error($exception->getMessage());
+        }
+        return $next($request);
+    }
+}
+```
+
+### 控制器层
+
+```php
+public function login(Request $request)
+    {
+        try {
+            $account = $request->account ?? "";
+            $password = $request->password ?? "";
+            if (empty($account)) return $this->error('账户不能为空');
+            if (empty($password)) return $this->error('密码不能为空');
+            $user = User::where('account', $account)->first();
+
+            if (empty($user) || !Hash::check($password, $user->password)) {
+                return $this->error('账号或密码错误', '', HttpCodeEnum::UNAUTHORIZED);
+            }
+
+            # 修改用户状态为在线状态
+            $uid = $user->id;
+            UserController::updateOnline($uid);
+
+
+            $res = (new JwtService())->createTokens($user->id, 'users');
+
+            return $this->success('登陆成功', $res);
+
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+
+
+    # 刷新token
+    public function refresh(Request $request)
+    {
+        try {
+
+            $refresh_token = $request->refresh_token ?? "";
+            if (empty($refresh_token)) return $this->error('刷新token未传递');
+            $newTokenArr = (new JwtService())->refreshAccessToken($refresh_token);
+            return $this->success('刷新成功', $newTokenArr);
+
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+```
+
+
+
+
+
+
+
+---
+
+
 
 # 拓展
 
