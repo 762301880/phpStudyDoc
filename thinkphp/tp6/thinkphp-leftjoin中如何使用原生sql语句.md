@@ -1,14 +1,29 @@
-# 说明
+## 说明
 
 >今天写项目的时候因为一个bug烦恼了一天，因为thinkphp就是无法打印sql语句让我
 >
 >很是头痛看不见怎么执行语句
 
+## 可以用buildSql语句直接把orm转化为原生sql
+
+[官方文档](https://doc.thinkphp.cn/v5_1/query/zichaxun.html)
+
+[备份文档](https://www.kancloud.cn/manual/thinkphp5_1/354032)
+
+### 逻辑示例
+
+> 下面给的示例不会写原生可以把sql构造为子查询原生sql
+
+```php
+$subQuery = Db::table('think_user')
+    ->field('id,name')
+    ->where('id', '>', 10)
+    ->fetchSql(true)
+    ->select();
+# SELECT `id`,`name` FROM `think_user` WHERE `id` > 10 
+```
 
 
-
-
-# 逻辑示例
 
 ## 对应使用的数据表
 
