@@ -2,9 +2,9 @@
 
 ***created_at:***2021/08/13/14:49
 
-# 资料&说明
+## 资料&说明
 
-## 说明
+### 说明
 
 >好久没有接触thinkphp相关的项目了，这一期有一个关于后天的基于thinkphp6.0进行二开,
 >
@@ -14,16 +14,15 @@
 >
 >他的套路走
 
-## 资料
+### 资料
 
-| name                | url                                                        |
-| ------------------- | ---------------------------------------------------------- |
-| thinkphp6.0开发手册 | [link](https://www.kancloud.cn/manual/thinkphp6_0/content) |
-|                     |                                                            |
+| name                | url                                               |
+| ------------------- | ------------------------------------------------- |
+| thinkphp6.0开发手册 | [link](https://doc.thinkphp.cn/v6_1/default.html) |
 
-# 使用示例
+## 代码示例
 
-##  通过调用控制器的方式访问
+### 通过调用控制器的方式访问
 
 - 创建控制器命令
 
@@ -71,9 +70,7 @@ class Test
 
 <img src="https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/tjpXcEIe5lTZxd9.png" alt="1628845646(1).jpg" style="zoom:50%;" />
 
-
-
-## 通过路由的方式访问方法
+### 通过路由的方式访问方法
 
 - 在项目的route\app.php中定义
 
