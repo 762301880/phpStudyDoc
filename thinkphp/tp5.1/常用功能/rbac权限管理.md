@@ -40,6 +40,7 @@ CREATE TABLE `user` (
   `header_img` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '头像',
   `account` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '账户 可以是英文字符或手机号',
   `password` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '密码',
+  `ip` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '登录ip',  
   `last_login_time` varchar(255) CHARACTER SET utf8 DEFAULT NULL COMMENT '最后登录时间',
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
