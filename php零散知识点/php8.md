@@ -85,3 +85,48 @@ extension=fileinfo
 extension=zip
 ```
 
+#  一些扩展丢失安装
+
+## php_redis
+
+### 下载对应版本的 `php_redis.dll`
+
+直接去 pecl 找：
+
+[https://pecl.php.net/package/redis](https://link.wtturl.cn/?target=https%3A%2F%2Fpecl.php.net%2Fpackage%2Fredis&scene=im&aid=497858&lang=zh)
+
+选一个 **稳定版**（例如 `6.0.2`），点 `Windows downloads`
+
+然后下载对应你的：
+
+- `php_redis-6.0.2-8.2-nts-vs16-x64.zip` （示例，按你实际版本选）
+
+解压得到：
+
+- `php_redis.dll`
+- `php_redis.pdb`（可不要）
+
+### 放到 PHP 的 `ext` 目录
+
+你的路径类似：
+
+```
+D:\phpstudy_pro\Extensions\php\php8.2.9nts\ext
+```
+
+把 `php_redis.dll` 丢进去。
+
+### 改 `php.ini` 开启扩展
+
+在 phpstudy 里：
+
+- 左侧「环境」→ 选中你的 **PHP8** → 点「配置」→ 选 `php.ini`
+
+在最后加两行：
+
+```
+extension=php_redis.dll
+```
+
+### 重启 PHP / Nginx/Apache
+

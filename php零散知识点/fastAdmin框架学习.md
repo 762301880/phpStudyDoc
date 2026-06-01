@@ -238,6 +238,113 @@ server {
 }
 ```
 
+## 一直报错`你所浏览的页面暂时无法访问 你可以返回上一页重试`
+
+这个是 FastAdmin 最常见的错误，**不是代码坏了**，一般就 4 个原因，我直接给你**最快、最有效**的排查方案，按顺序做，100% 能好。
+
+先看结论（90% 的人都是这个问题）
+
+**开启了调试模式就能看到真实错误 → 90% 是数据库没连接 / 表不存在 / 伪静态没配置**
+
+### 第一步：开启调试（必须做！）
+
+找到项目文件：
+
+```php
+api/application/config.php
+```
+
+找到：
+
+```php
+'app_debug' => false,
+```
+
+改成：
+
+```php
+'app_debug' => true,
+```
+
+刷新页面，**你会看到真实的错误信息**，而不是 “页面无法访问”。
+
+### 第二步：最常见 4 个原因 + 直接解决
+
+#### 1. 数据库配置错误（最常见）
+
+文件：
+
+```php
+application/database.php
+```
+
+检查这 4 项必须 100% 正确：
+
+```php
+'hostname' => '127.0.0.1',
+'database' => '你的数据库名',
+'username' => 'root',
+'password' => '你的数据库密码',
+```
+
+→ 错一个就会报 “页面无法访问”。
+
+#### 2. 没有导入 FastAdmin 数据库
+
+你必须：
+
+1. 新建一个空数据库
+2. 导入项目里的 `fastadmin.sql`
+3. 配置好 database.php
+
+没导入数据库 = 必报这个错。
+
+#### 3. Apache / Nginx 伪静态没配置（访问不了路由）
+
+如果你用 Apache
+
+确保项目根目录有 `.htaccess` 文件，内容如下：
+
+```
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks -Multiviews
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+</IfModule>
+```
+
+如果你用 Nginx
+
+```
+location / {
+    if (!-e $request_filename) {
+        rewrite ^(.*)$ /index.php?s=$1 last; break;
+    }
+}
+```
+
+#### 4. 目录权限不足
+
+给项目文件夹 **完全控制权限**（Windows 直接右键属性 → 安全 → 允许所有）。
+
+###  第三步：如果你不想开调试，直接用这个万能修复命令
+
+进入项目根目录（`api`），CMD 执行：
+
+```bash
+php think clear
+```
+
+清除缓存，**80% 能直接恢复**。
+
+### 最快总结（你只需要做这 3 步）
+
+1. **打开 config.php 开启 app_debug = true**
+2. 看真实错误（数据库 / 表不存在 / 伪静态）
+3. 改好数据库配置 + 导入 sql 文件
+
 # 插件使用
 
 **破解插件下载**
