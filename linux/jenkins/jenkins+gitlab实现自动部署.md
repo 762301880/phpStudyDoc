@@ -36,10 +36,10 @@
 > 这里我找了个可以用的版本因为2.60.3 版本的死活缺少插件装了也没有，最新版本的安装gitlab 扩展提示jdk版本过高不支持
 
 ```shell
-# 指定jdkb
+# 指定jdkb 版本(老版本不推荐)
 docker pull jenkins/jenkins:latest-jdk8 
 
-# 安装最新版本
+# 安装最新版本(推荐)
 docker pull jenkins/jenkins:latest
 ```
 
@@ -341,7 +341,7 @@ git clean -f
 cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git stash clear       
 ```
 
-## Hook 成功执行但返回 HTTP 403 <html> <head> <meta http-equiv="Content-Type" 
+## 配置webHook 成功执行但返回 HTTP 403 <html> <head> <meta http-equiv="Content-Type" 
 
 > jenkins配置完毕但是再怎么推送都无法自动构建,怀疑是钩子的问题然后测试了一下发现无法测试成功，正常因该是200
 >
@@ -360,3 +360,4 @@ cd /data/work/laravel_study && git clean -f &&  git stash && git pull && git sta
 **放开授权策略**
 
 ![image-20220214112203568](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220214112203568.png)
+
