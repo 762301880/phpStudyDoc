@@ -396,6 +396,70 @@ php think clear
 
 ![image-20251108093505458](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20251108093505458.png)
 
+
+
+#  fastadmin如何调试项目
+
+## 方案一 [halt函数](https://doc.thinkphp.cn/v5_1/bianliangtiaoshi.html)
+
+> 因为fastadmin底层是thinkphp所以通用调试函数
+
+```php
+halt("我打印了中断了");
+```
+
+## 方案二
+
+> var_dump+die
+
+```php
+var_dump("我是打印数据");die();
+```
+
+# 如何创建api
+
+## 手动创建
+
+```php
+<?php
+
+namespace app\api\controller;
+
+use app\common\controller\Api;
+use app\common\service\LineAuthService;
+use think\Request;
+
+
+class Line extends Api
+{
+    // 当前方法无需登录、无需权限校验
+    protected $noNeedLogin = ['*'];
+    protected $noNeedRight = ['*'];
+
+    protected $lineService = null;
+
+    public function __construct(Request $request = null)
+    {
+        parent::__construct($request);
+        $this->lineService=new LineAuthService();
+    }
+
+    /**
+     * 获取授权token
+     */
+    public function getAccessToken()
+    {
+        $code = $this->request->param('code');
+        if (empty($code)) $this->error('code码是必须的');
+        $res=$this->lineService->getAccessToken($code);
+        $this->success('授权码返回成功', $res);
+    }
+}
+
+```
+
+
+
 #  补充
 
 # fastadmin  列表 按钮开关怎么弄
