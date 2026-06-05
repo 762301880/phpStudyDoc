@@ -46,14 +46,14 @@ CREATE TABLE `post` (
 CREATE TABLE `comment` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `post_id` bigint unsigned NOT NULL COMMENT '文章ID',
-  `user_id` bigint unsigned NOT NULL COMMENT '评论用户ID',
-  `parent_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '父评论ID（0表示一级评论）',
-  `reply_to_comment_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '回复的评论ID',
+  `user_id` bigint unsigned NOT NULL COMMENT '评论用户ID(谁评论就是谁的id)',
+  `parent_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '父评论ID（0表示一级评论） 回复的那个主键id',
+  `reply_to_comment_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '回复的评论ID', -- 等同于parent_id 可以忽略
   `reply_to_user_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '回复的用户ID',
   `content` text NOT NULL COMMENT '评论内容',
   `like_count` int NOT NULL DEFAULT '0' COMMENT '点赞数量',
   `status` tinyint NOT NULL DEFAULT '1' COMMENT '状态：1正常 0删除 2审核中',
-  `root_id` bigint NOT NULL DEFAULT '0' COMMENT '所属一级评论ID(自动维护)',
+  `root_id` bigint NOT NULL DEFAULT '0' COMMENT '所属一级评论ID(自动维护)   永远指向一级id',--直接拿上级的root_id就行了因为不管是多少层级上级的root_id都一样
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
