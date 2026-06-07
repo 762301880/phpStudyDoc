@@ -86,10 +86,19 @@ use OSS\OssClient;
 
 class AliOssService
 {
-    protected $accessKeyId = "*************";
-    protected $accessKeySecret = "***************";
-    protected $bucket = 'coding-img';
-    protected $endpoint = "http://oss-cn-shenzhen.aliyuncs.com";
+    protected $accessKeyId;
+    protected $accessKeySecret;
+    protected $bucket;
+    protected $endpoint;
+
+    // 直接从 .env 读取，不经过任何配置文件
+    public function __construct()
+    {
+        $this->accessKeyId     = env('ALI_OSS_ACCESS_KEY_ID');
+        $this->accessKeySecret = env('ALI_OSS_ACCESS_KEY_SECRET');
+        $this->bucket          = env('ALI_OSS_BUCKET');
+        $this->endpoint        = env('ALI_OSS_ENDPOINT');
+    }
 
     /**
      * 上传图片（推荐使用，自动生成文件名）
