@@ -1,6 +1,10 @@
-# 统一上传文件到服务器
+## accessKeyId与accessKeySecret 创建
 
-## larave
+> 创建**ram** 账户 并单独分配 **oss**相关权限 千万别直接给了总账户的 权限 
+
+## 统一上传文件到服务器
+
+### larave(本地上传)
 
 ```php
         $file = $request->file('file'); //获取上传的文件
@@ -15,14 +19,6 @@
 
 ```
 
-# 叙述&资料
-
- ## 叙述
-
-> 以前写过阿里云oss的功能但是用的是第三方的composer扩展包,第三方的东西
->
-> 我们都懂得傻瓜化操作，今天尝试一下使用原生sdk实现阿里云上传oss
-
 ## 资料
 
 | name                               | url                                                          |
@@ -30,9 +26,7 @@
 | 阿里云文档中心-对象存储oss         | [link](https://help.aliyun.com/document_detail/85580.html)   |
 | 查看 公共云下OSS各地域Endpoint如下 | [link](https://help.aliyun.com/document_detail/31837.htm?spm=a2c4g.11186623.0.0.605c273bVxKtaM#concept-zt4-cvy-5db) |
 
-# 逻辑示例
-
-## 安装阿里云oss
+## composer`安装阿里云oss`扩展
 
 - 使用composer[安装](https://help.aliyun.com/document_detail/85580.html?spm=a2c4g.11186623.6.1006.6ea926fdpa6BHm)
 
@@ -41,6 +35,32 @@ composer require aliyuncs/oss-sdk-php
 ```
 
 ## 代码示例
+
+###  常用方法介绍
+
+#### [PutObject](https://help.aliyun.com/zh/oss/developer-reference/putobject?scm=20140722.S_help%40%40%E6%96%87%E6%A1%A3%40%4031978._.ID_help%40%40%E6%96%87%E6%A1%A3%40%4031978-RL_put-LOC_doc%7EUND%7Eab-OR_ser-PAR1_212a5d4017808075948337959d7af4-V_4-PAR3_o-RE_new5-P0_0-P1_0&spm=a2c4g.11186623.help-search.i20)  （上传**文件内容 / 数据流**）
+
+**代码示例**
+
+```php
+$ossClient->putObject($this->bucket, $object, $content);
+```
+
+
+
+#### uploadFile    (上传**本地已存在的文件**)
+
+**代码示例**
+
+```php
+$ossClient->uploadFile($bucket, $object, "D:\\localpath\\exampleobject.jpg");
+```
+
+
+
+---
+
+
 
 ###  上传示例
 
@@ -58,60 +78,86 @@ composer require aliyuncs/oss-sdk-php
 
 ```php
 <?php
-namespace App\Http\Controllers;
 
-use App\Traits\ApplyResponseLayout;
-use Illuminate\Http\Request;
+namespace App\Services;
+
 use OSS\Core\OssException;
 use OSS\OssClient;
 
-class OssController extends Controller
+class AliOssService
 {
-    use ApplyResponseLayout;
+    protected $accessKeyId = "*************";
+    protected $accessKeySecret = "***************";
+    protected $bucket = 'coding-img';
+    protected $endpoint = "http://oss-cn-shenzhen.aliyuncs.com";
 
-    protected $accessKeyId = "<yourAccessKeyId>";
-    protected $accessKeySecret = "<yourAccessKeySecret>";
-    protected $endpoint = "http://oss-cn-hangzhou.aliyuncs.com"; # 对照表 https://help.aliyun.com/document_detail/31837.html
-
-    public function upload(Request $request)
+    /**
+     * 上传图片（推荐使用，自动生成文件名）
+     * @param $file 上传的文件 $request->file('img')
+     * @param string $dir 上传目录，例如 'avatar' 'product'
+     * @return array
+     * @throws \Exception
+     */
+    public function uploadImage($file, string $dir = 'uploads')
     {
-        $file = $request->file('img');
-        $file_name = $file->getClientOriginalName();//上传的文件名称
-        $bucket = 'yaoliuyang-test-oss'; //bucket名称
-        $object = $file_name;
-        $content = $file->getContent();
-        try {
-            $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
-            $res = $ossClient->putObject($bucket, $object, $content);
-            dd($res);
-        } catch (OssException $exception) {
-            return $this->error($exception->getMessage());
+        if (empty($file) || !$file->isValid()) {
+            throw new \Exception('图片上传无效');
         }
+
+        // 生成唯一文件名
+        $extension = $file->getClientOriginalExtension();
+        $fileName = uniqid() . '_' . date('YmdHis') . '.' . $extension;
+        $object = $dir . '/' . $fileName; // OSS 里的文件路径（存数据库）
+        $originalName = $file->getClientOriginalName();
+
+        try {
+            $ossClient = new OssClient(
+                $this->accessKeyId,
+                $this->accessKeySecret,
+                $this->endpoint
+            );
+
+            // 上传文件流
+            $content = file_get_contents($file->getPathname());
+            $ossClient->putObject($this->bucket, $object, $content);
+
+            // 生成私有访问签名URL（1小时有效）
+            $signedUrl = $ossClient->signUrl($this->bucket, $object, 3600);
+
+            // 返回标准结构（生产级）
+            return [
+                'object' => $object,          // OSS文件路径 → 存数据库
+                'signed_url' => $signedUrl,    // 临时签名URL → 前端显示
+                'original_name' => $originalName, // 原始文件名
+            ];
+
+        } catch (OssException $e) {
+            throw new \Exception("OSS上传失败：" . $e->getMessage());
+        }
+    }
+
+    /**
+     * 根据 OSS 路径 object 获取签名URL  私有bucket需要返回加密url
+     * @param string $object
+     * @param int $expires
+     * @return string
+     * @throws OssException
+     */
+    public function getSignedUrl(string $object, int $expires = 3600)
+    {
+        $ossClient = new OssClient(
+            $this->accessKeyId,
+            $this->accessKeySecret,
+            $this->endpoint
+        );
+        return $ossClient->signUrl($this->bucket, $object, $expires);
     }
 }
-
-# uploadFile() 方法上传
-public function upload(Request $request)
-    {
-        $file = $request->file('img');
-        $path      = $file->getPath() . '/' . $file->getFilename();//得到文件主机上的地址
-        $file_name = date('YmdHis') . '_' . uniqid() . '_' . $file->getClientOriginalName();//上传的文件名称
-        $bucket = 'yaoliuyang-test-oss'; //bucket名称
-        $object = $file_name;
-        # $object = $this->temp_path . $file_name;    temp_path=='temp_img/' 可配置化
-        try {
-            $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
-            $res = $ossClient->uploadFile($bucket, $object, $path);
-            dd($res);
-        } catch (OssException $exception) {
-            return $this->error($exception->getMessage());
-        }
-    }
 ```
 
 
 
-### 储存空间
+### 创建储存空间
 
 [**创建存储空间:bucket**](https://help.aliyun.com/document_detail/32102.html)
 
@@ -232,11 +278,9 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
 
 > 请替换 "your-bucket-name" 和 "your-image.jpg" 为实际的Bucket名称和图片路径。
 
+## 问题示例
 
-
-# 问题示例
-
-## oss配置生命周期
+### oss配置生命周期
 
 **需要删除的图片**
 
@@ -250,13 +294,7 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
 
 ![1655685309610.jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/lgOmPr7GVqCNYFs.png)
 
-
-
-
-
-
-
-##  oss配置生命周期未生效原因
+### oss配置生命周期未生效原因
 
 [**参考资料**](https://help.aliyun.com/document_detail/326351.html)
 
@@ -271,9 +309,7 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
 >
 >> **注意**：更新生命周期规则会中止当天的生命周期任务，请不要频繁更新生命周期规则。##
 
-
-
-# [跨域资源共享](https://help.aliyun.com/document_detail/32110.html)
+## 跨域资源共享](https://help.aliyun.com/document_detail/32110.html)
 
 ```php
    $corsConfig = new CorsConfig();
@@ -305,9 +341,9 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
         dd($res);
 ```
 
-# oss客户端
+## oss客户端
 
-## oss browser
+### oss browser
 
 > [下载](https://oss.console.aliyun.com/services/tools)
 
@@ -315,7 +351,7 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
 
 ![image-20240412142052985](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240412142052985.png)
 
-# 重要事情记录
+## 重要事情记录(超级重要必看)
 
 <font color='red'>记住千万不要用超级用户的accessKey会产生盗号非法创建资源风险  20240411被人盗用超级账户的accesskey 之后开通了几百个ECL实例产生了大量费用
 </font>
