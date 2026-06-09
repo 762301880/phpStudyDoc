@@ -1,6 +1,6 @@
-#  [接口调用凭证](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html)
+## [接口调用凭证](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html)
 
-## [getAccessToken](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html)
+### [getAccessToken](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html)
 
 **代码示例**
 
@@ -159,9 +159,9 @@ if (!function_exists('http_request')) {
 }
 ```
 
-# [小程序码](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html)
+## [小程序码](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html)
 
-## [createQRCode](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html) 创建小程序二维码(有数量限制)
+### [createQRCode](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/qr-code/wxacode.createQRCode.html) 创建小程序二维码(有数量限制)
 
 **代码示例**
 
@@ -212,7 +212,7 @@ if (!function_exists('http_request')) {
     }
 ```
 
-## [getUnlimited获取小程序二维码(不限制数量)](https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/qrcode-link/qr-code/getUnlimitedQRCode.html)
+### [getUnlimited获取小程序二维码(不限制数量)](https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/qrcode-link/qr-code/getUnlimitedQRCode.html)
 
 ```php
     /**
@@ -293,13 +293,9 @@ if (!function_exists('http_request')) {
 https://blog.csdn.net/weixin_45792959/article/details/125639166
 ```
 
+## 手机号
 
-
-
-
-# 手机号
-
-## [getPhoneNumber](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/phonenumber/phonenumber.getPhoneNumber.html)
+### [getPhoneNumber](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/phonenumber/phonenumber.getPhoneNumber.html)
 
 ### 请求参数
 
@@ -368,9 +364,9 @@ public function getMiniAccessToken()
     }
 ```
 
-# [URL Scheme](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)
+## [URL Scheme](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)
 
-## [generate](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)(打开小程序的跳转链接)
+### [generate](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/url-scheme/urlscheme.generate.html)(打开小程序的跳转链接)
 
 > [**作用**](https://zhuanlan.zhihu.com/p/342447284)
 >
@@ -443,7 +439,7 @@ public function getMiniAccessToken()
 }
 ```
 
-## bug解析
+### bug解析
 
 ### **"errcode" => 85401 "errmsg" => "time limit between 1min and 1year rid: xxxxxxxxxxx**
 
@@ -463,7 +459,7 @@ public function getMiniAccessToken()
 
 ![image-20220721144301942](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20220721144301942.png)
 
-# 获取微信群id
+## 获取微信群id
 
 **资料**
 
@@ -471,9 +467,7 @@ public function getMiniAccessToken()
 | ------------ | ------------------------------------------------------------ |
 | 微信开发文档 | [link](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/group/wx.getGroupEnterInfo.html) [link](https://developers.weixin.qq.com/miniprogram/dev/api/share/wx.getShareInfo.html)  [link](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/group/wx.getGroupEnterInfo.html) |
 
-# [调用微信收货地址](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html)
-
-
+## [调用微信收货地址](https://developers.weixin.qq.com/miniprogram/dev/api/open-api/address/wx.chooseAddress.html)
 
 **返给后端地址信息**
 
