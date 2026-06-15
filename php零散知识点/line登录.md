@@ -312,3 +312,11 @@ grant_type=refresh_token&refresh_token=xxx&client_id=xxx&client_secret=xxx
 ### 最终接口调用链路
 
 前端跳转 LINE 授权 → LINE 回调`域名/api/line/get_access_token?code=xxx&state=xxx` → 后端换 token→拿用户资料→登录→返回业务 token
+
+
+
+## bug解析
+
+## 很垃圾 邮箱注册后 退出后 账号密码什么的全对就是无法登录 
+
+> 具体原因可以网上查 很垃圾的体验感
