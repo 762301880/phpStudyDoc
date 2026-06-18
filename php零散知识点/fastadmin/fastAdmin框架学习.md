@@ -963,3 +963,12 @@ api: {
         }
 ```
 
+# url如何自动拼接域名
+
+```php
+# // 方式1：参数放数组，第四个参数true自动加域名
+$url = url('/line/success', [], false, true) . '?token=';
+```
+
+
+
