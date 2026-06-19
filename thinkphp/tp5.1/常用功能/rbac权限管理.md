@@ -52,14 +52,16 @@ CREATE TABLE `user` (
 
 ```mysql
 CREATE TABLE `role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '角色名称',
-  `description` varchar(255) DEFAULT NULL COMMENT '角色描述',
-  `status` int(11) NOT NULL DEFAULT '1' COMMENT '1 启用 -1 禁用',
-  `update_time` timestamp NULL DEFAULT NULL,
-  `create_time` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色表';
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色名称',
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色描述',
+  `status` tinyint NOT NULL DEFAULT '1' COMMENT '1 启用 -1 禁用',
+  `sort` int NOT NULL DEFAULT '100' COMMENT '排序-数字越小越靠前',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `role_name_unique` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
 #### **用户角色关联表**
