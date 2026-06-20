@@ -81,18 +81,19 @@ CREATE TABLE `user_role` (
 
 ```mysql
 CREATE TABLE `permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL COMMENT '权限标题',
-  `p_id` int(11) NOT NULL DEFAULT '0' COMMENT '父级id默认0',
-  `controller` varchar(255) DEFAULT NULL COMMENT '控制器名称',
-  `action` varchar(255) DEFAULT NULL COMMENT '方法名称',
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '权限标题',
+  `p_id` int NOT NULL DEFAULT '0' COMMENT '父级id默认0',
+  `controller` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '控制器名称',
+  `action` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '方法名称',
   `param` json DEFAULT NULL COMMENT '参数',
-  `level` tinyint(1) NOT NULL DEFAULT '1' COMMENT '等级',
-  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '默认排序',
-  `update_time` datetime DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='权限表';
+  `api` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '请求api',
+  `level` tinyint NOT NULL DEFAULT '1' COMMENT '等级',
+  `sort` tinyint NOT NULL DEFAULT '100' COMMENT '默认排序',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
 #### **角色权限关系表**
