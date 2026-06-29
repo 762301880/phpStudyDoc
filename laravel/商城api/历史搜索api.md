@@ -1,28 +1,6 @@
-## 说明
 
-> 历史搜索是各大平台 电商 短视频 小说 等平台必备的功能
 
-对用户：直接提升使用体验（最核心理由）
 
-1. 不用重复输入，降低操作成本
-
-   很多词长、生僻、带特殊符号（比如美妆色号、小众博主、商品全名），重新打字很慢；点开搜索历史一键点击就能再次检索，减少打字。
-
-2. 离线可用、弱网不影响
-
-   只靠本地缓存，没网也能看到之前搜过的内容，不用等待接口加载。
-
-3. 快速找回遗忘内容
-
-   用户刷到感兴趣内容过后忘记关键词，翻搜索历史就能找回，不用重新回忆，大幅减少流失。
-
-4. 支持删除、清空，隐私可控
-
-   不想保留的记录可单独删掉，兼顾便捷和隐私。
-
-5. 辅助记忆，形成个人检索习惯
-
-   比如经常搜同款穿搭、菜谱、数码产品，历史记录相当于个人简易收藏夹。
 
 ##  功能分析
 
@@ -32,6 +10,13 @@
 - 只要有新搜索默认插入到最前面 然后 默认往后排序到20   
 - 本地localStorage + 云端存储
 - 如果搜索的词存在前**20**条搜索历史中 提取到首条位置(**去重置顶**)
+- 未登录 展示未登录的搜索  已登录展示已登录的搜索
+
+
+
+## 参考图片
+
+![5000字干货，帮你全方位解析搜索历史模块的设计 | 人人都是产品经理](https://image.woshipm.com/wp-files/2022/10/Js3twzdu3k8uPn79ZKSF.png)
 
 ### 细分场景
 
@@ -71,7 +56,7 @@
 
 ## PHP + Redis 最简完整方案（直接能用）
 
-### 1. 不用建表！Redis 一条搞定
+### 不用建表！Redis 一条搞定
 
 #### 新增 / 更新搜索历史（重复置顶、保留 20）
 
@@ -100,7 +85,7 @@ $redis->lRem($key, $keyword, 0);
 $redis->del($key);
 ```
 
-## 前端 localStorage 怎么配合
+### 前端 localStorage 怎么配合
 
 前端搜索时可以先存本地：
 
@@ -114,5 +99,140 @@ function saveSearchKeyword(keyword) {
 
     localStorage.setItem('searchHistory', JSON.stringify(history));
 }
+```
+
+## 实战代码
+
+###  前端uniapp
+
+**view**
+
+```vue
+	<!-- ========== 仿红果搜索历史模块（修复渲染） ========== -->
+					<view class="search-history" v-if="historyList.length > 0">
+						<view class="history-head">
+							<view class="history-left">搜索历史</view>
+							<view class="history-right">
+								<!-- 默认状态：只显示删除图标 -->
+								<u-icon v-if="!isEditHistory" name="close" size="36rpx" color="#aaa"
+									@click="enterEdit" />
+								<!-- 编辑状态：全部删除 | 完成 -->
+								<template v-else>
+									<text class="text-del-all" @click="clearAllHistory">全部删除</text>
+									<text class="line">|</text>
+									<text class="text-finish" @click="exitEdit">完成</text>
+								</template>
+							</view>
+						</view>
+						<!-- 只展示前6条 -->
+						<view class="history-list">
+							<view class="history-item" v-for="(word, index) in showHistoryList" :key="index"
+								@click="tapHistoryWord(word)">
+								<text class="word-text"
+									:style="{color: is_night ? config.nightcolor : '#000'}">{{ word }}</text>
+								<view @click.stop>
+									<u-icon v-if="isEditHistory" name="close" size="32rpx" color="#999"
+										@click="delSingleItem(index, word)" />
+								</view>
+							</view>
+						</view>
+					</view>
+```
+
+**js**
+
+```js
+                 keyword: '',
+				list: [],
+				show: true,
+				historyList: [],
+				isEditHistory: false
+
+export default {
+		computed: {
+			searchKey() {  //封装key 不然每个方法写死key 太难受
+				const token = uni.getStorageSync('token')
+				const isLogin = !!token
+				const prefix = isLogin ? 'searchHistory-':'searchHistoryNoAuth-'
+				return prefix + this.current
+			},
+			showHistoryList() {
+				return this.historyList.slice(0, 6)
+			}
+		},
+```
+
+**核心方法**
+
+```js
+saveSearchKeyword() {  //这个方法在需要写入的地方调用
+				// 获取关键词并去空格
+				const keyword = this.keyword.trim()
+				if (!keyword) return
+
+				let searchKey = this.searchKey
+				// 读取缓存，不存在则为空数组
+				let history = uni.getStorageSync(searchKey) || [];
+
+				// 过滤掉相同旧关键词
+				history = history.filter(item => item !== keyword);
+				// 新关键词放最前面
+				history.unshift(keyword);
+				// 最多保留6条
+				history = history.slice(0, 6);
+				// 存入本地缓存
+				uni.setStorageSync(searchKey, history);
+				// 同步更新页面渲染列表
+				this.historyList = history
+			},
+			// 进入编辑模式
+			enterEdit() {
+				this.isEditHistory = true
+			},
+			// 退出编辑模式
+			exitEdit() {
+				this.isEditHistory = false
+			},
+			// 清空当前分类全部历史
+			clearAllHistory() {
+				const key = this.searchKey
+				uni.removeStorageSync(key)
+				this.historyList = []
+				this.isEditHistory = false
+			},
+			// 删除单条历史
+			delSingleItem(index) {
+				this.historyList.splice(index, 1)
+				const key = this.searchKey
+				uni.setStorageSync(key, this.historyList)
+			},
+			// 点击历史词条搜索
+			tapHistoryWord(word) {
+				this.keyword = word
+				this.search()
+			},
+			async getRedisHistoryLogs() {
+				const storageKey = this.searchKey
+				// 读取本地存储
+				let localList = uni.getStorageSync(storageKey) || []
+				// 只取前6条
+				localList = localList.slice(0, 6)
+
+				// 本地有数据直接返回，不请求redis
+				if (localList.length > 0) {
+					this.historyList = localList
+					return
+				}
+
+				// 本地为空，请求redis
+				const res = await api.user.getSearchRedisLog({
+					type: this.current
+				})
+				console.log(res, '--------------')
+				const redisList = res.data || []
+				// 覆盖本地存储 + 更新页面数据
+				uni.setStorageSync(storageKey, redisList)
+				this.historyList = redisList
+			}
 ```
 
