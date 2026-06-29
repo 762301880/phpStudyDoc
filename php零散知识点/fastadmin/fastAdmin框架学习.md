@@ -972,3 +972,33 @@ $url = url('/line/success', [], false, true) . '?token=';
 
 
 
+#  fastadmin如何使用redis
+
+> [官方文档-杂项-缓存](https://doc.thinkphp.cn/v6_1/huancun.html)
+
+```php
+<?php
+
+namespace app\common\service;
+
+use think\Cache;
+
+class RedisService
+{
+    private static $instance = null;
+
+    private function __construct()
+    {
+        // 私有化构造函数以避免类被实例化，只能通过 getInstance 方法获得类的唯一实例。
+    }
+
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance =  Cache::store('redis')->handler();
+        }
+        return self::$instance;
+    }
+}
+```
+
