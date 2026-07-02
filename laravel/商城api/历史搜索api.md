@@ -373,3 +373,107 @@ function saveSearchKeyword(keyword) {
 </style>
 ```
 
+### 后端逻辑参考
+
+```php
+<?php
+
+namespace app\common\service;
+
+use app\admin\model\qingfeng\Book;
+use app\api\model\qingfeng\Drama;
+use app\common\model\UserSearchLog;
+use app\common\traits\UserInitTrait;
+
+class UserSearchLogService
+{
+    use UserInitTrait;
+
+    protected $redis = null;
+
+    public function __construct()
+    {
+        $this->initUserInfo();
+        $this->redis = RedisService::getInstance();
+    }
+
+    public function create($keyword, $type = UserSearchLog::TYPE_1)
+    {
+        if (empty($this->user_id)) return true;
+        $this->saveSearchToRedis($keyword, $type);//先搜索记录存redis
+        //如果视频关键词存在不必存后台
+        if ($type == UserSearchLog::TYPE_1) {
+            $drama = Drama::where('title', $keyword)->find();
+            if ($drama) return true;
+        }
+        //如果电子书关键词存在不必存后台
+        if ($type == UserSearchLog::TYPE_2) {
+            $book = Book::where('title', $keyword)->find();
+            if ($book) return true;
+        }
+        //先查询用户是否已经请求过同样的 不存在于数据库中
+        $userSearch = UserSearchLog::where('user_id', $this->user_id)
+            ->where('keyword', $keyword)
+            ->find();
+        //不为空并且 上线后未通知
+        if (!empty($userSearch) && $userSearch->is_notice == UserSearchLog::IS_NOTICE__1) {
+            $userSearch->update_time = date('Y-m-d H:i:s');
+            return $userSearch->save();
+        }
+
+        //如果不为空并且已通知就没必要再记录了
+        if (!empty($userSearch) && $userSearch->is_notice == UserSearchLog::IS_NOTICE_1) return true;
+
+
+        //如果为空的情况下代表新记录
+        $userSearch = new UserSearchLog();
+        $userSearch->keyword = $keyword;
+        $userSearch->type = $type;
+        $userSearch->user_id = $this->user_id;
+        $bool = $userSearch->save();
+        return $bool;
+    }
+
+    /**
+     * 搜索记录保存redis
+     * @param $keyword
+     * @param $type
+     * @return void
+     */
+    public function saveSearchToRedis($keyword, $type = UserSearchLog::TYPE_1)
+    {
+        $key = "search_history:user_{$this->user_id}:type_{$type}";
+        $this->redis->lRem($key, $keyword, 0);
+        $this->redis->lPush($key, $keyword);
+        $this->redis->lTrim($key, 0, 5);
+    }
+
+    /**
+     * 获取redis搜索日志
+     * @param $keyword
+     * @param $type
+     * @return mixed
+     */
+    public function getRedisSearchLog($type = UserSearchLog::TYPE_1)
+    {
+        $key = "search_history:user_{$this->user_id}:type_{$type}";
+        $res = $this->redis->lRange($key, 0, -1);
+        return $res;
+    }
+
+    public function delOneSearchRedisLog($del_word, $type = UserSearchLog::TYPE_1)
+    {
+        $key = "search_history:user_{$this->user_id}:type_{$type}";
+        $bool = $this->redis->lrem($key, $del_word, 1);
+        return $bool;
+    }
+
+    public function delAllSearchRedisLog($type = UserSearchLog::TYPE_1)
+    {
+        $key = "search_history:user_{$this->user_id}:type_{$type}";
+        $bool = $this->redis->del($key);
+        return $bool;
+    }
+}
+```
+
