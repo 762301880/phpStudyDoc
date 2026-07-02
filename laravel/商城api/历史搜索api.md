@@ -445,7 +445,7 @@ class UserSearchLogService
         $key = "search_history:user_{$this->user_id}:type_{$type}";
         $this->redis->lRem($key, $keyword, 0);
         $this->redis->lPush($key, $keyword);
-        $this->redis->lTrim($key, 0, 5);//保存六条
+        $this->redis->lTrim($key, 0, 5);
     }
 
     /**
@@ -456,16 +456,15 @@ class UserSearchLogService
      */
     public function getRedisSearchLog($type = UserSearchLog::TYPE_1)
     {
+        if (empty($this->user_id)) return true;
         $key = "search_history:user_{$this->user_id}:type_{$type}";
         $res = $this->redis->lRange($key, 0, -1);
         return $res;
     }
 
-    /**
-    * 删除单条redis搜索记录
-    */
     public function delOneSearchRedisLog($del_word, $type = UserSearchLog::TYPE_1)
     {
+        if (empty($this->user_id)) return true;
         $key = "search_history:user_{$this->user_id}:type_{$type}";
         $bool = $this->redis->lrem($key, $del_word, 1);
         return $bool;
@@ -473,6 +472,7 @@ class UserSearchLogService
 
     public function delAllSearchRedisLog($type = UserSearchLog::TYPE_1)
     {
+        if (empty($this->user_id)) return true;
         $key = "search_history:user_{$this->user_id}:type_{$type}";
         $bool = $this->redis->del($key);
         return $bool;
