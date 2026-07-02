@@ -127,8 +127,8 @@ function saveSearchKeyword(keyword) {
 				<view class="history-head">
 					<view class="history-left">搜索历史</view>
 					<view class="history-right">
-						<!-- 默认状态：只显示删除图标 -->
-						<uni-icons v-if="!isEditHistory" type="close" size="36" color="#aaa" @click="enterEdit" />
+						<!-- 默认状态：只显示删除图标-->
+						<uni-icons v-if="!isEditHistory" type="trash" size="36" color="#000" @click="enterEdit" />
 						<!-- 编辑状态：全部删除 | 完成 -->
 						<template v-else>
 							<text class="text-del-all" @click="clearAllHistory">全部删除</text>
@@ -445,7 +445,7 @@ class UserSearchLogService
         $key = "search_history:user_{$this->user_id}:type_{$type}";
         $this->redis->lRem($key, $keyword, 0);
         $this->redis->lPush($key, $keyword);
-        $this->redis->lTrim($key, 0, 5);
+        $this->redis->lTrim($key, 0, 5);//保存六条
     }
 
     /**
@@ -461,6 +461,9 @@ class UserSearchLogService
         return $res;
     }
 
+    /**
+    * 删除单条redis搜索记录
+    */
     public function delOneSearchRedisLog($del_word, $type = UserSearchLog::TYPE_1)
     {
         $key = "search_history:user_{$this->user_id}:type_{$type}";
