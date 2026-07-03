@@ -347,7 +347,7 @@ class TestController extends Controller
 
 ```
 
-# laravel 内置的 `Cache` 锁（简单易用）
+# laravel 内置的 `Cache` 锁（简单易用  不推荐）
 
 ```php
 <?php
@@ -413,6 +413,12 @@ class TestController extends Controller
 ```
 
 # laravel redis分布式锁
+
+## 安装predis
+
+```php
+composer require predis/predis
+```
 
 ##  标准案例
 
@@ -481,7 +487,7 @@ class TestController extends Controller
 }
 ```
 
-## 封装为统一得分布式锁
+## 封装为统一分布式锁(推荐)
 
 建议放在：`app/Services/RedisLock.php`
 
@@ -587,6 +593,12 @@ public function test(Request $request)
     }
 }
 ```
+
+
+
+
+
+
 
 # 数据写入redis模仿并发
 

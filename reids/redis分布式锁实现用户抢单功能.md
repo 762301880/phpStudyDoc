@@ -1,4 +1,4 @@
-# 说明
+# 说明(废弃参考使用 因为没有用lua脚本原子化执行命令)
 
 > ***场景***
 >
@@ -35,7 +35,7 @@
 # 逻辑示例
 
 ```php
-  $expire = 5;//过期时间
+        $expire = 5;//过期时间
         $key = "lock:$request->input('order_id')";//key:订单id
         $value = time() + $expire;//锁的值 = Unix时间戳 + 锁的有效期
         $lock = $this->redis->setnx($key, $value);//设置分布式锁
