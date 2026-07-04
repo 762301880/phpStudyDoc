@@ -309,6 +309,14 @@ LUA;
         //redis中嵌入lua脚本
  return $this->redis->eval($script, 1, $scene, $id);
     }
+
+    /**
+     * 对象销毁自动释放锁，防止异常死锁
+     */
+    public function __destruct()
+    {
+        $this->unlock();
+    }
 ```
 
 **使用**
