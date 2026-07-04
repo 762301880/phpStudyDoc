@@ -1,4 +1,4 @@
-# 资料
+# 资料&说明
 
 | 名称               | 地址                                                         |
 | ------------------ | ------------------------------------------------------------ |
@@ -23,7 +23,7 @@
 
 # 模拟并发
 
-### 模拟并发一
+## mysql模拟并发
 
 **创建数据库**
 
@@ -109,9 +109,95 @@ HAVING
        Db::commit();
 ```
 
+## 数据写入redis模仿并发
 
+```php
+    public function test(Request $request)
+    {
+        $redis = RedisService::getInstance()->client();
 
-#  分布式锁
+        $stockKey = 'num';
+        $userLogKey = 'num_user';
+        $initValue = 100;
+
+        /**
+         * 1. 初始化（仅用于测试环境）
+         */
+        if (!$redis->exists($stockKey)) {
+            echo "初始化\n";
+            $redis->set($stockKey, $initValue);
+        }
+
+        /**
+         * 2. 读取当前库存
+         */
+        $currentStock = (int)$redis->get($stockKey);
+
+        /**
+         * 3. 模拟并发窗口（仅测试用）
+         */
+        sleep(2);
+
+        /**
+         * 4. 业务判断与处理
+         */
+        if ($currentStock > 0) {
+            $newStock = $currentStock - 1;
+
+            echo "扣减后库存: {$newStock}\n";
+
+            $redis->set($stockKey, $newStock);
+            $redis->rPush($userLogKey, $newStock);
+        }
+
+    }
+```
+
+**插入效果**
+
+```php
+99
+99
+99
+98
+98
+...    
+```
+
+### 疑问 为什么插入数据不能保证原子性
+
+### 核心结论：Redis 是单线程，但**你的业务代码不是原子操作**，并发下依然会超卖
+
+你说得对：**Redis 本身是单线程执行命令**，但这**不代表**你的这段代码在并发下就安全！
+
+问题出在：**你的库存扣减逻辑，不是 Redis 的原子命令**，而是**多步 Redis 操作 + PHP 代码逻辑**，中间存在**并发竞争间隙**。
+
+### 为什么会并发超卖？
+
+代码执行流程是 **3 步分离操作**，不是一步完成：
+
+1. `GET num` （读取库存）
+2. PHP 里计算 `$currentStock - 1` （业务逻辑）
+3. `SET num 新值` （写回库存）
+
+### 并发场景下的灾难（2 个请求同时进来）
+
+```
+请求A：GET num → 拿到 100
+请求B：GET num → 也拿到 100 （关键！此时A还没写回）
+请求A：计算 99，SET num=99
+请求B：计算 99，SET num=99 （覆盖了A的结果！）
+```
+
+ 结果：**库存只扣了 1 次，但两个请求都成功了**，这就是超卖。
+
+### 根本原因
+
+Redis 单线程 = **Redis 命令是排队执行的**
+
+但 **你的代码不是一个 Redis 命令**，是 **读 → 算 → 写** 三个独立操作，中间可以被其他请求插入
+
+#  分布式锁原理图片
 
 
 
@@ -123,7 +209,7 @@ HAVING
 
 
 
-## 自己的实战
+## 自己的实战(历史逻辑参考用)
 
 **分布式锁扩展类**
 
@@ -253,32 +339,13 @@ class Demo
             'port' => 13822,
             'connectTimeout' => 2.5,
             'auth' => ['phpredis', 'phpredis'],
-            'password' => 'yly274325132',
+            'password' => '**********',
             'ssl' => ['verify_peer' => false],
         ]);
     }
 
     public function test()
-    {
-        
-        
-# 悲观锁-原始写法        
-//        Db::startTrans();
-//        $countModel = Count::where('id', 1)->lock(true)->find();
-//        $count = $countModel->value('count');
-//        if ($count > 0) {
-//            $value = $count--;
-//            $bool = DecrementCount::create(['count_decrement_id' => $value]);
-//            if ($bool) {
-//                --$countModel->count;
-//                $countModel->save();
-//            }
-//        }
-//        Db::commit();
-        
-        
-        
-        
+    {        
         $lock = new Lock($this->_redis);
         $scene = 'seckill';
         //如果加锁成功,某个业务只允许一个用户操作
@@ -299,119 +366,6 @@ class Demo
 }
 ```
 
-# 使用redis事务实现秒杀
-
-**参考代码**
-
-```php
-<?php
-
-namespace App\Http\Controllers;
-
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
-
-
-class TestController extends Controller
-{
-    protected $redis;
-
-    public function __construct()
-    {
-        $this->redis = Redis::connection()->client();
-    }
-
-    public function test(Request $request)
-    {
-        $this->redis->watch('sales');//乐观锁,监视作用
-        $sales = $this->redis->get('sales');
-        $store = 100;//总库存
-        if ($sales >= $store) {
-            exit('秒杀结束');
-        }
-        $this->redis->multi();//开启redis事务
-        $this->redis->incr('sales');//销量+1
-        $res = $this->redis->exec();//提交事务
-        if ($res) {
-            //成功
-            //写库 更新库存操作
-        }
-        if (!$res) {
-            //失败操作
-            \Log::info('秒杀失败');
-            exit('秒杀失败');
-        }
-    }
-}
-
-```
-
-# laravel 内置的 `Cache` 锁（简单易用  不推荐）
-
-```php
-<?php
-
-namespace App\Http\Controllers;
-
-use App\Models\Count;
-use App\Models\DecrementCount;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-
-class TestController extends Controller
-{
-    public function test(Request $request)
-    {
-        // 定义锁名称（唯一标识临界资源）
-        $lockKey = "seckill:lock:1";
-        // 初始化锁实例变量
-        $lock = false;
-
-        try {
-            // 尝试获取锁：有效期10秒，等待2秒
-            // 兼容两种情况：返回锁实例 或 返回false
-            $lock = Cache::lock($lockKey, 10)->block(2);
-
-            // 判断是否成功获取锁（核心修复点）
-            if (!$lock) {
-                return response()->json(['code' => 400, 'msg' => '请稍后再试（请求太频繁）']);
-            }
-
-            // 核心业务逻辑（临界区）
-            $countModel = Count::where('id', 1)->first();
-            if (!$countModel) {
-                return response()->json(['code' => 404, 'msg' => '计数记录不存在']);
-            }
-
-            $count = $countModel->count;
-            // sleep(1); // 测试并发时可开启
-
-            if ($count > 0) {
-                // 修正递减逻辑：先递减再赋值
-                $newCount = $count - 1;
-                $bool = DecrementCount::create(['count_decrement_id' => $newCount]);
-                if ($bool) {
-                    $countModel->count = $newCount;
-                    $countModel->save();
-                }
-            }
-
-            return response()->json(['code' => 200, 'msg' => '成功', 'data' => $count - ($bool ? 1 : 0)]);
-
-        } catch (\Exception $e) {
-            // 捕获所有异常（包括锁相关、数据库相关）
-            return response()->json(['code' => 500, 'msg' => '系统错误:'.$e->getMessage()]);
-        } finally {
-            // 修复：只有锁是有效实例时，才释放锁
-            if ($lock && method_exists($lock, 'release')) {
-                $lock->release();
-            }
-        }
-    }
-}
-```
-
 # laravel redis分布式锁
 
 ## 安装predis
@@ -420,7 +374,7 @@ class TestController extends Controller
 composer require predis/predis
 ```
 
-##  标准案例
+##  标准案例(不封装清空下使用   ps:不推荐)
 
 ```php
 <?php
@@ -489,6 +443,8 @@ class TestController extends Controller
 
 ## 封装为统一分布式锁(推荐)
 
+### 封装代码
+
 建议放在：`app/Services/RedisLock.php`
 
 ```php
@@ -499,6 +455,17 @@ namespace App\Services;
 class RedisLock
 {
     protected $redis;
+    // 当前实例持有的锁key
+    protected $lockKey = null;
+    // 当前锁唯一标识token
+    protected $lockToken = null;
+
+    // 默认锁过期秒数
+    const DEFAULT_EXPIRE = 10;
+    // 自旋最大等待毫秒
+    const DEFAULT_WAIT_MS = 3000;
+    // 每次自旋休眠毫秒
+    const SPIN_SLEEP_MS = 50;
 
     public function __construct()
     {
@@ -506,35 +473,108 @@ class RedisLock
     }
 
     /**
-     * 加锁
+     * 非阻塞抢锁：抢不到直接返回false，不重试
+     * @param string $key 锁名
+     * @param int $expireSeconds 锁过期时间
+     * @return bool
      */
-    public function lock(string $key, int $expireSeconds = 10)
+    public function tryLock(string $key, int $expireSeconds = self::DEFAULT_EXPIRE): bool
     {
-        $value = uniqid('', true);
+        $token = $this->genToken();
+        $result = $this->redis->set($key, $token, 'NX', 'EX', $expireSeconds);
 
-        $acquired = $this->redis->set($key, $value, 'NX', 'EX', $expireSeconds);
-
-        if (!$acquired) {
-            return false;
+        if ($result) {
+            $this->lockKey = $key;
+            $this->lockToken = $token;
+            return true;
         }
-
-        return $value; // 返回锁标识（必须保存）
+        return false;
     }
 
     /**
-     * 解锁（防误删）
+     * 阻塞自旋抢锁，直到抢到或超时
+     * @param string $key
+     * @param int $expireSeconds
+     * @param int $waitMs 最大等待毫秒
+     * @return bool
      */
-    public function unlock(string $key, string $value): bool
+    public function lock(string $key, int $expireSeconds = self::DEFAULT_EXPIRE, int $waitMs = self::DEFAULT_WAIT_MS): bool
     {
-        $script = <<<LUA
-        if redis.call('get', KEYS[1]) == ARGV[1] then
-            return redis.call('del', KEYS[1])
-        else
-            return 0
+        $startTime = (int)(microtime(true) * 1000);
+
+        while (true) {
+            if ($this->tryLock($key, $expireSeconds)) {
+                return true;
+            }
+
+            // 超过等待时间直接失败
+            $now = (int)(microtime(true) * 1000);
+            if ($now - $startTime >= $waitMs) {
+                return false;
+            }
+
+            usleep(self::SPIN_SLEEP_MS * 1000);
+        }
+    }
+
+    /**
+     * 自动解锁（当前实例持有的锁，无需传参数）
+     * @return bool
+     */
+    public function unlock(): bool
+    {
+        if (empty($this->lockKey) || empty($this->lockToken)) {
+            return false;
+        }
+
+        $lua = <<<LUA
+        local val = redis.call('GET', KEYS[1])
+        if val == ARGV[1] then
+            return redis.call('DEL', KEYS[1])
         end
+        return 0
 LUA;
 
-        return $this->redis->eval($script, 1, $key, $value);
+        $ret = $this->redis->eval($lua, 1, $this->lockKey, $this->lockToken);
+        // 清空持有记录
+        $this->lockKey = null;
+        $this->lockToken = null;
+        return $ret === 1;
+    }
+
+    /**
+     * 外部手动指定key和token解锁（兼容多锁分开存储场景）
+     * @param string $key
+     * @param string $token
+     * @return bool
+     */
+    public function unlockByToken(string $key, string $token): bool
+    {
+        $lua = <<<LUA
+        local val = redis.call('GET', KEYS[1])
+        if val == ARGV[1] then
+            return redis.call('DEL', KEYS[1])
+        end
+        return 0
+LUA;
+        $ret = $this->redis->eval($lua, 1, $key, $token);
+        return $ret === 1;
+    }
+
+    /**
+     * 生成全局唯一锁标识
+     */
+    protected function genToken(): string
+    {
+        return uniqid('', true) . '-' . getmypid() . '-' . random_int(10000, 99999);
+    }
+
+    /**
+     * 对象销毁自动释放锁，防止异常死锁
+     */
+    public function __destruct()
+    {
+        $this->unlock();
     }
 }
 ```
@@ -542,151 +582,39 @@ LUA;
 **使用**
 
 ```php
-public function test(Request $request)
-{
-    $lock = new \App\Services\RedisLock();
+$lock = new RedisLock();
+$lockKey = 'stock:reduce:1001';
 
-    $lockKey = "stock:lock:1";
+if (!$lock->lock($lockKey, 10, 3000)) {
+    throw new \Exception('当前操作繁忙，请稍后再试');
+}
 
-    // 1. 获取锁
-    $lockValue = $lock->lock($lockKey, 10);
-
-    if (!$lockValue) {
-        return response()->json(['code' => 400, 'msg' => '操作频繁，请稍后']);
-    }
-
-    try {
-
-        // ===== 业务开始 =====
-
-        $countModel = Count::where('id', 1)->first();
-
-        if (!$countModel) {
-            return response()->json(['code' => 404, 'msg' => '不存在']);
-        }
-
-        if ($countModel->count <= 0) {
-            return response()->json(['code' => 400, 'msg' => '库存不足']);
-        }
-
-        $newCount = $countModel->count - 1;
-
-        $bool = DecrementCount::create([
-            'count_decrement_id' => $newCount
-        ]);
-
-        if ($bool) {
-            $countModel->count = $newCount;
-            $countModel->save();
-        }
-
-        return response()->json([
-            'code' => 200,
-            'msg' => '成功',
-            'data' => $newCount
-        ]);
-
-    } finally {
-
-        // 2. 释放锁（一定执行）
-        $lock->unlock($lockKey, $lockValue);
-    }
+try {
+    // 业务逻辑
+} catch (\Throwable $e) {
+    throw $e;
+} finally {
+    $lock->unlock();
 }
 ```
 
 
 
+### 补充
 
-
-
-
-# 数据写入redis模仿并发
+#### 生成唯一不重复的key
 
 ```php
-    public function test(Request $request)
-    {
-        $redis = RedisService::getInstance()->client();
+ session_create_id();//生成不重复的字符串(唯一的值)
 
-        $stockKey = 'num';
-        $userLogKey = 'num_user';
-        $initValue = 100;
-
-        /**
-         * 1. 初始化（仅用于测试环境）
-         */
-        if (!$redis->exists($stockKey)) {
-            echo "初始化\n";
-            $redis->set($stockKey, $initValue);
-        }
-
-        /**
-         * 2. 读取当前库存
-         */
-        $currentStock = (int)$redis->get($stockKey);
-
-        /**
-         * 3. 模拟并发窗口（仅测试用）
-         */
-        sleep(2);
-
-        /**
-         * 4. 业务判断与处理
-         */
-        if ($currentStock > 0) {
-            $newStock = $currentStock - 1;
-
-            echo "扣减后库存: {$newStock}\n";
-
-            $redis->set($stockKey, $newStock);
-            $redis->rPush($userLogKey, $newStock);
-        }
-
-    }
+ uniqid('', true); //唯一不重复的key  
 ```
 
-**插入效果**
 
-```php
-99
-99
-99
-98
-98
-...    
-```
 
-## 疑问 为什么插入数据不能保证原子性
 
-### 核心结论：Redis 是单线程，但**你的业务代码不是原子操作**，并发下依然会超卖
 
-你说得对：**Redis 本身是单线程执行命令**，但这**不代表**你的这段代码在并发下就安全！
 
-问题出在：**你的库存扣减逻辑，不是 Redis 的原子命令**，而是**多步 Redis 操作 + PHP 代码逻辑**，中间存在**并发竞争间隙**。
-
-### 为什么会并发超卖？
-
-代码执行流程是 **3 步分离操作**，不是一步完成：
-
-1. `GET num` （读取库存）
-2. PHP 里计算 `$currentStock - 1` （业务逻辑）
-3. `SET num 新值` （写回库存）
-
-### 并发场景下的灾难（2 个请求同时进来）
-
-```
-请求A：GET num → 拿到 100
-请求B：GET num → 也拿到 100 （关键！此时A还没写回）
-请求A：计算 99，SET num=99
-请求B：计算 99，SET num=99 （覆盖了A的结果！）
-```
-
- 结果：**库存只扣了 1 次，但两个请求都成功了**，这就是超卖。
-
-### 根本原因
-
-Redis 单线程 = **Redis 命令是排队执行的**
-
-但 **你的代码不是一个 Redis 命令**，是 **读 → 算 → 写** 三个独立操作，中间可以被其他请求插入
 
 
 
