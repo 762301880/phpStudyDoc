@@ -501,6 +501,8 @@ class RedisLock
 
     /**
      * 对外公开：阻塞自旋抢锁，直到抢到或超时
+     * 自旋 = 原地循环不断尝试抢锁，不直接退出
+     * 阻塞 = 当前代码卡住、停住不走，直到抢到锁 或者 等待超时才往下执行业务。
      * @param string $key
      * @param int $expireSeconds
      * @param int $waitMs 最大等待毫秒
