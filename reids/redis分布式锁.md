@@ -451,7 +451,7 @@ class TestController extends Controller
 
 ## 封装为统一分布式锁(推荐)
 
-### 封装代码
+### 封装代码(真实生产环境可用)
 
 建议放在：`app/Services/RedisLock.php`
 
