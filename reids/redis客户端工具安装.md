@@ -1,22 +1,15 @@
-# 一、资料
+# [AnotherRedisDesktopManager](https://github.com/qishibo/AnotherRedisDesktopManager/releases)
 
-## 1.1地址
+## 资料
 
-| 名称                         | 地址                                                         |
-| ---------------------------- | ------------------------------------------------------------ |
-| 说明地址                     | [链接](https://mp.weixin.qq.com/s/S05rgr5JPZSOWJmOvCIzfg)    |
-| 软件下载地址   gitee下载地址 | [链接](https://github.com/qishibo/AnotherRedisDesktopManager/releases)   [链接](https://gitee.com/qishibo/AnotherRedisDesktopManager/releases) |
-| gitee地址                    | [链接](https://gitee.com/qishibo/AnotherRedisDesktopManager) |
+### 下载地址
 
-# 二、下载
+| 名称      | 地址                                                         |
+| --------- | ------------------------------------------------------------ |
+| github    | [github](https://github.com/qishibo/AnotherRedisDesktopManager/releases) |
+| gitee地址 | [gitee](https://gitee.com/qishibo/AnotherRedisDesktopManager) |
 
-## 2.1请打开github地址
-
-```bash
-https://github.com/qishibo/AnotherRedisDesktopManager/releases
-```
-
-## 2.2 下载windows或则mac版本
+## 下载
 
 - 由于github下载比较慢我这里提供了网盘下载
 
@@ -27,7 +20,7 @@ https://github.com/qishibo/AnotherRedisDesktopManager/releases
 
 ![image-20210607095046001](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210607095046001.png)
 
-## 2.3 linux版本下载
+###  linux版本下载
 
 [下载地址](https://gitee.com/qishibo/AnotherRedisDesktopManager/releases)
 
@@ -37,7 +30,7 @@ wget https://gitee.com/qishibo/AnotherRedisDesktopManager/attach_files/893990/do
 chmod + x  下载的文件
 ```
 
-### 设置桌面图标
+设置桌面图标
 
 > 设置桌面文件**Another_Redis.desktop** 并修改**Exec&Icon**指向
 
@@ -68,13 +61,11 @@ X-Deepin-AppID=another_redis
 ./Another-Redis-Desktop-Manager.1.5.9.AppImage --appimage-extract
 ```
 
-
-
-# 三、使用
+## 使用
 
 - 双击已经安装的`Another Redis Desktop Manager `
 
-## 3.1 基本设置
+###  基本设置
 
 - 修改语言
 

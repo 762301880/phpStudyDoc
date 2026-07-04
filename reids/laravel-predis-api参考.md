@@ -1,14 +1,4 @@
-# 一、安装
-
-## 1.1 `redis`安装可以参考本人以前写的[博客](https://www.cnblogs.com/yaoliuyang/p/13197453.html)
-
-## 1.2 `redis`可视化工具
-
-> 这里推荐使用`phpstorm`自带的`RedisClient`
-
-![Client](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20210530200809761.png?versionId=CAEQEBiBgIDPw9n0zRciIGFjNmMwOTdiZWQxMzRlYWY4ZDAzYzNlOTY5MDE0ZDBh)
-
-## 1.3 参考资料
+## 参考资料
 
 | 名称                       | 地址                                                         |
 | -------------------------- | ------------------------------------------------------------ |
@@ -17,7 +7,7 @@
 | 第三方博客                 | [链接](http://blog.ganyongmeng.com/?p=99)                    |
 | packagist-predis官方手册   | [链接](https://packagist.org/packages/predis/predis)         |
 
-# 二、使用
+## laravel-predis api
 
 [**取消默认的表前缀**](https://www.hongfs.cn/2018/11/php/laravel/laravel-redis-clear-prefix/)
 
@@ -27,17 +17,19 @@
 
 ![1640920705(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/qKQmwl2hDz5YPVj.png)
 
-> ## 方案一
->
-> 在**config\database.php** **redis   laravel_statistical中添加配置**
->
-> 'options' => [
->                 'prefix' => '',
-> ],
->
-> ## 方案二
->
-> 直接注释 options数组中的prefix选项
+方案一
+
+在**config\database.php** **redis**
+
+```php
+'options' => [
+   'prefix' => '',
+],
+```
+
+方案二
+
+直接注释 options数组中的prefix选项
 
 ```php
   'redis' => [
@@ -78,27 +70,17 @@
     ],
 ```
 
-**使用**
+### **实例化(建议改为单例模式)**
 
 > 直接指定连接配置即可 connection里面不指定配置则默认**default**配置
 
 ```shell
+ use Illuminate\Support\Facades\Redis; 
  $redis = Redis::connection('laravel_statistical')->client();
  $redis->get('name');
 ```
 
-
-
-## 2.1 实例化`redis`
-
-- 连接redis;
-
-```php
-use Illuminate\Support\Facades\Redis; 
-$redis = Redis::connection(); # 如果还没有提示请这样 $redis=Redis::connection()->client();
-```
-
-## 2.2 经常使用的方法
+### 经常使用的方法
 
 ```php
 # 自增 increment
