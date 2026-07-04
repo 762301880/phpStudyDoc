@@ -610,6 +610,36 @@ try {
 }
 ```
 
+**可以依赖注入**
+
+```php
+use App\Services\RedisLock;
+
+class StockService
+{
+    protected $lock;
+
+    // 容器自动实例化传入
+    public function __construct(RedisLock $redisLock)
+    {
+        $this->lock = $redisLock;
+    }
+
+    public function reduce()
+    {
+        $key = 'stock:reduce:1001';
+        if (!$this->lock->lock($key, 10, 3000)) {
+            throw new \Exception('繁忙');
+        }
+        try {
+            // 扣库存
+        } finally {
+            $this->lock->unlock();
+        }
+    }
+}
+```
+
 
 
 ### 补充
