@@ -62,6 +62,34 @@ CREATE TABLE `decrement_count` (
         }
 ```
 
+### 悲观锁
+
+> 可解决但是不推荐
+
+```php
+       try {
+            \DB::transaction(function () {
+                $countModel = Count::where('id', 1)->lock(true)->first();
+                $count = $countModel->count;
+                //sleep(1);   加上sleep 延迟并发效果更佳优秀
+                if ($count > 0) {
+                    $bool = DecrementCount::create(['count_decrement_id' => $count--]);
+                    if ($bool) {
+                        --$countModel->count;
+                        $countModel->save();
+                    }
+                }
+
+                // 提交事务，锁释放
+            });
+        } catch (\Exception $e) {
+            // 异常全部回滚
+            throw $e;
+        }
+```
+
+
+
 **压测并发**
 
 > 我们可以用压测工具压测 100 次会发现同时请求并发很严重 第一张表因该是0结果是47，第二张表结果应该是从100-1 虽然生成了100条数据但是
