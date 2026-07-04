@@ -470,7 +470,7 @@ class RedisLock
 
     // 默认锁过期秒数
     const DEFAULT_EXPIRE = 10;
-    // 自旋最大等待毫秒
+    // 自旋最大等待毫秒(3000毫秒==三秒)
     const DEFAULT_WAIT_MS = 3000;
     // 每次自旋休眠毫秒
     const SPIN_SLEEP_MS = 50;
@@ -508,6 +508,7 @@ class RedisLock
      */
     public function lock(string $key, int $expireSeconds = self::DEFAULT_EXPIRE, int $waitMs = self::DEFAULT_WAIT_MS): bool
     {
+        //毫秒精度不能用strtotime
         $startTime = (int)(microtime(true) * 1000);
 
         while (true) {
@@ -517,11 +518,12 @@ class RedisLock
 
             // 超过等待时间直接失败
             $now = (int)(microtime(true) * 1000);
+            //当前时间-开始时间>=等待时间
             if ($now - $startTime >= $waitMs) {
                 return false;
             }
 
-            usleep(self::SPIN_SLEEP_MS * 1000);
+            usleep(self::SPIN_SLEEP_MS * 1000); // 暂停50毫秒(抢不到锁，歇 50ms 再试一次。)
         }
     }
 
