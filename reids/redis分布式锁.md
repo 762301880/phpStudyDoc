@@ -481,12 +481,12 @@ class RedisLock
     }
 
     /**
-     * 非阻塞抢锁：抢不到直接返回false，不重试
+     * 内部私有：非阻塞单次抢锁，仅给lock自旋调用
      * @param string $key 锁名
      * @param int $expireSeconds 锁过期时间
      * @return bool
      */
-    public function tryLock(string $key, int $expireSeconds = self::DEFAULT_EXPIRE): bool
+    private function tryLock(string $key, int $expireSeconds = self::DEFAULT_EXPIRE): bool
     {
         $token = $this->genToken();
         $result = $this->redis->set($key, $token, 'NX', 'EX', $expireSeconds);
@@ -500,7 +500,7 @@ class RedisLock
     }
 
     /**
-     * 阻塞自旋抢锁，直到抢到或超时
+     * 对外公开：阻塞自旋抢锁，直到抢到或超时
      * @param string $key
      * @param int $expireSeconds
      * @param int $waitMs 最大等待毫秒
