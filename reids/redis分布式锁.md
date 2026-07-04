@@ -1,3 +1,13 @@
+# php统一安装predis扩展
+
+> 因为自带的redis命令用不了**setnx**
+
+```php
+composer require predis/predis
+```
+
+
+
 # 资料&说明
 
 | 名称               | 地址                                                         |
@@ -403,12 +413,6 @@ class Demo
 ```
 
 # laravel redis分布式锁
-
-## 安装predis
-
-```php
-composer require predis/predis
-```
 
 ##  标准案例(不封装清空下使用   ps:不推荐)
 
