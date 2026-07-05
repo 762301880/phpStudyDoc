@@ -254,7 +254,6 @@ Redis 单线程 = **Redis 命令是排队执行的**
 ```php
 <?php
 
-
 namespace app\admin\controller;
 
 
@@ -681,7 +680,7 @@ class StockService
 ```php
  session_create_id();//生成不重复的字符串(唯一的值)
 
- uniqid('', true); //唯一不重复的key  
+ return uniqid('', true) . '-' . getmypid() . '-' . random_int(10000, 99999); //唯一不重复的key  
 ```
 
 
