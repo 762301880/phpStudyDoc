@@ -890,12 +890,8 @@ public function getImgAttr($value)
 
 > 不推荐全局改会有问题
 
-```ini
+```php
 #D:\phpstudy_pro\WWW\work\hq_media\application\database.php
-// 自动写入时间戳字段
-'auto_timestamp'  => false,
-// 时间字段取出后的默认时间格式,默认为Y-m-d H:i:s
-'datetime_format' => false,
 
 # 如果需要改为datetime格式需要改为
 'auto_timestamp'  => 'datetime',
