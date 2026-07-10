@@ -91,6 +91,9 @@ class AliOssService
     protected $bucket;
     protected $endpoint;
 
+    // 缓存OSS客户端实例，全局复用
+    private ?OssClient $ossClient = null;
+
     // 直接从 .env 读取，不经过任何配置文件
     public function __construct()
     {
@@ -98,6 +101,27 @@ class AliOssService
         $this->accessKeySecret = env('ALI_OSS_ACCESS_KEY_SECRET');
         $this->bucket          = env('ALI_OSS_BUCKET');
         $this->endpoint        = env('ALI_OSS_ENDPOINT');
+
+        // 提前校验配置完整性，避免运行时报错
+        if (empty($this->accessKeyId) || empty($this->accessKeySecret) || empty($this->bucket) || empty($this->endpoint)) {
+            throw new \Exception('阿里云OSS环境变量配置缺失，请检查.env文件');
+        }
+    }
+
+    /**
+     * 统一获取OSS客户端，单例复用，只实例化一次
+     * @return OssClient
+     */
+    private function getOssClient(): OssClient
+    {
+        if ($this->ossClient === null) {
+            $this->ossClient = new OssClient(
+                $this->accessKeyId,
+                $this->accessKeySecret,
+                $this->endpoint
+            );
+        }
+        return $this->ossClient;
     }
 
     /**
@@ -120,11 +144,8 @@ class AliOssService
         $originalName = $file->getClientOriginalName();
 
         try {
-            $ossClient = new OssClient(
-                $this->accessKeyId,
-                $this->accessKeySecret,
-                $this->endpoint
-            );
+            // 复用单例客户端
+            $ossClient = $this->getOssClient();
 
             // 上传文件流
             $content = file_get_contents($file->getPathname());
@@ -152,37 +173,30 @@ class AliOssService
      * @return string
      * @throws OssException
      */
-    public function getSignedUrl(string $object, int $expires = 3600)
+    public function getSignedUrl(string $object, int $expires = 3600): string
     {
-        $ossClient = new OssClient(
-            $this->accessKeyId,
-            $this->accessKeySecret,
-            $this->endpoint
-        );
+        $ossClient = $this->getOssClient();
         return $ossClient->signUrl($this->bucket, $object, $expires);
     }
-    
+
     /**
-     * 上传文本内容共
+     * 上传文本内容
      * @param string $content 文字内容
-     * @param $fileName
+     * @param string $fileName
      * @param string $dir
-     * @return string
-     * @throws Exception
+     * @return string oss文件路径object
+     * @throws \Exception
      * @throws OssException
-     * @throws \OSS\Http\RequestCore_Exception
      */
-    public function uploadContent($content, $fileName, string $dir = 'uploads'): string
+    public function uploadContent(string $content, string $fileName, string $dir = 'uploads'): string
     {
-        $ossClient = new OssClient(
-            $this->accessKeyId,
-            $this->accessKeySecret,
-            $this->endpoint
-        );
+        $ossClient = $this->getOssClient();
         $object = $dir . '/' . $fileName;
-        $arr = $ossClient->putObject($this->bucket, $object, $content);
-        $code = $arr["info"]["http_code"] ?? "";
-        if ($code != 200) throw new Exception("上传失败请检查原因");
+        $result = $ossClient->putObject($this->bucket, $object, $content);
+        $code = $result["info"]["http_code"] ?? 0;
+        if ($code !== 200) {
+            throw new \Exception("上传失败，请检查OSS配置或文件权限");
+        }
         return $object;
     }
 }
