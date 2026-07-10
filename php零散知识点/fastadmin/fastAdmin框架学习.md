@@ -752,18 +752,6 @@ data-mimetype="image/gif,image/jpeg,image/png,image/jpg"
 是否要我帮你把完整生成后的 `company_info.js` 文件示例写好（含表格、上传、富文本全部完善）？
  我可以直接生成你粘贴即可用的版本。
 
-##### 你说：
-
-编辑没有回显图片
-
-###### ChatGPT 说：
-
-非常好的问题 👍
- 👉 **FastAdmin 编辑页图片不回显** 是一个常见的小坑。
- 其实上传功能是好的，只是 **编辑页没正确显示上传图片的预览**。
-
-下面我详细教你如何修好它（完全可复制粘贴版）👇
-
 ------
 
 ## ✅ 一、确认你使用的上传表单代码
@@ -996,5 +984,13 @@ class RedisService
         return self::$instance;
     }
 }
+```
+
+# 读取env变量
+
+```php
+use think\Env;
+
+$this->accessKeyId = Env::get('ALI_OSS_ACCESS_KEY_ID');
 ```
 
