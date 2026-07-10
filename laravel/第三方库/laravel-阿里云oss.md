@@ -161,6 +161,30 @@ class AliOssService
         );
         return $ossClient->signUrl($this->bucket, $object, $expires);
     }
+    
+    /**
+     * 上传文本内容共
+     * @param string $content 文字内容
+     * @param $fileName
+     * @param string $dir
+     * @return string
+     * @throws Exception
+     * @throws OssException
+     * @throws \OSS\Http\RequestCore_Exception
+     */
+    public function uploadContent($content, $fileName, string $dir = 'uploads'): string
+    {
+        $ossClient = new OssClient(
+            $this->accessKeyId,
+            $this->accessKeySecret,
+            $this->endpoint
+        );
+        $object = $dir . '/' . $fileName;
+        $arr = $ossClient->putObject($this->bucket, $object, $content);
+        $code = $arr["info"]["http_code"] ?? "";
+        if ($code != 200) throw new Exception("上传失败请检查原因");
+        return $object;
+    }
 }
 ```
 

@@ -988,9 +988,21 @@ class RedisService
 
 # 读取env变量
 
+**.env配置**
+
+```php
+[ALI_OSS]
+ACCESS_KEY_ID=xxxxxxxxxxxxxxxxxx
+ACCESS_KEY_SECRET=xxxxxxxxxxxxxxxxxx
+BUCKET=xxxxxxxxxxxxxxxxxx
+ENDPOINT=xxxxxxxxxxxxxxxxxx
+```
+
+**service方法中使用**
+
 ```php
 use think\Env;
 
-$this->accessKeyId = Env::get('ALI_OSS_ACCESS_KEY_ID');
+$this->accessKeyId = Env::get('ALI_OSS.ACCESS_KEY_ID');
 ```
 
