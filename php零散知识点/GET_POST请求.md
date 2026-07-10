@@ -21,3 +21,19 @@ upload_max_filesize = 30M
 post_max_size = 35M
 ```
 
+#####  2. Nginx 拦截大请求（90% 本地 / 线上部署漏配）
+
+打开站点 nginx 配置，在 server 块内添加：
+
+```php
+client_max_body_size 30m;
+```
+
+重载 nginx 生效：
+
+```bash
+nginx -s reload
+```
+
+> 原理：nginx 默认限制很小，超过会直接截断请求，PHP 收不到任何数据，$_FILES 为空。
+
