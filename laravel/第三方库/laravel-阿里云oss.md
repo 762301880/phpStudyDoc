@@ -120,6 +120,9 @@ class AliOssService
                 $this->accessKeySecret,
                 $this->endpoint
             );
+            // 可选超时配置优化请求
+            $this->ossClient->setConnectTimeout(3);
+            $this->ossClient->setTimeout(10);    
         }
         return $this->ossClient;
     }
