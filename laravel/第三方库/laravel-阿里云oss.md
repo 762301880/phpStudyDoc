@@ -405,3 +405,17 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
 
 <font color='red'>记住千万不要用超级用户的accessKey会产生盗号非法创建资源风险  20240411被人盗用超级账户的accesskey 之后开通了几百个ECL实例产生了大量费用
 </font>
+
+## bug解析
+
+### 线上域名请求oss报错CORS跨域
+
+登录阿里云 → 打开「对象存储 OSS」
+
+左侧「Bucket 列表」，点开你的桶：`vibetv-short-play`
+
+左侧侧边栏找到 **数据安全**（旧版叫权限管理）
+
+右侧页面往下滑，找到 **跨域设置**，点【设置】→【创建规则】
+
+来源 Origin： 设置线上域名**https://xxxxx.com**
