@@ -184,6 +184,7 @@ class AliOssService
 
     /**
      * 上传文本内容
+     * 如何上传本地内容 content 传递 file_get_content(本地地址)
      * @param string $content 文字内容
      * @param string $fileName
      * @param string $dir
