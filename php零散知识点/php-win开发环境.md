@@ -76,3 +76,8 @@ export PATH=/d/phpstudy_pro/Extensions/php/php7.4.3nts:$PATH
 export PATH=/d/phpstudy_pro/Extensions/php/php8.2.9nts:$PATH
 ```
 
+## 注意事项(重点)
+
+##  redis报错不存在
+
+> 有时候发现明明安装了本地**redis** 却就是报错无redis发现了一个傻逼的点 对于版本有的不会默认开启**redis**  php 扩展把扩展打开即可
