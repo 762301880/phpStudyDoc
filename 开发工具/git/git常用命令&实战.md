@@ -2,7 +2,7 @@
 
 | 名称                   | 地址                                                         |
 | ---------------------- | ------------------------------------------------------------ |
-| git-清华大学开源镜像站 | [link](https://webget.yfjc.xyz/api/v1/client/subscribe?token=8d04e575867ad8ca43d45c1d093dcbc6) |
+| git-清华大学开源镜像站 | [link](https://mirrors.tuna.tsinghua.edu.cn/github-release/git-for-windows/git/Git%20for%20Windows%202.55.0%283%29/) |
 
 
 
