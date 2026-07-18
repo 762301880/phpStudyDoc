@@ -17,3 +17,42 @@
 | ip2region-github地址                                         | [link](https://github.com/lionsoul2014/ip2region)          |
 
 ### [ip2region 官网](https://ip2region.net/)
+
+### 使用[zoujingli/](https://packagist.org/packages/zoujingli/)ip2region扩展包
+
+**安装**
+
+```php
+composer require zoujingli/ip2region:^3.0
+```
+
+**简单使用**
+
+```php
+<?php
+
+namespace app\common\service;
+
+use app\common\service\abs\CommonService;
+
+class IpService extends CommonService
+{
+    /**
+     * 返回ip中文地址
+     * @param $ip
+     * @return array|string|null
+     * @throws \Exception
+     */
+    public function getIpAddress($ip, $method = 'search')
+    {
+        $ret = null;
+        try {
+            $ret = ip2region($ip, $method) ?? "";
+        } catch (\Exception $e) {
+            return $ret;
+        }
+        return $ret;
+    }
+}
+```
+
