@@ -32,7 +32,7 @@ dir /s /ad /b C:\ | findstr "8UMbrSew"
 rd /s /q "C:\ProgramData\8UMbrSew"
 ```
 
-### 排查定时任务
+### 排查定时任务(删除之后重启还有)
 
 > 手动删除目录之后 还是会启动 那肯定跟定时任务有关 所以准备排查一下系统的**任务计划程序**  但是打开 **任务计划程序** 就会闪退
 
@@ -171,5 +171,40 @@ DISM /Online /Cleanup-Image /RestoreHealth
 
 
 
+### 排查是不是有父进程(有)
 
+两种方法查 jc5cYQ58.exe 父进程（病毒母体溯源）
 
+方法 1：管理员 PowerShell（推荐，直接输出父进程 PID / 名称）
+
+1. 右键开始菜单 → 打开 **Windows PowerShell (管理员)**
+2. 执行这条完整查询命令：
+
+```powershell
+Get-WmiObject Win32_Process -Filter "Name='jc5cYQ58.exe'" | Select-Object Name,ProcessId,ParentProcessId
+```
+
+结果解读
+
+- 输出 `ParentProcessId` 后面的数字 = 父进程 PID
+- 再用 PID 查父进程名称（把数字替换成你查到的 PID）：
+
+```powershell
+Get-WmiObject Win32_Process -Filter "ProcessId=这里填PID数字" | Select-Object Name,ExecutablePath
+```
+
+两种高危结果判断
+
+1. 父进程是 `explorer.exe` / `cmd.exe` / `powershell.exe`：母体藏在开机启动、计划任务、临时目录
+2. 父进程是另一串随机 exe（如`qa3PKn.exe`/`JZXuqT.exe`）：这是**病毒主母体**，它负责不停生成 jc5cYQ58.exe，只删子进程没用，必须干掉父程序
+3. 父进程 PID=0：进程由系统服务 / 驱动启动，需要去系统服务里找恶意项
+
+**查询 PID=1272 的父进程完整信息**
+
+管理员 PowerShell 执行：
+
+```powershell
+Get-WmiObject Win32_Process -Filter "ProcessId=1272" | Select-Object Name,ProcessId,ExecutablePath,ParentProcessId
+```
+
+这条命令会输出：父进程文件名、完整文件路径、父进程的父 PID（溯源到源头）
