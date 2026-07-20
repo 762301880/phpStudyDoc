@@ -8,203 +8,387 @@
 
 
 
-### 手动删除(发现删除之后还会启动-进一步排查)
+## Windows 挖矿木马 jc5cYQ58.exe 排查清理记录
 
-**管理员模式打开cmd**
+## 1. 症状表现
 
-**逐条执行搜索命令，找出病毒所有分身**
+- 电脑重启后，木马文件自动重新出现。
+- 安全软件可以检测，但无法彻底清除。
+- 手动删除后，重启系统又恢复。
+- 删除过程中出现：
+  - 拒绝访问
+  - 文件正在被其他程序使用
 
-```bash
-# 搜索所有随机exe病毒1
-where /R C:\ JZXuqT.exe
-where /R C:\ qa3PKn.exe
-where /R C:\ jc5cYQ58.exe
+主要异常文件：
 
-# 搜索病毒文件夹（查找全部残留目录）
-dir /s /ad /b C:\ | findstr "3bRwC0"
-dir /s /ad /b C:\ | findstr "NucSCa"
-dir /s /ad /b C:\ | findstr "8UMbrSew"
-```
+C:\ProgramData\8UMbrSew\jc5cYQ58.exe
 
-**一键删除整个病毒文件夹（无需进目录查看）**
+---
 
-```bash
-rd /s /q "C:\ProgramData\8UMbrSew"
-```
+## 2. 初步定位病毒文件
 
-### 排查定时任务(删除之后重启还有)
-
-> 手动删除目录之后 还是会启动 那肯定跟定时任务有关 所以准备排查一下系统的**任务计划程序**  但是打开 **任务计划程序** 就会闪退
-
-问题根源：挖矿病毒破坏了 MMC 控制台组件 + 篡改计划任务服务注册表，导致 taskschd.msc 打开瞬间闪退
-
-前置：先通过命令行批量查杀所有恶意定时任务（不用打开图形界面）
-
-以**管理员身份**打开 PowerShell，直接执行批量检索 + 删除命令，绕过损坏的图形窗口：
-
-```bash
-# 1. 列出所有含病毒目录的定时任务
-Get-ScheduledTask | Where-Object {
-    $_.Actions.Execute -match "8UMbrSew|3bRwC0|NucSCa|jc5cYQ58|JZXuqT|qa3PKn"
-} | Format-Table TaskName,TaskPath,Actions
-
-# 2. 一键删除所有挖矿相关定时任务（无确认弹窗） 有效
-Get-ScheduledTask | Where-Object {
-    $_.Actions.Execute -match "8UMbrSew|3bRwC0|NucSCa|jc5cYQ58|JZXuqT|qa3PKn"
-} | Unregister-ScheduledTask -Confirm:$false
-```
-
-执行完无报错 = 恶意定时任务已全部清除。
-
-方案 1：修复 MMC 控制台（最常见闪退原因，病毒篡改 SnapIn 注册表）
-
-Win+R 输入`regedit`打开注册表
-
-定位路径：
-
-```
-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\MMC\SnapIns
-```
-
-右侧查找两个固定项，右键删除：
-
-```bash
-FX:{c7b8fb06-bfe1-4c2e-9217-7a69a95bbac4}
-FX:{c7b8fb07-bfe1-4c2e-9217-7a69a95bbac4}
-```
-
-> 识别特征：项内`AssemblyName`值为`TaskScheduler`
-
-1. 删除后重启电脑，再打开`taskschd.msc`测试。
-
-方案 2：修复任务计划核心服务（病毒禁用 / 损坏 Schedule 服务）
-
-步骤 1：管理员 CMD 重新注册任务计划 DLL
-
-```bash
-regsvr32 /u /s taskschd.dll
-regsvr32 /i /s taskschd.dll
-regsvr32 schtasks.dll
-```
-
-步骤 2：修复 Schedule 服务并启动
-
-1. Win+R 输入`services.msc`打开服务列表
-
-2. 找到
-
-   Task Scheduler
-
-   （任务计划程序）
-
-   - 启动类型：改为**自动**
-   - 点击「启动」，若提示启动失败继续下一步
-
-3. CMD 修复服务注册表权限：
+使用命令：
 
 ```cmd
-sc config Schedule start=auto
-net start Schedule
+where /r C:\ jc5cYQ58.exe
 ```
 
-方案 3：系统文件完整性修复（病毒篡改系统组件）
+发现：
 
-管理员 CMD 依次执行两条系统修复命令：
-
-```cmd
-# 修复所有系统文件
-sfc /scannow
-# 修复系统镜像底层损坏
-DISM /Online /Cleanup-Image /RestoreHealth
+```
+C:\ProgramData\8UMbrSew\jc5cYQ58.exe
+C:\Users\All Users\8UMbrSew\jc5cYQ58.exe
 ```
 
-两条命令全部跑完后重启电脑。
+说明病毒位于：
 
-方案 4：安全模式兜底清理（病毒持续篡改系统配置）
-
-1. 断开 WiFi / 网线，阻止病毒联网修复自身
-
-2. 进入**不带网络的安全模式**
-
-3. 重复执行：
-
-   1. PowerShell 删除恶意定时任务
-   2. 删除 MMC 异常注册表项
-   3. CMD 删除全部病毒文件夹：
-
-   ```cmd
-   taskkill /f /im jc5cYQ58.exe /im JZXuqT.exe /im qa3PKn.exe
-   rd /s /q "C:\ProgramData\8UMbrSew"
-   rd /s /q "C:\Program Files (x86)\3bRwC0"
-   rd /s /q "C:\Users\Public\NucSCa"
-   ```
-
-4. 删除注册表两处恶意自启动项：
-
-   
-
-   ```
-   HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
-   ```
-
-   
-
-   删除
-
-   ```
-   Alibaba SecurityHealtha
-   ```
-
-   ```
-   Tencent SecurityHealth
-   ```
-
-5. 重启进正常系统，打开`taskschd.msc`验证是否恢复。
-
-方案 5：替代工具（暂时不用修复 taskschd.msc，可视化查杀启动项）
-
-如果暂时不想修复系统，直接用**火绒安全**替代，一键查看所有定时任务、注册表启动、系统服务：
-
-1. 打开火绒 → 【安全工具】→【启动项管理】
-2. 切换「计划任务」标签，所有乱码、指向病毒 exe 的任务直接右键删除
-3. 同时清理「注册表启动」「系统服务」里的恶意项，全程不依赖 Windows 自带任务计划程序。
-
-
-
-### 排查是不是有父进程(有)
-
-两种方法查 jc5cYQ58.exe 父进程（病毒母体溯源）
-
-方法 1：管理员 PowerShell（推荐，直接输出父进程 PID / 名称）
-
-1. 右键开始菜单 → 打开 **Windows PowerShell (管理员)**
-2. 执行这条完整查询命令：
-
-```powershell
-Get-WmiObject Win32_Process -Filter "Name='jc5cYQ58.exe'" | Select-Object Name,ProcessId,ParentProcessId
+```
+C:\ProgramData\8UMbrSew
 ```
 
-结果解读
+`C:\Users\All Users` 实际为 `C:\ProgramData` 的兼容映射。
 
-- 输出 `ParentProcessId` 后面的数字 = 父进程 PID
-- 再用 PID 查父进程名称（把数字替换成你查到的 PID）：
+------
 
-```powershell
-Get-WmiObject Win32_Process -Filter "ProcessId=这里填PID数字" | Select-Object Name,ExecutablePath
+## 3. 发现关联启动程序
+
+检查注册表启动项：
+
+```
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
 ```
 
-两种高危结果判断
+发现：
 
-1. 父进程是 `explorer.exe` / `cmd.exe` / `powershell.exe`：母体藏在开机启动、计划任务、临时目录
-2. 父进程是另一串随机 exe（如`qa3PKn.exe`/`JZXuqT.exe`）：这是**病毒主母体**，它负责不停生成 jc5cYQ58.exe，只删子进程没用，必须干掉父程序
-3. 父进程 PID=0：进程由系统服务 / 驱动启动，需要去系统服务里找恶意项
-
-**查询 PID=1272 的父进程完整信息**
-
-管理员 PowerShell 执行：
-
-```powershell
-Get-WmiObject Win32_Process -Filter "ProcessId=1272" | Select-Object Name,ProcessId,ExecutablePath,ParentProcessId
+```
+Alibaba SecurityHealtha
+C:\Program Files (x86)\UNEi1qV3k\z4SzsX2.exe
 ```
 
-这条命令会输出：父进程文件名、完整文件路径、父进程的父 PID（溯源到源头）
+异常目录：
+
+```
+C:\Program Files (x86)\UNEi1qV3k
+```
+
+包含：
+
+```
+image.png
+thumbs.db
+XPSPLOG.dll
+z4SzsX2.exe
+```
+
+特点：
+
+- 随机目录名
+- 随机文件名
+- 伪装安全软件名称
+- 开机自动启动
+
+------
+
+## 4. 处理文件权限保护
+
+删除时发现：
+
+```
+拒绝访问
+```
+
+检查 ACL：
+
+```
+icacls "C:\Program Files (x86)\UNEi1qV3k"
+```
+
+发现：
+
+```
+BUILTIN\Users:(OI)(CI)(DENY)(S,DC)
+```
+
+说明木马修改了 NTFS 权限：
+
+- 添加 DENY 删除权限
+- 阻止管理员删除
+
+处理：
+
+```
+icacls "C:\Program Files (x86)\UNEi1qV3k" /remove:d Users
+```
+
+恢复删除权限。
+
+------
+
+## 5. 定位木马运行进程
+
+查看进程：
+
+```
+tasklist | findstr /i "jc5cYQ58"
+```
+
+发现：
+
+```
+jc5cYQ58.exe PID 3376
+```
+
+查询父进程：
+
+```
+wmic process where name="jc5cYQ58.exe" get ParentProcessId
+```
+
+发现：
+
+```
+ParentProcessId 1408
+```
+
+继续查询：
+
+```
+tasklist /svc | findstr "1408"
+```
+
+结果：
+
+```
+svchost.exe 1408 Schedule
+```
+
+判断：
+
+木马通过 Windows 计划任务服务启动。
+
+------
+
+## 6. 查找计划任务复活点
+
+导出任务：
+
+```
+schtasks /query /fo LIST /v > C:\schtasks.txt
+```
+
+搜索：
+
+```
+findstr /i "8UMbrSew jc5cYQ58 ProgramData" C:\schtasks.txt
+```
+
+发现：
+
+```
+C:\ProgramData\RmMUPbVs
+    jc5cYQ58.exe 1776
+
+C:\ProgramData\8UMbrSew
+    jc5cYQ58.exe 1776
+```
+
+进一步使用 PowerShell 查询任务动作：
+
+```
+Get-ScheduledTask | ForEach-Object {
+    foreach($action in $_.Actions){
+        if(($action.Execute + $action.Arguments + $action.WorkingDirectory) -match "RmMUPbVs|8UMbrSew|jc5cYQ58"){
+            Write-Host "任务:" $_.TaskPath$_.TaskName
+            $action
+        }
+    }
+}
+```
+
+发现两个恶意计划任务：
+
+### 木马任务1
+
+```
+任务:
+\ Elevate Our Plan
+
+程序:
+1cKcu8KR.exe
+
+工作目录:
+C:\ProgramData\RmMUPbVs
+```
+
+作用：
+
+负责释放/恢复木马。
+
+### 木马任务2
+
+```
+任务:
+\ Sustainability Standardization Data Optimization Seamlessly
+
+程序:
+jc5cYQ58.exe
+
+参数:
+1776
+
+工作目录:
+C:\ProgramData\8UMbrSew
+```
+
+作用：
+
+启动木马程序。
+
+------
+
+## 7. 清理步骤
+
+### 删除计划任务
+
+CMD：
+
+```
+schtasks /delete /tn "\Elevate Our Plan" /f
+schtasks /delete /tn "\Sustainability Standardization Data Optimization Seamlessly" /f
+```
+
+------
+
+### 结束木马进程
+
+```
+taskkill /f /im jc5cYQ58.exe
+taskkill /f /im 1cKcu8KR.exe
+```
+
+------
+
+### 删除木马目录
+
+处理：
+
+```
+C:\ProgramData\RmMUPbVs
+```
+
+和：
+
+```
+C:\ProgramData\8UMbrSew
+```
+
+命令：
+
+```
+takeown /f "目录路径" /r /d y
+icacls "目录路径" /grant Administrators:F /t
+rmdir /s /q "目录路径"
+```
+
+------
+
+## 8. 最终验证
+
+检查计划任务：
+
+```
+schtasks /query /fo LIST | findstr /i "RmMUPbVs 8UMbrSew jc5cYQ58 1cKcu8KR"
+```
+
+无输出。
+
+检查文件：
+
+```
+where /r C:\ jc5cYQ58.exe
+```
+
+无结果。
+
+确认：
+
+- 重启后木马不再出现。
+- 计划任务复活链已删除。
+- 木马文件已清理。
+
+------
+
+## 9. 木马行为总结
+
+完整感染链：
+
+```
+恶意计划任务
+        |
+        |
+        v
+C:\ProgramData\RmMUPbVs\1cKcu8KR.exe
+        |
+        |
+        v
+释放/恢复
+        |
+        |
+        v
+C:\ProgramData\8UMbrSew\jc5cYQ58.exe
+        |
+        |
+        v
+挖矿木马运行
+```
+
+木马使用技术：
+
+- 随机目录名隐藏
+- 随机 exe 文件名
+- 伪装安全软件名称
+- Windows 计划任务持久化
+- 修改 NTFS ACL 防止删除
+- 使用 ProgramData 隐藏运行
+
+------
+
+## 10. 后续防护建议
+
+1. 开启 Windows Defender 离线扫描。
+2. 检查计划任务：
+
+```
+schtasks /query /fo LIST /v
+```
+
+重点关注：
+
+- ProgramData
+- AppData
+- 随机目录
+- 无描述程序
+
+1. 定期检查启动项：
+
+```
+wmic startup get caption,command
+```
+
+1. 不运行来源不明破解软件、激活工具。
+2. 发现随机目录：
+
+例如：
+
+```
+C:\ProgramData\xxxxxx
+C:\Program Files (x86)\xxxxxx
+```
+
+且包含随机 exe，应优先排查。
+
+```
+这个记录以后遇到类似 **“重启复活型木马”** 可以直接照这个流程走。此次核心经验就是：
+
+**不要先删文件，先找持久化入口。这个案例真正的根源是计划任务，而不是 jc5cYQ58.exe 本身。**
+```
