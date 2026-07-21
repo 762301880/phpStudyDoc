@@ -392,3 +392,46 @@ C:\Program Files (x86)\xxxxxx
 
 **不要先删文件，先找持久化入口。这个案例真正的根源是计划任务，而不是 jc5cYQ58.exe 本身。**
 ```
+
+##  如果病毒阻止你打开杀毒软件(来阻止此应用你的组织使用了 Windows Defender 应用程序控制
+C:\Program Files (x86)360\360safe\360Safe.exe)
+
+
+### 关闭 WDAC 策略（推荐）
+
+用**管理员 PowerShell**执行：
+
+```
+Copy-Item C:\Windows\System32\CodeIntegrity\SiPolicy.p7b C:\SiPolicy_backup.p7b
+```
+
+先备份。
+
+然后执行：
+
+```
+Rename-Item C:\Windows\System32\CodeIntegrity\SiPolicy.p7b SiPolicy.p7b.bak
+```
+
+重启电脑。 
+
+### 方法二手动备份
+
+### `CiPolicies`
+
+目录：
+
+```
+C:\Windows\System32\CodeIntegrity\CiPolicies
+```
+
+存放 WDAC 策略相关文件。
+
+**改配置文件然后重启电脑**
+
+```bash
+C:\Windows\System32\CodeIntegrity\SiPolicy.p7b   改为 SiPolicy.p7b.bak
+```
+
+
+
