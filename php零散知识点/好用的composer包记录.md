@@ -56,3 +56,33 @@ class IpService extends CommonService
 }
 ```
 
+##  读取mp3音乐时长
+
+### getID3
+
+**安装**
+
+```php
+composer require james-heinrich/getid3
+```
+
+**本地文件读取时长**
+
+```php
+use getID3;
+
+$getID3 = new getID3();
+$filePath = 'audio/test.mp3';
+$fileInfo = $getID3->analyze($filePath);
+
+// 总秒数（浮点）
+$seconds = $fileInfo['playtime_seconds'];
+// 格式化 00:00:00
+$h = floor($seconds / 3600);
+$m = floor(($seconds % 3600) / 60);
+$s = floor($seconds % 60);
+$durationStr = sprintf("%02d:%02d:%02d", $h, $m, $s);
+
+echo "总秒数：{$seconds}，时长：{$durationStr}";
+```
+
