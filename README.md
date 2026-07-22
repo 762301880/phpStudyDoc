@@ -14,16 +14,5 @@
 >
 > [gitbook文档](https://yaoliuyang.gitbook.io/phpstudy)
 
-# 补充
 
-## 日后需要手动删除的图片
 
-image-20210513082946484.png
-
-image-20210512181516883.png
-
-image-20210530200809761.png
-
-qKQmwl2hDz5YPVj.png
-
-Pj7sGnJSYDO53IX.png
