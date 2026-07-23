@@ -203,6 +203,40 @@ class AliOssService
         }
         return $object;
     }
+    
+     /**
+     * 头像缩略压缩签名链接（阿里云官方标准写法，兼容所有V1 PHP SDK）
+     * @param string $object oss文件路径
+     * @param int $expires 链接有效期 秒
+     * @param int $width 头像宽度
+     * @return string
+     */
+    public function getAvatarSignedUrl(string $object, int $expires = 3600 * 24 * 30, int $width = 120): string
+    {
+        if (empty($object)) {
+            return '';
+        }
+        // 和原有逻辑保持一致：去除路径开头斜杠
+        if (strpos($object, '/') === 0) {
+            $object = ltrim($object, '/');
+        }
+
+        $ossClient = $this->getOssClient();
+
+        // 官方固定key：OSS_PROCESS 专门用来传x-oss-process图像处理指令
+        $options = [
+            \OSS\OssClient::OSS_PROCESS => "image/resize,w_{$width}/format,webp/quality,q_70"
+        ];
+
+        // 严格对齐你SDK定义的5个参数顺序
+        return $ossClient->signUrl(
+            $this->bucket,
+            $object,
+            $expires,
+            \OSS\OssClient::OSS_HTTP_GET,
+            $options
+        );
+    }
 }
 ```
 
