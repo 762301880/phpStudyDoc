@@ -28,18 +28,8 @@
 
 2. **执行重启命令**
 
-   bash
-
-   
-
-   复制
-
-   
-
-   下载
-
-   ```
-   taskkill /f /im explorer.exe && start explorer.exe
+   ```bash
+taskkill /f /im explorer.exe && start explorer.exe
    ```
 
    - 输入后按回车，资源管理器会自动重启。
@@ -59,16 +49,6 @@
 - **频繁卡死**：如果资源管理器反复崩溃，可能是系统文件损坏，建议运行 `sfc /scannow` 修复。
 
 通过以上方法，可快速解决资源管理器卡顿问题。如果问题持续，建议检查系统更新或进行病毒扫描。
-
-
-
-
-
-
-
-
-
-开启新对话
 
 # C盘清理
 
