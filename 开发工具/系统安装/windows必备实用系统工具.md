@@ -242,7 +242,41 @@ reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" 
 
 [安装链接](https://github.com/microsoft/terminal/releases)
 
+[应用程序式安装](https://aka.ms/terminal-canary-installer)
 
+## 适配新路径完整注册表内容(解压式安装)
+
+[下载解压式安装包](https://aka.ms/terminal-canary-zip-x64)  我放的目录是**D:\Program Files (x86)\terminal-1.26.2011.0**
+
+复制全部文本到记事本，另存为 `添加终端右键.reg`，编码选 **ANSI**，双击导入即可：
+
+> **注意另存为编码要改为`ANSI`**  
+
+```bash
+Windows Registry Editor Version 5.00
+
+; 文件夹空白区域右键打开终端
+[HKEY_CLASSES_ROOT\Directory\Background\shell\wt]
+@="在此处打开 Windows 终端"
+"Icon"="D:\\Program Files (x86)\\terminal-1.26.2011.0\\WindowsTerminal.exe,0"
+[HKEY_CLASSES_ROOT\Directory\Background\shell\wt\command]
+@="\"D:\\Program Files (x86)\\terminal-1.26.2011.0\\WindowsTerminal.exe\" -d ."
+
+; 选中文件夹图标右键打开终端
+[HKEY_CLASSES_ROOT\Directory\shell\wt]
+@="在此处打开 Windows 终端"
+"Icon"="D:\\Program Files (x86)\\terminal-1.26.2011.0\\WindowsTerminal.exe,0"
+[HKEY_CLASSES_ROOT\Directory\shell\wt\command]
+@="\"D:\\Program Files (x86)\\terminal-1.26.2011.0\\WindowsTerminal.exe\" -d \"%V\""
+```
+
+## 操作步骤
+
+1. 桌面新建文本文档，粘贴上面代码
+2. 文件 → 另存为：
+   - 文件名：`添加终端右键.reg`
+   - 编码：**ANSI**（必须选，中文菜单不乱码）
+3. 双击该文件 → 点击「是」确认导入注册表
 
 # dll修复工具
 
