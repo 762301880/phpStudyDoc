@@ -1,12 +1,10 @@
-# 官网地址
+## 官网地址
 
 | 名称                               | 地址                                                     |
 | ---------------------------------- | -------------------------------------------------------- |
 | typora官网(需要翻墙)  typora中文网 | [link](https://typora.io/)  [link](https://typoraio.cn/) |
 
-
-
-# 说明
+## 说明
 
 > 突然看见typora官网开始收费下载了好家伙，的产品
 
@@ -28,5 +26,13 @@
 wget https://download.typora.io/linux/typora_1.4.1-dev_amd64.deb
 ```
 
+## 类似于typora好用的博客软件
 
+### Tolaria
+
+**资料**
+
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 官网地址 | [官网](https://tolaria.md/)   [github](https://github.com/refactoringhq/tolaria) |
 
