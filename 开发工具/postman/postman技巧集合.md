@@ -184,7 +184,9 @@ pm.environment.set("api_token",response.data.jwtToken);
 
 1. 找到 Postman 的安装目录，通常在：
 
-> 或者图标鼠标右键>打开文件所在的位置
+> 或者图标鼠标右键>打开文件所在的位置   
+>
+> 注意: Postman 底层依赖 **Squirrel 更新框架** 启动校验，程序启动时会主动查找`Update.exe`，找不到就会初始化失败、闪退 / 双击无反应
 
    ```makefile
 C:\Users\<你的用户名>\AppData\Local\Postman
@@ -192,7 +194,7 @@ C:\Users\<你的用户名>\AppData\Local\Postman
 
 2. 在这个目录下找到一个名为 `Update.exe` 的文件。
 
-3. 重命名该文件，例如改成 `Update_disabled.exe`，或者直接删除它（更推荐重命名，方便还原）。
+3. 重命名该文件，例如改成 `Update.exe.back`。
 
 4. （可选）使用防火墙阻止 `Update.exe` 或 `Postman.exe` 访问网络。
 
