@@ -81,3 +81,9 @@ export PATH=/d/phpstudy_pro/Extensions/php/php8.2.9nts:$PATH
 ##  redis报错不存在
 
 > 有时候发现明明安装了本地**redis** 却就是报错无redis发现了一个傻逼的点 对于版本有的不会默认开启**redis**  php 扩展把扩展打开即可
+
+#   php项目打不开排查解析
+
+##  例如php项目 如果启动不起来nginx报错502 Bad Gatewaynginx/1.15.11
+
+> 首先我们跑到项目下运行**php think run** 先看看本地命令是否能跑起来如果本地都跑不起来就是**本地环境的错**
