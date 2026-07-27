@@ -178,7 +178,7 @@ pm.environment.set("api_token",response.data.jwtToken);
 >
 > 禁止 Postman 自动更新的方法取决于你使用的是哪个版本（Postman App 桌面版）和你使用的操作系统（Windows、macOS、Linux）。Postman 的官方设置中**并不提供关闭自动更新的选项**，但可以通过一些技巧来实现：
 
-###  方法一：修改系统文件阻止更新（适用于 Windows/macOS）
+###  方法一：修改系统文件阻止更新（废弃勿看）
 
 #### Windows：
 
@@ -221,6 +221,39 @@ C:\Users\<你的用户名>\AppData\Local\Postman
 - 在这里找： https://www.filehorse.com/download-postman/old-versions/
 
 3. 安装后结合“方法一”禁用更新。
+
+### 方法四: 禁止 Update.exe 联网(推荐)
+
+不要删。
+
+打开：
+
+```bash
+Windows Defender 防火墙
+↓
+高级安全
+↓
+出站规则
+↓
+新建规则
+↓
+程序
+↓
+选择
+Update.exe
+↓
+阻止连接
+```
+
+
+
+它还能启动，但是更新不了。
+
+
+
+
+
+---
 
 ##  postman全局 Pre-request Script
 
