@@ -237,6 +237,36 @@ class AliOssService
             $options
         );
     }
+    
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
+    public function getBucket()
+    {
+        return $this->bucket;
+    }
+
+    /**
+     * 拷贝文件
+     * @param $path
+     * @param $toPath
+     * @return null
+     * @throws OssException
+     * @throws \OSS\Http\RequestCore_Exception
+     */
+    public function copyObject($path, $toPath)
+    {
+        $ossClient = $this->getOssClient();
+        // 第一步：判断源文件是否存在OSS
+        $isExists = $this->ossClient->doesObjectExist($this->bucket, $path);
+        $toPathIsExists = $this->ossClient->doesObjectExist($this->bucket, $toPath);
+        if ($toPathIsExists) return $toPath;//如果上传文件已经存在正式目录直接返回
+        if (!$isExists) throw new \Exception('OSS源文件不存在，无法复制');
+        $ossClient->copyObject($this->bucket, $path, $this->bucket, $toPath);
+        return $toPath;
+    }
 }
 ```
 
@@ -454,3 +484,104 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
 右侧页面往下滑，找到 **跨域设置**，点【设置】→【创建规则】
 
 来源 Origin： 设置线上域名**https://xxxxx.com**
+
+## 封装上传到临时目录 提交转移到正式目录
+
+```php
+<?php
+
+namespace app\common\service;
+
+use app\common\service\abs\CommonService;
+use think\Exception;
+
+class UploadFileService extends CommonService
+{
+    protected $ossClient = null;
+
+    public function __construct()
+    {
+        $this->ossClient = new OssService();
+    }
+
+    /**
+     * 上传文件到临时目录
+     * 为什么需要这个因为如果我上传文件不保存直接退出那这个文件就是废文件
+     * 只有保存才转移到真实地址
+     * @param $file
+     * @param $savePath
+     */
+    public function uploadFileToTemp($file, $savePath = 'temp')
+    {
+        $year_date = date("Ymd");//年月日
+        $ossPath = $savePath . "/" . $year_date;//保存到临时目录 oss可以自动设置删除临时文件目录配置
+//        $ext = getFileExt($file);//获取后缀名称(mp4,txt)
+        $fileName = getFileOriginalName($file);//获取文件名称(上传文件.txt)
+
+        $saveFileName = uniqid() . "." . date('YmdHis') . '@' . $fileName;//上传后的文件名
+        try {
+            $localPath = 'uploads/' . date('Ymd'); //保存到本地的文件
+            $localPathName = $localPath . '/' . $saveFileName;//保存到本地的文件
+            $file->move($localPath, $saveFileName);//先转移到本地
+            #判断本地是否保存成功
+            if (!file_exists($localPath)) throw new Exception('文件移动至本地临时目录失败');
+
+            //开始上传到oss
+            $ossRes = $this->ossClient->uploadContent(file_get_contents($localPathName), $saveFileName, $ossPath);
+
+            // 你的阿里云OSS外网访问域名（替换成你自己的Bucket域名）
+            $bucket = $this->ossClient->getBucket();
+            $endpoint = $this->ossClient->getEndpoint();
+            // 拼接标准OSS外网域名：bucket.endpoint
+            $ossDomain = "https://{$bucket}.{$endpoint}";
+            // 文件原始完整访问地址
+            $originUrl = $ossDomain . '/' . $ossRes;
+
+            // 定义多种缩略图规则（阿里云OSS图片缩放规则）
+            $thumbList = [
+                // 1. 固定宽度400，高度等比例缩放（宽度优先）
+                'w400' => $originUrl . '?x-oss-process=image/resize,w_400',
+                // 2. 固定高度300，宽度等比例缩放（高度优先）
+                'h300' => $originUrl . '?x-oss-process=image/resize,h_300',
+                // 3. 固定尺寸200*200，居中裁剪正方形缩略图（头像常用）
+                'square200' => $originUrl . '?x-oss-process=image/resize,w_200,h_200,m_fill',
+                // 4. 小缩略图 100*100 方形
+                'square100' => $originUrl . '?x-oss-process=image/resize,w_100,h_100,m_fill',
+                // 5. 长边最长500，短边自适应，不拉伸不变形
+                'long500' => $originUrl . '?x-oss-process=image/resize,l_500'
+            ];
+
+            // 返回组装好的数据
+            return [
+                'oss_key' => $ossRes,          // oss存储路径 temp/20260729/xxx.jpeg
+                'origin_url' => $originUrl,       // 原图完整域名地址
+                'thumb' => $thumbList        // 全部缩略图集合
+            ];
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage() . ':' . $e->getLine());
+        } finally {
+            // 上传完毕删除本地临时文件
+            if (file_exists($localPathName)) unlink($localPathName);
+        }
+    }
+
+    /**
+     * OSS临时文件迁移至正式目录（内网复制，无流量损耗）
+     * $tempOssKey temp/20260729/6a6974b992cd2.20260729113417@c3b73dd979ecd0e784114b7675ae067a.jpeg
+     */
+    public function copyOssTempToFormal($tempOssKey, $dir)
+    {
+        try {
+            if (empty($tempOssKey)) throw new Exception('需要转移的oss临时文件不能为空');
+            // OSS内部拷贝文件 源文件=>目标文件
+            $arr=  explode('/', $tempOssKey);
+            $fileName=end($arr);
+            $dirFileName = $dir . "/" . $fileName; //需要转移的文件
+            return $this->ossClient->copyObject($tempOssKey, $dirFileName);
+        } catch (\Exception $e) {
+            throw new Exception('文件转正失败：' . $e->getMessage());
+        }
+    }
+}
+```
+
