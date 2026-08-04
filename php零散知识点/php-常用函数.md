@@ -257,3 +257,5 @@ class TestController extends Controller
 echo call_user_func([TestController::class, 'retText'],[ 123, 456, 789]);
 ```
 
+## [shuffle-洗牌算法打乱数组函数](http://php.p2hp.com/manual/zh/function.shuffle.php)
+
