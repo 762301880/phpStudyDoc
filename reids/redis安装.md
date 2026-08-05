@@ -191,3 +191,70 @@ PING redis-13822.c258.us-east-1-4.ec2.cloud.redislabs.com (3.81.36.161) 56(84) b
 > **填写完毕之后勾选 SSL不用填任何东西连接即可**
 
 ![image-20260514110817593](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260514110817593.png)
+
+### laravel如何连接
+
+**方案一:直接用REDIS_URL连接**
+
+```php
+REDIS_URL=rediss://default:gQAAAAAAAcLHAAIgcDE0NDJkODViNDlhOTg0N2JlOTMzYTM3OTJiMmJiMmY1OA@sure-hyena-115399.upstash.io:6379
+```
+
+**方案二**
+
+
+
+```php
+REDIS_HOST=sure-hyena-115399.upstash.io
+REDIS_PORT=6379
+REDIS_PASSWORD="*******************8"
+REDIS_SCHEME=tls
+```
+
+**配置文件**
+
+> `vendor\predis\predis\src\Connection\Factory.php`
+>
+> 里面有对应的配置
+>
+> ```php
+>   protected $schemes = array(
+>         'tcp' => 'Predis\Connection\StreamConnection',
+>         'unix' => 'Predis\Connection\StreamConnection',
+>         'tls' => 'Predis\Connection\StreamConnection',
+>         'redis' => 'Predis\Connection\StreamConnection',
+>         'rediss' => 'Predis\Connection\StreamConnection',
+>         'http' => 'Predis\Connection\WebdisConnection',
+>     );
+> ```
+
+```php
+ 'redis' => [
+
+        'client' => env('REDIS_CLIENT', 'predis'),
+
+        'options' => [
+            'cluster' => env('REDIS_CLUSTER', 'redis'),
+            //'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+        ],
+
+        'default' => [
+            'scheme' => env('REDIS_SCHEME', 'tls'),  # 新加这一行
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_DB', '0'),
+        ],
+
+        'cache' => [
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', '6379'),
+            'database' => env('REDIS_CACHE_DB', '0'),
+        ],
+
+    ],
+```
+
