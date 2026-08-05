@@ -133,7 +133,7 @@ docker run -itd --name redis -p 6389:6379 -v /data/redis:/data redis:6.0.9
 
 # 云redis
 
-##  redislabs
+##  redislabs(已收费不推荐)
 
 > 今天无意中找到一款云redis
 
