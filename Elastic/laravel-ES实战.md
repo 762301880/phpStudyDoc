@@ -362,3 +362,20 @@ class EsController extends Controller
 
 ##  ES当日志系统(待补充不推荐)
 
+## 直观页面效果图
+
+用户搜索：oppo
+
+页面列表渲染：
+
+🔴oppo手机 004
+
+简介：🔴oppo手机 004 款 xxxxxx
+
+点击 → 跳转到商品 502 详情页
+
+🔴oppo手机 003
+
+简介：🔴oppo手机 003 款 xxxxxx
+
+点击 → 跳转到商品 501 详情页
