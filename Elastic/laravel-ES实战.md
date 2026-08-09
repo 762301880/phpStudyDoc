@@ -9,11 +9,36 @@ composer require elasticsearch/elasticsearch
 ```php
 # Elasticsearch
 ELASTICSEARCH_HOST=http://127.0.0.1:9200
-ELASTICSEARCH_USER=
-ELASTICSEARCH_PASS=
+ELASTICSEARCH_USERNAME=
+ELASTICSEARCH_PASSWORD=
 ```
 
+## config配置elasticsearch.php
+
+```php
+<?php
+// config/elasticsearch.php
+return [
+    // ES 服务器地址（默认9200端口，本地启动直接用这个）
+    'hosts' => [
+        env('ELASTICSEARCH_HOST', 'http://localhost:9200'),
+    ],
+    // 可选：如果 ES 有账号密码，添加以下配置
+    'username' => env('ELASTICSEARCH_USERNAME', ''),
+    'password' => env('ELASTICSEARCH_PASSWORD', ''),
+    // ES 6.x 注意：默认索引分片数/副本数（可选）
+    'settings' => [
+        'number_of_shards' => 1,
+        'number_of_replicas' => 0,
+    ]
+];
+```
+
+
+
 ## 单例模式EsService
+
+> 同一个 PHP-FPM 进程生命周期内，**只会执行一次 build () 创建客户端**
 
 ```php
 <?php
