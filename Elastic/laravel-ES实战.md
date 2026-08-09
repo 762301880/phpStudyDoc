@@ -1,4 +1,4 @@
-## 扩展包安装
+## [扩展包安装](https://packagist.org/packages/elasticsearch/elasticsearch)
 
 ```php
 composer require elasticsearch/elasticsearch
