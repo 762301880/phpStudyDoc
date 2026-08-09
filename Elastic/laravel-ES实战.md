@@ -13,6 +13,60 @@ ELASTICSEARCH_USER=
 ELASTICSEARCH_PASS=
 ```
 
+## 单例模式EsService
+
+```php
+<?php
+
+
+namespace App\Services;
+use Elasticsearch\ClientBuilder;
+
+
+class EsClientService
+{
+    // 单例模式：避免重复创建客户端连接
+    private static $client = null;
+
+    /**
+     * 私有构造函数，禁止外部 new
+     */
+    public function __construct()
+    {
+    }
+    /**
+     * 禁止克隆
+     */
+    private function __clone()
+    {
+
+    }
+    /**
+     * 获取 ES 客户端实例（核心：适配 6.x 版本）
+     * @return \Elasticsearch\Client
+     */
+    public static function getClient()
+    {
+        if (is_null(self::$client)) {
+            // 1. 读取配置文件中的 ES 地址
+            $hosts = config('elasticsearch.hosts');
+            // 2. 构建客户端构建器
+            $builder = ClientBuilder::create()->setHosts($hosts);
+            // 3. 如果有账号密码，添加认证（6.x 版本语法）
+            $username = config('elasticsearch.username');
+            $password = config('elasticsearch.password');
+            if (!empty($username) && !empty($password)) {
+                #$builder->setBasicAuthentication($username, $password);
+            }
+            $builder->setRetries(2);// 设置重连次数
+            // 4. 创建客户端实例
+            self::$client = $builder->build();
+        }
+        return self::$client;
+    }
+}
+```
+
 
 
 ## 增删改查代码示例
@@ -24,7 +78,7 @@ ELASTICSEARCH_PASS=
 namespace App\Http\Controllers;
 
 
-use Elasticsearch\ClientBuilder;
+use App\Services\EsClientService;
 use Illuminate\Http\Request;
 
 /**
@@ -41,14 +95,9 @@ class EsController extends Controller
     // 构造函数：初始化 ES 连接
     public function __construct()
     {
-        $hosts = [
-            '127.0.0.1:9200',         // IP + Port
-        ];
-        $clientBuilder = ClientBuilder::create();   // Instantiate a new ClientBuilder
-        $clientBuilder->setHosts($hosts);           // Set the hosts
-        $clientBuilder->setRetries(2);           // 设置重连次数
-        $this->client = $clientBuilder->build();
+        $this->client=EsClientService::getClient();
     }
+    
     // ==========================
     // 【1】创建全局搜索索引（只运行一次）
     // 相当于创建数据库
