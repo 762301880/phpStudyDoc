@@ -247,7 +247,9 @@ REDIS_SCHEME=tls
             'database' => env('REDIS_DB', '0'),
         ],
 
+        //注意cache也要加
         'cache' => [
+            'scheme' => env('REDIS_SCHEME', 'tls'),  # 新加这一行
             'url' => env('REDIS_URL'),
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
@@ -256,5 +258,63 @@ REDIS_SCHEME=tls
         ],
 
     ],
+```
+
+#### bug解析
+
+##### 后台执行保存redis后终端执行php artisan notice_gold_price 报错  Error while reading line from the server. [tcp://sure-hyena-115399.upstash.io:6379]
+
+> 可以发现错误原因是**tcp连接**
+
+开始排查
+
+```php
+yaoliuyang@yly MINGW64 /d/phpstudy_pro/WWW/laravel_study (develop)
+$ php artisan tinker
+Psy Shell v0.12.15 (PHP 8.2.9 — cli) by Justin Hileman
+New PHP manual is available (latest: 3.1.0). Update with `doc --update-manual`
+
+
+> config('database.redis')                                                                                                                                                                       
+= [
+    "client" => "predis",
+    "options" => [
+      "cluster" => "redis",
+    ],
+    "default" => [
+      "scheme" => "tls",
+      "url" => null,
+      "host" => "sure-hyena-115399.upstash.io",
+      "password" => "gQAAAAAAAcLHAAIgcDE0NDJkODViNDlhOTg0N2JlOTMzYTM3OTJiMmJiMmY1OA",
+      "port" => "6379",
+      "database" => "0",
+    ],
+    # 发现这里scheme 没有改为tls后台配置添加之后 这里还是没有  清除缓存 php artisan config:cache 之后出现
+    "cache" => [
+      "url" => null,  
+      "host" => "sure-hyena-115399.upstash.io",
+      "password" => "gQAAAAAAAcLHAAIgcDE0NDJkODViNDlhOTg0N2JlOTMzYTM3OTJiMmJiMmY1OA",
+      "port" => "6379",
+      "database" => "0",
+    ],
+  ]
+```
+
+推测因该是后台保存默认走的是default配置  但是命令端执行**php artisan notice_gold_price** 会调用一个通知类
+
+```php
+            (new WorkController())->sendRobotMessage("当前设置黄金价格为:{$thisHighPrice},高于设置的通知价格:{$high_price}");
+
+# new 实例化调用 通知类中有这么一行  这就是罪魁祸首  这里默认会走cache 默认cache第一次走缓存是tcp 超级大坑
+
+public function getAccessToken()
+    {
+         
+            //设置缓存过期时间2小时
+            Cache::put('access_token', $data['access_token'], 60 * 60 * 2);
+       
+    }
+
+
 ```
 
