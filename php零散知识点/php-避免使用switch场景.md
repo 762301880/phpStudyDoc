@@ -27,34 +27,19 @@
 
 #### 使用数组方式优化
 
-`优化方案一`
-
 > 定义键值对数组 先判断传输过来的只是不是在键值对中然后使用算符判断
 
 ```php
-
-        $position=[0=>"成员",1=>"干事",2=>"副社长",3=>"社长",'default'=>'游客'];
-        return in_array($this->position,array_keys($position))?$position[$this->position]:$position['default'];
-
+$map = [
+    0 => '成员',
+    1 => '干事',
+    2 => '副社长',
+    3 => '社长',
+];
+return $map[$this->position] ?? '游客';
 ```
 
-`优化方案二`
 
-> 直接写死对应的关系，然后使用下标的方式进行三木运算判断
-
-```php
-        $position=["成员","干事","副社长","社长",'游客'];
-        return $this->position <= count($position) -1 ?  $position[$this->position] :'游客';
-```
-
-`优化方法三`
-
-> 直接匹配如果不存在的话直接返回默认值
-
-```php
-$jobStatusTitle=[1 => '就读', 2 => '实习找工作', 3 => "实习有工作", 4 => '毕业找工作', 5 => '毕业有工作','default'=>'暂无工作'];
-return $jobStatusTitle[$value]??$jobStatusTitle['default'];
-```
 
 
 
