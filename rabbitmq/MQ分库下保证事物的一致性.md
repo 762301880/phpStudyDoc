@@ -68,7 +68,7 @@ DB::transaction(function () {
         ->where('id', 1)
         ->decrement('money', 100);
 
-    // 保存消息
+    // 保存消息 用数据库保存“我这次业务操作需要发送一条 MQ 消息”这个事实。
     $messageId = DB::table('mq_messages')->insertGetId([
         'type' => 'create_order',
         'status' => 0
@@ -83,8 +83,6 @@ DB::transaction(function () {
     });
 });
 ```
-});
-
 ## Laravel 落地实现
 
 ###  第一步：消息表（核心）
