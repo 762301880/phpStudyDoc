@@ -1,6 +1,6 @@
 # 代码示例
 
-##  代码生成日期
+##  代码生成日期(不推荐没有索引)
 
 ### 算法1
 
@@ -53,10 +53,59 @@ print_r($newData);
 
 ## 批量插入数据库生成日期
 
-### python脚本  按年插入日期
+### python脚本  按年插入日期(推荐)
 
 ```python
+import pymysql
+from datetime import datetime, timedelta
 
+# ====================== 你的数据库配置（直接填你的）======================
+db_config = {
+    'host': 'mysql7.sqlpub.com',
+    'user': 'laravel_test',
+    'password': '****************',  # 你的密码
+    'database': 'laravel_test',
+    'charset': 'utf8mb4',
+    'port': 3312,  # 你用的是 3312 端口
+}
+
+# 生成日期范围（2020-2030 足够用）
+START_DATE = "1997-01-01"
+END_DATE = "2040-12-31"
+
+# ====================== 连接数据库 ======================
+try:
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor()
+    print("✅ 数据库连接成功")
+except Exception as e:
+    print("❌ 数据库连接失败：", e)
+    exit()
+
+# ====================== 生成连续日期 ======================
+start = datetime.strptime(START_DATE, "%Y-%m-%d")
+end = datetime.strptime(END_DATE, "%Y-%m-%d")
+dates = []
+
+current = start
+while current <= end:
+    dates.append((current.strftime("%Y-%m-%d"),))
+    current += timedelta(days=1)
+
+# ====================== 批量插入 ======================
+sql = "INSERT IGNORE INTO days (date) VALUES (%s)"
+
+try:
+    cursor.executemany(sql, dates)
+    conn.commit()
+    print(f"✅ 插入完成！共 {len(dates)} 条日期数据")
+except Exception as e:
+    print("❌ 插入失败：", e)
+    conn.rollback()
+
+# 关闭
+cursor.close()
+conn.close()
 ```
 
 
