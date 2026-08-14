@@ -30,6 +30,67 @@
 }
 ```
 
+### 参数详解
+
+#### id的作用
+
+官方定义：
+
+> `id`：请求标识符，**客户端自己随便指定**（数字 / 字符串 /null），服务端**原样带回**到响应中。
+
+1. 核心用途：区分「多并发请求」
+
+​    场景举例：前端同时并发发送 2 条 RPC 请求
+
+ ```php
+// 请求A id=1001
+{"jsonrpc":"2.0","method":"User.getInfo","params":{"uid":1},"id":1001}
+
+// 请求B id=1002
+{"jsonrpc":"2.0","method":"Order.getList","params":{"page":1},"id":1002}
+ ```
+
+网络返回顺序**不一定和发送顺序一致**！
+
+ 服务端返回两条结果：
+
+```php
+{"jsonrpc":"2.0","result":[...],"id":1002}
+{"jsonrpc":"2.0","result":{"name":"xxx"},"id":1001}
+```
+
+客户端依靠 `id` 匹配： 
+
+`id=1001` → 交给 `User.getInfo` 的回调函数
+
+ `id=1002` → 交给 `Order.getList` 的回调函数
+
+👉 如果没有 id，客户端分不清哪个响应对应哪个请求！
+
+两种模式区分（非常关键）
+
+① **有 id：调用（Request）—— 需要响应**
+
+```php
+{"jsonrpc":"2.0","method":"User.getInfo","params":{"uid":1},"id":1001}
+```
+
+服务端**必须返回结果 / 错误**，带上同一个 `id`。
+
+② **id 省略 /id:null：通知（Notification）—— 不需要返回任何数据**
+
+```json
+{"jsonrpc":"2.0","method":"Log.add","params":{"msg":"操作日志"}}
+```
+
+服务端收到后执行方法，**不返回任何响应**。
+
+
+
+
+
+---
+
 ## laravel手搓json_rpc代码
 
 ### 路由
