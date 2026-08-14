@@ -39,6 +39,17 @@
 Route::post('json_rpc', [\App\Http\Controllers\JsonRpcController::class, 'handle']);
 ```
 
+> ⚠️ 重点：api 路由默认**不经过 CSRF 中间件**，如果放到 web.php 必须在 `VerifyCsrfToken` 排除该路由
+
+```php
+// app/Http/Middleware/VerifyCsrfToken.php
+protected $except = [
+    '/json_rpc'
+];
+```
+
+
+
 ### 控制器
 
 ```php
@@ -261,3 +272,69 @@ class UserService
 }
 ```
 
+### 客户端调用测试（Postman /curl）
+
+### 请求地址
+
+POST http://127.0.0.1/api/json_rpc
+
+` Header: `Content-Type: application/json
+
+**示例报文 1（命名参数）**
+
+```json
+{
+    "jsonrpc":"2.0",
+    "method":"User.getInfo",
+    "params":{"uid":1},
+    "id":1001
+}
+```
+
+返回：
+
+```json
+{
+    "jsonrpc":"2.0",
+    "result":{"uid":1,"username":"test_user","time":1754000000},
+    "id":1001
+}
+```
+
+**示例报文 2（顺序参数）**
+
+```json
+{
+    "jsonrpc":"2.0",
+    "method":"User.sum",
+    "params":[10,20],
+    "id":1002
+}
+```
+
+返回:
+
+```json
+{
+    "jsonrpc": "2.0",
+    "result": 30,
+    "id": 1002
+}
+```
+
+### 注意事项
+
+1. **禁止中间件统一格式化返回** 如果项目有全局响应中间件（统一包装 `code/data/msg`），**必须跳过 `/rpc` 路由**，否则破坏 JSON-RPC 标准结构。
+2. 异常不要返回 HTML 错误页 生产环境确保 `APP_ENV=production`，Laravel 不会输出异常堆栈 HTML。
+3. 安全建议
+   - 增加 IP 白名单中间件
+   - 增加签名校验（在 params 内携带 sign，自行扩展）
+   - 禁止调用危险类 / 方法，可以配置允许调用的服务白名单
+4. 批量请求支持 客户端传入数组形式多条请求，服务端会逐条处理并返回数组。
+
+### 可选扩展方向
+
+- 增加方法白名单控制，防止任意类调用
+- 增加请求签名鉴权
+- 日志记录 RPC 调用、耗时、异常
+- 支持通知（不带 id 的 JSON-RPC 请求，不需要返回响应）
