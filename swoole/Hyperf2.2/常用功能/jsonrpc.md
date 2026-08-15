@@ -4,6 +4,18 @@
 composer require hyperf/json-rpc
 ```
 
+### 要使用 JSON RPC 服务端：
+
+```bash
+composer require hyperf/rpc-server
+```
+
+### 要使用 JSON RPC 客户端：
+
+```bash
+composer require hyperf/rpc-client
+```
+
 ## 参考资料
 
 | 名称     | 地址                                                         |
