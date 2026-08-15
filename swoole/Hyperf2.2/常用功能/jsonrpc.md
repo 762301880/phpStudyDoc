@@ -1,16 +1,22 @@
-#  超级大bug解析
+## [安装](https://hyperf.wiki/2.2/#/zh-cn/json-rpc?id=安装)
 
-# 参考博客 恩人啊 
+```bash
+composer require hyperf/json-rpc
+```
 
-https://www.ziruchu.com/art/659
+## 参考资料
 
-pdf备份 https://yaoliuyang.lanzoul.com/iULfk3nbqm3e
+| 名称     | 地址                                                         |
+| -------- | ------------------------------------------------------------ |
+| 网络博客 | [link](https://www.ziruchu.com/art/659)  [pdf备份](https://yaoliuyang.lanzoul.com/iULfk3nbqm3e) |
 
+## 注意事项 
 
+### 调用函数要小写
 
-# 终极真相（就这一句）
+终极真相（就这一句）
 
-## **Hyperf 2.2 jsonrpc-http 默认规则：**
+**Hyperf 2.2 jsonrpc-http 默认规则：**
 
 - `@RpcService(name="CalculatorService")`
 - 会自动生成路由：**`/calculator/add`**
@@ -36,9 +42,7 @@ headers 添加  Content-Typ  application/json
 }
 ```
 
-
-
-**为什么是小写**
+#### **为什么是小写**
 
 > D:\phpstudy_pro\WWW\hyperf_study\vendor\hyperf\rpc\src\PathGenerator\PathGenerator.php
 >
@@ -79,7 +83,7 @@ class PathGenerator implements PathGeneratorInterface
 
 ```
 
-#### 3. **官方文档（隐藏、缺失、不写）**
+#### **官方文档（隐藏、缺失、不写）**
 
 - 官方 2.2 文档「JSON-RPC」章节：
 
@@ -96,9 +100,7 @@ class PathGenerator implements PathGeneratorInterface
 
   
 
-------
-
-### 二、为什么官方文档不写？（真相）
+#### 为什么官方文档不写？（真相）
 
 1. **文档面向「分布式微服务」**
 
@@ -128,7 +130,7 @@ class PathGenerator implements PathGeneratorInterface
 
    
 
-# 安全性问题
+## 安全性问题
 
 ###  创建中间件
 
