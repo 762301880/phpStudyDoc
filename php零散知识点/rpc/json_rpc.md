@@ -426,3 +426,187 @@ POST http://127.0.0.1/api/json_rpc
 - 增加请求签名鉴权
 - 日志记录 RPC 调用、耗时、异常
 - 支持通知（不带 id 的 JSON-RPC 请求，不需要返回响应）
+
+## 调用json_rpc
+
+Laravel 调用远程 JSON-RPC 服务（另一台服务器）
+
+JSON-RPC 分为 **1.0 / 2.0**，主流是 **JSON-RPC 2.0**，先明确规范：
+
+- 请求方式：POST
+- 请求体 json
+- Content-Type: `application/json`
+- 结构：`{"jsonrpc":"2.0","method":"方法名","params":[参数数组/对象],"id":1}`
+
+下面提供**三种方案**：原生 Guzzle（推荐）、封装通用 JSON-RPC 客户端、第三方扩展包。
+
+> 前提：Laravel 自带 Guzzle，无需额外安装（Laravel 8+ 默认内置）
+
+### 最简示例：直接使用 Guzzle 调用
+
+```php
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
+
+public function rpcTest()
+{
+    $rpcUrl = 'http://另一台服务器IP:端口/rpc'; // 远程JSON-RPC地址
+
+    $client = new Client([
+        'timeout' => 10,
+        'connect_timeout' => 5
+    ]);
+
+    try {
+        $response = $client->post($rpcUrl, [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'jsonrpc' => '2.0',
+                'method'  => 'user.getInfo', // 远程服务提供的方法名
+                'params'  => [123, 'test'],  // 参数，数组/关联对象都可以
+                'id'      => 1
+            ]
+        ]);
+
+        $result = json_decode($response->getBody()->getContents(), true);
+
+        // JSON-RPC标准返回
+        if (isset($result['error'])) {
+            Log::error('JSON-RPC异常', $result['error']);
+            return ['code' => -1, 'msg' => $result['error']['message']];
+        }
+
+        // 正常业务结果
+        return $result['result'];
+
+    } catch (\GuzzleHttp\Exception\RequestException $e) {
+        // 网络超时、连接失败、服务宕机
+        Log::error('RPC请求失败：' . $e->getMessage());
+        return ['code' => -2, 'msg' => '远程服务连接失败'];
+    }
+}
+```
+
+### 封装通用 JSON-RPC 客户端（推荐项目使用）
+
+新建 `app/Helpers/JsonRpcClient.php`
+
+```php
+<?php
+
+namespace App\Helpers;
+
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+
+class JsonRpcClient
+{
+    protected string $url;
+    protected Client $client;
+
+    public function __construct(string $rpcUrl)
+    {
+        $this->url = $rpcUrl;
+        $this->client = new Client([
+            'timeout' => 15,
+            'connect_timeout' => 5
+        ]);
+    }
+
+    /**
+     * @param string $method
+     * @param array $params
+     * @param int $id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function call(string $method, array $params = [], int $id = 1)
+    {
+        $requestData = [
+            'jsonrpc' => '2.0',
+            'method'  => $method,
+            'params'  => $params,
+            'id'      => $id
+        ];
+
+        try {
+            $resp = $this->client->post($this->url, [
+                'headers' => ['Content-Type' => 'application/json'],
+                'json'    => $requestData
+            ]);
+
+            $data = json_decode($resp->getBody()->getContents(), true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception('远程返回非合法JSON');
+            }
+
+            if (isset($data['error'])) {
+                $msg = $data['error']['message'] ?? 'rpc error';
+                $code = $data['error']['code'] ?? -1;
+                throw new \Exception("RPC[$code]:{$msg}");
+            }
+
+            return $data['result'] ?? null;
+
+        } catch (RequestException $e) {
+            throw new \Exception("网络请求异常：" . $e->getMessage());
+        }
+    }
+}
+```
+
+**使用方式**
+
+```php
+use App\Helpers\JsonRpcClient;
+
+$rpcClient = new JsonRpcClient('http://192.168.1.100:9000/jsonrpc');
+try {
+    // 调用远程方法 order.query(1001, 0)
+    $res = $rpcClient->call('order.query', [1001, 0]);
+    dd($res);
+} catch (\Exception $e) {
+    echo $e->getMessage();
+}
+```
+
+### 如果远程服务需要鉴权
+
+场景 1：Header 携带 Token
+
+```php
+'headers' => [
+    'Content-Type' => 'application/json',
+    'Authorization' => 'Bearer ' . $token
+]
+```
+
+场景  2：参数内传入密钥
+
+直接放到 params 数组：
+
+```php
+'params' => ['access_key' => 'xxx', 'id' => 555]
+```
+
+### 批量调用 JSON-RPC（Batch Request）
+
+JSON-RPC2.0 支持一次请求调用多个方法：
+
+```php
+$batch = [
+    ['jsonrpc'=>'2.0','method'=>'user.info','params'=>[1],'id'=>1],
+    ['jsonrpc'=>'2.0','method'=>'goods.list','params'=>[],'id'=>2],
+];
+$resp = $client->post($url, ['json' => $batch]);
+```
+
+
+
+
+
+
+
