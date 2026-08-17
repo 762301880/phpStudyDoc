@@ -1,5 +1,11 @@
 ## ps:不推荐好复杂 且业务代码啰嗦
 
+### 注意
+
+### PHP里直接用XA事务基本走不通
+
+MySQL从5.7开始默认禁用`XA`，8.0虽支持但要求所有参与库都启用`xa_support=ON`且必须用`mysql`原生驱动（PDO不支持`XA START/END/COMMIT`命令），而PHP官方至今没在PDO或mysqli中暴露`XA`相关接口。你写`mysqli_query($conn, "XA START 'tx1'")`大概率报错`Unknown command`或被静默忽略。
+
 ## mysql_ XA事务文档
 
 > [5.7](https://dev.mysql.com/doc/refman/5.7/en/xa-statements.html)
