@@ -1,5 +1,9 @@
 ## ps:不推荐好复杂 且业务代码啰嗦
 
+## mysql_ XA事务文档
+
+> [5.7](https://dev.mysql.com/doc/refman/5.7/en/xa-statements.html)
+
 ##  场景示例(日后补充)
 
 ### A库test_one表
