@@ -17,3 +17,20 @@ return [
 #高德地图key
 GAODE_KEY=xxxxxxxxxxxxxxxxxx
 ```
+
+## Laravel8 返回 UTC 时间带 T、Z 格式问题
+
+```php
+"created_at": "2026-08-18T11:08:37.000000Z",
+"updated_at": "2026-08-18T11:08:37.000000Z",
+```
+
+**解决 模型中添加配置**
+
+```php
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+```
+
