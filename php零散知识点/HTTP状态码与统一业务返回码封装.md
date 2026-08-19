@@ -211,7 +211,7 @@ trait ApplyResponseLayout
      * @param int $httpCode HTTP 状态码
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function error($msg = '操作失败', $businessCode = BusinessCodeEnum::BAD_REQUEST, $httpCode = HttpCodeEnum::BAD_REQUEST)
+    protected function error($msg = '操作失败', $businessCode = BusinessCodeEnum::BAD_REQUEST, $httpCode = HttpCodeEnum::SUCCESS)
     {
         return response()->json([
             'code' => $businessCode, // 业务错误码（前端判断用）
