@@ -514,7 +514,7 @@ class AliOssService extends CommonService
             );
             // 可选超时配置优化请求
             $this->ossClient->setConnectTimeout(3);
-            $this->ossClient->setTimeout(10);
+            $this->ossClient->setTimeout(20);
         }
         return $this->ossClient;
     }
@@ -552,7 +552,11 @@ class AliOssService extends CommonService
         $bucket = $this->bucket;
         try {
             $localRealPath = $file->getPathname();
-            $ossClient->uploadFile($bucket, $ossKey, $localRealPath);
+            $ossClient->uploadFile($bucket, $ossKey, $localRealPath,[
+                // 小于1M不启用分片上传，分片会额外耗时
+                'partSize' => 1024 * 1024,
+                'checkMd5' => false, // 关闭MD5校验，提速，内网环境可以关
+            ]);
         } catch (OssException $e) {
             throw new \Exception("OSS上传失败：" . $e->getMessage());
         }
