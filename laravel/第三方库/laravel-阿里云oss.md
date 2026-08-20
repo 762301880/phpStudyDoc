@@ -563,6 +563,7 @@ class AliOssService extends CommonService
             'oss_key' => $ossKey,
             'preview_signed_url' => $previewSignedUrl,
             'original_name' => $file->getClientOriginalName(),
+            'url' => $previewSignedUrl
         ];
     }
 
