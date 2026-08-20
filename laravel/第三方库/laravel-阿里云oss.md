@@ -2,23 +2,6 @@
 
 > 创建**ram** 账户 并单独分配 **oss**相关权限 千万别直接给了总账户的 权限 
 
-## 统一上传文件到服务器
-
-### larave(本地上传)
-
-```php
-        $file = $request->file('file'); //获取上传的文件
-        $file_suffix = $file->getClientOriginalExtension(); //获取图片后缀(jpg,png)
-        if (!in_array($file_suffix, ['jpg', 'jpeg', 'png'])) throw new \Exception("图片后缀必须是图片格式");
-        $move_path = public_path("/temp_imgs"); //需要上传的临时目录位置
-        if (!is_dir($move_path)) mkdir($move_path);//如果目录不存在默认创建一个
-        $move_file_name = date('YmdHis') . '.' . $file_suffix;
-        $file->move($move_path, $move_file_name); //转移文件
-        $path_file_name = $move_path . '/' . $move_file_name;//全路径+上传的文件名
-        if (!file_exists($path_file_name)) throw new \Exception("文件上传失败");
-
-```
-
 ## 资料
 
 | name                               | url                                                          |
@@ -26,7 +9,7 @@
 | 阿里云文档中心-对象存储oss         | [link](https://help.aliyun.com/document_detail/85580.html)   |
 | 查看 公共云下OSS各地域Endpoint如下 | [link](https://help.aliyun.com/document_detail/31837.htm?spm=a2c4g.11186623.0.0.605c273bVxKtaM#concept-zt4-cvy-5db) |
 
-## composer`安装阿里云oss`扩展
+## 安装阿里云oss扩展
 
 - 使用composer[安装](https://help.aliyun.com/document_detail/85580.html?spm=a2c4g.11186623.6.1006.6ea926fdpa6BHm)
 
@@ -62,7 +45,7 @@ $ossClient->uploadFile($bucket, $object, "D:\\localpath\\exampleobject.jpg");
 
 
 
-###  上传示例
+###  上传示例(参考示例 不可做正式代码)
 
 > 这里只是演示，正式环境我们需要两个目录 
 >
@@ -277,7 +260,7 @@ class AliOssService
 [**创建存储空间:bucket**](https://help.aliyun.com/document_detail/32102.html)
 
 ```php
- $file = $request->file('img');
+        $file = $request->file('img');
         $path      = $file->getPath() . '/' . $file->getFilename();//得到文件主机上的地址
         $file_name = $file->getClientOriginalName();//上传的文件名称
         $bucket = 'examplebucket'; //bucket名称不能与网络重复
@@ -485,102 +468,286 @@ https://your-bucket-name.oss-cn-hangzhou.aliyuncs.com/your-image.jpg?x-oss-proce
 
 来源 Origin： 设置线上域名**https://xxxxx.com**
 
-## 封装上传到临时目录 提交转移到正式目录
+## 封装上传到临时目录 提交转移到正式目录(正式环境可用)
+
+### AliOssService代码
 
 ```php
 <?php
 
-namespace app\common\service;
+namespace App\Services;
 
-use app\common\service\abs\CommonService;
-use think\Exception;
+use App\Services\Abs\CommonService;
+use OSS\Core\OssException;
+use OSS\OssClient;
 
-class UploadFileService extends CommonService
+class AliOssService extends CommonService
 {
-    protected $ossClient = null;
+    protected $accessKeyId;
+    protected $accessKeySecret;
+    protected $bucket;
+    protected $endpoint;
+    private ?OssClient $ossClient = null;
 
+
+    // 直接从 .env 读取，不经过任何配置文件
     public function __construct()
     {
-        $this->ossClient = new OssService();
+        $this->accessKeyId = env('ALI_OSS_ACCESS_KEY_ID');
+        $this->accessKeySecret = env('ALI_OSS_ACCESS_KEY_SECRET');
+        $this->bucket = env('ALI_OSS_BUCKET');
+        $this->endpoint = env('ALI_OSS_ENDPOINT');
+    }
+
+
+    /**
+     * 统一获取OSS客户端，单例复用，只实例化一次
+     * @return OssClient
+     */
+    private function getOssClient(): OssClient
+    {
+        if ($this->ossClient === null) {
+            $this->ossClient = new OssClient(
+                $this->accessKeyId,
+                $this->accessKeySecret,
+                $this->endpoint
+            );
+            // 可选超时配置优化请求
+            $this->ossClient->setConnectTimeout(3);
+            $this->ossClient->setTimeout(10);
+        }
+        return $this->ossClient;
+    }
+
+    public function uploadContent(string $content, string $fileName, string $dir = 'uploads'): string
+    {
+        $ossClient = $this->getOssClient();
+        $object = $dir . '/' . $fileName;
+        $result = $ossClient->putObject($this->bucket, $object, $content);
+        $code = $result["info"]["http_code"] ?? 0;
+        if ($code !== 200) {
+            throw new \Exception("上传失败，请检查OSS配置或文件权限");
+        }
+        return $object;
     }
 
     /**
-     * 上传文件到临时目录
-     * 为什么需要这个因为如果我上传文件不保存直接退出那这个文件就是废文件
-     * 只有保存才转移到真实地址
-     * @param $file
-     * @param $savePath
+     * 上传文件到OSS temp临时目录
+     * @param $file Illuminate\Http\UploadedFile
+     * @param string $savePath
+     * @return array
+     * @throws \Exception
      */
     public function uploadFileToTemp($file, $savePath = 'temp')
     {
-        $year_date = date("Ymd");//年月日
-        $ossPath = $savePath . "/" . $year_date;//保存到临时目录 oss可以自动设置删除临时文件目录配置
-//        $ext = getFileExt($file);//获取后缀名称(mp4,txt)
-        $fileName = getFileOriginalName($file);//获取文件名称(上传文件.txt)
-
-        $saveFileName = uniqid() . "." . date('YmdHis') . '@' . $fileName;//上传后的文件名
-        try {
-            $localPath = 'uploads/' . date('Ymd'); //保存到本地的文件
-            $localPathName = $localPath . '/' . $saveFileName;//保存到本地的文件
-            $file->move($localPath, $saveFileName);//先转移到本地
-            #判断本地是否保存成功
-            if (!file_exists($localPath)) throw new Exception('文件移动至本地临时目录失败');
-
-            //开始上传到oss
-            $ossRes = $this->ossClient->uploadContent(file_get_contents($localPathName), $saveFileName, $ossPath);
-
-            // 你的阿里云OSS外网访问域名（替换成你自己的Bucket域名）
-            $bucket = $this->ossClient->getBucket();
-            $endpoint = $this->ossClient->getEndpoint();
-            // 拼接标准OSS外网域名：bucket.endpoint
-            $ossDomain = "https://{$bucket}.{$endpoint}";
-            // 文件原始完整访问地址
-            $originUrl = $ossDomain . '/' . $ossRes;
-
-            // 定义多种缩略图规则（阿里云OSS图片缩放规则）
-            $thumbList = [
-                // 1. 固定宽度400，高度等比例缩放（宽度优先）
-                'w400' => $originUrl . '?x-oss-process=image/resize,w_400',
-                // 2. 固定高度300，宽度等比例缩放（高度优先）
-                'h300' => $originUrl . '?x-oss-process=image/resize,h_300',
-                // 3. 固定尺寸200*200，居中裁剪正方形缩略图（头像常用）
-                'square200' => $originUrl . '?x-oss-process=image/resize,w_200,h_200,m_fill',
-                // 4. 小缩略图 100*100 方形
-                'square100' => $originUrl . '?x-oss-process=image/resize,w_100,h_100,m_fill',
-                // 5. 长边最长500，短边自适应，不拉伸不变形
-                'long500' => $originUrl . '?x-oss-process=image/resize,l_500'
-            ];
-
-            // 返回组装好的数据
-            return [
-                'oss_key' => $ossRes,          // oss存储路径 temp/20260729/xxx.jpeg
-                'origin_url' => $originUrl,       // 原图完整域名地址
-                'thumb' => $thumbList        // 全部缩略图集合
-            ];
-        } catch (\Exception $e) {
-            throw new Exception($e->getMessage() . ':' . $e->getLine());
-        } finally {
-            // 上传完毕删除本地临时文件
-            if (file_exists($localPathName)) unlink($localPathName);
+        if (empty($file) || !$file->isValid()) {
+            throw new \Exception('上传文件无效');
         }
+        $yearDate = date("Ymd");
+        $ossPrefix = $savePath . "/" . $yearDate;
+        $extension = $file->getClientOriginalExtension();
+        $safeFileName = uniqid() . '_' . date('YmdHis') . '.' . $extension;
+        $ossKey = $ossPrefix . "/" . $safeFileName;
+        $ossClient = $this->getOssClient();
+        $bucket = $this->bucket;
+        try {
+            $localRealPath = $file->getPathname();
+            $ossClient->uploadFile($bucket, $ossKey, $localRealPath);
+        } catch (OssException $e) {
+            throw new \Exception("OSS上传失败：" . $e->getMessage());
+        }
+        // 生成短期预览签名，仅用于表单页面预览，禁止入库
+        $previewSignedUrl = $this->getSignedUrl($ossKey, 1800);
+
+        return [
+            'oss_key' => $ossKey,
+            'preview_signed_url' => $previewSignedUrl,
+            'original_name' => $file->getClientOriginalName(),
+        ];
     }
+
 
     /**
      * OSS临时文件迁移至正式目录（内网复制，无流量损耗）
      * $tempOssKey temp/20260729/6a6974b992cd2.20260729113417@c3b73dd979ecd0e784114b7675ae067a.jpeg
      */
-    public function copyOssTempToFormal($tempOssKey, $dir)
+    /**
+     * 将前端传回的完整OSS签名URL，解析后从temp临时目录拷贝到正式目录
+     * @param string $url 前端传过来完整带域名+签名的preview_signed_url
+     * @param string $dir 正式目录，例：upload/article
+     * @return string 返回正式oss_key（存入数据库）
+     * @throws \Exception
+     */
+    public function copyOssTempToFormal($url, $dir)
     {
-        try {
-            if (empty($tempOssKey)) throw new Exception('需要转移的oss临时文件不能为空');
-            // OSS内部拷贝文件 源文件=>目标文件
-            $arr=  explode('/', $tempOssKey);
-            $fileName=end($arr);
-            $dirFileName = $dir . "/" . $fileName; //需要转移的文件
-            return $this->ossClient->copyObject($tempOssKey, $dirFileName);
-        } catch (\Exception $e) {
-            throw new Exception('文件转正失败：' . $e->getMessage());
+
+        $bucket = $this->bucket;
+        $ossClient = $this->getOssClient();
+
+        // 1.解析URL，提取path，丢弃域名、?后面所有签名参数
+        $parts = parse_url($url);
+        if (!$parts || empty($parts['path'])) {
+            throw new \Exception('OSS资源URL解析失败');
         }
+        // 去除路径开头斜杠，得到纯净object key
+        $ossKey = ltrim($parts['path'], '/');
+        //正式目录#############
+        $arr = explode('/', $ossKey);
+        $fileName = end($arr);
+        $dirFileName = $dir . "/" . $fileName; //需要转移的文件
+        ######################
+        //判断是否存在正式目录中如果存在直接返回(编辑情况)
+        if ($ossClient->doesObjectExist($bucket, $dirFileName)) {
+            return $dirFileName;
+        }
+        // 2.安全校验：只允许 temp/ 临时目录，防止越权
+        if (strpos($ossKey, 'temp/') !== 0) {
+            throw new \Exception('仅允许迁移temp临时目录资源');
+        }
+        // 3.OSS远程校验文件真实存在（不可省略，防前端伪造路径）
+        if (!$ossClient->doesObjectExist($bucket, $ossKey)) {
+            throw new \Exception('临时文件不存在或已被OSS生命周期删除');
+        }
+        // 5.OSS服务端拷贝，文件不会下载经过PHP服务器
+        $ossClient->copyObject($bucket, $ossKey, $bucket, $dirFileName);
+        return $dirFileName;
+    }
+
+    /**
+     * 根据 OSS 路径 object 获取签名URL
+     * @param string $object
+     * @param int $expires
+     * @return string
+     * @throws OssException
+     */
+    public function getSignedUrl(string $object, int $expires = 3600)
+    {
+        $ossClient = $this->getOssClient();
+        return $ossClient->signUrl($this->bucket, $object, $expires);
+    }
+}
+```
+
+### FileUploadService 代码
+
+> 以下代码是干嘛用的 
+>
+> 是给php后端代码调用的 例如**getFullUrls** 从库里得到的路径我需要转化为oss全路径
+
+```php
+<?php
+
+namespace App\Services;
+
+use App\Services\Abs\CommonService;
+
+class FileUploadService extends CommonService
+{
+    protected $oss = null;
+
+    public function __construct()
+    {
+        $this->oss = AliOssService::getInstance();
+    }
+
+    /**
+     * 获取url对应的oss路径
+     * 会自动判断 如果在临时目录转移到正式目录  如果正式目录有的情况下直接返回
+     * dir 不可以 / 开头
+     * @param $url
+     * @param $dir
+     * @return array|string
+     */
+    public function getFullUrlPath($url, $dir)
+    {
+        if (empty($dir)) throw new \Exception("需要保存的图片地址不能为空");
+        if (empty($url)) return $url;
+        $retArr = [];
+        if (is_array($url)) {
+            foreach ($url as $key => $v) {
+                $retArr[$key] = $this->oss->copyOssTempToFormal($v, $dir);
+            }
+            return $retArr;
+        }
+        //不是数组情况下
+        return $this->oss->copyOssTempToFormal($url, $dir);
+    }
+
+    /**
+     * 数据库里的地址转化为oss地址
+     * @param $file_path
+     * @return array|string
+     * @throws \OSS\Core\OssException
+     */
+    public function getFullUrls($file_path)
+    {
+        if (empty($file_path)) return $file_path;
+        $retArr = [];
+        if (is_array($file_path)) {
+            foreach ($file_path as $key => $file) {
+                $retArr[$key] = $this->oss->getSignedUrl($file);
+            }
+            return $retArr;
+        }
+        return $this->oss->getSignedUrl($file_path);
+    }
+}
+```
+
+### FileUpload控制器代码(对外暴露上传端口)
+
+**路由**
+
+```php
+Route::group(['prefix' => 'file'], function () {
+    Route::post('uploadImg',[\App\Http\Controllers\FileUpload::class, 'uploadImg']);//上传图片
+    //上传视频
+});
+```
+
+**控制器**
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Services\AliOssService;
+use App\Traits\ApplyResponseLayout;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+
+class FileUpload extends Collection
+{
+    use ApplyResponseLayout;
+
+    protected $oss = null;
+
+    public function __construct($items = [])
+    {
+        parent::__construct($items);
+        $this->oss = AliOssService::getInstance();
+    }
+
+    public function uploadImg(Request $request)
+    {
+        $file = $request->file('file');
+
+        try {
+            if (empty($file)) throw new \ErrorException('上传图片不能为空');
+            # 验证上传图片格式
+            $filter_suffix = ['jpg', 'jpeg', 'png', 'bpm', 'gif', 'svg', 'webp'];
+            if (!in_array($file->getClientOriginalExtension(), $filter_suffix)) {
+                $suffix = implode('、', $filter_suffix);
+                throw new \ErrorException("上传文件必须是 {$suffix} 其中的一种");
+            }
+            # 验证上传图片大小
+            if (floor($file->getSize() / (1024 * 1024) > 3)) throw new \ErrorException('上传文件必须保持在3M以内');
+            $upload = $this->oss->uploadFileToTemp($file);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage());
+        }
+        return $this->success('图片上传成功', $upload);
     }
 }
 ```
