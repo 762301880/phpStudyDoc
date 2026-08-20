@@ -425,3 +425,5 @@ https://console.sqlpub.com   (推荐 虽然只有 500M)
 7623开头邮箱  网站密码为 `YlbAnAPtzvH07p9u`
 
 yao@ali  邮箱 密码为   `GyquqF4seiPhk9QU`
+
+## https://turso.tech/
