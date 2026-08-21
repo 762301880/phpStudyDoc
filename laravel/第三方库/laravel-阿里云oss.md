@@ -720,9 +720,8 @@ namespace App\Http\Controllers;
 use App\Services\AliOssService;
 use App\Traits\ApplyResponseLayout;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
-class FileUpload extends Collection
+class FileUpload extends Controller
 {
     use ApplyResponseLayout;
 
@@ -730,7 +729,6 @@ class FileUpload extends Collection
 
     public function __construct($items = [])
     {
-        parent::__construct($items);
         $this->oss = AliOssService::getInstance();
     }
 
@@ -753,6 +751,7 @@ class FileUpload extends Collection
             return $this->error($e->getMessage());
         }
         return $this->success('图片上传成功', $upload);
+
     }
 }
 ```
