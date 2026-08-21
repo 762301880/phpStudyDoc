@@ -63,7 +63,7 @@
 
 
 
-# tymon/jwt-auth(超级不推荐不好用)
+# tymon/jwt-auth(停止维护 老旧不推荐)
 
 ##  注意
 
