@@ -413,6 +413,8 @@ private function __construct(){}
 2. 单元测试不太好 mock
 3. 生命周期跟脚本一致，对象常驻内存不销毁
 
+---
+
 ## PHP 的垃圾回收机制
 
 > PHP 使用引用计数 + 循环引用检测
@@ -596,6 +598,10 @@ echo $users[1]["age"];  // 输出：30
 | 索引数组 | 数字（0,1,2...） |     列表、有序数据      |
 | 关联数组 |   自定义字符串   |    键值对、配置信息     |
 | 多维数组 |     数组嵌套     | 复杂数据（列表 + 详情） |
+
+---
+
+
 
 ## laravel的生命周期
 
@@ -1031,6 +1037,10 @@ dispatch(function () {
 })->afterResponse();
 ```
 
+---
+
+
+
 ## swoole协程与线程还有进程的区别
 
 ### 核心的区别
@@ -1186,3 +1196,47 @@ Swoole 只需要：
 线程：微秒级切换
 协程：纳秒级切换
 ```
+
+---
+
+## isset () /is_null () /empty () 三者区别
+
+### 核心定义
+
+| 函数            | 判断逻辑                          | 变量未定义时         |
+| --------------- | --------------------------------- | -------------------- |
+| `isset($var)`   | 变量**已定义**且值**不为 `null`** | 返回 `false`，不报错 |
+| `is_null($var)` | 值**严格等于 `null`**             | 报 `Notice` 警告     |
+| `empty($var)`   | 值为**空 / 假值**（见下表）       | 返回 `true`，不报错  |
+
+### 各种取值下的返回值对照
+
+| 值              | isset   | is_null       | empty   |
+| --------------- | ------- | ------------- | ------- |
+| 未定义          | `false` | 报错 / `true` | `true`  |
+| `null`          | `false` | `true`        | `true`  |
+| `""` (空字符串) | `true`  | `false`       | `true`  |
+| `"0"`           | `true`  | `false`       | `true`  |
+| `0` (int)       | `true`  | `false`       | `true`  |
+| `0.0` (float)   | `true`  | `false`       | `true`  |
+| `false`         | `true`  | `false`       | `true`  |
+| `[]` (空数组)   | `true`  | `false`       | `true`  |
+| `"string"`      | `true`  | `false`       | `false` |
+| `1` / `true`    | `true`  | `false`       | `false` |
+
+### is_set用法技巧
+
+#### **判断查询条件是否是数字参数0**
+
+```php
+<?php
+
+$key = 0;
+
+if (isset($key) && $key === 0) {
+    echo "参数为数字0";
+} else {
+    echo "参数不是数字0";
+}
+```
+
