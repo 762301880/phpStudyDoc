@@ -48,21 +48,21 @@ Dingo\Api\Facade\Route # 你可以使用这个 Facade 来获取 API 的当前路
 >
 >  请查阅[官方文档](https://learnku.com/docs/dingo-api/2.0.0/Configuration/1444)
 
-     ```shell
-     # 配置api前缀如果要使用dingoApi的前缀一定要配置
-     API_PREFIX=api 
-     # 版本号这个版本号是你的 API 的默认版本号，并且会在一些未提供版本号的情况下作为回调的默认值使用。在生成 API 文档时也会使用这个版本号作为默认值。
-     API_VERSION=v1 
-     # 配置api名称
-     API_NAME="My API"     
-     API_CONDITIONAL_REQUEST=false
-     # 严格模式 严格模式要求客户端发送 Accept 头，代替配置文件中配置的默认版本。这意味着你将不能通过浏览器直接访问你的 API。
-     API_STRICT=false
-     # api响应格式这里设置为json
-     API_DEFAULT_FORMAT=json  
-     # 调试模式请本地开启线上设置为:false
-     API_DEBUG=true 
-     ```
+```shell
+ # 配置api前缀如果要使用dingoApi的前缀一定要配置
+ API_PREFIX=api 
+ # 版本号这个版本号是你的 API 的默认版本号，并且会在一些未提供版本号的情况下作为回调的默认值使用。在生成 API 文档时也会使用这个版本号作为默认值。
+ API_VERSION=v1 
+ # 配置api名称
+ API_NAME="My API"     
+ API_CONDITIONAL_REQUEST=false
+ # 严格模式 严格模式要求客户端发送 Accept 头，代替配置文件中配置的默认版本。这意味着你将不能通过浏览器直接访问你的 API。
+ API_STRICT=false
+ # api响应格式这里设置为json
+ API_DEFAULT_FORMAT=json  
+ # 调试模式请本地开启线上设置为:false
+ API_DEBUG=true 
+```
 
 
 
