@@ -1,11 +1,4 @@
-[created_at]:2021/12/1
-[author]:yaoliuyang
-
-
-
-
-
-# 文档资料
+## 文档资料
 
 | 名称                                       | 地址                                                         |
 | ------------------------------------------ | ------------------------------------------------------------ |
@@ -17,9 +10,7 @@
 | elasticsearch菜鸟教程                      | [link](https://www.cainiaojc.com/elasticsearch/)             |
 | 官方中文文档                               | [link](https://www.elastic.co/guide/cn/index.html)    [link](https://www.elastic.co/guide/cn/elasticsearch/guide/current/index.html) |
 
-
-
-# 使用场景
+## 使用场景
 
 > Elasticsearch是一个**用于实时搜索和分析的分布式存储、搜索、分析引擎**，并且它的实用场景包括**站内搜索、日志实时分析、数据分析、数据监控等**。
 >
@@ -36,7 +27,7 @@
 >
 > 总的来说，Elasticsearch以其强大的搜索能力、实时性能、灵活的数据聚合分析和便捷的RESTful API，在现代技术解决方案中占据了重要地位，无论是作为独立搜索引擎还是与其他系统协同工作，都展现出了它的强大实用性。
 
-# 为什么要用  Elasticsearch
+## 为什么要用  Elasticsearch
 
 使用 Elasticsearch（ES），核心是为了解决**海量数据的全文检索、实时分析与水平扩展**三大痛点，它在速度、灵活度和扩展性上远超传统数据库。
 
@@ -100,7 +91,7 @@
 
 当你需要**快、准、稳**地在**海量文本 / 数据**中做**全文检索、实时分析、灵活扩展**时，Elasticsearch 就是最优解。
 
-# 安装elasticsearch
+## 安装elasticsearch
 
 > [官方文档参考](https://www.elastic.co/guide/cn/elasticsearch/guide/current/running-elasticsearch.html)
 
@@ -173,15 +164,7 @@ docker run -itd --name elasticsearch  -p 9200:9200 -p 9300:9300 -e "discovery.ty
 }    
 ```
 
-
-
-
-
-
-
-
-
-# [快速开始](https://www.elastic.co/guide/cn/elasticsearch/php/current/_quickstart.html)
+## [快速开始](https://www.elastic.co/guide/cn/elasticsearch/php/current/_quickstart.html)
 
 
 
@@ -310,11 +293,9 @@ yellow open   stu_index        taXvtyClTWqxnTrbHtmQnA   1   1        500        
 yellow open   my_index         Wir5HsZoRR2ytXKWwnEAsQ   1   1          1            0      3.8kb          3.8kb
 ```
 
+## 可视化工具
 
-
-# 可视化工具
-
-## Kibana
+### Kibana
 
 > Kibana是Elasticsearch的可视化工具，便于查看和分析数据。
 >
@@ -324,7 +305,7 @@ yellow open   my_index         Wir5HsZoRR2ytXKWwnEAsQ   1   1          1        
 >
 > **注意一定要下载跟 Elasticsearch 一样的版本**
 
-#  补充知识点
+## 补充知识点
 
 ## 项目开发过程中什么时候插入数据呢
 
