@@ -4,7 +4,6 @@
 
 | name              | url                                                          |
 | ----------------- | ------------------------------------------------------------ |
-| 后盾人文档-faker  | [link](https://doc.houdunren.com/%E6%8F%92%E4%BB%B6%E6%89%A9%E5%B1%95/Laravel/5%20faker.html#faker) |
 | laravel-china文档 | [link](https://learnku.com/docs/laravel/8.x/database-testing/9416) |
 
 ##  基本使用

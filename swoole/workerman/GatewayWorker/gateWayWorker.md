@@ -12,7 +12,6 @@
 | ------------------------- | ------------------------------------------------------------ |
 | GatewayWorker2.x 3.x 手册 | [链接](http://doc2.workerman.net/)                           |
 | 安装文档                  | [链接](https://github.com/walkor/GatewayClient)              |
-| workerman-后盾人文档      | [链接](https://doc.houdunren.com/%E6%8F%92%E4%BB%B6%E6%89%A9%E5%B1%95/Laravel/4%20workerman.html#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4) |
 | 下载安装                  | [link](https://www.workerman.net/doc/gateway-worker/#GatewayWorker2.x%203.x%20%E6%89%8B%E5%86%8C)   [link](https://www.workerman.net/download/GatewayWorker.zip) |
 
 ## 安装

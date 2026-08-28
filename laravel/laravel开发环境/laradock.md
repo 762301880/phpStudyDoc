@@ -18,10 +18,9 @@ git clone git@gitee.com:mirrors/Laradock.git
 
 ## 1.3参考资料
 
-| 资料名称                    | 资料链接                                                     |
-| --------------------------- | ------------------------------------------------------------ |
-| laravel学院laradock使用详解 | [地址](https://laravelacademy.org/post/7691.html)            |
-| 后盾人docker文档            | [地址](https://doc.houdunren.com/wamp/4%20laradock.html#laradock-2) |
+| 资料名称                    | 资料链接                                          |
+| --------------------------- | ------------------------------------------------- |
+| laravel学院laradock使用详解 | [地址](https://laravelacademy.org/post/7691.html) |
 
 # 使用laradock
 

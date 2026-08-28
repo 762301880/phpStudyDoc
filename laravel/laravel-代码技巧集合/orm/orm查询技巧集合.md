@@ -159,26 +159,7 @@ array:3 [▼
     "info" => "{"sex": 1, "name": "klI", "score": 40}"
     "sex_serialize_int" => 1
   ]
-  1 => array:8 [▼
-    "id" => 6
-    "sname" => "张云"
-    "class_id" => 3
-    "birthday" => "1996-09-01 20:33:13"
-    "updated_at" => "2022-09-26T09:29:44.000000Z"
-    "sex" => "女"
-    "info" => "{"sex": 1, "name": "dOE", "score": 62}"
-    "sex_serialize_int" => 2
-  ]
-  2 => array:8 [▼
-    "id" => 8
-    "sname" => "李兰"
-    "class_id" => 2
-    "birthday" => null
-    "updated_at" => "2022-09-26T09:29:44.000000Z"
-    "sex" => "女"
-    "info" => "{"sex": 1, "name": "Fim", "score": 76}"
-    "sex_serialize_int" => 2
-  ]
+ ////省略
 ]
 ```
 
