@@ -104,6 +104,7 @@ namespace App\Http\Controllers;
 
 
 use App\Services\EsClientService;
+use App\Traits\ApplyResponseLayout;
 use Illuminate\Http\Request;
 
 /**
@@ -113,6 +114,7 @@ use Illuminate\Http\Request;
  */
 class EsController extends Controller
 {
+    use ApplyResponseLayout;
 
     // ES 客户端实例
     private $client;
@@ -120,9 +122,8 @@ class EsController extends Controller
     // 构造函数：初始化 ES 连接
     public function __construct()
     {
-        $this->client=EsClientService::getClient();
+        $this->client = EsClientService::getClient();
     }
-    
     // ==========================
     // 【1】创建全局搜索索引（只运行一次）
     // 相当于创建数据库
@@ -130,7 +131,6 @@ class EsController extends Controller
     // ==========================
     public function createIndex()
     {
-
 
         $params = [
             'index' => 'global_search',  // 索引名称（表名）
@@ -155,6 +155,22 @@ class EsController extends Controller
                         'out_id' => [
                             'type' => 'integer' // 精确值（goods/article）
                         ],
+                        // ---- 商品额外展示字段（不需要分词，keyword）
+                        'cover_image' => [ // 商品封面图
+                            'type' => 'keyword'
+                        ],
+                        'price' => [
+                            'type' => 'double'
+                        ],
+                        'sales' => [
+                            'type' => 'integer'
+                        ],
+                        'category_id' => [
+                            'type' => 'integer'
+                        ],
+                        'category_name' => [
+                            'type' => 'keyword'
+                        ]
                     ]
                 ]
             ]
@@ -162,7 +178,7 @@ class EsController extends Controller
 
         $response = $this->client->indices()->create($params);
 
-        return response()->json($response);
+        return $this->success('success',$response);
 
 
         //打印创建得索引
@@ -182,29 +198,28 @@ class EsController extends Controller
     // ==========================
 
     /**
-
-    {
-    "_index": "global_search",  //文档所在索引名，相当于 MySQL 的「数据库 + 表」，这里数据存在 global_search 索引里。
-    "_type": "_doc",   //文档类型，ES7+ 统一固定为 _doc，废弃了自定义 type，直接忽略即可。
-    "_id": "goods_502", //当前这条文档的唯一主键 ID，手动指定的商品 ID：goods_502。
-    "_version": 1, //文档版本号：首次创建默认 1；后续修改更新，版本会自动累加（ES 乐观锁机制）。
-    "result": "created", //本次操作结果：created：全新文档创建成功 若更新已有文档会返回：updated
-    "_shards": {  //分片集群信息 _shards
-    "total": 1,  //需要同步的总分片数
-    "successful": 1, //写入成功的分片数
-    "failed": 0 //失败分片
-    },
-    "_seq_no": 7,
-    "_primary_term": 1
-    }
-
+     *
+     * {
+     * "_index": "global_search",  //文档所在索引名，相当于 MySQL 的「数据库 + 表」，这里数据存在 global_search 索引里。
+     * "_type": "_doc",   //文档类型，ES7+ 统一固定为 _doc，废弃了自定义 type，直接忽略即可。
+     * "_id": "goods_502", //当前这条文档的唯一主键 ID，手动指定的商品 ID：goods_502。
+     * "_version": 1, //文档版本号：首次创建默认 1；后续修改更新，版本会自动累加（ES 乐观锁机制）。
+     * "result": "created", //本次操作结果：created：全新文档创建成功 若更新已有文档会返回：updated
+     * "_shards": {  //分片集群信息 _shards
+     * "total": 1,  //需要同步的总分片数
+     * "successful": 1, //写入成功的分片数
+     * "failed": 0 //失败分片
+     * },
+     * "_seq_no": 7,
+     * "_primary_term": 1
+     * }
      */
     public function addToGlobalSearch(Request $request)
     {
         $type = $request->get('type');
         $id = $request->get('id');
         $title = $request->get('title');
-        $content = $request->get('content','');
+        $content = $request->get('content', '');
         $params = [
             'index' => 'global_search',
             'type' => '_doc',
@@ -355,6 +370,7 @@ class EsController extends Controller
 
         return $this->client->delete($params);
     }
+
 
 }
 
