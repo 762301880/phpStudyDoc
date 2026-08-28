@@ -1,6 +1,4 @@
-# 资料
-
-> 这期刚好用到了android&ios推送的功能
+## 资料
 
 | name                                 | url                                                          |
 | ------------------------------------ | ------------------------------------------------------------ |
@@ -10,17 +8,13 @@
 | 第三方博客                           | [link](https://www.cnblogs.com/evakang/p/12059920.html)      |
 | laravel-个推开发包                   | [link](https://laravelacademy.org/post/9522)                 |
 
-
-
-# 使用
-
-## 安装
+## 安装扩展包
 
 ```shell
 composer require getuilaboratory/getui-pushapi-php-client-v2
 ```
 
-代码示例
+### 代码示例
 
 ```shell
     public static function pushToSingleByCid($title, $body, $cid)
