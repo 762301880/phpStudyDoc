@@ -20,11 +20,15 @@ composer create-project topthink/think=5.1 tp5  --prefer-dist
 >
 > ***Tp6推荐注释到*****项目\vendor\topthink\think-orm\src\DbManager.php**中
 
+## 创建公用`Trait`
 
+### app\traits\ModelCommonTrait.php
 
-- 或者直接复制我这个
+```php
+<?php
 
-```shell
+namespace app\traits;
+
 /**
  * Class Model
  * @package think
@@ -67,5 +71,36 @@ composer create-project topthink/think=5.1 tp5  --prefer-dist
  * @method $this withAvg(string|array $relation, string $field, bool $subQuery = true) static 关联Avg统计
  * @method Paginator|$this paginate() static 分页
  */
+trait ModelCommonTrait
+{
+   //后续需要方法再自己补充公用方法
+}
+```
+
+
+
+### 模型使用
+
+```php
+<?php
+
+namespace app\model;
+
+use app\traits\ModelCommonTrait;
+use think\Model;
+
+class Admin extends Model
+{
+    use ModelCommonTrait; //引用公用
+    protected $name = 'admin';
+}
+```
+
+### 方法使用
+
+> 现在静态调用就可以提示方法了
+
+```php
+ $admin=AdminModel::paginate();
 ```
 
