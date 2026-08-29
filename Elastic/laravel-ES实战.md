@@ -74,6 +74,50 @@ ES 底层提前把你商品标题用 ik 中文分词器**拆成一个个词语**
 
 ---
 
+## 通俗类比
+
+| MySQL                 | Elasticsearch                    |
+| --------------------- | -------------------------------- |
+| 数据库 (database)     | 无直接对应，一般一个项目一批索引 |
+| **数据表 (table)**    | **索引 (index)** ✅               |
+| 行 (row)              | 文档 (document)                  |
+| 列 (column)           | 字段 (field)                     |
+| 表结构 (表字段、类型) | mappings（映射）                 |
+| sql                   | DSL 查询语句                     |
+
+### ES 索引（index）
+
+**MySQL**
+
+- 一张表，结构固定。建表的时候定义好字段，后续字段类型不能随便改。
+
+```sql
+CREATE TABLE goods (
+    id int,
+    title varchar(255)
+)
+```
+
+**ES 索引（index）**
+
+你创建索引时写的 `mappings` 就相当于**定义表结构**
+
+```php
+'mappings' => [
+    'properties' => [
+        'title' => ['type'=>'text']
+    ]
+]
+```
+
+
+
+
+
+
+
+---
+
 ## [扩展包安装](https://packagist.org/packages/elasticsearch/elasticsearch)
 
 ```php

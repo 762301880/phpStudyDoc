@@ -109,7 +109,7 @@
 
 > 注意**elasticsearch**依赖于**java-jdk**
 >
-> 浏览器输入**127.0.0.1:9200**出现以下结果代表启动成功
+> 浏览器输入`127.0.0.1:9200`出现以下结果代表启动成功
 
 ![1638341852(1).jpg](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/AghCcSpBPvmz34Z.png)
 
