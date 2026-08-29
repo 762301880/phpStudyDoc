@@ -24,6 +24,8 @@ composer create-project topthink/think=5.1 tp5  --prefer-dist
 
 ### app\traits\ModelCommonTrait.php
 
+> `@method $this paginate() static` 这一行**只是给 IDE 做代码提示，不会生成任何 PHP 可执行代码**，trait 本身没有写 paginate、where、select 这些方法。
+
 ```php
 <?php
 
@@ -103,4 +105,14 @@ class Admin extends Model
 ```php
  $admin=AdminModel::paginate();
 ```
+
+
+
+
+
+
+
+
+
+
 
