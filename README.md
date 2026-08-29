@@ -1,15 +1,11 @@
-# phpStudyDoc
+## phpStudyDoc
 
 [gitbook文档](https://yaoliuyang.gitbook.io/phpstudy)
 
-# 作者：Lyon
+## 作者：Lyon
 
-### 邮箱:yaoliuyang@aliyun.com
-
-## 说明
+## 邮箱:yaoliuyang@aliyun.com
 
 > 记录一下PHP学习过程中遇到的问题,知识技巧与笔记
->
-> 请勿转发抄袭,欢迎查阅如有转发请务必联系本人
 >
 
