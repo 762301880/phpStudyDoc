@@ -1,4 +1,4 @@
-#  搭建文件管理系统
+## 搭建文件管理系统
 
 **先上效果**
 
@@ -29,7 +29,7 @@ server {
 systemctl restart nginx
 ```
 
-#  nginx 配置websocket转发连接
+## nginx 配置websocket转发连接
 
 **资料**
 
