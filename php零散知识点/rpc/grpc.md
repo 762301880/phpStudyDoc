@@ -21,9 +21,9 @@ php.ini 添加
 extension=grpc
 ```
 
-#### protobuf 扩展（配套一起装）
+#### protobuf 扩展（忽略这个,未看到dll版本）
 
-同样选：php7.4 NTS x64，推荐版本 **3.21.12**（PHP7.4 兼容稳定版）PECL 下载：https://pecl.php.net/get/protobuf-3.21.12-win64-nts-php7.4.zip
+同样选：php7.4 NTS x64，推荐版本 **3.21.12**（PHP7.4 兼容稳定版）PECL 下载：https://pecl.php.net/package/protobuf
 
 - `php_protobuf.dll` → ext 目录
 - php.ini 增加：
