@@ -75,19 +75,55 @@ php -m | grep protobuf
 
 
 
-## protoc 编译器
+## protoc 编译器(开发环境必须安装)
 
-下载 protoc：https://github.com/protocolbuffers/protobuf/releases   
+> 一句话：**protoc = 根据 proto 文件，帮你手写一大堆 PHP 模型和客户端代码。**
+>
+> 用于生成 PHP 代码（仅开发阶段使用，线上运行不需要 protoc）
 
-把 protoc 放到系统环境变量。
+### [windows](https://github.com/protocolbuffers/protobuf/releases#release-v35.1)	
+
+[下载](https://github.com/protocolbuffers/protobuf/releases/download/v35.1/protoc-35.1-win64.zip)
+
+解压后把 `bin/protoc.exe` 放到 `C:\tools\protoc\bin`，把这个目录加入系统环境变量 PATH。 cmd 执行：
+
+```bash
+protoc --version
+```
+
+
+
+### linux安装
+
+```bash
+# 示例下载（替换为最新版本号）
+wget https://github.com/protocolbuffers/protobuf/releases/download/v28.0/protoc-28.0-linux-x86_64.zip
+unzip protoc-28.0-linux-x86_64.zip -d protoc
+# 将二进制复制到系统PATH
+sudo cp protoc/bin/protoc /usr/local/bin/
+# 把include里的proto标准库复制出来（重要！google/protobuf/*.proto）
+sudo cp -r protoc/include/google /usr/local/include/
+
+# 验证安装
+protoc --version
+```
 
 
 
 
 
+---
 
 
 
+## laravel使用grpc
+
+**安装依赖**
+
+```php
+composer require grpc/grpc
+composer require google/protobuf
+```
 
 
 
