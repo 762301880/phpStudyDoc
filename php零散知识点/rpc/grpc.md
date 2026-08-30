@@ -31,3 +31,50 @@ extension=grpc
 ```ini
 extension=protobuf
 ```
+
+### linux
+
+**安装 PHP gRPC 扩展**
+
+```bash
+# pecl安装
+pecl install grpc
+pecl install protobuf
+```
+
+编辑`php.ini`
+
+```ini
+extension=grpc.so
+extension=protobuf.so
+```
+
+验证
+
+```bash
+php -m | grep grpc
+php -m | grep protobuf
+```
+
+
+
+---
+
+
+
+## protoc 编译器
+
+下载 protoc：https://github.com/protocolbuffers/protobuf/releases   
+
+把 protoc 放到系统环境变量。
+
+
+
+
+
+
+
+
+
+
+
