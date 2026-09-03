@@ -3,7 +3,7 @@
 | 名称                                     | 地址                                                         |
 | ---------------------------------------- | ------------------------------------------------------------ |
 | NFC Tools_8.11  个人网盘备份             | [link](https://yaoliuyang.lanzoul.com/ihfxu2flkwpg)          |
-| MIFARE Classic Tool_4.2.3   个人网盘备份 | [link](https://yaoliuyang.lanzoul.com/iDW6x2fum4wb)          |
+| MIFARE Classic Tool_4.2.3   个人网盘备份 | [link](https://yaoliuyang.lanzoul.com/iDW6x2fum4wb)   [github](https://github.com/ikarus23/MifareClassicTool/releases/tag/v4.3.1) |
 | NFC Tools_pro 破解版                     | [当下软件园](https://www.downkuai.com/android/174439.html)   [个人网盘备份](https://yaoliuyang.lanzoul.com/ixDUZ33kql9i) |
 | 碰一碰收款码json生成器                   | [link](https://apg.yeelys.cn/)  [link](https://apg.yeelys.cn/Flipper_NFC_Maker/index.html) |
 | 网络博客                                 | [link](https://nfctool.cn/cloneid)  [link](https://zhuanlan.zhihu.com/p/654587508) |
