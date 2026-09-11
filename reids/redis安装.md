@@ -285,7 +285,7 @@ New PHP manual is available (latest: 3.1.0). Update with `doc --update-manual`
       "scheme" => "tls",
       "url" => null,
       "host" => "sure-hyena-115399.upstash.io",
-      "password" => "gQAAAAAAAcLHAAIgcDE0NDJkODViNDlhOTg0N2JlOTMzYTM3OTJiMmJiMmY1OA",
+      "password" => "*****************",
       "port" => "6379",
       "database" => "0",
     ],
@@ -293,7 +293,7 @@ New PHP manual is available (latest: 3.1.0). Update with `doc --update-manual`
     "cache" => [
       "url" => null,  
       "host" => "sure-hyena-115399.upstash.io",
-      "password" => "gQAAAAAAAcLHAAIgcDE0NDJkODViNDlhOTg0N2JlOTMzYTM3OTJiMmJiMmY1OA",
+      "password" => "****************",
       "port" => "6379",
       "database" => "0",
     ],
