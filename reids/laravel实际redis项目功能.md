@@ -359,6 +359,8 @@ dd($redis->bitcount($date));# 得到统计的个数
     }
 ```
 
+---
+
 # Redis 实现排行榜（排名）
 
 Redis 实现排行榜**首选 Sorted Set（有序集合）**，它天然支持**排序、去重、排名、分数更新、范围查询**，是做排行榜最高效、最常用的方案，没有之一。
@@ -374,7 +376,19 @@ Sorted Set 特点：
 
 ## 二、常用命令（直接可用）
 
+- **Z** = ZSet（Sorted Set，有序集合）
+- **ADD** = Add（添加）
+
+合起来：**ZADD = Add to Sorted Set**（向有序集合添加元素）
+
 假设我们做一个**游戏积分排行榜**，key = `game:rank`
+
+Redis 里 Z 系列命令都是对应有序集合（ZSet）：
+
+- ZADD：添加成员
+- ZRANGE：按排名范围查询
+- ZREM：删除成员
+- ZINCRBY：增加分数
 
 ### 1. 添加 / 更新用户分数（核心）
 
