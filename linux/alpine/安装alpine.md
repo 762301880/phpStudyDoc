@@ -1,4 +1,4 @@
-# 镜像地址
+## 镜像地址
 
 | 名称                                                         | 地址                                                         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -6,9 +6,7 @@
 | 阿里云镜像下载 (例子:下载**[alpine-standard-3.17.0-x86_64.iso](https://mirrors.aliyun.com/alpine/v3.17/releases/x86_64/alpine-standard-3.17.0-x86_64.iso)**) | [link](https://developer.aliyun.com/mirror/alpine?spm=a2c6h.13651102.0.0.3e221b11zoYtu7) [下载地址](https://mirrors.aliyun.com/alpine/?spm=a2c6h.13651104.d-4015.1.6be53721RMqdep) [link](https://mirrors.aliyun.com/alpine/latest-stable/releases/x86_64/?spm=a2c6h.25603864.0.0.1339595dVfgynL) |
 | 中科大镜像站-alpine                                          | [link](https://mirrors.ustc.edu.cn/alpine/)  [win](https://mirrors.ustc.edu.cn/alpine/v3.24/releases/x86_64/) |
 
-
-
-# vmware虚拟机安装**Alpine**
+## vmware虚拟机安装**Alpine**
 
 **资料**
 
@@ -18,7 +16,7 @@
 
 
 
-**<font color="red">持久化到磁盘</font>**
+## **<font color="red">持久化到磁盘(*超级重要)</font>**
 
 > 默认alpine系统只运行在内存中，重启后一切数据都将消失,所以我们需要将系统写入磁盘
 
@@ -29,3 +27,23 @@ setup-alpine         # 此命令用于设置系统
 > 然后选择硬盘，我这里就一块硬盘，所以直接输入名称 `sda`，当做系统盘，后面输入 `sys`，按照提示确定格式化即可：
 
 ![image-20221220155007659](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20221220155007659.png)
+
+---
+
+## VirtualBox虚拟机安装Alpine
+
+### 注意事项
+
+**操作系统填写**
+
+选择**Linux(64位)**
+
+> 操作系统发行版 选择**Oracle Linux**
+>
+> 操作系统版本 **Oracle Linux(64-bit)**
+
+![image-20260912160241037](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260912160241037.png)
+
+### 虚拟机开启后鼠标消失
+
+按一下**Ctrl**案件即可回归 注意是**home键盘旁边的Ctrl案件 不是 键盘左下角的Ctrl**
