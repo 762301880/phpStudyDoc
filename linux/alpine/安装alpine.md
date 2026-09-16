@@ -14,9 +14,7 @@
 | -------- | ------------------------------------------------------------ |
 | 博客参考 | [link](https://blog.csdn.net/lxyoucan/article/details/117153780)  [link](https://blog.csdn.net/m0_70403365/article/details/124758831) [link](https://zhuanlan.zhihu.com/p/107963371) |
 
-
-
-## **<font color="red">持久化到磁盘(*超级重要)</font>**
+### **<font color="red">持久化到磁盘(*超级重要)</font>**
 
 > 默认alpine系统只运行在内存中，重启后一切数据都将消失,所以我们需要将系统写入磁盘
 
@@ -47,3 +45,56 @@ setup-alpine         # 此命令用于设置系统
 ### 虚拟机开启后鼠标消失
 
 按一下**Ctrl**案件即可回归 注意是**home键盘旁边的Ctrl案件 不是 键盘左下角的Ctrl**
+
+### 虚拟机屏幕大小设置
+
+点击导航栏的**视图→虚拟显示屏1→缩放至175%(输出自动缩放)**
+
+### 持久化到磁盘之后重启还是没有持久化问题(重)
+
+#### 选择磁盘【重点】
+
+```
+Which disk(s) would you like to use? (or '?' for help or 'none') [none]
+```
+
+- VMware / VirtualBox：输入 `/dev/sda`
+- KVM/Proxmox：输入 `/dev/vda` 输入磁盘名，回车。
+
+#### 安装模式【重点】
+
+```
+How would you like to use it? (sys / data / lvm) [?]
+```
+
+输入：`sys` 回车，这就是完整持久化安装。
+
+#### 确认擦除磁盘
+
+```
+WARNING: Erase the above disk /dev/xxx and continue? [y/N]
+```
+
+输入：`y` 回车，确认清空虚拟磁盘。
+
+#### 等待自动安装
+
+脚本自动分区、格式化、安装系统包，直到输出： `Installation is complete`
+
+#### 最后执行重启
+
+```
+reboot
+```
+
+> ⚠️ 虚拟机设置：**移除 ISO 镜像**，硬盘放到第一启动项，不然重启又进 live 安装界面。
+
+#### 移除ISO镜像
+
+操作顺序：
+
+1. 先点【存储】，清空光驱 ISO
+2. 再点【系统】→【主板】，调整启动顺序，硬盘排第一
+3. 点【确定】保存设置
+
+> ⚠️ 注意：**必须在执行`reboot`重启虚拟机之前完成上面操作！**
