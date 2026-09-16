@@ -1,10 +1,10 @@
-# 资料
+## 资料
 
 | 名称            | 地址                                 |
 | --------------- | ------------------------------------ |
 | alpine-官方网站 | [link](https://www.alpinelinux.org/) |
 
-#  alipine-php扩展
+## alipine-php扩展
 
 ##  安装php-mysqli扩展
 
@@ -32,7 +32,7 @@ mysqli
 .....
 ```
 
-# [安装sshd](https://cloud.tencent.com/developer/article/1683604)
+## [安装sshd](https://cloud.tencent.com/developer/article/1683604)
 
 ```shell
 apk add openssh
@@ -46,7 +46,7 @@ service sshd restart
 
 ```
 
-# 安装docker
+## 安装docker
 
 **资料**
 
@@ -54,7 +54,7 @@ service sshd restart
 | -------- | ------------------------------------------------------------ |
 | 参考博客 | [link](https://blog.csdn.net/juesystem/article/details/112981830) |
 
-## 添加镜像源安装
+### 添加镜像源安装
 
 ```shell
 echo http://dl-cdn.alpinelinux.org/alpine/latest-stable/community >> /etc/apk/repositories  # 添加docker镜像源
@@ -69,11 +69,38 @@ openvswitch-2.17.3-r0
 .........
 ```
 
-## alpine 启动docker 
+### alpine 启动docker 
 
 ```shell
 service docker start      # 启动
 service docker restart    # 重启
 service docker stop       # 停止
+```
+
+## vim编辑器安装
+
+**查看软件源**
+
+```bash
+echo /etc/apk/repositories
+
+#/media/cdrom/apks
+http://dl-cdn.alpinelinux.org/alpine/u3.24/main
+# http://dl-cdn.alpinelinux.org/alpine/u3.24/community
+```
+
+**取消注释**
+
+> 用**vi**编辑器取消这个注释
+
+```bash
+# http://dl-cdn.alpinelinux.org/alpine/u3.24/community
+```
+
+**执行更新并安装**
+
+```bash
+apk update
+apk add vim
 ```
 

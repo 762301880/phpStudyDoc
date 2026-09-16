@@ -8,14 +8,24 @@
 
 > 我们知道常见的linux系统内置镜像源下载软件不是很少就是慢
 
-### 配置方法
+## Alpine 查询版本命令
+
+```bash
+cat /etc/alpine-release
+```
+
+
+
+## 配置方法
 
 - 编辑 `/etc/apk/repositories`
 - 将里面 `dl-cdn.alpinelinux.org` 的 改成 `mirrors.aliyun.com `; 保存退出即可
 
 **使用命令替换示例**
 
+> **直接用`sed`命令一键替换**
+
 ```shell
-cd /etc/apk && sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" repositories   # 直接用sed命令一键替换
+cd /etc/apk && sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" repositories   
 ```
 
