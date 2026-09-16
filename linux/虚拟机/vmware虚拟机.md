@@ -39,6 +39,8 @@
 
 **设置步骤**
 
+> 注意看原配置文件如果有 `PermitRootLogin prohibit-password` 记得注释
+
 ```shell
 # 安装sshd        https://blog.csdn.net/m0_46392035/article/details/124835203
 
@@ -51,6 +53,7 @@ root@yly-ununtu:/# ps -ef | grep sshd
 #-----------------------
 # root用户被拒绝连接--解决办法如下
 sudo vim /etc/ssh/sshd_config    #编辑ssh配置文件，添加如下配置
+#PermitRootLogin prohibit-password  如果这一行没有注释记得注释掉
 PermitRootLogin yes
 PasswordAuthentication yes
 
