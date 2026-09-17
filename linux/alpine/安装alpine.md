@@ -110,6 +110,77 @@ reboot
 
 ![image-20260917125710300](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260917125710300.png)
 
+**手动安装增强包(必须)**
+
+> 挂载目录必须安装这个包
+
+```bash
+apk update
+apk add virtualbox-guest-additions
+```
+
+启用服务
+
+```bash
+rc-update add virtualbox-guest-additions boot
+rc-service virtualbox-guest-additions start
+
+# 重启虚拟机
+reboot
+
+# 重启后验证
+VBoxControl sharedfolder list
+```
+
+### 挂载本地目录
+
+> 你现在已经：VBoxControl 正常、共享名是 `WWW`，手动 `mount -t vboxsf WWW /www` 可以成功挂载。
+
+#### 直接创建 local.d 启动脚本（就一行挂载命令）
+
+```bash
+echo 'mount -t vboxsf WWW /www' > /etc/local.d/mount_www.start
+chmod +x /etc/local.d/mount_www.start
+rc-update add local default
+```
+
+原理：`local.d` 是系统**最后阶段**执行，此时 VBoxService 已经完全就绪，不会时序抢跑。
+
+#### 测试
+
+```bash
+rc-service local start
+ls /www
+```
+
+能看到文件。
+
+重启虚拟机
+
+```bash
+reboot
+```
+
+开机直接 `ls /www`
+
+> 只有一行脚本，没有依赖、没有循环等待，最简单原生 vboxsf 方案，Alpine 官方文档就是这么写的
+
+#### 如果重启偶尔失效（加个 sleep 1 秒，依然极简）
+
+把脚本改成延迟 1 秒再挂载，只多一个 sleep：
+
+```bash
+echo -e '#!/bin/sh\nsleep 1\nmount -t vboxsf WWW /www' > /etc/local.d/mount_www.start
+chmod +x /etc/local.d/mount_www.start
+rc-update add local default
+```
+
+`sleep 1` 等待 VirtualBox 主机通信完全建立，解决偶发时序问题。
+
+
+
+
+
 ---
 
 
