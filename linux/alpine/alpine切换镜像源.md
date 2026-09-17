@@ -26,6 +26,6 @@ cat /etc/alpine-release
 > **直接用`sed`命令一键替换**
 
 ```shell
-cd /etc/apk && sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" repositories   
+cd /etc/apk && sed -i "s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g" repositories  
 ```
 

@@ -68,11 +68,11 @@
 >
 >   　　1. 找到VirtualBox安装位置，进入其中，找到drivers/network/netlwf文件夹下，有一个文件VBoxNetLwf.inf
 >
->   　　2. 打开网络适配器，找到虚拟机的网络连接，打开属性，分别点击安装-服务-添加-从磁盘安装-浏览
+>     　　2. 打开网络适配器，找到虚拟机的网络连接，打开属性，分别点击安装-服务-添加-从磁盘安装-浏览
 >
->   　　3. 找到1中的VBoxNetLwf.inf文件，安装
+>       　　3. 找到1中的VBoxNetLwf.inf文件，安装
 >
->   　　4. 打开VM VirtualBox，设置-网络，选择桥接网卡，此时出现可选项，选择与主机同一个名称的网络即可
+>         　　4. 打开VM VirtualBox，设置-网络，选择桥接网卡，此时出现可选项，选择与主机同一个名称的网络即可
 
 ![image-20240106105047113](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240106105047113.png)
 
@@ -101,4 +101,21 @@
 > 之后重新刷新网络解决不能wget与ping不通外网的问题！
 
 ![在这里插入图片描述](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/20210616145616256.png)
+
+## 虚拟机文件夹挂载
+
+**设置→共享文件夹**
+
+
+
+![](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260916160842369.png)
+
+虚拟机内手动挂载命令（保存好，每次开机要执行）
+
+```bash
+# 先创建 /www 目录
+mkdir -p /www
+# WWW 对应上面【文件夹名称】
+mount -t vboxsf WWW /www
+```
 

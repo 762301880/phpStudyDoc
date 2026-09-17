@@ -67,6 +67,10 @@ docker-cli-20.10.21-r2
 podman-docker-4.3.1-r1
 openvswitch-2.17.3-r0
 .........
+
+
+## 安装docker
+apk add docker
 ```
 
 ### alpine 启动docker 
@@ -76,6 +80,29 @@ service docker start      # 启动
 service docker restart    # 重启
 service docker stop       # 停止
 ```
+
+### Alpine Linux（OpenRC）设置 Docker 开机自启
+
+Alpine 不是 systemd，用的是**OpenRC**，核心命令就一条：`rc-update`
+
+```bash
+# 1. 设置docker开机自动启动（加入default运行级别）
+rc-update add docker default
+
+# 2. 立刻启动docker（不用重启虚拟机）
+rc-service docker start
+
+# 3. 查看docker当前状态
+rc-service docker status
+```
+
+**验证是否成功加入开机项**
+
+```bash
+rc-update show | grep docker
+```
+
+---
 
 ## vim编辑器安装
 
@@ -104,3 +131,4 @@ apk update
 apk add vim
 ```
 
+---

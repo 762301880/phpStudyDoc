@@ -104,6 +104,12 @@ reboot
 1. 关闭虚拟机，打开虚拟机【设置】→【常规】→【高级】
 2. 共享粘贴板：**双向**；拖放：**双向** → 确定保存
 
+### 安装增强功能
+
+**设置→存储→添加安装虚拟机目录下的`VBoxGuestAdditions.iso`**
+
+![image-20260917125710300](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20260917125710300.png)
+
 ---
 
 
