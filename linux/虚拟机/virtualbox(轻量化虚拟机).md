@@ -66,23 +66,16 @@
 >
 > 解决：
 >
->   　　1. 找到VirtualBox安装位置，进入其中，找到drivers/network/netlwf文件夹下，有一个文件VBoxNetLwf.inf
->
->         　　2. 打开网络适配器，找到虚拟机的网络连接，打开属性，分别点击安装-服务-添加-从磁盘安装-浏览
->
->               　　3. 找到1中的VBoxNetLwf.inf文件，安装
->
->                     　　4. 打开VM VirtualBox，设置-网络，选择桥接网卡，此时出现可选项，选择与主机同一个名称的网络即可
+>      　　1. 找到VirtualBox安装位置，进入其中，找到drivers/network/netlwf文件夹下，有一个文件VBoxNetLwf.inf
+>      　　2. 打开网络适配器，找到虚拟机的网络连接，打开属性，分别点击安装-服务-添加-从磁盘安装-浏览
+>      　　3. 找到1中的VBoxNetLwf.inf文件，安装
+>      　　4. 打开VM VirtualBox，设置-网络，选择桥接网卡，此时出现可选项，选择与主机同一个名称的网络即可
 
 ![image-20240106105047113](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240106105047113.png)
 
 > **安装完成虚拟机桥接网络出现名称选项**
 
 ![image-20240106105131402](https://gitee.com/yaolliuyang/blogImages/raw/master/blogImages/image-20240106105131402.png)
-
-## wget: unable to resolve host address亲测有效办法 & ip addr  无法看见 ens33 的ip地址  & 虚拟机ping不通宿主机与外网
-
-> [参考博客](https://blog.csdn.net/qq_40408065/article/details/117958147)
 
 **解决方案**
 
