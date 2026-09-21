@@ -1,14 +1,16 @@
  
 
-# php-避免使用switch场景
+php-避免使用switch场景
 
-# 说明 
+说明 
 
 很多时候我们写代码的时候会遇到一下场景
 
 > $this->position  ==传输过来的int类型的数值
 >
 > 这样写代码很臃肿不精简
+
+## php7代码
 
 ```php
         switch ($this->position) {
@@ -25,7 +27,7 @@
         }
 ```
 
-#### 使用数组方式优化
+使用数组方式优化
 
 > 定义键值对数组 先判断传输过来的只是不是在键值对中然后使用算符判断
 
@@ -40,6 +42,21 @@ return $map[$this->position] ?? '游客';
 ```
 
 
+
+## PHP8 match 表达式
+
+```php
+$status = 2;
+
+$text = match ($status) {
+    1 => '待处理',
+    2 => '处理中',
+    3 => '已完成',
+    default => '未知状态'
+};
+
+echo $text; // 处理中
+```
 
 
 
