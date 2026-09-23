@@ -127,6 +127,378 @@ WHERE id = 1 AND version = 1;
 - 第一个修改成功，`version` 变成 2
 - 第二个修改时 `version=1` 不满足 → 更新失败，需要重试
 
+### 4.什么时候用乐观锁
+
+####  场景一:用户余额变更（普通个人账户）
+
+用户余额，大部分是各自操作自己账户，很少两个人同时改同一个用户余额。
+
+充值 / 扣款，用版本号校验。
+
+#### 场景二:订单状态修改
+
+比如订单：待支付 → 已支付 → 已发货。
+
+正常情况下，一条订单同一时间很少会有两个操作同时修改订单状态。
+
+防止出现：A 和 B 同时修改订单，状态被覆盖。
+
+> 问题：如果不加锁，会出现**覆盖更新**
+>
+> 场景：
+>
+> 1. 请求 A 查到订单状态 = 待支付
+>
+> 2. 请求 B 查到订单状态 = 待支付
+>
+> 3. 请求 B 把状态改成【已取消】
+>
+> 4. 请求 A 再把状态改成【已支付】
+>
+>    
+>
+>    👉 B 的修改被覆盖了！
+>
+>    
+>
+>    乐观锁就是用来
+>
+>    防止这种覆盖丢失更新。
+
+#### 案例三: ：编辑资料、后台编辑文章
+
+多人编辑同一条资料，但极少同时编辑。
+
+有人同时保存，后保存的人提示：**数据已被别人修改，请刷新页面重新编辑**。
+
+这个场景非常适合乐观锁。
+
+> 比如后台修改客户信息：
+>
+> 你打开页面读取数据（同时读到 version=1）
+>
+> 另一个管理员抢先保存，version 变成 2
+>
+> 你点保存的时候，带着 version=1 去更新，where 匹配不到，更新失败
+>
+> 提示：数据已更新，请刷新
+
+#### 演示代码
+
+场景：**同一个用户连续两次发起提现**
+
+1. 先演示【不加锁，会资损】PHP7 Laravel 代码
+2. 再演示【加上乐观锁，解决资损】PHP7 Laravel 代码
+
+> 数据表：`user_account` 用户余额表
+
+##### **sql表**
+
+```sql
+CREATE TABLE `user_account` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '账户ID',
+  `user_id` int(11) NOT NULL COMMENT '用户id',
+  `balance` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '余额',
+  `version` int(11) NOT NULL DEFAULT '0' COMMENT '乐观锁版本号',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uid_unique` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 初始化测试数据：用户1 余额100元 version=0
+INSERT INTO user_account(user_id,balance,version) VALUES (1,100.00,0);
+```
+
+##### 模型文件 app/Models/UserAccount.php
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * 用户账户模型 - 余额乐观锁演示
+ * PHP7 代码
+ */
+class UserAccount extends Model
+{
+    /**
+     * 对应数据表
+     * @var string
+     */
+    protected $table = 'user_account';
+
+    /**
+     * 允许批量赋值字段
+     * @var array
+     */
+    protected $fillable = [
+        'user_id',
+        'balance',
+        'version',
+    ];
+}
+```
+
+##### 不加锁版本   会出现资损(看问题)
+
+控制器 `UserAccountController.php`
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\UserAccount;
+
+/**
+ * 不加锁 - 提现接口（存在丢失更新BUG，资损风险）
+ * PHP7
+ */
+class UserAccountController extends Controller
+{
+    /**
+     * 提现操作【有BUG版本，不要上线】
+     * @return array
+     */
+    public function withdrawBug()
+    {
+        $userId = 1;        // 操作用户ID
+        $deductMoney = 20;  // 每次提现扣20元
+
+        // 1. 查询账户余额
+        $account = UserAccount::where('user_id', $userId)->first();
+        if (!$account) {
+            return ['code' => -1, 'msg' => '账户不存在'];
+        }
+        if ($account->balance < $deductMoney) {
+            return ['code' => -2, 'msg' => '余额不足'];
+        }
+
+        // 模拟并发：手动休眠0.2秒，让第二个请求也读到旧余额
+        usleep(200000);
+
+        // 直接更新余额，没有版本校验！！并发时会覆盖
+        $account->balance = $account->balance - $deductMoney;
+        $account->save();
+
+        return [
+            'code' => 0,
+            'msg' => '提现成功',
+            'new_balance' => $account->balance
+        ];
+    }
+}
+```
+
+> 测试方式：**同时并发请求 2 次这个接口**
+>
+> 初始余额 100，两次各扣 20，预期余额 60
+>
+> 实际结果：余额变成 80，只扣了一次 20，出现资损！
+
+##### 乐观锁修复版 Laravel
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\UserAccount;
+
+/**
+ * 用户账户控制器：乐观锁 提现【安全版本】
+ * PHP7 代码，全部注释
+ */
+class UserAccountController extends Controller
+{
+    /**
+     * 乐观锁提现，防止同一用户重复请求导致余额覆盖
+     * @return array
+     */
+    public function withdrawOptimistic()
+    {
+        $userId = 1;           // 用户ID
+        $deductMoney = 20;     // 本次提现金额
+        $maxRetry = 3;         // 最大重试次数，防止死循环
+        $retryCount = 0;       // 当前重试计数器
+
+        // 循环重试：如果版本冲突，就重试
+        while ($retryCount < $maxRetry) {
+
+            // 1. 查询账户，拿到余额 + 当前版本号
+            $account = UserAccount::where('user_id', $userId)->first();
+
+            // 判断账户是否存在
+            if (empty($account)) {
+                return ['code' => -1, 'msg' => '账户不存在'];
+            }
+            // 判断余额是否足够扣款
+            if ($account->balance < $deductMoney) {
+                return ['code' => -2, 'msg' => '余额不足'];
+            }
+
+            // 保存本次读取的旧版本号
+            $oldVersion = $account->version;
+
+            // 模拟并发，休眠0.2s，让两个请求同时读到相同version
+            usleep(200000);
+
+            // 2. 原子更新：where 必须带上id和旧版本号
+            // 只有数据库里version等于oldVersion才更新成功
+            $affectedRows = UserAccount::where([
+                    ['user_id', '=', $userId],
+                    ['version', '=', $oldVersion]
+                ])
+                ->update([
+                    'balance' => $account->balance - $deductMoney,
+                    'version' => $oldVersion + 1 //版本号+1
+                ]);
+
+            // 3. 判断更新影响行数
+            if ($affectedRows > 0) {
+                // 更新成功，无并发冲突
+                return [
+                    'code' => 0,
+                    'msg' => '提现成功',
+                    'deduct' => $deductMoney
+                ];
+            }
+
+            // 影响行数=0，代表版本已经被修改，并发冲突，准备重试
+            $retryCount++;
+            usleep(100000); // 短暂休眠，减少数据库压力
+        }
+
+        // 重试耗尽仍然失败，返回提示
+        return ['code' => -3, 'msg' => '操作繁忙，请稍后重试'];
+    }
+}
+```
+
+测试并发效果
+
+并发请求两次 `withdrawOptimistic`
+
+1. 两个请求同时读到 balance=100, version=0
+2. 请求 A 先执行 update：`where user_id=1 and version=0` 成功，balance=80，version=1
+3. 请求 B 执行 update：`where user_id=1 and version=0` 匹配不到，返回影响行数 0
+4. 请求 B 进入重试，再次查询，拿到最新 version=1，余额 80
+5. 第二次重试发现余额 80，继续扣 20，余额 60，成功
+
+> 最终余额 60，两次提现全部正常扣钱，不会丢更新！
+
+#### 明明悲观锁就可以实现乐观锁的功能为什么还要用悲观锁
+
+**悲观锁能解决这个余额并发问题，但它有代价；乐观锁是另一种方案，在「冲突很少」的场景下，代价更小。不是悲观锁不能做，是要看业务取舍。**
+
+> 先记住：**两个锁都可以解决重复扣款丢失更新，不是悲观锁不行，而是各有成本。**
+
+悲观锁版本
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\UserAccount;
+use Illuminate\Support\Facades\DB;
+
+/**
+ * 悲观锁版本 余额提现 select for update
+ * PHP7
+ */
+class UserAccountController extends Controller
+{
+    public function withdrawPessimistic()
+    {
+        $userId = 1;
+        $deductMoney = 20;
+
+        // 悲观锁必须在事务内生效！
+        DB::beginTransaction();
+        try {
+            // lockForUpdate() 等价 select ... for update
+            // 查到这条记录后，**锁住这一行**，其他请求到这一行就阻塞等待
+            $account = UserAccount::where('user_id', $userId)
+                ->lockForUpdate()
+                ->first();
+
+            if (!$account) {
+                DB::rollBack();
+                return ['code' => -1, 'msg' => '账户不存在'];
+            }
+            if ($account->balance < $deductMoney) {
+                DB::rollBack();
+                return ['code' => -2, 'msg' => '余额不足'];
+            }
+
+            // 执行扣款，不需要version版本字段
+            $account->balance = $account->balance - $deductMoney;
+            $account->save();
+
+            // 新增资金流水等其他业务
+            // AccountLog::create(xxx);
+
+            DB::commit();
+            return ['code' => 0, 'msg' => '提现成功'];
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+}
+```
+
+悲观锁工作逻辑
+
+两个请求同时进来：
+
+1. 请求 A 开启事务，`select ... for update` 拿到行锁
+2. 请求 B 执行 `select ... for update` → **卡住、阻塞等待，不往下执行**
+3. A 执行扣款、commit，释放行锁
+4. B 拿到锁，再查询余额，此时余额已经扣完，余额不足，直接失败。
+
+✅ 结果：**不会资损，没问题。**
+
+那既然悲观锁能搞定，为啥很多场景选择乐观锁？
+
+ 悲观锁会【阻塞】，影响接口响应时间
+
+用户正常操作时，99.9% 的情况**根本没有并发**。
+
+- 悲观锁：每次操作都要去拿锁，万一有其他请求，后面的请求**原地等待**，超时还会报错。
+
+> 比如用户快速点两次提现，第二个请求直接卡住，等待第一个事务提交。用户会感觉接口很慢，甚至网关超时 504。
+
+- 乐观锁：**不加锁，不会阻塞**。绝大多数情况一次直接成功；只有极少并发冲突时才失败重试。
+
+> 读操作不受悲观锁影响，但是**写操作排队**。
+
+悲观锁容易产生死锁（风险）
+
+多个资源互相加锁就会死锁。
+
+> 举例：
+>
+> 事务 1：锁住 A 账户 → 再去锁 B 账户
+>
+> 事务 2：锁住 B 账户 → 再去锁 A 账户
+>
+> 互相等待，MySQL 直接死锁，自动回滚其中一个事务。
+>
+> 乐观锁**没有数据库行锁，不存在死锁问题**。这是很大优势。
+
+
+
+
+
+
+
 ------
 
 ## 三、一句话总结对比
