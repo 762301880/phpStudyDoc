@@ -65,6 +65,53 @@
 
 - **分库**：按规则将数据分散到多个数据库（如按用户 ID 范围分到 db1、db2）。
 
+### 水平分库
+
+MySQL 分库（水平分库，和 `user_id%4` 分表逻辑对应）
+
+> 分表：同一个库里面，拆成多张表 `user_0` ~ `user_3` **分库：多个独立数据库实例 / 库，数据分散到不同库**，路由规则同样可以用 `user_id % N`
+
+最简单：按 user_id 取模分库（和分表思路一致）
+
+假设拆成 **4 个库**： `db_user_0`、`db_user_1`、`db_user_2`、`db_user_3`
+
+路由公式：
+
+```bash
+db_index = user_id % 4
+目标库 = db_user_{db_index}
+```
+
+- user_id=100 → 100%4=0 → 落到 `db_user_0`
+- user_id=101 → 101%4=1 → 落到 `db_user_1`
+
+每个库内部**还可以继续分表**（库 + 表两级分片，最常用）：
+
+```php
+db_index = user_id % 4
+table_index = user_id % 8
+库名：db_user_{db_index}
+表名：user_{table_index}
+```
+
+> 4 库 × 8 表 = 32 张物理表。ShardingSphere 就是这种库 + 表二级分片。
+
+### 范围分库（id 区间）
+
+示例：
+
+- db_user_0：user_id 1 ~ 1000w
+- db_user_1：user_id 1000w ~ 2000w
+- db_user_2：user_id 2000w ~ 3000w
+
+优点：扩容简单，新增库只需要新开一段区间，**老数据不用动** 缺点：容易出现热点，新数据全部写入最后一个库。
+
+
+
+
+
+---
+
 ## 分表实战
 
 ### 手动id代码示例
