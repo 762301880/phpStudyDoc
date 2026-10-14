@@ -1,6 +1,10 @@
-## codex(推荐)
+## codex(强烈推荐)
+
+> 访问codex官网需要翻墙
 
 [官网](https://chatgpt.com/codex)   [菜鸟教程](https://www.runoob.com/codex/codex-tutorial.html)
+
+
 
 ---
 
