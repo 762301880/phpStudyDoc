@@ -49,6 +49,7 @@
 > 若远程是 Linux 服务器，可通过 `ssh-copy-id` 上传（需确保服务器开启 SSH）
 
 ```shell
+# 推荐下面一个简化的命令
 ssh-copy-id -i C:\Users\你的用户名\.ssh\id_ed25519.pub 用户名@远程服务器IP
 
 # 可以简化为
