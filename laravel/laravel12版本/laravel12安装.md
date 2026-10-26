@@ -21,6 +21,30 @@ laravel new example-app
 php artisan key:generate
 ```
 
+### [nginx配置](https://learnku.com/docs/laravel/12.x/deployment/16939)
+
+```php
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+```
+
+## 基本使用
+
+### [创建api路由](https://learnku.com/docs/laravel/12.x/routing/16944)
+
+> 会在`项目\routes\api.php`生成这个文件
+
+```php
+php artisan install:api
+```
+
+
+
+
+
+
+
 ## bug解析
 
 ### **composer install 安装失败报错 Root composer.json requires laravel/tinker ^2.10.1**
