@@ -24,3 +24,13 @@ curl https://api.deepseek.com/chat/completions \
       }'
 ```
 
+## php框架实现ai
+
+**安装库**
+
+> 注意最低支持**php8.2版本**
+
+```php
+composer require openai-php/client
+```
+
