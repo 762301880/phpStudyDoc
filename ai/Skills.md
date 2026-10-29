@@ -52,3 +52,9 @@
 - 技术问题 → 通用推理
 - 账号退款 / 隐私 → 触发 Skill，走标准化流程 这样可以把**通用问答**和**强规则业务问答**两套逻辑分开。
 
+## 好用的skill包推荐
+
+### 写代码规范
+
+https://github.com/multica-ai/andrej-karpathy-skills/blob/main/README.zh.md
+
